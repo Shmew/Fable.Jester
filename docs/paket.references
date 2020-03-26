@@ -1,0 +1,13 @@
+group Docs
+    Fable.Core
+    Fable.Elmish.React
+    Fable.Mocha
+    Fable.Promise
+    Fable.SimpleHttp
+    Fable.SimpleJson
+    Feliz
+    Feliz.Markdown
+    Feliz.ElmishComponents
+    Feliz.Router
+    FSharp.Core
+    Zanaptak.TypedCssClasses

@@ -1,0 +1,7 @@
+﻿group RTL
+    Fable.Browser.Dom
+    Fable.Browser.Event
+    Fable.Core
+    Fable.Promise
+    Feliz
+    FSharp.Core

@@ -1,0 +1,74 @@
+version 5.241.2
+
+framework: auto-detect
+
+group RTL
+	source https://nuget.org/api/v2
+	source https://api.nuget.org/v3/index.json
+
+    nuget Fable.Browser.Dom ~> 1.0
+    nuget Fable.Browser.Event ~> 1.0
+    nuget Fable.Core ~> 3.1
+    nuget Fable.Promise ~> 2.0
+    nuget Feliz ~> 0.70
+    nuget FSharp.Core ~> 4.7
+
+group Tests
+	source https://nuget.org/api/v2
+	source https://api.nuget.org/v3/index.json
+
+    nuget Fable.Browser.Dom ~> 1.0
+    nuget Fable.Browser.Event ~> 1.0
+    nuget Fable.Core ~> 3.1
+    nuget Fable.Mocha ~> 2.7
+    nuget Fable.Promise ~> 2.0
+    nuget Feliz ~> 0.70
+    nuget FSharp.Core ~> 4.7
+
+group Docs
+    source https://nuget.org/api/v2
+	source https://api.nuget.org/v3/index.json
+
+    nuget Fable.Core ~> 3.1
+    nuget Fable.Elmish.React ~> 3.0
+    nuget Fable.Mocha ~> 2.7
+    nuget Fable.Promise ~> 2.0
+    nuget Fable.SimpleHttp ~> 2.6
+    nuget Fable.SimpleJson ~> 3.7
+    nuget Feliz ~> 0.70
+    nuget Feliz.ElmishComponents ~> 0.2
+    nuget Feliz.Markdown ~> 0.1
+    nuget Feliz.Router ~> 1.4
+    nuget FSharp.Core ~> 4.7
+    nuget Zanaptak.TypedCssClasses ~> 0.2
+
+group Tooling
+	source https://nuget.org/api/v2
+	source https://api.nuget.org/v3/index.json
+
+	nuget Fake.IO.FileSystem ~> 5
+	nuget FSharp.Core ~> 4.7
+    nuget FSharp.Json ~> 0.3
+	nuget FSharpLint.Core ~> 0.12
+    nuget Yarnpkg.Yarn ~> 1.15
+
+	clitool dotnet-fable ~> 2.0
+	clitool dotnet-fake ~> 5
+
+group FakeBuild
+	source https://api.nuget.org/v3/index.json
+
+	nuget Fake.Core.Target ~> 5
+	nuget Fake.Core.ReleaseNotes ~> 5
+	nuget Fake.DotNet.AssemblyInfoFile ~> 5
+	nuget Fake.DotNet.Cli ~> 5
+	nuget Fake.DotNet.FSFormatting ~> 5
+	nuget Fake.DotNet.MSBuild ~> 5
+	nuget Fake.DotNet.Paket ~> 5
+	nuget Fake.IO.FileSystem ~> 5
+    nuget Fake.JavaScript.Yarn ~> 5
+	nuget Fake.JavaScript.Npm ~> 5
+	nuget Fake.Tools.Git ~> 5
+    nuget FSharp.Json ~> 0.3
+	nuget FSharpLint.Core ~> 0.12
+	nuget Fantomas ~> 3.0.0

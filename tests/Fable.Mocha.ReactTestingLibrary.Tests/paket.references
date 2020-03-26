@@ -1,0 +1,8 @@
+﻿group Tests
+    Fable.Browser.Dom
+    Fable.Browser.Event
+    Fable.Core
+    Fable.Mocha
+    Fable.Promise
+    Feliz
+    FSharp.Core
