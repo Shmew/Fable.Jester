@@ -8,6 +8,7 @@
     <Compile Include="App.fs" />
     <Content Include="index.html" />
     <None Include="paket.references" />
+    <None Include="splitter.config.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ReactTestingLibrary\Examples\" />

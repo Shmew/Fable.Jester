@@ -1,6 +1,7 @@
 ﻿namespace Fable.Jest
 
 open Fable.Core
+open Fable.Core.JsInterop
 open System
 open System.Text.RegularExpressions
 
@@ -24,7 +25,7 @@ module Expect =
 
         member _.not : expect = jsNative
 
-        member _.objectContaining (value: 'T) = jsNative
+        member _.objectContaining (value: obj) = jsNative
 
         member _.stringContaining (value: string) = jsNative
 

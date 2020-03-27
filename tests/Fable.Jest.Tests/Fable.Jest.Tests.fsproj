@@ -4,8 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Expect.test.fs" />
+    <Compile Include="Describe.Only.test.fs" />
+    <Compile Include="Only.test.fs" />
     <Compile Include="Jest.test.fs" />
     <None Include="paket.references" />
+    <None Include="splitter.config.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fable.Jest\Fable.Jest.fsproj" />

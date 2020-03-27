@@ -1,5 +1,5 @@
 {
-  "name": "fable.-jest",
+  "name": "fable-jest",
   "version": "0.0.1",
   "description": "Fable bindings for jest and friends",
   "homepage": "https://github.com/Shmew/Fable.Jest",
@@ -14,11 +14,14 @@
   },
   "scripts": {
     "build": "webpack -p",
-    "compile-demo-raw": "fable-splitter",
-    "pretest": "fable-splitter tests/Fable.Jest.Tests -o dist/tests",
+    "compile-demo-raw": "fable-splitter -c docs/splitter.config.js",
+    "pretestJest": "fable-splitter -c tests/Fable.Jest.Tests/splitter.config.js",
+    "pretestRTL": "fable-splitter -c tests/Fable.Jest.ReactTestingLibrary.Tests/splitter.config.js",
     "publish-docs": "yarn build && node publish.js",
     "start": "webpack-dev-server",
-    "test": "jest"
+    "testJest": "yarn pretestJest && yarn jest",
+    "testRTL": "yarn pretestRTL && yarn jest",
+    "test": "yarn pretestJest && yarn pretestRTL && yarn jest"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.2",
