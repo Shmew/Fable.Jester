@@ -2,6 +2,22 @@ version 5.241.2
 
 framework: auto-detect
 
+group Jest
+    source https://nuget.org/api/v2
+	source https://api.nuget.org/v3/index.json
+
+    nuget Fable.Core ~> 3.1
+    nuget Fable.Promise ~> 2.0
+    nuget FSharp.Core ~> 4.7
+
+group Jest.Tests
+    source https://nuget.org/api/v2
+	source https://api.nuget.org/v3/index.json
+
+    nuget Fable.Core ~> 3.1
+    nuget Fable.Promise ~> 2.0
+    nuget FSharp.Core ~> 4.7
+
 group RTL
 	source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
@@ -13,14 +29,13 @@ group RTL
     nuget Feliz ~> 0.70
     nuget FSharp.Core ~> 4.7
 
-group Tests
+group RTL.Tests
 	source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
     nuget Fable.Browser.Dom ~> 1.0
     nuget Fable.Browser.Event ~> 1.0
     nuget Fable.Core ~> 3.1
-    nuget Fable.Mocha ~> 2.7
     nuget Fable.Promise ~> 2.0
     nuget Feliz ~> 0.70
     nuget FSharp.Core ~> 4.7

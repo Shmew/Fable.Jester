@@ -1,4 +1,4 @@
-﻿namespace Fable.Mocha.ReactTestingLibrary
+﻿namespace Fable.Jest.ReactTestingLibrary
 
 module Interop =
     let mkConfigureOption (key: string) (value: obj) : IConfigureOption = unbox (key, value)

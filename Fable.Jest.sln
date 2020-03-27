@@ -60,13 +60,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{7F29BFE8-02B
 		webpack.config.js = webpack.config.js
 	EndProjectSection
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Mocha.ReactTestingLibrary", "src\Fable.Mocha.ReactTestingLibrary\Fable.Mocha.ReactTestingLibrary.fsproj", "{3211E1F1-10C7-4AA3-B951-8DA251755B91}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jest.ReactTestingLibrary", "src\Fable.Jest.ReactTestingLibrary\Fable.Jest.ReactTestingLibrary.fsproj", "{3211E1F1-10C7-4AA3-B951-8DA251755B91}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DDDBC9E4-66AF-4445-A7D6-7B93647ABB58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{27F9F1A6-C6B4-4539-B013-8549B4A6E1B5}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Mocha.ReactTestingLibrary.Tests", "tests\Fable.Mocha.ReactTestingLibrary.Tests\Fable.Mocha.ReactTestingLibrary.Tests.fsproj", "{3066C35A-F519-4220-8A5A-C8372D36FA40}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jest.ReactTestingLibrary.Tests", "tests\Fable.Jest.ReactTestingLibrary.Tests\Fable.Jest.ReactTestingLibrary.Tests.fsproj", "{3066C35A-F519-4220-8A5A-C8372D36FA40}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jest", "src\Fable.Jest\Fable.Jest.fsproj", "{57BD709C-AA06-415D-89C1-487CEF153334}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jest.Tests", "tests\Fable.Jest.Tests\Fable.Jest.Tests.fsproj", "{8CF1DCFD-10E0-4EE3-9247-FEA8F3B372BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +94,14 @@ Global
 		{3066C35A-F519-4220-8A5A-C8372D36FA40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3066C35A-F519-4220-8A5A-C8372D36FA40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3066C35A-F519-4220-8A5A-C8372D36FA40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57BD709C-AA06-415D-89C1-487CEF153334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BD709C-AA06-415D-89C1-487CEF153334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BD709C-AA06-415D-89C1-487CEF153334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BD709C-AA06-415D-89C1-487CEF153334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF1DCFD-10E0-4EE3-9247-FEA8F3B372BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF1DCFD-10E0-4EE3-9247-FEA8F3B372BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF1DCFD-10E0-4EE3-9247-FEA8F3B372BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF1DCFD-10E0-4EE3-9247-FEA8F3B372BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +111,7 @@ Global
 		{C3F9583A-523B-4835-B6BC-CD8FFD2178E3} = {CABBED80-2F75-4DFE-8F77-7F7FDFDC8008}
 		{DDDBC9E4-66AF-4445-A7D6-7B93647ABB58} = {C3F9583A-523B-4835-B6BC-CD8FFD2178E3}
 		{3066C35A-F519-4220-8A5A-C8372D36FA40} = {27F9F1A6-C6B4-4539-B013-8549B4A6E1B5}
+		{8CF1DCFD-10E0-4EE3-9247-FEA8F3B372BB} = {27F9F1A6-C6B4-4539-B013-8549B4A6E1B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96DAE6A9-B1CC-4FF7-B08C-D5FBFD55B385}

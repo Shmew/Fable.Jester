@@ -1,4 +1,4 @@
-﻿namespace Fable.Mocha.ReactTestingLibrary
+﻿namespace Fable.Jest.ReactTestingLibrary
 
 [<AutoOpen>]
 module Types =

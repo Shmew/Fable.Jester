@@ -24,20 +24,20 @@ open System.IO
 
 // The name of the project
 // (used by attributes in AssemblyInfo, name of a NuGet package and directory in 'src')
-let project = "Fable.Mocha.ReactTestingLibrary"
+let project = "Fable.Jest"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
-let summary = "Fable bindings for react-testing-library"
+let summary = "Fable bindings for jest and friends"
 
 // Author(s) of the project
 let author = "Cody Johnson"
 
 // File system information
-let solutionFile = "Fable.Mocha.ReactTestingLibrary.sln"
+let solutionFile = "Fable.Jest.sln"
 
 // Github repo
-let repo = "https://github.com/Shmew/Fable.Mocha.ReactTestingLibrary"
+let repo = "https://github.com/Shmew/Fable.Jest"
 
 // Files to skip Fantomas formatting
 let excludeFantomas =
@@ -45,8 +45,8 @@ let excludeFantomas =
 
 // Files that have bindings to other languages where name linting needs to be more relaxed.
 let relaxedNameLinting = 
-    [ __SOURCE_DIRECTORY__ @@ "src/Fable.Mocha.ReactTestingLibrary/**/*.fs"
-      __SOURCE_DIRECTORY__ @@ "src/Fable.Mocha.ReactTestingLibrary/*.fs" ]
+    [ __SOURCE_DIRECTORY__ @@ "src/Fable.Jest/**/*.fs"
+      __SOURCE_DIRECTORY__ @@ "src/Fable.Jest/*.fs" ]
 
 // Read additional information from the release notes document
 let release = ReleaseNotes.load (__SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md")
@@ -383,7 +383,7 @@ Target.create "PackageJson" <| fun _ ->
                 |> Some
             Bugs = 
                 { Json.BugsValue.Url = 
-                    @"https://github.com/Shmew/Fable.Mocha.ReactTestingLibrary/issues/new/choose" |> Some } |> Some
+                    @"https://github.com/Shmew/Fable.Jest/issues/new/choose" |> Some } |> Some
             License = "MIT" |> Some
             Author = author |> Some
             Private = true |> Some }

@@ -10,9 +10,6 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Fable.Mocha.ReactTestingLibrary\Fable.Mocha.ReactTestingLibrary.fsproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="ReactTestingLibrary\Examples\" />
   </ItemGroup>
   <PropertyGroup>

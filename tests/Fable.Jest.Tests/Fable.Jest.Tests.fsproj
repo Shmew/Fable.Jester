@@ -4,12 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Tests.fs" />
-    <Compile Include="RunTests.fs" />
+    <Compile Include="Jest.test.fs" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Fable.Mocha.ReactTestingLibrary\Fable.Mocha.ReactTestingLibrary.fsproj" />
+    <ProjectReference Include="..\..\src\Fable.Jest\Fable.Jest.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

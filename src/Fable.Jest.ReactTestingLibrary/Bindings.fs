@@ -1,4 +1,4 @@
-﻿namespace Fable.Mocha.ReactTestingLibrary
+﻿namespace Fable.Jest.ReactTestingLibrary
 
 open Browser.Types
 open Fable.Core
@@ -168,31 +168,44 @@ module Bindings =
 
     let createEventImport : CreateEvent = import "createEvent" "@testing-library/react"
 
-    type ExpectReturn =
+    type ExpectDomReturn =
         abstract pass: bool
+        [<Emit("$0()")>]
         abstract message: unit -> string
-    
+
+    type ExpectDom =
+        static member inline toBeChecked (node: HTMLElement) : ExpectDomReturn = import "toBeChecked" "@testing-library/jest-dom/matchers"
+        static member inline toBeDisabled (node: HTMLElement) : ExpectDomReturn = import "toBeDisabled" "@testing-library/jest-dom/matchers"
+        static member inline toBeEnabled (node: HTMLElement) : ExpectDomReturn = import "toBeEnabled" "@testing-library/jest-dom/matchers"
+        static member inline toBeEmpty (node: HTMLElement) : ExpectDomReturn = import "toBeEmpty" "@testing-library/jest-dom/matchers"
+        static member inline toBeInTheDocument (node: HTMLElement) : ExpectDomReturn = import "toBeInTheDocument" "@testing-library/jest-dom/matchers"
+        static member inline toBeInvalid (node: HTMLElement) : ExpectDomReturn = import "toBeInvalid" "@testing-library/jest-dom/matchers"
+        static member inline toBeRequired (node: HTMLElement) : ExpectDomReturn = import "toBeRequired" "@testing-library/jest-dom/matchers"
+        static member inline toBeValid (node: HTMLElement) : ExpectDomReturn = import "toBeValid" "@testing-library/jest-dom/matchers"
+        static member inline toBeVisible (node: HTMLElement) : ExpectDomReturn = import "toBeVisible" "@testing-library/jest-dom/matchers"
+        static member inline toContainElement (node: HTMLElement, element: HTMLElement option) : ExpectDomReturn = import "toContainElement" "@testing-library/jest-dom/matchers"
+        static member inline toContainHTML (node: HTMLElement, htmlText: string) : ExpectDomReturn = import "toContainHTML" "@testing-library/jest-dom/matchers"
+        static member inline toHaveAttribute (node: HTMLElement, attr: string, ?value: obj) : ExpectDomReturn = import "toHaveAttribute" "@testing-library/jest-dom/matchers"
+        static member inline toHaveClass (node: HTMLElement, [<ParamArray>] classNames: string []) : ExpectDomReturn = import "toHaveClass" "@testing-library/jest-dom/matchers"
+        static member inline toHaveFocus (node: HTMLElement) : ExpectDomReturn = import "toHaveFocus" "@testing-library/jest-dom/matchers"
+        static member inline toHaveFormValues (node: HTMLElement, expectedValues: obj) : ExpectDomReturn = import "toHaveFormValues" "@testing-library/jest-dom/matchers"
+        static member inline toHaveStyle (node: HTMLElement, css: obj) : ExpectDomReturn = import "toHaveStyle" "@testing-library/jest-dom/matchers"
+        static member inline toHaveTextContent (node: HTMLElement, text: U2<string, System.Text.RegularExpressions.Regex>, ?options: obj) : ExpectDomReturn = import "toHaveTextContent" "@testing-library/jest-dom/matchers"
+        static member inline toHaveValue (node: HTMLElement, value: U4<string, ResizeArray<string>, float, int>) : ExpectDomReturn = import "toHaveValue" "@testing-library/jest-dom/matchers"
+
     type Expect =
-        abstract toBeChecked: node: HTMLElement -> ExpectReturn
-        abstract toBeDisabled: node: HTMLElement -> ExpectReturn
-        abstract toBeEnabled: node: HTMLElement -> ExpectReturn
-        abstract toBeEmpty: node: HTMLElement -> ExpectReturn
-        abstract toBeInTheDocument: node: HTMLElement -> ExpectReturn
-        abstract toBeInvalid: node: HTMLElement -> ExpectReturn
-        abstract toBeRequired: node: HTMLElement -> ExpectReturn
-        abstract toBeValid: node: HTMLElement -> ExpectReturn
-        abstract toBeVisible: node: HTMLElement -> ExpectReturn
-        abstract toContainElement: node: HTMLElement * element: HTMLElement option -> ExpectReturn
-        abstract toContainHTML: node: HTMLElement * htmlText: string -> ExpectReturn
-        abstract toHaveAttribute: node: HTMLElement * attr: string * ?value: obj -> ExpectReturn
-        abstract toHaveClass: node: HTMLElement * [<ParamArray>] classNames: string [] -> ExpectReturn
-        abstract toHaveFocus: node: HTMLElement -> ExpectReturn
-        abstract toHaveFormValues: node: HTMLElement * expectedValues: obj -> ExpectReturn
-        abstract toHaveStyle: node: HTMLElement * css: obj -> ExpectReturn
-        abstract toHaveTextContent: node: HTMLElement * text: U2<string, System.Text.RegularExpressions.Regex> * ?options: obj -> ExpectReturn
-        abstract toHaveValue: node: HTMLElement * value: U4<string, ResizeArray<string>, float, int> -> ExpectReturn
-        
-    let expectImport : Expect = importAll "@testing-library/jest-dom"
+        abstract toBeInTheDocument: unit -> ExpectDomReturn
+
+    type ExpectExports =
+        [<Emit("expect($1)")>]
+        abstract invoke : 'T -> Expect
+        abstract extend: obj -> unit
+
+    [<Global("expect")>]
+    let expect : ExpectExports = jsNative
+
+    let toBeInTheDocumentTest () =
+        expect.extend(import "toBeInTheDocument" "@testing-library/jest-dom/matchers")
 
     type FireEvent =
         [<Emit("$0($1,$2)")>]

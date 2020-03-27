@@ -1,4 +1,4 @@
-﻿namespace Fable.Mocha.ReactTestingLibrary
+﻿namespace Fable.Jest.ReactTestingLibrary
 
 open Fable.Core
 open Fable.Core.JsInterop

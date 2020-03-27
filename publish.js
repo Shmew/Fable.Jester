@@ -1,6 +1,6 @@
 var ghPages = require("gh-pages");
 
-var packageUrl = "https://github.com/Shmew/Fable.Mocha.ReactTestingLibrary.git";
+var packageUrl = "https://github.com/Shmew/Fable.Jest.git";
 
 console.log("Publishing to ", packageUrl);
 
