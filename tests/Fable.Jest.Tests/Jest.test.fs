@@ -1,14 +1,10 @@
 ﻿module Tests
 
-open Fable.Core
 open Fable.Jest
 
-let myPromise =
-    async { return 1 + 1 }
-    |> Async.StartAsPromise
-
-let myAsync =
-    async { return 1 + 1 }
+let myPromise = promise { return 1 + 1 }
+    
+let myAsync = async { return 1 + 1 }
 
 Jest.describe("can run basic tests", (fun () ->
     Jest.test("running a test", (fun () ->
@@ -16,7 +12,8 @@ Jest.describe("can run basic tests", (fun () ->
     ))
 
     Jest.test("running a promise test", (fun () ->
-        Jest.expect(myPromise).not.toEqual(1)
+        Jest.expect(myPromise).resolves.toEqual(2)
+        Jest.expect(myPromise).resolves.not.toEqual(1)
     ))
 
     Jest.test("running an async test", (fun () ->

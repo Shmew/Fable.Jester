@@ -19,9 +19,9 @@
     "pretestRTL": "fable-splitter -c tests/Fable.Jest.ReactTestingLibrary.Tests/splitter.config.js",
     "publish-docs": "yarn build && node publish.js",
     "start": "webpack-dev-server",
+    "test": "yarn pretestJest && yarn pretestRTL && yarn jest",
     "testJest": "yarn pretestJest && yarn jest",
-    "testRTL": "yarn pretestRTL && yarn jest",
-    "test": "yarn pretestJest && yarn pretestRTL && yarn jest"
+    "testRTL": "yarn pretestRTL && yarn jest"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.2",
@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6",
-    "@babel/preset-env": "^7.6",
     "@babel/plugin-transform-modules-commonjs": "^7.9",
+    "@babel/preset-env": "^7.6",
     "babel-loader": "^8.0",
     "core-js": "^3.2",
     "fable-compiler": "^2.4",

@@ -18,6 +18,10 @@
     <None Include="paket.references" />
     <None Include="paket.template" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fable.Jest\Fable.Jest.fsproj" />
+  </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
       <NpmPackage Name="@testing-library/react" Version="gte 10 lt 11" ResolutionStrategy="max" />

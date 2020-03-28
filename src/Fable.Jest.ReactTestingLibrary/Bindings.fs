@@ -63,23 +63,11 @@ module Bindings =
                 o.exact <- exact
                 o.normalizer <- normalizer
     
-    type Act =
-        [<Emit("$0($1)")>]
-        abstract invoke: callback: (unit -> unit) -> unit
+    let act : (unit -> unit) -> unit  = import "act" "@testing-library/react"
 
-    let actImport : Act = import "act" "@testing-library/react"
+    let configure : IConfigureOptions -> unit = import "configure" "@testing-library/react"
 
-    type Configure =
-        [<Emit("$0($1)")>]
-        abstract invoke: options: IConfigureOptions -> unit
-
-    let configureImport : Configure = import "configure" "@testing-library/react"
-
-    type Cleanup =
-        [<Emit("$0()")>]
-        abstract invoke: unit -> unit
-
-    let cleanupImport : Cleanup = import "cleanup" "@testing-library/react"
+    let cleanup : unit -> unit = import "cleanup" "@testing-library/react"
 
     type CreateEvent =
         abstract abort: node: HTMLElement * ?eventProperties:obj -> unit
@@ -168,44 +156,7 @@ module Bindings =
 
     let createEventImport : CreateEvent = import "createEvent" "@testing-library/react"
 
-    type ExpectDomReturn =
-        abstract pass: bool
-        [<Emit("$0()")>]
-        abstract message: unit -> string
-
-    type ExpectDom =
-        static member inline toBeChecked (node: HTMLElement) : ExpectDomReturn = import "toBeChecked" "@testing-library/jest-dom/matchers"
-        static member inline toBeDisabled (node: HTMLElement) : ExpectDomReturn = import "toBeDisabled" "@testing-library/jest-dom/matchers"
-        static member inline toBeEnabled (node: HTMLElement) : ExpectDomReturn = import "toBeEnabled" "@testing-library/jest-dom/matchers"
-        static member inline toBeEmpty (node: HTMLElement) : ExpectDomReturn = import "toBeEmpty" "@testing-library/jest-dom/matchers"
-        static member inline toBeInTheDocument (node: HTMLElement) : ExpectDomReturn = import "toBeInTheDocument" "@testing-library/jest-dom/matchers"
-        static member inline toBeInvalid (node: HTMLElement) : ExpectDomReturn = import "toBeInvalid" "@testing-library/jest-dom/matchers"
-        static member inline toBeRequired (node: HTMLElement) : ExpectDomReturn = import "toBeRequired" "@testing-library/jest-dom/matchers"
-        static member inline toBeValid (node: HTMLElement) : ExpectDomReturn = import "toBeValid" "@testing-library/jest-dom/matchers"
-        static member inline toBeVisible (node: HTMLElement) : ExpectDomReturn = import "toBeVisible" "@testing-library/jest-dom/matchers"
-        static member inline toContainElement (node: HTMLElement, element: HTMLElement option) : ExpectDomReturn = import "toContainElement" "@testing-library/jest-dom/matchers"
-        static member inline toContainHTML (node: HTMLElement, htmlText: string) : ExpectDomReturn = import "toContainHTML" "@testing-library/jest-dom/matchers"
-        static member inline toHaveAttribute (node: HTMLElement, attr: string, ?value: obj) : ExpectDomReturn = import "toHaveAttribute" "@testing-library/jest-dom/matchers"
-        static member inline toHaveClass (node: HTMLElement, [<ParamArray>] classNames: string []) : ExpectDomReturn = import "toHaveClass" "@testing-library/jest-dom/matchers"
-        static member inline toHaveFocus (node: HTMLElement) : ExpectDomReturn = import "toHaveFocus" "@testing-library/jest-dom/matchers"
-        static member inline toHaveFormValues (node: HTMLElement, expectedValues: obj) : ExpectDomReturn = import "toHaveFormValues" "@testing-library/jest-dom/matchers"
-        static member inline toHaveStyle (node: HTMLElement, css: obj) : ExpectDomReturn = import "toHaveStyle" "@testing-library/jest-dom/matchers"
-        static member inline toHaveTextContent (node: HTMLElement, text: U2<string, System.Text.RegularExpressions.Regex>, ?options: obj) : ExpectDomReturn = import "toHaveTextContent" "@testing-library/jest-dom/matchers"
-        static member inline toHaveValue (node: HTMLElement, value: U4<string, ResizeArray<string>, float, int>) : ExpectDomReturn = import "toHaveValue" "@testing-library/jest-dom/matchers"
-
-    type Expect =
-        abstract toBeInTheDocument: unit -> ExpectDomReturn
-
-    type ExpectExports =
-        [<Emit("expect($1)")>]
-        abstract invoke : 'T -> Expect
-        abstract extend: obj -> unit
-
-    [<Global("expect")>]
-    let expect : ExpectExports = jsNative
-
-    let toBeInTheDocumentTest () =
-        expect.extend(import "toBeInTheDocument" "@testing-library/jest-dom/matchers")
+    let jsDomExpect : unit = importAll "@testing-library/jest-dom"
 
     type FireEvent =
         [<Emit("$0($1,$2)")>]
@@ -297,29 +248,13 @@ module Bindings =
         
     let fireEventImport : FireEvent = import "fireEvent" "@testing-library/react"
 
-    type GetNodeText =
-        [<Emit("$0($1)")>]
-        abstract invoke: node:HTMLElement -> string
+    let getNodeText : HTMLElement -> string = import "getNodeText" "@testing-library/react"
 
-    let getNodeTextImport : GetNodeText = import "getNodeText" "@testing-library/react"
+    let getRoles : HTMLElement -> obj = import "getRoles" "@testing-library/react"
 
-    type GetRoles =
-        [<Emit("$0($1)")>]
-        abstract invoke: node:HTMLElement -> obj
+    let isInaccessible : HTMLElement -> bool = import "isInaccessible" "@testing-library/react"
 
-    let getRolesImport : GetRoles = import "getRoles" "@testing-library/react"
-
-    type IsInaccessible =
-        [<Emit("$0($1)")>]
-        abstract invoke: node:HTMLElement -> bool
-
-    let isInaccessibleImport : IsInaccessible = import "isInaccessible" "@testing-library/react"
-
-    type LogRoles =
-        [<Emit("$0($1)")>]
-        abstract invoke: node:HTMLElement -> unit
-
-    let logRolesImport : LogRoles = import "logRoles" "@testing-library/react"
+    let logRoles : HTMLElement -> unit = import "logRoles" "@testing-library/react"
 
     type PrettyDOM =
         [<Emit("$0($1)")>]
@@ -428,16 +363,19 @@ module Bindings =
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
             |> fun options -> queryApi.queryByLabelText(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
             |> fun options -> queryApi.queryByLabelText(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
@@ -460,37 +398,46 @@ module Bindings =
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
             |> fun options -> queryApi.findByLabelText(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
             |> fun options -> queryApi.findByLabelText(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
             |> fun options -> queryApi.findByLabelText(!^matcher, options)
         
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
             |> fun options -> queryApi.findAllByLabelText(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
             |> fun options -> queryApi.findAllByLabelText(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
             LabelTextMatcher.create selector exact normalizer
@@ -530,16 +477,19 @@ module Bindings =
             |> List.ofSeq
             
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByPlaceholderText(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByPlaceholderText(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -562,37 +512,46 @@ module Bindings =
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByPlaceholderText(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByPlaceholderText(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByPlaceholderText(!^matcher, options)
         
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByPlaceholderText(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByPlaceholderText(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -632,16 +591,19 @@ module Bindings =
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
             |> fun options -> queryApi.queryByText(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
             |> fun options -> queryApi.queryByText(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
@@ -664,37 +626,46 @@ module Bindings =
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
             |> fun options -> queryApi.findByText(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
             |> fun options -> queryApi.findByText(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
             |> fun options -> queryApi.findByText(!^matcher, options)
         
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
             |> fun options -> queryApi.findAllByText(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
             |> fun options -> queryApi.findAllByText(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
             TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
@@ -734,16 +705,19 @@ module Bindings =
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByTitle(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByTitle(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -766,37 +740,46 @@ module Bindings =
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByTitle(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByTitle(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByTitle(!^matcher, options)
         
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByTitle(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByTitle(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -836,16 +819,19 @@ module Bindings =
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByDisplayValue(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByDisplayValue(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -868,37 +854,46 @@ module Bindings =
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByDisplayValue(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByDisplayValue(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByDisplayValue(!^matcher, options)
         
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByDisplayValue(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByDisplayValue(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -938,16 +933,19 @@ module Bindings =
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByRole(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByRole(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -970,37 +968,46 @@ module Bindings =
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByRole(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByRole(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByRole(!^matcher, options)
         
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByRole(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByRole(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -1040,16 +1047,19 @@ module Bindings =
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByTestId(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByTestId(!^matcher, options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
         /// This throws if more than one match is found (use queryAllBy instead).
         member _.queryByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
@@ -1072,37 +1082,46 @@ module Bindings =
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByTestId(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByTestId(!^matcher, options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
         /// If you need to find more than one element, then use findAllBy.
         member _.findByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByTestId(!^matcher, options)
         
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByTestId(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByTestId(!^matcher, options)
             |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query. 
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         member _.findAllByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer

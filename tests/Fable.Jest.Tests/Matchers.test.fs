@@ -2,7 +2,6 @@
 
 open Fable.Core.JsInterop
 open Fable.Jest
-open System
 open System.Text.RegularExpressions
 
 type AInstance () = class end
@@ -110,7 +109,8 @@ Jest.describe("matcher tests", (fun () ->
     ))
     
     Jest.test("toBeNull", (fun () ->
-        Jest.expect(null).toBeNull()
+        let myString : string = null
+        Jest.expect(myString).toBeNull()
     ))
     Jest.test("not toBeNull", (fun () ->
         Jest.expect(Some "hi").not.toBeNull()
@@ -136,6 +136,23 @@ Jest.describe("matcher tests", (fun () ->
     ))
     Jest.test("not toBeNaN", (fun () ->
         Jest.expect(1).not.toBeNaN()
+    ))
+
+    Jest.test("toContain", (fun () ->
+        Jest.expect([1;2;3]).toContain(1)
+        Jest.expect([1;2;8]).toContain(8)
+        Jest.expect(["I";"Like";"Pie"]).toContain("Pie")
+        
+        let promiseArray = promise { return [1;2;3] }
+
+        Jest.expect(promiseArray).resolves.toContain(3)
+
+        let asyncArray = async { return [1;2;3] }
+
+        Jest.expect(asyncArray).toContain(3)
+    ))
+    Jest.test("not toContain", (fun () ->
+        Jest.expect([1;2;3]).not.toContain(5)
     ))
 
     Jest.test("toContainEqual", (fun () ->

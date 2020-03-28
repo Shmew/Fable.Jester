@@ -67,6 +67,7 @@ let bin        = __SOURCE_DIRECTORY__ @@ "bin"
 let temp       = __SOURCE_DIRECTORY__ @@ "temp"
 let objFolder  = __SOURCE_DIRECTORY__ @@ "obj"
 let pub        = __SOURCE_DIRECTORY__ @@ "public"
+let dist       = __SOURCE_DIRECTORY__ @@ "dist"
 let libGlob    = __SOURCE_DIRECTORY__ @@ "src/**/*.fsproj"
 
 let foldExcludeGlobs (g: IGlobbingPattern) (d: string) = g -- d
@@ -180,7 +181,7 @@ Target.create "Clean" <| fun _ ->
         ++ (__SOURCE_DIRECTORY__  @@ "src/**/bin")
         ++ (__SOURCE_DIRECTORY__  @@ "src/**/obj")
         |> Seq.toList
-        |> List.append [bin; temp; objFolder]
+        |> List.append [bin; temp; objFolder; dist]
         |> Shell.cleanDirs
     TaskRunner.runWithRetries clean 10
 
@@ -324,16 +325,10 @@ Target.create "Lint" <| fun _ ->
     |> FSharpLinter.lintFiles
 
 // --------------------------------------------------------------------------------------
-// Run the unit test binaries
+// Run the unit tests
 
 Target.create "RunTests" <| fun _ ->
-    !! ("tests/**/bin" @@ configuration() @@ "**" @@ "*Tests.exe")
-    |> Seq.iter (fun f ->
-        CreateProcess.fromCommand(setCmd f [])
-        |> CreateProcess.withTimeout (TimeSpan.MaxValue)
-        |> CreateProcess.ensureExitCodeWithMessage "Tests failed."
-        |> Proc.run
-        |> ignore)
+    Yarn.exec "test" id
 
 // --------------------------------------------------------------------------------------
 // Generate Paket load scripts
