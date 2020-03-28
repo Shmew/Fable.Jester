@@ -37,6 +37,7 @@
   "devDependencies": {
     "@babel/core": "^7.6",
     "@babel/preset-env": "^7.6",
+    "@babel/plugin-transform-modules-commonjs": "^7.9",
     "babel-loader": "^8.0",
     "core-js": "^3.2",
     "fable-compiler": "^2.4",

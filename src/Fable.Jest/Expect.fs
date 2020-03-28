@@ -15,7 +15,13 @@ module Expect =
         
         member _.anything () = jsNative
 
-        member _.arrayContaining (value: ResizeArray<'T>) = jsNative
+        member _.arrayContaining (values: ResizeArray<'T>) = jsNative
+        [<Emit("$0.arrayContaining(Array.from($1))")>]
+        member _.arrayContaining (values: 'T []) = jsNative
+        [<Emit("$0.arrayContaining(Array.from($1))")>]
+        member _.arrayContaining (values: 'T list) = jsNative
+        [<Emit("$0.arrayContaining(Array.from($1))")>]
+        member _.arrayContaining (values: 'T seq) = jsNative
 
         member _.assertions (number: int) = jsNative
 
@@ -40,42 +46,14 @@ module Expect =
         member _.not : expected<'Return> = jsNative
 
         member _.toBe (value: 'T) : 'Return = jsNative
-
-        member _.toHaveBeenCalled () : 'Return = jsNative
-        member _.toBeCalled () : 'Return = jsNative
-
-        member _.toHaveBeenCalledTimes (times: int) : 'Return = jsNative
-        member _.toBeCalledTimes (times: int) : 'Return = jsNative
         
-        member _.toHaveBeenCalledWith ([<ParamArray>] times: 'T []) : 'Return = jsNative
-        member _.toBeCalledWith ([<ParamArray>] times: 'T []) : 'Return = jsNative
-        
-        member _.toHaveBeenLastCalledWith ([<ParamArray>] times: 'T []) : 'Return = jsNative
-        member _.lastCalledWith ([<ParamArray>] times: 'T []) : 'Return = jsNative
-        
-        member _.toHaveBeenNthCalledWith (call: int, [<ParamArray>] times: 'T []) : 'Return = jsNative
-        member _.nthCalledWith (call: int, [<ParamArray>] times: 'T []) : 'Return = jsNative
-        
-        member _.toHaveReturned () : 'Return = jsNative
-        member _.toReturn () : 'Return = jsNative
-
-        member _.toHaveReturnedTimes (times: int) : 'Return = jsNative
-        member _.toReturnTimes (times: int) : 'Return = jsNative
-
-        member _.toHaveReturnedWith (value: 'T) : 'Return = jsNative
-        member _.toReturnWith (value: 'T) : 'Return = jsNative
-
-        member _.toHaveLastReturnedWith (value: 'T) : 'Return = jsNative
-        member _.lastReturnedWith (value: 'T) : 'Return = jsNative
-
-        member _.toHaveNthReturnedWith (call: int, value: 'T) : 'Return = jsNative
-        member _.nthReturnedWith (call: int, value: 'T) : 'Return = jsNative
-
         member _.toHaveLength (length: int) : 'Return = jsNative
         
         member _.toHaveProperty (keyPath: string, ?value: 'T) : 'Return = jsNative
-        member inline this.toHaveProperty (keyPath: string list, ?value: 'T) : 'Return = 
-            this.toHaveProperty(keyPath |> String.concat ".", value)
+        [<Emit("$0.toHaveProperty((Array.from($1).join('.')) ...)")>]
+        member _.toHaveProperty (keyPath: string list) : 'Return = jsNative
+        [<Emit("$0.toHaveProperty((Array.from($1).join('.')), $2)")>]
+        member _.toHaveProperty (keyPath: string list, value: 'T) : 'Return = jsNative
 
         member _.toBeCloseTo(number: float, ?numDigits: int) : 'Return = jsNative
         
@@ -85,21 +63,15 @@ module Expect =
 
         member _.toBeGreaterThan (number: float) : 'Return = jsNative
         member _.toBeGreaterThan (number: int) : 'Return = jsNative
-        member _.toBeGreaterThan (number: Numerics.BigInteger) : 'Return = jsNative
 
         member _.toBeGreaterThanOrEqual (number: float) : 'Return = jsNative
         member _.toBeGreaterThanOrEqual (number: int) : 'Return = jsNative
-        member _.toBeGreaterThanOrEqual (number: Numerics.BigInteger) : 'Return = jsNative
 
         member _.toBeLessThan (number: float) : 'Return = jsNative
         member _.toBeLessThan (number: int) : 'Return = jsNative
-        member _.toBeLessThan (number: Numerics.BigInteger) : 'Return = jsNative
 
         member _.toBeLessThanOrEqual (number: float) : 'Return = jsNative
         member _.toBeLessThanOrEqual (number: int) : 'Return = jsNative
-        member _.toBeLessThanOrEqual (number: Numerics.BigInteger) : 'Return = jsNative
-
-        member _.toBeInstanceOf (class': 'T) : 'Return = jsNative
 
         member _.toBeNull () : 'Return = jsNative
 

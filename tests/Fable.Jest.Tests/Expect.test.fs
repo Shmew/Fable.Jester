@@ -35,7 +35,47 @@ Jest.describe("expect tests", (fun () ->
 
         let expected = {| somethingElse = "test" |} |> Fable.Core.JsInterop.toPlainJsObj
 
-        Jest.expect(actual).toEqual(expect.objectContaining(expected))
+        Jest.expect(actual).not.toEqual(expect.objectContaining(expected))
+    ))
+
+    Jest.test("anything confirms option values", (fun () ->
+        let actual = 
+            {| someValue = "test"; someOtherValue = "testValue" |} 
+            |> Fable.Core.JsInterop.toPlainJsObj
+            |> Some
+
+        Jest.expect(actual).toEqual(expect.anything())
+    ))
+    Jest.test("not anything option values", (fun () ->
+        let actual = None
+
+        Jest.expect(actual).not.toEqual(expect.anything())
+    ))
+
+    let arraySample = [| 1;2;3;4;5;6;7 |] |> ResizeArray
+
+    Jest.test("array containing of Resize", (fun () ->
+        Jest.expect(arraySample).toEqual(expect.arrayContaining(ResizeArray [| 2;3;4 |]))
+    ))
+    Jest.test("not array containing of resize", (fun () ->
+        Jest.expect(arraySample).not.toEqual(expect.arrayContaining(ResizeArray [| 8;9;10 |]))
+    ))
+    Jest.test("array containing of array", (fun () ->
+        Jest.expect(arraySample).toEqual(expect.arrayContaining([| 2;3;4 |]))
+    ))
+    Jest.test("not array containing of array", (fun () ->
+        Jest.expect(arraySample).not.toEqual(expect.arrayContaining([| 8;9;10 |]))
+    ))
+    Jest.test("array containing of list", (fun () ->
+        Jest.expect(arraySample).toEqual(expect.arrayContaining([ 2;3;4 ]))
+    ))
+    Jest.test("not array containing of list", (fun () ->
+        Jest.expect(arraySample).not.toEqual(expect.arrayContaining([| 8;9;10 |]))
+    ))
+    Jest.test("array containing of seq", (fun () ->
+        Jest.expect(arraySample).toEqual(expect.arrayContaining(seq { 2..4 }))
+    ))
+    Jest.test("not array containing of seq", (fun () ->
+        Jest.expect(arraySample).not.toEqual(expect.arrayContaining([| 8;9;10 |]))
     ))
 ))
-

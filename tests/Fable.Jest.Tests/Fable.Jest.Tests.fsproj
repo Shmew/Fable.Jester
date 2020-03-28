@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Matchers.test.fs" />
     <Compile Include="Expect.test.fs" />
     <Compile Include="Describe.Only.test.fs" />
     <Compile Include="Only.test.fs" />
