@@ -162,200 +162,179 @@ type typeArg =
     static member inline waiting = "waiting"
     static member inline wheel = "wheel"
 
-[<Erase>]
 type event =
-    static member inline bubbles (value: bool) = Interop.mkEventAttr "bubbles" value
-    static member inline cancelBubble (value: bool) = Interop.mkEventAttr "cancelBubble" value
-    static member inline cancelable (value: bool) = Interop.mkEventAttr "cancelable" value
-    static member inline composed (value: bool) = Interop.mkEventAttr "composed" value
-    static member inline currentTarget (value: obj) = Interop.mkEventAttr "currentTarget" value
-    static member inline defaultPrevented (value: bool) = Interop.mkEventAttr "defaultPrevented" value
-    static member inline isTrusted (value: bool) = Interop.mkEventAttr "isTrusted" value
-    static member inline returnValue (value: bool) = Interop.mkEventAttr "returnValue" value
-    static member inline target (properties: IReactProperty list) = Interop.mkEventAttr "target" (createObj !!properties)
-    static member inline timeStamp (value: int) = Interop.mkEventAttr "timeStamp" value
-    static member inline type' (value: string) = Interop.mkEventAttr "type" value
+    static member bubbles (value: bool) = Interop.mkEventAttr "bubbles" value
+    static member cancelBubble (value: bool) = Interop.mkEventAttr "cancelBubble" value
+    static member cancelable (value: bool) = Interop.mkEventAttr "cancelable" value
+    static member composed (value: bool) = Interop.mkEventAttr "composed" value
+    static member currentTarget (value: obj) = Interop.mkEventAttr "currentTarget" value
+    static member defaultPrevented (value: bool) = Interop.mkEventAttr "defaultPrevented" value
+    static member isTrusted (value: bool) = Interop.mkEventAttr "isTrusted" value
+    static member returnValue (value: bool) = Interop.mkEventAttr "returnValue" value
+    static member target (properties: IReactProperty list) = Interop.mkEventAttr "target" (createObj !!properties)
+    static member timeStamp (value: int) = Interop.mkEventAttr "timeStamp" value
+    static member type' (value: string) = Interop.mkEventAttr "type" value
 
 module event =
-    [<Erase>]
     type eventPhase =
-        static member inline atTarget = Interop.mkEventAttr "eventPhase" 2
-        static member inline bubblingPhase = Interop.mkEventAttr "eventPhase" 3
-        static member inline capturingPhase = Interop.mkEventAttr "eventPhase" 1
-        static member inline none = Interop.mkEventAttr "eventPhase" 0
+        static member atTarget = Interop.mkEventAttr "eventPhase" 2
+        static member bubblingPhase = Interop.mkEventAttr "eventPhase" 3
+        static member capturingPhase = Interop.mkEventAttr "eventPhase" 1
+        static member none = Interop.mkEventAttr "eventPhase" 0
 
     // REMOVE THESE
     let test = unbox<Browser.Types.Event> ""
     
 
-[<Erase>]
 type animationEvent =
     inherit event
-    static member inline animationName (value: string) = Interop.mkAnimationEventAttr "animationName" value
-    static member inline elapsedTime (value: float) = Interop.mkAnimationEventAttr "elapsedTime" value
-    static member inline pseudoElement (value: string) = Interop.mkAnimationEventAttr "pseudoElement" value
+    static member animationName (value: string) = Interop.mkAnimationEventAttr "animationName" value
+    static member elapsedTime (value: float) = Interop.mkAnimationEventAttr "elapsedTime" value
+    static member pseudoElement (value: string) = Interop.mkAnimationEventAttr "pseudoElement" value
 
 module animationEvent =
-    [<Erase>]
     type type' =
-        static member inline animationEnd = Interop.mkAnimationEventAttr "type" "animationend"
-        static member inline animationIteration = Interop.mkAnimationEventAttr "type" "animationiteration"
-        static member inline animationStart = Interop.mkAnimationEventAttr "type" "animationstart"
+        static member animationEnd = Interop.mkAnimationEventAttr "type" "animationend"
+        static member animationIteration = Interop.mkAnimationEventAttr "type" "animationiteration"
+        static member animationStart = Interop.mkAnimationEventAttr "type" "animationstart"
         
-[<Erase>]
 type clipboardEvent =
     inherit event
-    static member inline clipboardData (properties: DataTransfer) = Interop.mkClipboardEventAttr "clipboardData" (createObj !!properties)
+    static member clipboardData (properties: DataTransfer) = Interop.mkClipboardEventAttr "clipboardData" (createObj !!properties)
     
-[<Erase>]
 type hashEvent =
     inherit event
-    static member inline newUrl (value: string) = Interop.mkClipboardEventAttr "newURL" value
-    static member inline oldUrl (value: string) = Interop.mkClipboardEventAttr "oldURL" value
+    static member newUrl (value: string) = Interop.mkClipboardEventAttr "newURL" value
+    static member oldUrl (value: string) = Interop.mkClipboardEventAttr "oldURL" value
 
-[<Erase>]
 type messageEvent =
     inherit event
-    static member inline data (value: 'T) = Interop.mkClipboardEventAttr "data" value
-    static member inline origin (value: string) = Interop.mkClipboardEventAttr "origin" value
-    static member inline lastEventId (value: string) = Interop.mkClipboardEventAttr "lastEventId" value
-    static member inline source (value: Window) = Interop.mkClipboardEventAttr "source" value
-    static member inline source (value: Worker) = Interop.mkClipboardEventAttr "source" value
-    static member inline source (value: AbstractWorker) = Interop.mkClipboardEventAttr "source" value
-    static member inline ports (value: Worker) = Interop.mkClipboardEventAttr "ports" value
+    static member data (value: 'T) = Interop.mkClipboardEventAttr "data" value
+    static member origin (value: string) = Interop.mkClipboardEventAttr "origin" value
+    static member lastEventId (value: string) = Interop.mkClipboardEventAttr "lastEventId" value
+    static member source (value: Window) = Interop.mkClipboardEventAttr "source" value
+    static member source (value: Worker) = Interop.mkClipboardEventAttr "source" value
+    static member source (value: AbstractWorker) = Interop.mkClipboardEventAttr "source" value
+    static member ports (value: Worker) = Interop.mkClipboardEventAttr "ports" value
     
-[<Erase>]
 type pageTransitionEvent =
     inherit event
-    static member inline persisted (value: bool) = Interop.mkPageTransitionEventAttr "persisted" value
+    static member persisted (value: bool) = Interop.mkPageTransitionEventAttr "persisted" value
         
-[<Erase>]
 type progressEvent =
     inherit event
-    static member inline lengthComputable (value: bool) = Interop.mkProgressEventAttr "lengthComputable" value
-    static member inline loaded (value: int) = Interop.mkPageTransitionEventAttr "loaded" value
-    static member inline total (value: int) = Interop.mkPageTransitionEventAttr "total" value
+    static member lengthComputable (value: bool) = Interop.mkProgressEventAttr "lengthComputable" value
+    static member loaded (value: int) = Interop.mkPageTransitionEventAttr "loaded" value
+    static member total (value: int) = Interop.mkPageTransitionEventAttr "total" value
 
-[<Erase>]
 type storageEvent =
     inherit event
-    static member inline key (value: string) = Interop.mkStorageEventAttr "key" value
-    static member inline newValue (value: string) = Interop.mkStorageEventAttr "newValue" value
-    static member inline oldValue (value: string) = Interop.mkStorageEventAttr "oldValue" value
-    static member inline storageArea (value: Storage) = Interop.mkStorageEventAttr "storageArea" value
-    static member inline url (value: string) = Interop.mkStorageEventAttr "url" value
+    static member key (value: string) = Interop.mkStorageEventAttr "key" value
+    static member newValue (value: string) = Interop.mkStorageEventAttr "newValue" value
+    static member oldValue (value: string) = Interop.mkStorageEventAttr "oldValue" value
+    static member storageArea (value: Storage) = Interop.mkStorageEventAttr "storageArea" value
+    static member url (value: string) = Interop.mkStorageEventAttr "url" value
 
-[<Erase>]
 type transitionEvent =
     inherit event
-    static member inline propertyName (value: string) = Interop.mkTransitionEventAttr "propertyName" value
-    static member inline elapsedTime (value: float) = Interop.mkTransitionEventAttr "elapsedTime" value
-    static member inline pseudoElement (value: string) = Interop.mkTransitionEventAttr "pseudoElement" value
+    static member propertyName (value: string) = Interop.mkTransitionEventAttr "propertyName" value
+    static member elapsedTime (value: float) = Interop.mkTransitionEventAttr "elapsedTime" value
+    static member pseudoElement (value: string) = Interop.mkTransitionEventAttr "pseudoElement" value
 
-[<Erase>]
 type uiEvent =
     inherit event
-    static member inline detail (value: int) = Interop.mkUIEventAttr "detail" value
-    static member inline view (value: Window) = Interop.mkUIEventAttr "view" value
+    static member detail (value: int) = Interop.mkUIEventAttr "detail" value
+    static member view (value: Window) = Interop.mkUIEventAttr "view" value
     
-[<Erase>]
 type compositionEvent =
-    static member inline locale (value: string) = Interop.mkCompositionEventAttr "locale" value
+    static member locale (value: string) = Interop.mkCompositionEventAttr "locale" value
 
 module compositionEvent =
-    [<Erase>]
     type data =
-        static member inline compositionEnd = Interop.mkCompositionEventAttr "data" "compositionend"
-        static member inline compositionStart = Interop.mkCompositionEventAttr "data" "compositionstart"
-        static member inline compositionUpdate = Interop.mkCompositionEventAttr "data" "compositionupdate"
+        static member compositionEnd = Interop.mkCompositionEventAttr "data" "compositionend"
+        static member compositionStart = Interop.mkCompositionEventAttr "data" "compositionstart"
+        static member compositionUpdate = Interop.mkCompositionEventAttr "data" "compositionupdate"
 
-[<Erase>]
 type focusEvent =
     inherit uiEvent
-    static member inline relatedTarget (value: Element) = Interop.mkFocusEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: Document) = Interop.mkFocusEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: Window) = Interop.mkFocusEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: HTMLElement) = Interop.mkFocusEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: #EventTarget) = Interop.mkFocusEventAttr "relatedTarget" value
+    static member relatedTarget (value: Element) = Interop.mkFocusEventAttr "relatedTarget" value
+    static member relatedTarget (value: Document) = Interop.mkFocusEventAttr "relatedTarget" value
+    static member relatedTarget (value: Window) = Interop.mkFocusEventAttr "relatedTarget" value
+    static member relatedTarget (value: HTMLElement) = Interop.mkFocusEventAttr "relatedTarget" value
+    static member relatedTarget (value: #EventTarget) = Interop.mkFocusEventAttr "relatedTarget" value
 
-[<Erase>]
 type inputEvent =
     inherit uiEvent
-    static member inline inputType (value: string) = Interop.mkInputEventAttr "inputType" value
-    static member inline data (value: string) = Interop.mkInputEventAttr "data" value
-    static member inline dataTransfer (value: DataTransfer) = Interop.mkInputEventAttr "dataTransfer" value
-    static member inline isComposing (value: bool) = Interop.mkInputEventAttr "isComposing" value
-    static member inline ranges (value: seq<Range>) = Interop.mkInputEventAttr "ranges" (ResizeArray value)
+    static member inputType (value: string) = Interop.mkInputEventAttr "inputType" value
+    static member data (value: string) = Interop.mkInputEventAttr "data" value
+    static member dataTransfer (value: DataTransfer) = Interop.mkInputEventAttr "dataTransfer" value
+    static member isComposing (value: bool) = Interop.mkInputEventAttr "isComposing" value
+    static member ranges (value: seq<Range>) = Interop.mkInputEventAttr "ranges" (ResizeArray value)
 
-[<Erase>]
 type keyboardEvent =
     inherit uiEvent
-    static member inline altKey (value: bool) = Interop.mkKeyboardEventAttr "altKey" value
-    static member inline charCode (value: int) = Interop.mkKeyboardEventAttr "charCode" value
-    static member inline code (value: string) = Interop.mkKeyboardEventAttr "code" value
-    static member inline ctrlKey (value: bool) = Interop.mkKeyboardEventAttr "ctrlKey" value
-    static member inline isComposing (value: bool) = Interop.mkKeyboardEventAttr "isComposing" value
-    static member inline key (value: string) = Interop.mkKeyboardEventAttr "key" value
-    static member inline keyCode (value: int) = Interop.mkKeyboardEventAttr "keyCode" value
-    static member inline locale (value: string) = Interop.mkKeyboardEventAttr "locale" value
-    static member inline location (value: int) = Interop.mkKeyboardEventAttr "location" value
-    static member inline metaKey (value: bool) = Interop.mkKeyboardEventAttr "metaKey" value
-    static member inline repeat (value: bool) = Interop.mkKeyboardEventAttr "repeat" value
-    static member inline shiftKey (value: bool) = Interop.mkKeyboardEventAttr "shiftKey" value
-    static member inline which (value: int) = Interop.mkKeyboardEventAttr "which" value
+    static member altKey (value: bool) = Interop.mkKeyboardEventAttr "altKey" value
+    static member charCode (value: int) = Interop.mkKeyboardEventAttr "charCode" value
+    static member code (value: string) = Interop.mkKeyboardEventAttr "code" value
+    static member ctrlKey (value: bool) = Interop.mkKeyboardEventAttr "ctrlKey" value
+    static member isComposing (value: bool) = Interop.mkKeyboardEventAttr "isComposing" value
+    static member key (value: string) = Interop.mkKeyboardEventAttr "key" value
+    static member keyCode (value: int) = Interop.mkKeyboardEventAttr "keyCode" value
+    static member locale (value: string) = Interop.mkKeyboardEventAttr "locale" value
+    static member location (value: int) = Interop.mkKeyboardEventAttr "location" value
+    static member metaKey (value: bool) = Interop.mkKeyboardEventAttr "metaKey" value
+    static member repeat (value: bool) = Interop.mkKeyboardEventAttr "repeat" value
+    static member shiftKey (value: bool) = Interop.mkKeyboardEventAttr "shiftKey" value
+    static member which (value: int) = Interop.mkKeyboardEventAttr "which" value
     
-[<Erase>]
 type touchEvent =
     inherit uiEvent
-    static member inline touches (value: #seq<Touch>) = Interop.mkTouchEventAttr "touches" (ResizeArray value)
-    static member inline targetTouches (value: #seq<Touch>) = Interop.mkTouchEventAttr "targetTouches" (ResizeArray value)
-    static member inline changedTouches (value: #seq<Touch>) = Interop.mkTouchEventAttr "changedTouches" (ResizeArray value)
-    static member inline ctrlKey (value: bool) = Interop.mkTouchEventAttr "ctrlKey" value
-    static member inline shiftKey (value: bool) = Interop.mkTouchEventAttr "shiftKey" value
-    static member inline altKey (value: bool) = Interop.mkTouchEventAttr "altKey" value
-    static member inline metaKey (value: bool) = Interop.mkTouchEventAttr "metaKey" value
+    static member touches (value: #seq<Touch>) = Interop.mkTouchEventAttr "touches" (ResizeArray value)
+    static member targetTouches (value: #seq<Touch>) = Interop.mkTouchEventAttr "targetTouches" (ResizeArray value)
+    static member changedTouches (value: #seq<Touch>) = Interop.mkTouchEventAttr "changedTouches" (ResizeArray value)
+    static member ctrlKey (value: bool) = Interop.mkTouchEventAttr "ctrlKey" value
+    static member shiftKey (value: bool) = Interop.mkTouchEventAttr "shiftKey" value
+    static member altKey (value: bool) = Interop.mkTouchEventAttr "altKey" value
+    static member metaKey (value: bool) = Interop.mkTouchEventAttr "metaKey" value
 
-[<Erase>]
 type mouseEvent =
     inherit uiEvent
-    static member inline altKey (value: bool) = Interop.mkMouseEventAttr "altKey" value
-    static member inline button (value: int) = Interop.mkMouseEventAttr "button" value
-    static member inline buttons (value: int) = Interop.mkMouseEventAttr "buttons" value
-    static member inline clientX (value: int) = Interop.mkMouseEventAttr "clientX" value
-    static member inline clientY (value: int) = Interop.mkMouseEventAttr "clientY" value
-    static member inline ctrlKey (value: bool) = Interop.mkMouseEventAttr "ctrlKey" value
-    static member inline movementX (value: bool) = Interop.mkMouseEventAttr "metaKey" value
-    static member inline movementY (value: bool) = Interop.mkMouseEventAttr "metaKey" value
-    static member inline offsetX (value: bool) = Interop.mkMouseEventAttr "metaKey" value
-    static member inline offsetY (value: bool) = Interop.mkMouseEventAttr "metaKey" value
-    static member inline pageX (value: bool) = Interop.mkMouseEventAttr "metaKey" value
-    static member inline pageY (value: bool) = Interop.mkMouseEventAttr "metaKey" value
-    static member inline region (value: string) = Interop.mkMouseEventAttr "region" value
-    static member inline relatedTarget (value: Element) = Interop.mkMouseEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: Document) = Interop.mkMouseEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: Window) = Interop.mkMouseEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: HTMLElement) = Interop.mkMouseEventAttr "relatedTarget" value
-    static member inline relatedTarget (value: #EventTarget) = Interop.mkMouseEventAttr "relatedTarget" value
-    static member inline screenX (value: int) = Interop.mkMouseEventAttr "screenX" value
-    static member inline screenY (value: int) = Interop.mkMouseEventAttr "screenY" value
-    static member inline shiftKey (value: bool) = Interop.mkMouseEventAttr "shiftKey" value
+    static member altKey (value: bool) = Interop.mkMouseEventAttr "altKey" value
+    static member button (value: int) = Interop.mkMouseEventAttr "button" value
+    static member buttons (value: int) = Interop.mkMouseEventAttr "buttons" value
+    static member clientX (value: int) = Interop.mkMouseEventAttr "clientX" value
+    static member clientY (value: int) = Interop.mkMouseEventAttr "clientY" value
+    static member ctrlKey (value: bool) = Interop.mkMouseEventAttr "ctrlKey" value
+    static member movementX (value: bool) = Interop.mkMouseEventAttr "metaKey" value
+    static member movementY (value: bool) = Interop.mkMouseEventAttr "metaKey" value
+    static member offsetX (value: bool) = Interop.mkMouseEventAttr "metaKey" value
+    static member offsetY (value: bool) = Interop.mkMouseEventAttr "metaKey" value
+    static member pageX (value: bool) = Interop.mkMouseEventAttr "metaKey" value
+    static member pageY (value: bool) = Interop.mkMouseEventAttr "metaKey" value
+    static member region (value: string) = Interop.mkMouseEventAttr "region" value
+    static member relatedTarget (value: Element) = Interop.mkMouseEventAttr "relatedTarget" value
+    static member relatedTarget (value: Document) = Interop.mkMouseEventAttr "relatedTarget" value
+    static member relatedTarget (value: Window) = Interop.mkMouseEventAttr "relatedTarget" value
+    static member relatedTarget (value: HTMLElement) = Interop.mkMouseEventAttr "relatedTarget" value
+    static member relatedTarget (value: #EventTarget) = Interop.mkMouseEventAttr "relatedTarget" value
+    static member screenX (value: int) = Interop.mkMouseEventAttr "screenX" value
+    static member screenY (value: int) = Interop.mkMouseEventAttr "screenY" value
+    static member shiftKey (value: bool) = Interop.mkMouseEventAttr "shiftKey" value
 
-[<Erase>]    
 type dragEvent =
     inherit mouseEvent
-    static member inline dataTransfer (value: DataTransfer) = Interop.mkDragEventAttr "dataTransfer" value
+    static member dataTransfer (value: DataTransfer) = Interop.mkDragEventAttr "dataTransfer" value
 
-[<Erase>]
 type pointerEvent =
     inherit mouseEvent
-    static member inline pointerId (value: int) = Interop.mkPointerEventAttr "pointerId" value
-    static member inline width (value: int) = Interop.mkPointerEventAttr "width" value
-    static member inline height (value: int) = Interop.mkPointerEventAttr "height" value
-    static member inline pressure (value: float) = Interop.mkPointerEventAttr "pressure" value
-    static member inline tangentialPressure (value: float) = Interop.mkPointerEventAttr "tangentialPressure" value
-    static member inline tiltX (value: int) = Interop.mkPointerEventAttr "tiltX" value
-    static member inline tiltY (value: int) = Interop.mkPointerEventAttr "tiltY" value
-    static member inline twist (value: int) = Interop.mkPointerEventAttr "twist" value
-    static member inline pointerType (value: string) = Interop.mkPointerEventAttr "pointerType" value
-    static member inline isPrimary (value: bool) = Interop.mkPointerEventAttr "isPrimary" value
+    static member pointerId (value: int) = Interop.mkPointerEventAttr "pointerId" value
+    static member width (value: int) = Interop.mkPointerEventAttr "width" value
+    static member height (value: int) = Interop.mkPointerEventAttr "height" value
+    static member pressure (value: float) = Interop.mkPointerEventAttr "pressure" value
+    static member tangentialPressure (value: float) = Interop.mkPointerEventAttr "tangentialPressure" value
+    static member tiltX (value: int) = Interop.mkPointerEventAttr "tiltX" value
+    static member tiltY (value: int) = Interop.mkPointerEventAttr "tiltY" value
+    static member twist (value: int) = Interop.mkPointerEventAttr "twist" value
+    static member pointerType (value: string) = Interop.mkPointerEventAttr "pointerType" value
+    static member isPrimary (value: bool) = Interop.mkPointerEventAttr "isPrimary" value
     

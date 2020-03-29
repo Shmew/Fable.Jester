@@ -330,12 +330,6 @@ module Bindings =
         abstract rerender: ReactElement -> unit
         abstract unmount: unit -> unit
 
-    type RenderImport =
-        [<Emit("$0($1)")>]
-        abstract invoke: reactElement:ReactElement * ?options:IRenderOptions -> Render
-
-    let renderImport : RenderImport = import "render" "@testing-library/react"
-
     type queriesForElement (queryApi: QueriesForElement) =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
@@ -1287,7 +1281,13 @@ module Bindings =
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByTestId(!^matcher, options)
             |> Promise.map List.ofSeq
-        
+
+    type RenderImport =
+        [<Emit("$0($1)")>]
+        abstract invoke: reactElement:ReactElement * ?options:IRenderOptions -> Render
+
+    let renderImport : RenderImport = import "render" "@testing-library/react"
+
     type render (render: Render) =
         inherit queriesForElement(render)
 
@@ -1312,7 +1312,7 @@ module Bindings =
         /// This will cause the rendered component to be unmounted. This is useful for testing what happens when your component 
         /// is removed from the page (like testing that you don't leave event handlers hanging around causing memory leaks).
         member _.unmount () = render.unmount()
-    
+
     type WaitFor =
         [<Emit("$0($1)")>]
         abstract invoke: callback: (unit -> 'T) * ?options: IWaitOptions -> JS.Promise<'T>

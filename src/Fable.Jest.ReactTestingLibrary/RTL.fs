@@ -4,7 +4,7 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Feliz
 open Browser.Types
-    
+
 type RTL =
     /// This is a light wrapper around the react-dom/test-utils act function. 
     /// All it does is forward all arguments to the act function if your version of react supports act.
@@ -71,12 +71,15 @@ type RTL =
         Bindings.renderImport.invoke(reactElement, unbox<IRenderOptions> (createObj !!options))
         |> Bindings.render
 
+    /// Queries bound to the document.body
+    static member screen = RTL.within(Browser.Dom.document.body)
+
     /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
-    static member waitFor (callback: unit -> 'T) = Bindings.waitForImport.invoke callback |> Async.AwaitPromise
+    static member waitFor (callback: unit -> 'T) = Bindings.waitForImport.invoke callback //|> Async.AwaitPromise
     /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
     static member waitFor (callback: unit -> 'T, waitForOptions: IWaitOption list) = 
         Bindings.waitForImport.invoke(callback, unbox<IWaitOptions> (createObj !!waitForOptions)) 
-        |> Async.AwaitPromise
+        //|> Async.AwaitPromise
 
     /// To wait for the removal of element(s) from the DOM you can use waitForElementToBeRemoved.
     static member waitForElementToBeRemoved (callback: unit -> 'T) = 
@@ -132,7 +135,6 @@ type prettyDOM =
 [<RequireQualifiedAccess>]
 module prettyDOM =
     /// PrettyDOM theme options.
-    [<Erase>]
     type theme =
         /// Default: "gray"
         static member comment (value: string) = Interop.mkPrettyDOMOThemeption "comment" value
@@ -229,7 +231,6 @@ module RTL =
     /// Convenience methods for creating DOM events that can then be fired by fireEvent, allowing you to have a 
     /// reference to the event created: this might be useful if you need to access event properties that cannot 
     /// be initiated programmatically (such as timeStamp).
-    [<Erase>]
     type createEvent =
         static member abort (element: HTMLElement, ?eventProperties: IProgressEventProperty list) = Bindings.createEventImport.abort(element, (createObj !!eventProperties))
         static member abort (element: HTMLElement, ?eventProperties: IUIEventProperty list) = Bindings.createEventImport.abort(element, (createObj !!eventProperties))
@@ -319,7 +320,6 @@ module RTL =
         static member wheel (element: HTMLElement, ?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.wheel(element, (createObj !!eventProperties))
 
     /// Convenience methods for firing DOM events.
-    [<Erase>]
     type fireEvent =
         static member abort (element: HTMLElement, ?eventProperties: IProgressEventProperty list) = Bindings.fireEventImport.abort(element, (createObj !!eventProperties))
         static member abort (element: HTMLElement, ?eventProperties: IUIEventProperty list) = Bindings.fireEventImport.abort(element, (createObj !!eventProperties))
@@ -407,3 +407,185 @@ module RTL =
         static member volumeChange (element: HTMLElement, ?eventProperties: #IEventProperty list) = Bindings.fireEventImport.volumeChange(element, (createObj !!eventProperties))
         static member waiting (element: HTMLElement, ?eventProperties: #IEventProperty list) = Bindings.fireEventImport.waiting(element, (createObj !!eventProperties))
         static member wheel (element: HTMLElement, ?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.wheel(element, (createObj !!eventProperties))
+
+[<AutoOpen>]
+module RTLExtensions =
+    type HTMLElementCreateEvent (element: HTMLElement) =
+        member _.abort (?eventProperties: IProgressEventProperty list) = Bindings.createEventImport.abort(element, (createObj !!eventProperties))
+        member _.abort (?eventProperties: IUIEventProperty list) = Bindings.createEventImport.abort(element, (createObj !!eventProperties))
+        member _.animationEnd (?eventProperties: #IAnimationEventProperty list) = Bindings.createEventImport.animationEnd(element, (createObj !!eventProperties))
+        member _.animationIteration (?eventProperties: #IAnimationEventProperty list) = Bindings.createEventImport.animationIteration(element, (createObj !!eventProperties))
+        member _.animationStart (?eventProperties: #IAnimationEventProperty list) = Bindings.createEventImport.animationStart(element, (createObj !!eventProperties))
+        member _.blur (?eventProperties: #IFocusEventProperty list) = Bindings.createEventImport.blur(element, (createObj !!eventProperties))
+        member _.canPlay (?eventProperties: #IEventProperty list) = Bindings.createEventImport.canPlay(element, (createObj !!eventProperties))
+        member _.canPlayThrough (?eventProperties: #IEventProperty list) = Bindings.createEventImport.canPlayThrough(element, (createObj !!eventProperties))
+        member _.change (?eventProperties: #IEventProperty list) = Bindings.createEventImport.change(element, (createObj !!eventProperties))
+        member _.click (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.click(element, (createObj !!eventProperties))
+        member _.compositionEnd (?eventProperties: #ICompositionEventProperty list) = Bindings.createEventImport.compositionEnd(element, (createObj !!eventProperties))
+        member _.compositionStart (?eventProperties: #ICompositionEventProperty list) = Bindings.createEventImport.compositionStart(element, (createObj !!eventProperties))
+        member _.compositionUpdate (?eventProperties: #ICompositionEventProperty list) = Bindings.createEventImport.compositionUpdate(element, (createObj !!eventProperties))
+        member _.contextMenu (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.contextMenu(element, (createObj !!eventProperties))
+        member _.copy (?eventProperties: #IClipboardEventProperty list) = Bindings.createEventImport.copy(element, (createObj !!eventProperties))
+        member _.cut (?eventProperties: #IClipboardEventProperty list) = Bindings.createEventImport.cut(element, (createObj !!eventProperties))
+        member _.dblClick (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.dblClick(element, (createObj !!eventProperties))
+        member _.doubleClick (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.doubleClick(element, (createObj !!eventProperties))
+        member _.drag (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.drag(element, (createObj !!eventProperties))
+        member _.dragEnd (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.dragEnd(element, (createObj !!eventProperties))
+        member _.dragEnter (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.dragEnter(element, (createObj !!eventProperties))
+        member _.dragExit (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.dragExit(element, (createObj !!eventProperties))
+        member _.dragLeave (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.dragLeave(element, (createObj !!eventProperties))
+        member _.dragOver (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.dragOver(element, (createObj !!eventProperties))
+        member _.dragStart (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.dragStart(element, (createObj !!eventProperties))
+        member _.drop (?eventProperties: #IDragEventProperty list) = Bindings.createEventImport.drop(element, (createObj !!eventProperties))
+        member _.durationChange (?eventProperties: #IEventProperty list) = Bindings.createEventImport.durationChange(element, (createObj !!eventProperties))
+        member _.emptied (?eventProperties: #IEventProperty list) = Bindings.createEventImport.emptied(element, (createObj !!eventProperties))
+        member _.encrypted (?eventProperties: #IEventProperty list) = Bindings.createEventImport.encrypted(element, (createObj !!eventProperties))
+        member _.ended (?eventProperties: #IEventProperty list) = Bindings.createEventImport.ended(element, (createObj !!eventProperties))
+        member _.error (?eventProperties: IProgressEventProperty list) = Bindings.createEventImport.error(element, (createObj !!eventProperties))
+        member _.error (?eventProperties: IUIEventProperty list) = Bindings.createEventImport.error(element, (createObj !!eventProperties))
+        member _.focus (?eventProperties: #IFocusEventProperty list) = Bindings.createEventImport.focus(element, (createObj !!eventProperties))
+        member _.focusIn (?eventProperties: #IFocusEventProperty list) = Bindings.createEventImport.focusIn(element, (createObj !!eventProperties))
+        member _.focusOut (?eventProperties: #IFocusEventProperty list) = Bindings.createEventImport.focusOut(element, (createObj !!eventProperties))
+        member _.gotPointerCapture (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.gotPointerCapture(element, (createObj !!eventProperties))
+        member _.input (?eventProperties: #IInputEventProperty list) = Bindings.createEventImport.input(element, (createObj !!eventProperties))
+        member _.invalid (?eventProperties: #IEventProperty list) = Bindings.createEventImport.invalid(element, (createObj !!eventProperties))
+        member _.keyDown (?eventProperties: #IKeyboardEventProperty list) = Bindings.createEventImport.keyDown(element, (createObj !!eventProperties))
+        member _.keyPress (?eventProperties: #IKeyboardEventProperty list) = Bindings.createEventImport.keyPress(element, (createObj !!eventProperties))
+        member _.keyUp (?eventProperties: #IKeyboardEventProperty list) = Bindings.createEventImport.keyUp(element, (createObj !!eventProperties))
+        member _.load (?eventProperties: IProgressEventProperty list) = Bindings.createEventImport.load(element, (createObj !!eventProperties))
+        member _.load (?eventProperties: IUIEventProperty list) = Bindings.createEventImport.load(element, (createObj !!eventProperties))
+        member _.loadedData (?eventProperties: #IEventProperty list) = Bindings.createEventImport.loadedData(element, (createObj !!eventProperties))
+        member _.loadedMetadata (?eventProperties: #IEventProperty list) = Bindings.createEventImport.loadedMetadata(element, (createObj !!eventProperties))
+        member _.loadStart (?eventProperties: #IProgressEventProperty list) = Bindings.createEventImport.loadStart(element, (createObj !!eventProperties))
+        member _.lostPointerCapture (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.lostPointerCapture(element, (createObj !!eventProperties))
+        member _.mouseDown (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.mouseDown(element, (createObj !!eventProperties))
+        member _.mouseEnter (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.mouseEnter(element, (createObj !!eventProperties))
+        member _.mouseLeave (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.mouseLeave(element, (createObj !!eventProperties))
+        member _.mouseMove (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.mouseMove(element, (createObj !!eventProperties))
+        member _.mouseOut (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.mouseOut(element, (createObj !!eventProperties))
+        member _.mouseOver (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.mouseOver(element, (createObj !!eventProperties))
+        member _.mouseUp (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.mouseUp(element, (createObj !!eventProperties))
+        member _.paste (?eventProperties: #IClipboardEventProperty list) = Bindings.createEventImport.paste(element, (createObj !!eventProperties))
+        member _.pause (?eventProperties: #IEventProperty list) = Bindings.createEventImport.pause(element, (createObj !!eventProperties))
+        member _.play (?eventProperties: #IEventProperty list) = Bindings.createEventImport.play(element, (createObj !!eventProperties))
+        member _.playing (?eventProperties: #IEventProperty list) = Bindings.createEventImport.playing(element, (createObj !!eventProperties))
+        member _.pointerCancel (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerCancel(element, (createObj !!eventProperties))
+        member _.pointerDown (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerDown(element, (createObj !!eventProperties))
+        member _.pointerEnter (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerEnter(element, (createObj !!eventProperties))
+        member _.pointerLeave (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerLeave(element, (createObj !!eventProperties))
+        member _.pointerMove (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerMove(element, (createObj !!eventProperties))
+        member _.pointerOut (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerOut(element, (createObj !!eventProperties))
+        member _.pointerOver (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerOver(element, (createObj !!eventProperties))
+        member _.pointerUp (?eventProperties: #IPointerEventProperty list) = Bindings.createEventImport.pointerUp(element, (createObj !!eventProperties))
+        member _.popState (?eventProperties: #IEventProperty list) = Bindings.createEventImport.popState(element, (createObj !!eventProperties))        
+        member _.progress (?eventProperties: #IProgressEventProperty list) = Bindings.createEventImport.progress(element, (createObj !!eventProperties))
+        member _.rateChange (?eventProperties: #IEventProperty list) = Bindings.createEventImport.rateChange(element, (createObj !!eventProperties))
+        member _.reset (?eventProperties: #IEventProperty list) = Bindings.createEventImport.reset(element, (createObj !!eventProperties))
+        member _.scroll (?eventProperties: #IEventProperty list) = Bindings.createEventImport.scroll(element, (createObj !!eventProperties))
+        member _.seeked (?eventProperties: #IEventProperty list) = Bindings.createEventImport.seeked(element, (createObj !!eventProperties))
+        member _.seeking (?eventProperties: #IEventProperty list) = Bindings.createEventImport.seeking(element, (createObj !!eventProperties))
+        member _.select (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.select(element, (createObj !!eventProperties))
+        member _.stalled (?eventProperties: #IEventProperty list) = Bindings.createEventImport.stalled(element, (createObj !!eventProperties))
+        member _.submit (?eventProperties: #IEventProperty list) = Bindings.createEventImport.submit(element, (createObj !!eventProperties))
+        member _.suspend (?eventProperties: #IEventProperty list) = Bindings.createEventImport.suspend(element, (createObj !!eventProperties))
+        member _.timeUpdate (?eventProperties: #IEventProperty list) = Bindings.createEventImport.timeUpdate(element, (createObj !!eventProperties))
+        member _.touchCancel (?eventProperties: #ITouchEventProperty list) = Bindings.createEventImport.touchCancel(element, (createObj !!eventProperties))
+        member _.touchEnd (?eventProperties: #ITouchEventProperty list) = Bindings.createEventImport.touchEnd(element, (createObj !!eventProperties))
+        member _.touchMove (?eventProperties: #ITouchEventProperty list) = Bindings.createEventImport.touchMove(element, (createObj !!eventProperties))
+        member _.touchStart (?eventProperties: #ITouchEventProperty list) = Bindings.createEventImport.touchStart(element, (createObj !!eventProperties))
+        member _.transitionEnd (?eventProperties: #ITransitionEventProperty list) = Bindings.createEventImport.transitionEnd(element, (createObj !!eventProperties))
+        member _.volumeChange (?eventProperties: #IEventProperty list) = Bindings.createEventImport.volumeChange(element, (createObj !!eventProperties))
+        member _.waiting (?eventProperties: #IEventProperty list) = Bindings.createEventImport.waiting(element, (createObj !!eventProperties))
+        member _.wheel (?eventProperties: #IMouseEventProperty list) = Bindings.createEventImport.wheel(element, (createObj !!eventProperties))
+
+    type HTMLElementFireEvent (element: HTMLElement) =
+        member _.abort (?eventProperties: IProgressEventProperty list) = Bindings.fireEventImport.abort(element, (createObj !!eventProperties))
+        member _.abort (?eventProperties: IUIEventProperty list) = Bindings.fireEventImport.abort(element, (createObj !!eventProperties))
+        member _.animationEnd (?eventProperties: #IAnimationEventProperty list) = Bindings.fireEventImport.animationEnd(element, (createObj !!eventProperties))
+        member _.animationIteration (?eventProperties: #IAnimationEventProperty list) = Bindings.fireEventImport.animationIteration(element, (createObj !!eventProperties))
+        member _.animationStart (?eventProperties: #IAnimationEventProperty list) = Bindings.fireEventImport.animationStart(element, (createObj !!eventProperties))
+        member _.blur (?eventProperties: #IFocusEventProperty list) = Bindings.fireEventImport.blur(element, (createObj !!eventProperties))
+        member _.canPlay (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.canPlay(element, (createObj !!eventProperties))
+        member _.canPlayThrough (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.canPlayThrough(element, (createObj !!eventProperties))
+        member _.change (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.change(element, (createObj !!eventProperties))
+        member _.click (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.click(element, (createObj !!eventProperties))
+        member _.compositionEnd (?eventProperties: #ICompositionEventProperty list) = Bindings.fireEventImport.compositionEnd(element, (createObj !!eventProperties))
+        member _.compositionStart (?eventProperties: #ICompositionEventProperty list) = Bindings.fireEventImport.compositionStart(element, (createObj !!eventProperties))
+        member _.compositionUpdate (?eventProperties: #ICompositionEventProperty list) = Bindings.fireEventImport.compositionUpdate(element, (createObj !!eventProperties))
+        member _.contextMenu (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.contextMenu(element, (createObj !!eventProperties))
+        member _.copy (?eventProperties: #IClipboardEventProperty list) = Bindings.fireEventImport.copy(element, (createObj !!eventProperties))
+        member _.cut (?eventProperties: #IClipboardEventProperty list) = Bindings.fireEventImport.cut(element, (createObj !!eventProperties))
+        member _.dblClick (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.dblClick(element, (createObj !!eventProperties))
+        member _.doubleClick (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.doubleClick(element, (createObj !!eventProperties))
+        member _.drag (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.drag(element, (createObj !!eventProperties))
+        member _.dragEnd (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.dragEnd(element, (createObj !!eventProperties))
+        member _.dragEnter (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.dragEnter(element, (createObj !!eventProperties))
+        member _.dragExit (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.dragExit(element, (createObj !!eventProperties))
+        member _.dragLeave (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.dragLeave(element, (createObj !!eventProperties))
+        member _.dragOver (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.dragOver(element, (createObj !!eventProperties))
+        member _.dragStart (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.dragStart(element, (createObj !!eventProperties))
+        member _.drop (?eventProperties: #IDragEventProperty list) = Bindings.fireEventImport.drop(element, (createObj !!eventProperties))
+        member _.durationChange (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.durationChange(element, (createObj !!eventProperties))
+        member _.emptied (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.emptied(element, (createObj !!eventProperties))
+        member _.encrypted (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.encrypted(element, (createObj !!eventProperties))
+        member _.ended (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.ended(element, (createObj !!eventProperties))
+        member _.error (?eventProperties: IProgressEventProperty list) = Bindings.fireEventImport.error(element, (createObj !!eventProperties))
+        member _.error (?eventProperties: IUIEventProperty list) = Bindings.fireEventImport.error(element, (createObj !!eventProperties))
+        member _.focus (?eventProperties: #IFocusEventProperty list) = Bindings.fireEventImport.focus(element, (createObj !!eventProperties))
+        member _.focusIn (?eventProperties: #IFocusEventProperty list) = Bindings.fireEventImport.focusIn(element, (createObj !!eventProperties))
+        member _.focusOut (?eventProperties: #IFocusEventProperty list) = Bindings.fireEventImport.focusOut(element, (createObj !!eventProperties))
+        member _.gotPointerCapture (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.gotPointerCapture(element, (createObj !!eventProperties))
+        member _.input (?eventProperties: #IInputEventProperty list) = Bindings.fireEventImport.input(element, (createObj !!eventProperties))
+        member _.invalid (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.invalid(element, (createObj !!eventProperties))
+        member _.keyDown (?eventProperties: #IKeyboardEventProperty list) = Bindings.fireEventImport.keyDown(element, (createObj !!eventProperties))
+        member _.keyPress (?eventProperties: #IKeyboardEventProperty list) = Bindings.fireEventImport.keyPress(element, (createObj !!eventProperties))
+        member _.keyUp (?eventProperties: #IKeyboardEventProperty list) = Bindings.fireEventImport.keyUp(element, (createObj !!eventProperties))
+        member _.load (?eventProperties: IProgressEventProperty list) = Bindings.fireEventImport.load(element, (createObj !!eventProperties))
+        member _.load (?eventProperties: IUIEventProperty list) = Bindings.fireEventImport.load(element, (createObj !!eventProperties))
+        member _.loadedData (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.loadedData(element, (createObj !!eventProperties))
+        member _.loadedMetadata (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.loadedMetadata(element, (createObj !!eventProperties))
+        member _.loadStart (?eventProperties: #IProgressEventProperty list) = Bindings.fireEventImport.loadStart(element, (createObj !!eventProperties))
+        member _.lostPointerCapture (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.lostPointerCapture(element, (createObj !!eventProperties))
+        member _.mouseDown (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.mouseDown(element, (createObj !!eventProperties))
+        member _.mouseEnter (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.mouseEnter(element, (createObj !!eventProperties))
+        member _.mouseLeave (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.mouseLeave(element, (createObj !!eventProperties))
+        member _.mouseMove (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.mouseMove(element, (createObj !!eventProperties))
+        member _.mouseOut (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.mouseOut(element, (createObj !!eventProperties))
+        member _.mouseOver (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.mouseOver(element, (createObj !!eventProperties))
+        member _.mouseUp (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.mouseUp(element, (createObj !!eventProperties))
+        member _.paste (?eventProperties: #IClipboardEventProperty list) = Bindings.fireEventImport.paste(element, (createObj !!eventProperties))
+        member _.pause (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.pause(element, (createObj !!eventProperties))
+        member _.play (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.play(element, (createObj !!eventProperties))
+        member _.playing (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.playing(element, (createObj !!eventProperties))
+        member _.pointerCancel (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerCancel(element, (createObj !!eventProperties))
+        member _.pointerDown (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerDown(element, (createObj !!eventProperties))
+        member _.pointerEnter (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerEnter(element, (createObj !!eventProperties))
+        member _.pointerLeave (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerLeave(element, (createObj !!eventProperties))
+        member _.pointerMove (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerMove(element, (createObj !!eventProperties))
+        member _.pointerOut (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerOut(element, (createObj !!eventProperties))
+        member _.pointerOver (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerOver(element, (createObj !!eventProperties))
+        member _.pointerUp (?eventProperties: #IPointerEventProperty list) = Bindings.fireEventImport.pointerUp(element, (createObj !!eventProperties))
+        member _.popState (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.popState(element, (createObj !!eventProperties))        
+        member _.progress (?eventProperties: #IProgressEventProperty list) = Bindings.fireEventImport.progress(element, (createObj !!eventProperties))
+        member _.rateChange (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.rateChange(element, (createObj !!eventProperties))
+        member _.reset (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.reset(element, (createObj !!eventProperties))
+        member _.scroll (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.scroll(element, (createObj !!eventProperties))
+        member _.seeked (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.seeked(element, (createObj !!eventProperties))
+        member _.seeking (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.seeking(element, (createObj !!eventProperties))
+        member _.select (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.select(element, (createObj !!eventProperties))
+        member _.stalled (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.stalled(element, (createObj !!eventProperties))
+        member _.submit (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.submit(element, (createObj !!eventProperties))
+        member _.suspend (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.suspend(element, (createObj !!eventProperties))
+        member _.timeUpdate (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.timeUpdate(element, (createObj !!eventProperties))
+        member _.touchCancel (?eventProperties: #ITouchEventProperty list) = Bindings.fireEventImport.touchCancel(element, (createObj !!eventProperties))
+        member _.touchEnd (?eventProperties: #ITouchEventProperty list) = Bindings.fireEventImport.touchEnd(element, (createObj !!eventProperties))
+        member _.touchMove (?eventProperties: #ITouchEventProperty list) = Bindings.fireEventImport.touchMove(element, (createObj !!eventProperties))
+        member _.touchStart (?eventProperties: #ITouchEventProperty list) = Bindings.fireEventImport.touchStart(element, (createObj !!eventProperties))
+        member _.transitionEnd (?eventProperties: #ITransitionEventProperty list) = Bindings.fireEventImport.transitionEnd(element, (createObj !!eventProperties))
+        member _.volumeChange (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.volumeChange(element, (createObj !!eventProperties))
+        member _.waiting (?eventProperties: #IEventProperty list) = Bindings.fireEventImport.waiting(element, (createObj !!eventProperties))
+        member _.wheel (?eventProperties: #IMouseEventProperty list) = Bindings.fireEventImport.wheel(element, (createObj !!eventProperties))
+
+    type Browser.Types.HTMLElement with
+        member this.createEvent = HTMLElementCreateEvent(this)
+        member this.fireEvent = HTMLElementFireEvent(this)

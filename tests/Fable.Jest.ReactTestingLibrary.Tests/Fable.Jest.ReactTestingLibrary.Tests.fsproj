@@ -4,14 +4,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AltText.test.fs" />
-    <Compile Include="DisplayValue.test.fs" />
-    <Compile Include="LabelText.test.fs" />
-    <Compile Include="PlaceholderText.test.fs" />
-    <Compile Include="Role.test.fs" />
-    <Compile Include="TestId.test.fs" />
-    <Compile Include="Text.test.fs" />
-    <Compile Include="Title.test.fs" />
+    <Compile Include="Queries\AltText.test.fs" />
+    <Compile Include="Queries\DisplayValue.test.fs" />
+    <Compile Include="Queries\LabelText.test.fs" />
+    <Compile Include="Queries\PlaceholderText.test.fs" />
+    <Compile Include="Queries\Role.test.fs" />
+    <Compile Include="Queries\TestId.test.fs" />
+    <Compile Include="Queries\Text.test.fs" />
+    <Compile Include="Queries\Title.test.fs" />
+    <Compile Include="FireEvent.test.fs" />
     <None Include="paket.references" />
     <None Include="splitter.config.js" />
   </ItemGroup>

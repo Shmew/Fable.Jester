@@ -130,7 +130,48 @@ module ExpectExtensions =
         ///
         /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
         /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
-        member _.toHaveValue (value: U4<string, ResizeArray<string>, float, int>) : 'Return = jsNative
+        [<Emit("$0.toHaveValue(String($1))")>]
+        member _.toHaveValue (value: bool) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveValue(String($1))")>]
+        member _.toHaveValue (value: float) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        member _.toHaveValue (value: System.Guid) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveValue(String($1))")>]
+        member _.toHaveValue (value: int) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        member _.toHaveValue (value: string) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveValue(Array.from($1))")>]
+        member _.toHaveValue (value: string []) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveValue(Array.from($1))")>]
+        member _.toHaveValue (value: string list) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        member _.toHaveValue (value: ResizeArray<string>) : 'Return = jsNative
+
 
     [<NoComparison>]
     [<NoEquality>]
