@@ -4,7 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AltText.test.fs" />
+    <Compile Include="DisplayValue.test.fs" />
     <Compile Include="LabelText.test.fs" />
+    <Compile Include="PlaceholderText.test.fs" />
+    <Compile Include="Role.test.fs" />
+    <Compile Include="TestId.test.fs" />
+    <Compile Include="Text.test.fs" />
+    <Compile Include="Title.test.fs" />
     <None Include="paket.references" />
     <None Include="splitter.config.js" />
   </ItemGroup>

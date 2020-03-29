@@ -284,6 +284,13 @@ module Bindings =
         abstract findByText: matcher:Matcher * ?options: TextMatcher -> JS.Promise<HTMLElement>
         abstract findAllByText: matcher:Matcher * ?options: TextMatcher -> JS.Promise<ResizeArray<HTMLElement>>
     
+        abstract getByAltText: matcher:Matcher * ?options: TextMatcher -> HTMLElement
+        abstract getAllByAltText: matcher:Matcher * ?options: TextMatcher -> ResizeArray<HTMLElement>
+        abstract queryByAltText: matcher:Matcher * ?options: TextMatcher -> HTMLElement option
+        abstract queryAllByAltText: matcher:Matcher * ?options: TextMatcher -> ResizeArray<HTMLElement>
+        abstract findByAltText: matcher:Matcher * ?options: TextMatcher -> JS.Promise<HTMLElement>
+        abstract findAllByAltText: matcher:Matcher * ?options: TextMatcher -> JS.Promise<ResizeArray<HTMLElement>>
+
         abstract getByTitle: matcher:Matcher * ?options: MatcherOptions -> HTMLElement
         abstract getAllByTitle: matcher:Matcher * ?options: MatcherOptions -> ResizeArray<HTMLElement>
         abstract queryByTitle: matcher:Matcher * ?options: MatcherOptions -> HTMLElement option
@@ -558,6 +565,120 @@ module Bindings =
             |> fun options -> queryApi.findAllByPlaceholderText(!^matcher, options)
             |> Promise.map List.ofSeq
             
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        member _.getByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.getByAltText(!^matcher, options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        member _.getByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.getByAltText(!^matcher, options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        member _.getByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.getByAltText(!^matcher, options)
+        
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        member _.getAllByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.getAllByAltText(!^matcher, options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        member _.getAllByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.getAllByAltText(!^matcher, options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        member _.getAllByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.getAllByAltText(!^matcher, options)
+            |> List.ofSeq
+        
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        member _.queryByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.queryByAltText(!^matcher, options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        member _.queryByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.queryByAltText(!^matcher, options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        member _.queryByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.queryByAltText(!^matcher, options)
+        
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        member _.queryAllByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.queryAllByAltText(!^matcher, options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        member _.queryAllByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.queryAllByAltText(!^matcher, options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        member _.queryAllByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.queryAllByAltText(!^matcher, options)
+            |> List.ofSeq
+        
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        member _.findByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.findByAltText(!^matcher, options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        member _.findByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.findByAltText(!^matcher, options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        member _.findByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.findByAltText(!^matcher, options)
+        
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        member _.findAllByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.findAllByAltText(!^matcher, options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        member _.findAllByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.findAllByAltText(!^matcher, options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        member _.findAllByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
+            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
+            |> fun options -> queryApi.findAllByAltText(!^matcher, options)
+            |> Promise.map List.ofSeq
+
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         member _.getByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
@@ -915,6 +1036,12 @@ module Bindings =
         member _.getByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.getByRole(!^matcher, options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        member _.getByRole (property: IReactProperty) =
+            let _,role = unbox<string * string> property
+            MatcherOptions.create None None
+            |> fun options -> queryApi.getByRole(!^role, options)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         member _.getAllByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
@@ -931,6 +1058,11 @@ module Bindings =
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.getAllByRole(!^matcher, options)
             |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        member _.getAllByRole (property: IReactProperty) =
+            let _,role = unbox<string * string> property
+            MatcherOptions.create None None
+            |> fun options -> queryApi.getAllByRole(!^role, options)
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
@@ -950,6 +1082,13 @@ module Bindings =
         member _.queryByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryByRole(!^matcher, options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        member _.queryByRole (property: IReactProperty) =
+            let _,role = unbox<string * string> property
+            MatcherOptions.create None None
+            |> fun options -> queryApi.queryByRole(!^role, options)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         member _.queryAllByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
@@ -966,6 +1105,11 @@ module Bindings =
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.queryAllByRole(!^matcher, options)
             |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        member _.queryAllByRole (property: IReactProperty) =
+            let _,role = unbox<string * string> property
+            MatcherOptions.create None None
+            |> fun options -> queryApi.queryAllByRole(!^role, options)
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
@@ -991,6 +1135,15 @@ module Bindings =
         member _.findByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findByRole(!^matcher, options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        member _.findByRole (property: IReactProperty) =
+            let _,role = unbox<string * string> property
+            MatcherOptions.create None None
+            |> fun options -> queryApi.findByRole(!^role, options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1013,6 +1166,13 @@ module Bindings =
             MatcherOptions.create exact normalizer
             |> fun options -> queryApi.findAllByRole(!^matcher, options)
             |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        member _.findAllByRole (property: IReactProperty) =
+            let _,role = unbox<string * string> property
+            MatcherOptions.create None None
+            |> fun options -> queryApi.findAllByRole(!^role, options)
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
