@@ -4,29 +4,29 @@ open Fable.Jest
 open Fable.Jest.ReactTestingLibrary
 open Feliz
 
-Jest.describe("*ByLabelText query tests", (fun () ->
-    let labelTextElement = React.functionComponent (fun () ->
-        Html.div [
-            Html.label [
-                prop.htmlFor "username-input"
-                prop.text "Username"
-            ]
-            Html.input [
-                prop.id "username-input"
-            ]
-        ])
-        
-    let otherLabelTextElement = React.functionComponent (fun () ->
-        Html.div [
-            Html.label [
-                prop.htmlFor "somethingElse-input"
-                prop.text "somethingElse"
-            ]
-            Html.input [
-                prop.id "somethingElse-input"
-            ]
-        ])
+let labelTextElement = React.functionComponent (fun () ->
+    Html.div [
+        Html.label [
+            prop.htmlFor "username-input"
+            prop.text "Username"
+        ]
+        Html.input [
+            prop.id "username-input"
+        ]
+    ])
+    
+let otherLabelTextElement = React.functionComponent (fun () ->
+    Html.div [
+        Html.label [
+            prop.htmlFor "somethingElse-input"
+            prop.text "somethingElse"
+        ]
+        Html.input [
+            prop.id "somethingElse-input"
+        ]
+    ])
 
+Jest.describe("*ByLabelText query tests", (fun () ->
     Jest.test("getByLabelText an element", (fun () ->
         let actual = RTL.render(labelTextElement()).getByLabelText("Username")
             
@@ -78,7 +78,7 @@ Jest.describe("*ByLabelText query tests", (fun () ->
     ))
     Jest.test("findByLabelText throws when no element matches", (fun () ->
         let actual = RTL.render(otherLabelTextElement()).findByLabelText("Username")
-            
+        
         Jest.expect(actual).rejects.toThrow()
     ))
 
@@ -90,6 +90,6 @@ Jest.describe("*ByLabelText query tests", (fun () ->
     Jest.test("findAllByLabelText no element matches", (fun () ->
         let actual = RTL.render(otherLabelTextElement()).findAllByLabelText("Username")
             
-        Jest.expect(actual).resolves.toHaveLength(0)
+        Jest.expect(actual).rejects.toThrow()
     ))
 ))

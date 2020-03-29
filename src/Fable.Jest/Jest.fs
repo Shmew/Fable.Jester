@@ -128,7 +128,7 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     [<Emit("expect(Array.from($0))")>]
-    static member inline expect (value: 'a []) : expected = jsNative
+    static member expect (value: 'a []) : expected<unit> = jsNative
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -136,31 +136,33 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     [<Emit("expect(Array.from($0))")>]
-    static member inline expect (value: 'a list) : expected = jsNative
+    static member expect (value: 'a list) : expected<unit> = jsNative
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    static member inline expect (value: JS.Promise<'a []>) = 
-        promise { 
-            let! v = value
-            return ResizeArray v
-        }
-        |> fun prom -> JestInternal.expectPromise(prom)
+    [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
+    static member inline expect (value: JS.Promise<'a []>) : expectedPromise = jsNative
+        //promise { 
+        //    let! v = value
+        //    return ResizeArray v
+        //}
+        //|> fun prom -> JestInternal.expectPromise(prom)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    static member inline expect (value: JS.Promise<'a list>) = 
-        promise { 
-            let! v = value
-            return ResizeArray v
-        }
-        |> fun prom -> JestInternal.expectPromise(prom)
+    [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
+    static member inline expect (value: JS.Promise<'a list>) : expectedPromise = jsNative
+        //promise { 
+        //    let! v = value
+        //    return ResizeArray v
+        //}
+        //|> fun prom -> JestInternal.expectPromise(prom)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -168,12 +170,8 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     static member inline expect (value: Async<'a []>) = 
-        async { 
-            let! v = value
-            return ResizeArray v
-        }
-        |> Async.StartAsPromise
-        |> fun prom -> JestInternal.expectPromise(prom).resolves
+        Jest.expect(Async.StartAsPromise(value)).resolves
+        //|> fun prom -> JestInternal.expectPromise(prom).resolves
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -181,12 +179,7 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     static member inline expect (value: Async<'a list>) = 
-        async { 
-            let! v = value
-            return ResizeArray v
-        }
-        |> Async.StartAsPromise
-        |> fun prom -> JestInternal.expectPromise(prom).resolves
+        Jest.expect(Async.StartAsPromise(value)).resolves
     
 [<RequireQualifiedAccess>]
 module Jest = 
@@ -201,22 +194,32 @@ module Jest =
         static member inline skip (name:string, fn: unit -> unit) : unit = jsNative
             
     type test =
-        /// Creates a todo category in your test results to keep 
-        /// track of what needs to be implemented still.
-        [<Emit("test.todo($0)")>]
-        static member todo (name: string) : unit = jsNative
-
         /// Runs only this test within the scope it's defined in.
         ///
         /// The default timeout is 5 seconds.
         [<Emit("test.only($0...)")>]
         static member only (name:string, fn: unit -> unit, ?timeout: int) : unit = jsNative
+        /// Runs only this test within the scope it's defined in.
+        ///
+        /// The default timeout is 5 seconds.
+        [<Emit("test.only($0...)")>]
+        static member only (name:string, fn: unit -> JS.Promise<unit>, ?timeout: int) : unit = jsNative
 
         /// Skips a test.
         ///
         /// The default timeout is 5 seconds.
         [<Emit("test.skip($0...)")>]
         static member skip (name:string, fn: unit -> unit) : unit = jsNative
+        /// Skips a test.
+        ///
+        /// The default timeout is 5 seconds.
+        [<Emit("test.skip($0...)")>]
+        static member skip (name:string, fn: unit -> JS.Promise<unit>) : unit = jsNative
+
+        /// Creates a todo category in your test results to keep 
+        /// track of what needs to be implemented still.
+        [<Emit("test.todo($0)")>]
+        static member todo (name: string) : unit = jsNative
 
 [<AutoOpen>]
 module JestExtensions =
@@ -236,7 +239,6 @@ module JestExtensions =
         /// failing tests will look strange.
         static member inline expect(value: Async< 'a>) =
             JestInternal.expectPromise(Async.StartAsPromise(value)).resolves
-
         /// The expect function is used every time you want to test a value.
         ///
         /// The argument to expect should be the value that your code produces, 
@@ -244,10 +246,15 @@ module JestExtensions =
         /// mix them up, your tests will still work, but the error messages on 
         /// failing tests will look strange.
         [<Global>]
-        static member expect (value: obj) : expected = jsNative
+        static member expect (value: obj) : expected<unit> = jsNative
 
         /// Runs a test.
         ///
         /// The default timeout is 5 seconds.
         [<Global>]
-        static member test (name: string, fn: unit -> unit, ?timeout: int) : unit = jsNative
+        static member inline test (name: string, fn: unit -> unit, ?timeout: int) : unit = jsNative
+        /// Runs a test.
+        ///
+        /// The default timeout is 5 seconds.
+        [<Global>]
+        static member inline test (name: string, fn: unit -> JS.Promise<unit>, ?timeout: int) : unit = jsNative

@@ -9,18 +9,18 @@ module ExpectExtensions =
     [<NoComparison>]
     [<NoEquality>]
     [<Global("expect")>]
-    type expectedHtml =
-        inherit Fable.Jest.Expect.expected
+    type expectedHtml<'Return> =
+        inherit Fable.Jest.Expect.expected<'Return>
 
         /// Inverts the pass/fail status of a matcher.
-        member _.not : expectedHtml = jsNative
+        member _.not : expectedHtml<'Return> = jsNative
 
         /// Check whether the given element is checked. 
         ///
         /// It accepts an input of type checkbox or radio and elements with 
         /// a role of checkbox or radio with a valid aria-checked attribute 
         /// of "true" or "false".
-        member _.toBeChecked () : unit = jsNative
+        member _.toBeChecked () : 'Return = jsNative
 
         /// Check whether an element is disabled from the 
         /// user's perspective.
@@ -32,36 +32,36 @@ module ExpectExtensions =
         /// According to the specification, the following elements can be 
         /// actually disabled: button, input, select, textarea, optgroup, 
         /// option, and fieldset.
-        member _.toBeDisabled () : unit = jsNative
+        member _.toBeDisabled () : 'Return = jsNative
 
         /// Check whether an element is not disabled from the user's perspective.
-        member _.toBeEnabled () : unit = jsNative
+        member _.toBeEnabled () : 'Return = jsNative
 
         /// Check whether an element has content or not.
-        member _.toBeEmpty () : unit = jsNative
+        member _.toBeEmpty () : 'Return = jsNative
 
         /// Check whether an element is present in the document or not.
-        member _.toBeInTheDocument () : unit = jsNative
+        member _.toBeInTheDocument () : 'Return = jsNative
 
         /// Check if a form element, or the entire form, is currently invalid.
         ///
         /// An input, select, textarea, or form element is invalid if it has an 
         /// aria-invalid attribute with no value or a value of "true", or if the 
         /// result of checkValidity() is false.
-        member _.toBeInvalid () : unit = jsNative
+        member _.toBeInvalid () : 'Return = jsNative
 
         /// Check if a form element is currently required.
         ///
         /// An element is required if it is having a required or 
         /// aria-required="true" attribute.
-        member _.toBeRequired () : unit = jsNative
+        member _.toBeRequired () : 'Return = jsNative
 
         /// Check if the value of a form element, or the entire form, is currently valid.
         ///
         /// An input, select, textarea, or form element is valid if it has no aria-invalid 
         /// attribute or an attribute value of "false". The result of checkValidity() must 
         /// also be true.
-        member _.toBeValid () : unit = jsNative
+        member _.toBeValid () : 'Return = jsNative
 
         /// This allows you to check if an element is currently visible to the user.
         ///
@@ -78,43 +78,43 @@ module ExpectExtensions =
         /// Does not have the hidden attribute.
         ///
         /// If <details /> it has the open attribute.
-        member _.toBeVisible () : unit = jsNative
+        member _.toBeVisible () : 'Return = jsNative
 
         /// Check whether an element contains another element as a descendant or not.
-        member _.toContainElement (element: HTMLElement) : unit = jsNative
+        member _.toContainElement (element: HTMLElement) : 'Return = jsNative
 
         /// Check whether a string representing a HTML element is contained in another element
-        member _.toContainHTML (htmlText: string) : unit = jsNative
+        member _.toContainHTML (htmlText: string) : 'Return = jsNative
 
         /// Check whether the given element has an attribute or not. 
         ///
         /// You can also optionally check that the attribute has a specific expected value 
         /// or partial match using expect.stringContaining or expect.stringMatching.
-        member _.toHaveAttribute (attr: string, ?value: obj) : unit = jsNative
+        member _.toHaveAttribute (attr: string, ?value: obj) : 'Return = jsNative
 
         /// check whether the given element has certain classes within its class attribute.
         ///
         /// You must provide at least one class, unless you are asserting that an element does 
         /// not have any classes.
-        member _.toHaveClass ([<ParamArray>] classNames: string []) : unit = jsNative
+        member _.toHaveClass ([<ParamArray>] classNames: string []) : 'Return = jsNative
 
         /// Check whether an element has focus or not.
-        member _.toHaveFocus () : unit = jsNative
+        member _.toHaveFocus () : 'Return = jsNative
 
         /// Check if a form or fieldset contains form controls for each given name, and having the specified value.
         ///
         /// Note that this matcher can *only* be invoked on a form or fieldset element.
-        member _.toHaveFormValues (expectedValues: obj) : unit = jsNative
+        member _.toHaveFormValues (expectedValues: obj) : 'Return = jsNative
 
         /// Check if a certain element has some specific css properties with specific values applied. 
         /// 
         /// It matches only if the element has all the expected properties applied, not just some of them.
-        member _.toHaveStyle (css: obj) : unit = jsNative
+        member _.toHaveStyle (css: obj) : 'Return = jsNative
 
         /// Check if a certain element has some specific css properties with specific values applied. 
         /// 
         /// It matches only if the element has all the expected properties applied, not just some of them.
-        member _.toHaveStyle (css: string) : unit = jsNative
+        member _.toHaveStyle (css: string) : 'Return = jsNative
 
         /// Check whether the given element has a text content or not.
         /// 
@@ -124,20 +124,18 @@ module ExpectExtensions =
         /// To perform a case-insensitive match, you can use a RegExp with the /i modifier.
         ///
         /// If you want to match the whole content, you can use a RegExp to do it.
-        member _.toHaveTextContent (text: U2<string, System.Text.RegularExpressions.Regex>, ?options: obj) : unit = jsNative
+        member _.toHaveTextContent (text: U2<string, System.Text.RegularExpressions.Regex>, ?options: obj) : 'Return = jsNative
 
         /// Check whether the given form element has the specified value. 
         ///
         /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
         /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
-        member _.toHaveValue (value: U4<string, ResizeArray<string>, float, int>) : unit = jsNative
+        member _.toHaveValue (value: U4<string, ResizeArray<string>, float, int>) : 'Return = jsNative
 
     [<NoComparison>]
     [<NoEquality>]
     [<Global("expect")>]
     type expectedHtmlPromise =
-        inherit expectedHtml
-
         /// Inverts the pass/fail status of a matcher.
         member _.not : expectedHtmlPromise = jsNative
 
@@ -146,12 +144,12 @@ module ExpectExtensions =
         /// the assertion fails.
         ///
         /// This is automatically applied for `Async<'T>` values.
-        member _.rejects : expectedHtmlPromise = jsNative
+        member _.rejects : expectedHtml<JS.Promise<unit>> = jsNative
 
         /// Unwrap the reason of a rejected promise so any other 
         /// matcher can be chained. If the promise is fulfilled 
         /// the assertion fails.
-        member _.resolves : expectedHtmlPromise = jsNative
+        member _.resolves : expectedHtml<JS.Promise<unit>> = jsNative
 
     type Fable.Jest.Jest with
         /// The expect function is used every time you want to test a value.
@@ -161,7 +159,7 @@ module ExpectExtensions =
         /// mix them up, your tests will still work, but the error messages on 
         /// failing tests will look strange.
         [<Global>]
-        static member expect (value: HTMLElement) : expectedHtml = jsNative
+        static member expect (value: HTMLElement) : expectedHtml<unit> = jsNative
         /// The expect function is used every time you want to test a value.
         ///
         /// The argument to expect should be the value that your code produces, 
@@ -169,7 +167,7 @@ module ExpectExtensions =
         /// mix them up, your tests will still work, but the error messages on 
         /// failing tests will look strange.
         [<Global>]
-        static member expect (value: HTMLElement option) : expectedHtml = jsNative
+        static member expect (value: HTMLElement option) : expectedHtml<unit> = jsNative
         /// The expect function is used every time you want to test a value.
         ///
         /// The argument to expect should be the value that your code produces, 
@@ -178,7 +176,6 @@ module ExpectExtensions =
         /// failing tests will look strange.
         [<Global>]
         static member expect (value: JS.Promise<HTMLElement>) : expectedHtmlPromise = jsNative
-
         /// The expect function is used every time you want to test a value.
         ///
         /// The argument to expect should be the value that your code produces, 

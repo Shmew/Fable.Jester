@@ -143,13 +143,14 @@ Jest.describe("matcher tests", (fun () ->
         Jest.expect([1;2;8]).toContain(8)
         Jest.expect(["I";"Like";"Pie"]).toContain("Pie")
         
-        let promiseArray = promise { return [1;2;3] }
+        let asyncList = async { return [1;2;3] }
 
-        Jest.expect(promiseArray).resolves.toContain(3)
+        Jest.expect(asyncList).toContain(3)
+    ))
+    Jest.test("toContain", (fun () ->
+        let promiseList = promise { return [1;2;3] }
 
-        let asyncArray = async { return [1;2;3] }
-
-        Jest.expect(asyncArray).toContain(3)
+        Jest.expect(promiseList).resolves.toContain(3)
     ))
     Jest.test("not toContain", (fun () ->
         Jest.expect([1;2;3]).not.toContain(5)
