@@ -70,91 +70,91 @@ module Bindings =
     let cleanup : unit -> unit = import "cleanup" "@testing-library/react"
 
     type CreateEvent =
-        abstract abort: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract animationEnd: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract animationIteration: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract animationStart: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract blur: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract canPlay: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract canPlayThrough: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract change: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract click: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract compositionEnd: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract compositionStart: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract compositionUpdate: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract contextMenu: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract copy: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract cut: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract dblClick: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract doubleClick: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract drag: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract dragEnd: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract dragEnter: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract dragExit: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract dragLeave: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract dragOver: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract dragStart: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract drop: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract durationChange: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract emptied: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract encrypted: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract ended: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract error: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract focus: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract focusIn: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract focusOut: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract gotPointerCapture: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract input: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract invalid: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract keyDown: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract keyPress: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract keyUp: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract load: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract loadedData: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract loadedMetadata: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract loadStart: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract lostPointerCapture: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract mouseDown: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract mouseEnter: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract mouseLeave: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract mouseMove: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract mouseOut: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract mouseOver: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract mouseUp: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract paste: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pause: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract play: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract playing: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerCancel: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerDown: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerEnter: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerLeave: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerMove: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerOut: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerOver: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract pointerUp: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract popState: node: HTMLElement * ?eventProperties:obj -> unit        
-        abstract progress: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract rateChange: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract reset: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract scroll: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract seeked: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract seeking: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract select: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract stalled: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract submit: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract suspend: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract timeUpdate: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract touchCancel: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract touchEnd: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract touchMove: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract touchStart: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract transitionEnd: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract volumeChange: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract waiting: node: HTMLElement * ?eventProperties:obj -> unit
-        abstract wheel: node: HTMLElement * ?eventProperties:obj -> unit
+        abstract abort: node: HTMLElement * ?eventProperties:obj -> ProgressEvent
+        abstract animationEnd: node: HTMLElement * ?eventProperties:obj -> UIEvent
+        abstract animationIteration: node: HTMLElement * ?eventProperties:obj -> AnimationEvent
+        abstract animationStart: node: HTMLElement * ?eventProperties:obj -> AnimationEvent
+        abstract blur: node: HTMLElement * ?eventProperties:obj -> AnimationEvent
+        abstract canPlay: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract canPlayThrough: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract change: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract click: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract compositionEnd: node: HTMLElement * ?eventProperties:obj -> CompositionEvent
+        abstract compositionStart: node: HTMLElement * ?eventProperties:obj -> CompositionEvent
+        abstract compositionUpdate: node: HTMLElement * ?eventProperties:obj -> CompositionEvent
+        abstract contextMenu: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract copy: node: HTMLElement * ?eventProperties:obj -> ClipboardEvent
+        abstract cut: node: HTMLElement * ?eventProperties:obj -> ClipboardEvent
+        abstract dblClick: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract doubleClick: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract drag: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract dragEnd: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract dragEnter: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract dragExit: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract dragLeave: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract dragOver: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract dragStart: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract drop: node: HTMLElement * ?eventProperties:obj -> DragEvent
+        abstract durationChange: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract emptied: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract encrypted: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract ended: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract error: node: HTMLElement * ?eventProperties:obj -> U2<ProgressEvent, UIEvent>
+        abstract focus: node: HTMLElement * ?eventProperties:obj -> FocusEvent
+        abstract focusIn: node: HTMLElement * ?eventProperties:obj -> FocusEvent
+        abstract focusOut: node: HTMLElement * ?eventProperties:obj -> FocusEvent
+        abstract gotPointerCapture: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract input: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract invalid: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract keyDown: node: HTMLElement * ?eventProperties:obj -> KeyboardEvent
+        abstract keyPress: node: HTMLElement * ?eventProperties:obj -> KeyboardEvent
+        abstract keyUp: node: HTMLElement * ?eventProperties:obj -> KeyboardEvent
+        abstract load: node: HTMLElement * ?eventProperties:obj -> U2<ProgressEvent,UIEvent>
+        abstract loadedData: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract loadedMetadata: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract loadStart: node: HTMLElement * ?eventProperties:obj -> ProgressEvent
+        abstract lostPointerCapture: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract mouseDown: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract mouseEnter: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract mouseLeave: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract mouseMove: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract mouseOut: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract mouseOver: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract mouseUp: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract paste: node: HTMLElement * ?eventProperties:obj -> ClipboardEvent
+        abstract pause: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract play: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract playing: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract pointerCancel: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract pointerDown: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract pointerEnter: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract pointerLeave: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract pointerMove: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract pointerOut: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract pointerOver: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract pointerUp: node: HTMLElement * ?eventProperties:obj -> PointerEvent
+        abstract popState: node: HTMLElement * ?eventProperties:obj -> Event        
+        abstract progress: node: HTMLElement * ?eventProperties:obj -> ProgressEvent
+        abstract rateChange: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract reset: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract scroll: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract seeked: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract seeking: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract select: node: HTMLElement * ?eventProperties:obj -> MouseEvent
+        abstract stalled: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract submit: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract suspend: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract timeUpdate: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract touchCancel: node: HTMLElement * ?eventProperties:obj -> Touch
+        abstract touchEnd: node: HTMLElement * ?eventProperties:obj -> Touch
+        abstract touchMove: node: HTMLElement * ?eventProperties:obj -> Touch
+        abstract touchStart: node: HTMLElement * ?eventProperties:obj -> Touch
+        abstract transitionEnd: node: HTMLElement * ?eventProperties:obj -> TransitionEvent
+        abstract volumeChange: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract waiting: node: HTMLElement * ?eventProperties:obj -> Event
+        abstract wheel: node: HTMLElement * ?eventProperties:obj -> MouseEvent
 
-    let createEventImport : CreateEvent = import "createEvent" "@testing-library/react"
+    let createEvent: CreateEvent = import "createEvent" "@testing-library/react"
 
     let jsDomExpect : unit = importAll "@testing-library/jest-dom"
 
@@ -246,7 +246,7 @@ module Bindings =
         abstract waiting: node: HTMLElement * ?eventProperties:obj -> unit
         abstract wheel: node: HTMLElement * ?eventProperties:obj -> unit
         
-    let fireEventImport : FireEvent = import "fireEvent" "@testing-library/react"
+    let fireEvent : FireEvent = import "fireEvent" "@testing-library/react"
 
     let getNodeText : HTMLElement -> string = import "getNodeText" "@testing-library/react"
 
@@ -1312,6 +1312,20 @@ module Bindings =
         /// This will cause the rendered component to be unmounted. This is useful for testing what happens when your component 
         /// is removed from the page (like testing that you don't leave event handlers hanging around causing memory leaks).
         member _.unmount () = render.unmount()
+
+    type UserEventImport =
+        abstract click: HTMLElement -> unit
+        abstract dblClick: HTMLElement -> unit
+        [<Emit("$0.selectOptions($1, Array.from($2))")>]
+        abstract selectOptions: HTMLElement * 'T [] -> unit
+        [<Emit("$0.selectOptions($1, Array.from($2))")>]
+        abstract selectOptions: HTMLElement * 'T list -> unit
+        abstract selectOptions: HTMLElement * ResizeArray<'T> -> unit
+        abstract tab: bool * HTMLElement -> unit
+        [<Emit("$0.type($1...)")>]
+        abstract typeInternal: HTMLElement * string * ?options: obj -> JS.Promise<unit>
+
+    let userEvent : UserEventImport = importDefault "@testing-library/user-event"
 
     type WaitFor =
         [<Emit("$0($1)")>]

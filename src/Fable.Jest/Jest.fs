@@ -157,7 +157,7 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
-    static member inline expect (value: JS.Promise<'a list>) : expectedPromise = jsNative
+    static member expect (value: JS.Promise<'a list>) : expectedPromise = jsNative
         //promise { 
         //    let! v = value
         //    return ResizeArray v
@@ -169,7 +169,7 @@ type Jest =
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    static member inline expect (value: Async<'a []>) = 
+    static member expect (value: Async<'a []>) = 
         Jest.expect(Async.StartAsPromise(value)).resolves
         //|> fun prom -> JestInternal.expectPromise(prom).resolves
     /// The expect function is used every time you want to test a value.
@@ -178,7 +178,7 @@ type Jest =
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    static member inline expect (value: Async<'a list>) = 
+    static member expect (value: Async<'a list>) = 
         Jest.expect(Async.StartAsPromise(value)).resolves
     
 [<RequireQualifiedAccess>]
@@ -187,11 +187,11 @@ module Jest =
     type describe =
         /// Runs only one describe block.
         [<Emit("describe.only($0...)")>]
-        static member inline only (name:string, fn: unit -> unit) : unit = jsNative
+        static member only (name:string, fn: unit -> unit) : unit = jsNative
     
         /// Skips this describe block.
         [<Emit("describe.skip($0...)")>]
-        static member inline skip (name:string, fn: unit -> unit) : unit = jsNative
+        static member skip (name:string, fn: unit -> unit) : unit = jsNative
             
     type test =
         /// Runs only this test within the scope it's defined in.
@@ -223,6 +223,12 @@ module Jest =
 
 [<AutoOpen>]
 module JestExtensions =
+    type AsyncBuilder with
+        member this.Bind (computation: JS.Promise<unit>, f: unit -> Async<unit>) = 
+            this.Bind((Async.AwaitPromise computation), f)
+        member this.ReturnFrom (computation: JS.Promise<unit>) = 
+            this.ReturnFrom(computation |> Async.AwaitPromise)
+
     type Jest with
         /// The expect function is used every time you want to test a value.
         ///
@@ -230,14 +236,14 @@ module JestExtensions =
         /// and any argument to the matcher should be the correct value. If you 
         /// mix them up, your tests will still work, but the error messages on 
         /// failing tests will look strange.
-        static member inline expect (value: JS.Promise< 'T>) = JestInternal.expectPromise(value)
+        static member expect (value: JS.Promise< 'T>) = JestInternal.expectPromise(value)
         /// The expect function is used every time you want to test a value.
         ///
         /// The argument to expect should be the value that your code produces, 
         /// and any argument to the matcher should be the correct value. If you 
         /// mix them up, your tests will still work, but the error messages on 
         /// failing tests will look strange.
-        static member inline expect(value: Async< 'a>) =
+        static member expect(value: Async< 'a>) =
             JestInternal.expectPromise(Async.StartAsPromise(value)).resolves
         /// The expect function is used every time you want to test a value.
         ///
@@ -252,9 +258,26 @@ module JestExtensions =
         ///
         /// The default timeout is 5 seconds.
         [<Global>]
-        static member inline test (name: string, fn: unit -> unit, ?timeout: int) : unit = jsNative
+        static member test (name: string, fn: unit -> unit, ?timeout: int) : unit = jsNative
         /// Runs a test.
         ///
         /// The default timeout is 5 seconds.
         [<Global>]
-        static member inline test (name: string, fn: unit -> JS.Promise<unit>, ?timeout: int) : unit = jsNative
+        static member test (name: string, fn: unit -> JS.Promise<unit>, ?timeout: int) : unit = jsNative
+        /// Runs a test.
+        ///
+        /// The default timeout is 5 seconds.
+        [<Emit("test($0, async () => { await $1 }, $2)")>]
+        static member test (name: string, prom: JS.Promise<unit>, timeout: int) : unit = jsNative
+        /// Runs a test.
+        ///
+        /// The default timeout is 5 seconds.
+        [<Emit("test($0, async () => { await $1 })")>]
+        static member test (name: string, prom: JS.Promise<unit>) : unit = jsNative
+        /// Runs a test.
+        ///
+        /// The default timeout is 5 seconds.
+        static member test (name: string, prom: Async<unit>, ?timeout: int) : unit =
+            match timeout with
+            | Some timeout -> Jest.test(name, Async.StartAsPromise prom, timeout)
+            | None -> Jest.test(name, Async.StartAsPromise prom)

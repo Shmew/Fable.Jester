@@ -14,10 +14,16 @@ Jest.describe("can run basic tests", (fun () ->
     Jest.test("running a promise test", (fun () ->
         Jest.expect(myPromise).resolves.toEqual(2)
     ))
+    Jest.test("running a promise test", promise {
+        return! Jest.expect(myPromise).resolves.toEqual(2)
+    })
 
     Jest.test("running an async test", (fun () ->
         Jest.expect(myAsync).toEqual(2)
     ))
+    Jest.test("running an async test", async {
+        return! Jest.expect(myAsync).toEqual(2)
+    })
 ))
 
 Jest.describe("how to run a test like test.each", (fun () ->

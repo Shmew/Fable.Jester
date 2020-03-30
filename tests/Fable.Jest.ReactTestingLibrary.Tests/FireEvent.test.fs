@@ -2,46 +2,36 @@
 
 open Fable.Jest
 open Fable.Jest.ReactTestingLibrary
-open Fable.Core.JsInterop
 open Feliz
-open System
 
 let testElement = React.functionComponent (fun () ->
-    let value, setValue = React.useState 1
-
+    let value, setValue = React.useState "Hello"
     Html.div [
-        Html.label [
-            prop.htmlFor "int-input"
-            prop.text "Int Test"
-        ]
         Html.input [
-            prop.id "int-input"
             prop.type'.text
-            prop.valueOrDefault value
-            prop.onInput (fun ev ->
-                ev.preventDefault()
-                printfn "%s" (ev.target?value)
-                setValue (value + (unbox<int> ev.target?value))
-            )
-            prop.onChange (fun (s: string) ->
-                printfn "%s" s
-                setValue (int s))
+            prop.custom("data-testid", "test-input")
+            prop.onChange setValue
+        ]
+        Html.h1 [
+            prop.text value
+            prop.custom("data-testid", "header")
         ]
     ])
 
 Jest.describe("FireEvent tests", (fun () ->
     Jest.test("dispatch input change", (fun () ->
-        let render = RTL.render(testElement())
-        let elem = render.getByLabelText("Int Test")
+        let elem = RTL.render(testElement()).getByTestId("test-input")
 
-        RTL.fireEvent.change(elem, [
-            event.target [ prop.value 1 ]
-        ])
+        RTL.fireEvent.change(elem, [ event.target [ prop.value "Hello world" ] ])
 
-        elem.fireEvent.change([ inputEvent.target [ prop.value 1 ] ])
+        Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
+    ))
 
-        elem.fireEvent.input([ inputEvent.target [ prop.value 1 ] ])
+    Jest.test("dispatch input change", (fun () ->
+        let elem = RTL.render(testElement()).getByTestId("test-input")
 
-        Jest.expect(render.getByLabelText("Int Test")).toHaveValue(3)
+        RTL.fireEvent.change(elem, [ event.target [ prop.value "Hello world" ] ])
+
+        Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
     ))
 ))

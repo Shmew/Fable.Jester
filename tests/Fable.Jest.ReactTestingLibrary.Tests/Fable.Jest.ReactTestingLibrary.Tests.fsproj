@@ -12,7 +12,9 @@
     <Compile Include="Queries\TestId.test.fs" />
     <Compile Include="Queries\Text.test.fs" />
     <Compile Include="Queries\Title.test.fs" />
+    <Compile Include="CreateEvent.test.fs" />
     <Compile Include="FireEvent.test.fs" />
+    <Compile Include="UserEvent.test.fs" />
     <None Include="paket.references" />
     <None Include="splitter.config.js" />
   </ItemGroup>

@@ -3,6 +3,7 @@
 open Browser.Types
 open Fable.Core
 open System
+open System.Text.RegularExpressions
 
 [<AutoOpen>]
 module ExpectExtensions =
@@ -11,7 +12,6 @@ module ExpectExtensions =
     [<Global("expect")>]
     type expectedHtml<'Return> =
         inherit Fable.Jest.Expect.expected<'Return>
-
         /// Inverts the pass/fail status of a matcher.
         member _.not : expectedHtml<'Return> = jsNative
 
@@ -124,7 +124,16 @@ module ExpectExtensions =
         /// To perform a case-insensitive match, you can use a RegExp with the /i modifier.
         ///
         /// If you want to match the whole content, you can use a RegExp to do it.
-        member _.toHaveTextContent (text: U2<string, System.Text.RegularExpressions.Regex>, ?options: obj) : 'Return = jsNative
+        member _.toHaveTextContent (text: string, ?options: obj) : 'Return = jsNative
+        /// Check whether the given element has a text content or not.
+        /// 
+        /// When a string argument is passed through, it will perform a partial case-sensitive match to 
+        /// the element content.
+        ///
+        /// To perform a case-insensitive match, you can use a RegExp with the /i modifier.
+        ///
+        /// If you want to match the whole content, you can use a RegExp to do it.
+        member _.toHaveTextContent (text: Regex, ?options: obj) : 'Return = jsNative
 
         /// Check whether the given form element has the specified value. 
         ///
@@ -171,7 +180,6 @@ module ExpectExtensions =
         /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
         /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
         member _.toHaveValue (value: ResizeArray<string>) : 'Return = jsNative
-
 
     [<NoComparison>]
     [<NoEquality>]
