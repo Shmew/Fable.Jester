@@ -11,6 +11,8 @@ module JestInternal =
     [<Global("expect")>]
     let expectPromise (value: JS.Promise<'T>) : expectedPromise = jsNative
 
+    open Fable.Jester.SnapshotLoader
+
 type Jest =
     /// Executes only the macro task queue (i.e. all tasks queued by 
     /// setTimeout() or setInterval() and setImmediate()).
@@ -158,6 +160,166 @@ type Jest =
     /// failing tests will look strange.
     static member inline expect (value: Async<HTMLElement>) = 
         Jest.expect(Async.StartAsPromise value).resolves
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: Node) : expectedHtml<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: Node option) : expectedHtml<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: JS.Promise<Node>) : expectedHtmlPromise = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    static member inline expect (value: Async<Node>) = 
+        Jest.expect(Async.StartAsPromise value).resolves
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: decimal) : expectedNumber<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: decimal option) : expectedNumber<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: JS.Promise<decimal>) : expectedNumberPromise = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    static member inline expect (value: Async<decimal>) = 
+        Jest.expect(Async.StartAsPromise value).resolves
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: float) : expectedNumber<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: float option) : expectedNumber<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: JS.Promise<float>) : expectedNumberPromise = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    static member inline expect (value: Async<float>) = 
+        Jest.expect(Async.StartAsPromise value).resolves
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: int) : expectedNumber<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: int option) : expectedNumber<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: JS.Promise<int>) : expectedNumberPromise = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    static member inline expect (value: Async<int>) = 
+        Jest.expect(Async.StartAsPromise value).resolves
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: string) : expectedString<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: string option) : expectedString<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    [<Global>]
+    static member expect (value: JS.Promise<string>) : expectedStringPromise = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    static member inline expect (value: Async<string>) = 
+        Jest.expect(Async.StartAsPromise value).resolves
 
     /// Returns the number of fake timers still left to run.
     [<Emit("jest.getTimerCount()")>]
@@ -270,14 +432,14 @@ module JestExtensions =
         /// and any argument to the matcher should be the correct value. If you 
         /// mix them up, your tests will still work, but the error messages on 
         /// failing tests will look strange.
-        static member expect (value: JS.Promise< 'T>) = JestInternal.expectPromise(value)
+        static member expect (value: JS.Promise<'T>) = JestInternal.expectPromise(value)
         /// The expect function is used every time you want to test a value.
         ///
         /// The argument to expect should be the value that your code produces, 
         /// and any argument to the matcher should be the correct value. If you 
         /// mix them up, your tests will still work, but the error messages on 
         /// failing tests will look strange.
-        static member expect(value: Async< 'a>) =
+        static member expect(value: Async<'T>) =
             JestInternal.expectPromise(Async.StartAsPromise(value)).resolves
         /// The expect function is used every time you want to test a value.
         ///

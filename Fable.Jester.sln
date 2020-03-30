@@ -71,6 +71,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.ReactTestingLibrary.T
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jester", "src\Fable.Jester\Fable.Jester.fsproj", "{35FF5782-AC72-411E-AE42-9401D3236B01}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jester.SnapshotLoader", "src\Fable.Jester.SnapshotLoader\Fable.Jester.SnapshotLoader.fsproj", "{55F1CB4A-F19C-41F3-9A49-DB7675C88A70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{35FF5782-AC72-411E-AE42-9401D3236B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35FF5782-AC72-411E-AE42-9401D3236B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35FF5782-AC72-411E-AE42-9401D3236B01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F1CB4A-F19C-41F3-9A49-DB7675C88A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F1CB4A-F19C-41F3-9A49-DB7675C88A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F1CB4A-F19C-41F3-9A49-DB7675C88A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F1CB4A-F19C-41F3-9A49-DB7675C88A70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

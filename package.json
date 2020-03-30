@@ -1,5 +1,5 @@
 {
-  "name": "fable-jest",
+  "name": "fable-jester",
   "version": "0.0.1",
   "description": "Fable bindings for jest and friends",
   "homepage": "https://github.com/Shmew/Fable.Jester",
@@ -15,8 +15,8 @@
   "scripts": {
     "build": "webpack -p",
     "compile-demo-raw": "fable-splitter -c docs/splitter.config.js",
-    "pretestJest": "fable-splitter -c tests/Fable.Jest.Tests/splitter.config.js",
-    "pretestRTL": "fable-splitter -c tests/Fable.Jest.ReactTestingLibrary.Tests/splitter.config.js",
+    "pretestJest": "fable-splitter -c tests/Fable.Jester.Tests/splitter.config.js",
+    "pretestRTL": "fable-splitter -c tests/Fable.ReactTestingLibrary.Tests/splitter.config.js",
     "publish-docs": "yarn build && node publish.js",
     "start": "webpack-dev-server",
     "test": "yarn pretestJest && yarn pretestRTL && yarn jest",
@@ -46,11 +46,17 @@
     "html-webpack-plugin": "^3.2",
     "jest": "^25.2",
     "mkdirp": "^0.5",
+    "prettier": "^2.0",
     "remotedev": "^0.2",
     "resolve-url-loader": "^3.1",
     "webpack": "^4.41",
     "webpack-cli": "^3.3",
     "webpack-dev-server": "^3.8"
   },
-  "private": true
+  "private": true,
+  "jest": {
+    "roots": [
+      "./dist/tests"
+    ]
+  }
 }

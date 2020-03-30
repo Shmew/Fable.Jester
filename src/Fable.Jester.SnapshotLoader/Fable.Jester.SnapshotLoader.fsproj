@@ -9,14 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Expect.fs" />
-    <Compile Include="Jest.fs" />
+    <Compile Include="SnapshotLoader.fs" />
     <None Include="paket.references" />
-    <None Include="paket.template" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Fable.Jester.SnapshotLoader\Fable.Jester.SnapshotLoader.fsproj" />
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>

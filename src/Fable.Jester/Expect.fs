@@ -169,9 +169,6 @@ module Expect =
         /// also known as deep equality, like the toEqual matcher).
         [<Emit("$0.toHaveProperty((Array.from($1).join('.')), $2)")>]
         member _.toHaveProperty (keyPath: string list, value: 'T) : 'Return = jsNative
-
-        /// Compare floating point numbers for approximate equality.
-        member _.toBeCloseTo(number: float, ?numDigits: int) : 'Return = jsNative
         
         /// Check that a variable is not undefined.
         member _.toBeDefined () : 'Return = jsNative
@@ -179,26 +176,6 @@ module Expect =
         /// Matcher for when you don't care what a value is and you want to 
         /// ensure a value is false in a boolean context.
         member _.toBeFalsy () : 'Return = jsNative
-
-        /// To compare received > expected for int or floats.
-        member _.toBeGreaterThan (number: float) : 'Return = jsNative
-        /// To compare received > expected for int or floats.
-        member _.toBeGreaterThan (number: int) : 'Return = jsNative
-
-        /// To compare received >= expected for int or floats.
-        member _.toBeGreaterThanOrEqual (number: float) : 'Return = jsNative
-        /// To compare received >= expected for int or floats.
-        member _.toBeGreaterThanOrEqual (number: int) : 'Return = jsNative
-
-        /// To compare received < expected for int or floats.
-        member _.toBeLessThan (number: float) : 'Return = jsNative
-        /// To compare received < expected for int or floats.
-        member _.toBeLessThan (number: int) : 'Return = jsNative
-
-        /// To compare received <= expected for int or floats.
-        member _.toBeLessThanOrEqual (number: float) : 'Return = jsNative
-        /// To compare received <= expected for int or floats.
-        member _.toBeLessThanOrEqual (number: int) : 'Return = jsNative
 
         /// Check that something is null.
         member _.toBeNull () : 'Return = jsNative
@@ -236,45 +213,9 @@ module Expect =
         /// compare primitive values, which is even better for 
         /// testing than === strict equality operator.
         member _.toEqual (value: 'T) : 'Return = jsNative
-
-        /// Check that a string matches a string or regular expression.
-        ///
-        /// When using a string it is the same as doing "mystring".Contains(value)
-        member _.toMatch (value: string) : 'Return = jsNative
-        /// Check that a string matches a string or regular expression.
-        ///
-        /// When using a string it is the same as doing "mystring".Contains(value)
-        member _.toMatch (value: Regex) : 'Return = jsNative
         
         /// Check that a JavaScript object matches a subset of the properties of an object.
         member _.toMatchObject (object: 'T) : 'Return = jsNative
-
-        /// Ensures that a value matches the most recent snapshot.
-        member _.toMatchSnapshot (?propertyMatchers, ?hint) : 'Return = jsNative
-
-        /// Ensures that a value matches the most recent snapshot.
-        ///
-        /// You can provide an optional propertyMatchers object argument, which has 
-        /// asymmetric matchers as values of a subset of expected properties, if the 
-        /// received value will be an object instance. It is like toMatchObject with 
-        /// flexible criteria for a subset of properties, followed by a snapshot test 
-        /// as exact criteria for the rest of the properties.
-        ///
-        /// Jest adds the inlineSnapshot string argument to the matcher in the test 
-        /// file (instead of an external .snap file) the first time that the test runs.
-        member _.toMatchInlineSnapshot inlineSnapshot : 'Return = jsNative
-        /// Ensures that a value matches the most recent snapshot.
-        ///
-        /// You can provide an optional propertyMatchers object argument, which has 
-        /// asymmetric matchers as values of a subset of expected properties, if the 
-        /// received value will be an object instance. It is like toMatchObject with 
-        /// flexible criteria for a subset of properties, followed by a snapshot test 
-        /// as exact criteria for the rest of the properties.
-        ///
-        /// Jest adds the inlineSnapshot string argument to the matcher in the test file 
-        /// (instead of an external .snap file) the first time that the test runs.
-        [<Emit("$0($2, $1)")>]
-        member _.toMatchInlineSnapshot (inlineSnapshot, propertyMatchers) : 'Return = jsNative
         
         /// Check that an object has the same types as well as structure.
         ///
@@ -299,23 +240,6 @@ module Expect =
         /// Check that a function throws when called.
         member _.toThrow (err: string) : 'Return = jsNative
 
-        /// Check that a function throws an error matching the most recent snapshot 
-        /// when it is called.
-        ///
-        /// You can provide an optional hint string argument that is appended to the 
-        /// test name. Although Jest always appends a number at the end of a snapshot 
-        /// name, short descriptive hints might be more useful than numbers to 
-        /// differentiate multiple snapshots in a single it or test block. Jest sorts 
-        /// snapshots by name in the corresponding .snap file.
-        member _.toThrowErrorMatchingSnapshot (?hint) : 'Return = jsNative
-
-        /// Check that a function throws an error matching the most recent snapshot 
-        /// when it is called.
-        ///
-        /// Jest adds the inlineSnapshot string argument to the matcher in the test 
-        /// file (instead of an external .snap file) the first time that the test runs.
-        member _.toThrowErrorMatchingInlineSnapshot (inlineSnapshot) : 'Return = jsNative
-
     [<NoComparison>]
     [<NoEquality>]
     [<Global("expect")>]
@@ -338,10 +262,8 @@ module Expect =
     [<NoComparison>]
     [<NoEquality>]
     [<Global("expect")>]
-    type expectedHtml<'Return> =
+    type unexpectedHtml<'Return> =
         inherit expected<'Return>
-        /// Inverts the pass/fail status of a matcher.
-        member _.not : expectedHtml<'Return> = jsNative
 
         /// Check whether the given element is checked. 
         ///
@@ -512,6 +434,27 @@ module Expect =
     [<NoComparison>]
     [<NoEquality>]
     [<Global("expect")>]
+    type expectedHtml<'Return> =
+        inherit unexpectedHtml<'Return>
+        /// Inverts the pass/fail status of a matcher.
+        member _.not : expectedHtml<'Return> = jsNative
+
+        /// Ensures that a value matches the most recent snapshot.
+        member _.toMatchSnapshot (?propertyMatchers, ?hint) : 'Return = jsNative
+
+        /// Check that a function throws an error matching the most recent snapshot 
+        /// when it is called.
+        ///
+        /// You can provide an optional hint string argument that is appended to the 
+        /// test name. Although Jest always appends a number at the end of a snapshot 
+        /// name, short descriptive hints might be more useful than numbers to 
+        /// differentiate multiple snapshots in a single it or test block. Jest sorts 
+        /// snapshots by name in the corresponding .snap file.
+        member _.toThrowErrorMatchingSnapshot (?hint) : 'Return = jsNative
+
+    [<NoComparison>]
+    [<NoEquality>]
+    [<Global("expect")>]
     type expectedHtmlPromise =
         /// Inverts the pass/fail status of a matcher.
         member _.not : expectedHtmlPromise = jsNative
@@ -527,3 +470,101 @@ module Expect =
         /// matcher can be chained. If the promise is fulfilled 
         /// the assertion fails.
         member _.resolves : expectedHtml<JS.Promise<unit>> = jsNative
+
+    [<NoComparison>]
+    [<NoEquality>]
+    [<Global("expect")>]
+    type unexpectedNumber<'Return> =
+        inherit expected<'Return>
+
+        /// Compare floating point numbers for approximate equality.
+        member _.toBeCloseTo(number: float, ?numDigits: int) : 'Return = jsNative
+
+        /// To compare received > expected for int or floats.
+        member _.toBeGreaterThan (number: float) : 'Return = jsNative
+        /// To compare received > expected for int or floats.
+        member _.toBeGreaterThan (number: int) : 'Return = jsNative
+
+        /// To compare received >= expected for int or floats.
+        member _.toBeGreaterThanOrEqual (number: float) : 'Return = jsNative
+        /// To compare received >= expected for int or floats.
+        member _.toBeGreaterThanOrEqual (number: int) : 'Return = jsNative
+
+        /// To compare received < expected for int or floats.
+        member _.toBeLessThan (number: float) : 'Return = jsNative
+        /// To compare received < expected for int or floats.
+        member _.toBeLessThan (number: int) : 'Return = jsNative
+
+        /// To compare received <= expected for int or floats.
+        member _.toBeLessThanOrEqual (number: float) : 'Return = jsNative
+        /// To compare received <= expected for int or floats.
+        member _.toBeLessThanOrEqual (number: int) : 'Return = jsNative
+
+    [<NoComparison>]
+    [<NoEquality>]
+    [<Global("expect")>]
+    type expectedNumber<'Return> =
+        inherit unexpectedNumber<'Return>
+        /// Inverts the pass/fail status of a matcher.
+        member _.not : expectedNumber<'Return> = jsNative
+
+    [<NoComparison>]
+    [<NoEquality>]
+    [<Global("expect")>]
+    type expectedNumberPromise =
+        /// Inverts the pass/fail status of a matcher.
+        member _.not : expectedNumberPromise = jsNative
+
+        /// Unwrap the value of a fulfilled promise so any other 
+        /// matcher can be chained. If the promise is rejected 
+        /// the assertion fails.
+        ///
+        /// This is automatically applied for `Async<'T>` values.
+        member _.rejects : expectedNumber<JS.Promise<unit>> = jsNative
+
+        /// Unwrap the reason of a rejected promise so any other 
+        /// matcher can be chained. If the promise is fulfilled 
+        /// the assertion fails.
+        member _.resolves : expectedNumber<JS.Promise<unit>> = jsNative
+
+    [<NoComparison>]
+    [<NoEquality>]
+    [<Global("expect")>]
+    type unexpectedString<'Return> =
+        inherit expected<'Return>
+
+        /// Check that a string matches a string or regular expression.
+        ///
+        /// When using a string it is the same as doing "mystring".Contains(value)
+        member _.toMatch (value: string) : 'Return = jsNative
+        /// Check that a string matches a string or regular expression.
+        ///
+        /// When using a string it is the same as doing "mystring".Contains(value)
+        member _.toMatch (value: Regex) : 'Return = jsNative
+
+    [<NoComparison>]
+    [<NoEquality>]
+    [<Global("expect")>]
+    type expectedString<'Return> =
+        inherit unexpectedString<'Return>
+        /// Inverts the pass/fail status of a matcher.
+        member _.not : expectedString<'Return> = jsNative
+
+    [<NoComparison>]
+    [<NoEquality>]
+    [<Global("expect")>]
+    type expectedStringPromise =
+        /// Inverts the pass/fail status of a matcher.
+        member _.not : expectedStringPromise = jsNative
+
+        /// Unwrap the value of a fulfilled promise so any other 
+        /// matcher can be chained. If the promise is rejected 
+        /// the assertion fails.
+        ///
+        /// This is automatically applied for `Async<'T>` values.
+        member _.rejects : expectedString<JS.Promise<unit>> = jsNative
+
+        /// Unwrap the reason of a rejected promise so any other 
+        /// matcher can be chained. If the promise is fulfilled 
+        /// the assertion fails.
+        member _.resolves : expectedString<JS.Promise<unit>> = jsNative

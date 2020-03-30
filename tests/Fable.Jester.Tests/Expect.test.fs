@@ -47,7 +47,7 @@ Jest.describe("expect tests", (fun () ->
         Jest.expect(actual).toEqual(expect.anything())
     ))
     Jest.test("not anything option values", (fun () ->
-        let actual = None
+        let actual : obj option = None
 
         Jest.expect(actual).not.toEqual(expect.anything())
     ))

@@ -51,6 +51,10 @@ type RTL =
         Bindings.prettyDOMImport.invoke element
 
     /// Prints out readable representation of the DOM tree of a node.
+    static member prettyDOM (node: Node) =
+        Bindings.prettyDOMImport.invoke (unbox<HTMLElement> node)
+
+    /// Prints out readable representation of the DOM tree of a node.
     static member prettyDOM (element: HTMLElement, maxLength: int) =
         Bindings.prettyDOMImport.invoke(element, maxLength = maxLength)
 

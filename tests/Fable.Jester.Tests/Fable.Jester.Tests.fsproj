@@ -4,6 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Snapshot.test.fs" />
+    <None Include="Snapshot.test.js.snap">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Matchers.test.fs" />
     <Compile Include="Expect.test.fs" />
     <Compile Include="Describe.Only.test.fs" />
@@ -14,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fable.Jester\Fable.Jester.fsproj" />
+    <ProjectReference Include="..\..\src\Fable.ReactTestingLibrary\Fable.ReactTestingLibrary.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
