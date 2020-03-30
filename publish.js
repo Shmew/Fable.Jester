@@ -1,6 +1,6 @@
 var ghPages = require("gh-pages");
 
-var packageUrl = "https://github.com/Shmew/Fable.Jest.git";
+var packageUrl = "https://github.com/Shmew/Fable.Jester.git";
 
 console.log("Publishing to ", packageUrl);
 

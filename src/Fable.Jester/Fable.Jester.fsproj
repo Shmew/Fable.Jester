@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Props\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Expect.fs" />
+    <Compile Include="Jest.fs" />
+    <None Include="paket.references" />
+    <None Include="paket.template" />
+  </ItemGroup>
+  <PropertyGroup>
+    <NpmDependencies>
+      <NpmPackage Name="jest" Version="gte 25 lt 26" ResolutionStrategy="max"  DevDependency="true"/>
+      <NpmPackage Name="@testing-library/jest-dom" Version="gte 5 lt 6" ResolutionStrategy="max"  DevDependency="true"/>
+    </NpmDependencies>
+  </PropertyGroup>
+
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

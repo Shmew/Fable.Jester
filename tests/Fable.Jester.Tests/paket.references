@@ -1,0 +1,5 @@
+﻿group Jest.Tests
+    Fable.Browser.Dom
+    Fable.Core
+    Fable.Promise
+    FSharp.Core

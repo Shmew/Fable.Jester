@@ -15,8 +15,6 @@ open Fake.IO
 open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
 open Fake.Tools
-open Fantomas.FakeHelpers
-open Fantomas.FormatConfig
 open Tools.Linting
 open Tools.Web
 open System
@@ -24,7 +22,7 @@ open System.IO
 
 // The name of the project
 // (used by attributes in AssemblyInfo, name of a NuGet package and directory in 'src')
-let project = "Fable.Jest"
+let project = "Fable.Jester"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
@@ -34,19 +32,15 @@ let summary = "Fable bindings for jest and friends"
 let author = "Cody Johnson"
 
 // File system information
-let solutionFile = "Fable.Jest.sln"
+let solutionFile = "Fable.Jester.sln"
 
 // Github repo
-let repo = "https://github.com/Shmew/Fable.Jest"
-
-// Files to skip Fantomas formatting
-let excludeFantomas =
-    [ ]
+let repo = "https://github.com/Shmew/Fable.Jester"
 
 // Files that have bindings to other languages where name linting needs to be more relaxed.
 let relaxedNameLinting = 
-    [ __SOURCE_DIRECTORY__ @@ "src/Fable.Jest/**/*.fs"
-      __SOURCE_DIRECTORY__ @@ "src/Fable.Jest/*.fs" ]
+    [ __SOURCE_DIRECTORY__ @@ "src/Fable.Jester/*.fs"
+      __SOURCE_DIRECTORY__ @@ "src/Fable.ReactTestingLibrary/*.fs" ]
 
 // Read additional information from the release notes document
 let release = ReleaseNotes.load (__SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md")
@@ -296,20 +290,7 @@ Target.create "PublishDotNet" <| fun _ ->
     |> Seq.iter (fun (l,p) -> l |> Seq.iter (runPublish p))
 
 // --------------------------------------------------------------------------------------
-// Lint and format source code to ensure consistency
-
-Target.create "Format" <| fun _ ->
-     let config =
-         { FormatConfig.Default with
-             PageWidth = 120
-             SpaceBeforeColon = false }
- 
-     fsSrcAndTest
-     |> (fun src -> List.fold foldExcludeGlobs src excludeFantomas)
-     |> List.ofSeq
-     |> formatCode config
-     |> Async.RunSynchronously
-     |> printfn "Formatted files: %A"
+// Lint source code
 
 Target.create "Lint" <| fun _ ->
     fsSrcAndTest
@@ -378,7 +359,7 @@ Target.create "PackageJson" <| fun _ ->
                 |> Some
             Bugs = 
                 { Json.BugsValue.Url = 
-                    @"https://github.com/Shmew/Fable.Jest/issues/new/choose" |> Some } |> Some
+                    @"https://github.com/Shmew/Fable.Jester/issues/new/choose" |> Some } |> Some
             License = "MIT" |> Some
             Author = author |> Some
             Private = true |> Some }
@@ -496,10 +477,8 @@ Target.create "Publish" ignore
   ==> "CopyBinaries"
 
 "Restore" ==> "Lint"
-"Restore" ==> "Format"
 
-"Format"
-  ?=> "Lint" 
+"Lint" 
   ?=> "Build"
   ?=> "RunTests"
   ?=> "CleanDocs"

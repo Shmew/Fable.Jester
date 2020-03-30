@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Queries\AltText.test.fs" />
+    <Compile Include="Queries\DisplayValue.test.fs" />
+    <Compile Include="Queries\LabelText.test.fs" />
+    <Compile Include="Queries\PlaceholderText.test.fs" />
+    <Compile Include="Queries\Role.test.fs" />
+    <Compile Include="Queries\TestId.test.fs" />
+    <Compile Include="Queries\Text.test.fs" />
+    <Compile Include="Queries\Title.test.fs" />
+    <Compile Include="CreateEvent.test.fs" />
+    <Compile Include="FireEvent.test.fs" />
+    <Compile Include="UserEvent.test.fs" />
+    <None Include="paket.references" />
+    <None Include="splitter.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Fable.Jester\Fable.Jester.fsproj" />
+    <ProjectReference Include="..\..\src\Fable.ReactTestingLibrary\Fable.ReactTestingLibrary.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

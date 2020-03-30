@@ -1,4 +1,0 @@
-﻿group Jest.Tests
-    Fable.Core
-    Fable.Promise
-    FSharp.Core

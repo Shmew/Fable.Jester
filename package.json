@@ -2,15 +2,15 @@
   "name": "fable-jest",
   "version": "0.0.1",
   "description": "Fable bindings for jest and friends",
-  "homepage": "https://github.com/Shmew/Fable.Jest",
+  "homepage": "https://github.com/Shmew/Fable.Jester",
   "bugs": {
-    "url": "https://github.com/Shmew/Fable.Jest/issues/new/choose"
+    "url": "https://github.com/Shmew/Fable.Jester/issues/new/choose"
   },
   "license": "MIT",
   "author": "Cody Johnson",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Shmew/Fable.Jest"
+    "url": "https://github.com/Shmew/Fable.Jester"
   },
   "scripts": {
     "build": "webpack -p",

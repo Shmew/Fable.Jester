@@ -6,6 +6,7 @@ group Jest
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
+    nuget Fable.Browser.Dom ~> 1.0
     nuget Fable.Core ~> 3.1
     nuget Fable.Promise ~> 2.0
     nuget FSharp.Core ~> 4.7
@@ -14,6 +15,7 @@ group Jest.Tests
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
+    nuget Fable.Browser.Dom ~> 1.0
     nuget Fable.Core ~> 3.1
     nuget Fable.Promise ~> 2.0
     nuget FSharp.Core ~> 4.7
@@ -22,7 +24,6 @@ group RTL
 	source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Dom ~> 1.0
     nuget Fable.Browser.Event ~> 1.0
     nuget Fable.Core ~> 3.1
     nuget Fable.Promise ~> 2.0
@@ -77,7 +78,6 @@ group FakeBuild
 	nuget Fake.Core.ReleaseNotes ~> 5
 	nuget Fake.DotNet.AssemblyInfoFile ~> 5
 	nuget Fake.DotNet.Cli ~> 5
-	nuget Fake.DotNet.FSFormatting ~> 5
 	nuget Fake.DotNet.MSBuild ~> 5
 	nuget Fake.DotNet.Paket ~> 5
 	nuget Fake.IO.FileSystem ~> 5
@@ -86,4 +86,3 @@ group FakeBuild
 	nuget Fake.Tools.Git ~> 5
     nuget FSharp.Json ~> 0.3
 	nuget FSharpLint.Core ~> 0.12
-	nuget Fantomas ~> 3.0.0

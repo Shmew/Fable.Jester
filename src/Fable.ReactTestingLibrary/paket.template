@@ -1,0 +1,12 @@
+﻿type project
+licenseExpression https://github.com/Shmew/Fable.Jester/blob/master/LICENSE
+authors Cody Johnson
+description
+    Fable bindings for react-testing-library
+language
+    F#
+tags
+    fsharp, fable, react, jest, mocha, testing, react, testing-library, rtl
+files
+    *.fsproj ==> fable
+    *.fs ==> fable
