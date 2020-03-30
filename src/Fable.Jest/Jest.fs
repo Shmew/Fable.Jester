@@ -10,69 +10,20 @@ module JestInternal =
     [<Global("expect")>]
     let expectPromise (value: JS.Promise<'T>) : expectedPromise = jsNative
 
-[<Global>]
-type jest =
-    /// Instructs Jest to use fake versions of the standard timer 
-    /// functions (setTimeout, setInterval, clearTimeout, 
-    /// clearInterval, nextTick, setImmediate and clearImmediate).
-    member _.useFakeTimers () : unit = jsNative
+type Jest =
+    /// Executes only the macro task queue (i.e. all tasks queued by 
+    /// setTimeout() or setInterval() and setImmediate()).
+    [<Emit("jest.advanceTimersByTime($0)")>]
+    static member advanceTimersByTime (msToRun: int) : unit = jsNative
     
-    /// Exhausts the micro-task queue (usually interfaced in node 
-    /// via process.nextTick).
-    member _.runAllTicks () :  unit = jsNative
-
-    /// Exhausts both the macro-task queue (i.e., all tasks queued by 
-    /// setTimeout(), setInterval(), and setImmediate()) and the 
-    /// micro-task queue (usually interfaced in node via process.nextTick).
-    member _.runAllTimers () : unit = jsNative
-
-    /// Exhausts all tasks queued by setImmediate().
-    member _.runAllImmediates () : unit = jsNative
-
-    /// Executes only the macro task queue (i.e. all tasks queued by 
-    /// setTimeout() or setInterval() and setImmediate()).
-    member _.advanceTimersByTime (msToRun: int) : unit = jsNative
-    /// Executes only the macro task queue (i.e. all tasks queued by 
-    /// setTimeout() or setInterval() and setImmediate()).
-    member _.runTimersToTime (msToRun: int) : unit = jsNative
-        
-    /// Executes only the macro-tasks that are currently pending (i.e., 
-    /// only the tasks that have been queued by setTimeout() or 
-    /// setInterval() up to this point). 
-    ///
-    /// If any of the currently pending macro-tasks schedule new 
-    /// macro-tasks, those new tasks will not be executed by this call.
-    member _.runOnlyPendingTimers () : unit = jsNative
-
     /// Advances all timers by the needed milliseconds so that only 
     /// the next timeouts/intervals will run.
     ///
     /// Optionally, you can provide steps, so it will run steps 
     /// amount of next timeouts/intervals.
-    member _.advanceTimersToNextTimer (?steps: int) : unit = jsNative
+    [<Emit("jest.advanceTimersToNextTimer($0...)")>]
+    static member advanceTimersToNextTimer (?steps: int) : unit = jsNative
 
-    /// Removes any pending timers from the timer system.
-    member _.clearAllTimers () : unit = jsNative
-
-    /// Returns the number of fake timers still left to run.
-    member _.getTimerCount () : unit = jsNative
-
-    /// Set the default timeout interval for tests and before/after 
-    /// hooks in milliseconds.
-    ///
-    /// The default timeout interval is 5 seconds if this method is not called.
-    ///
-    /// If you want to set the timeout for all test files, a good place to 
-    /// do this is in setupFilesAfterEnv.
-    member _.setTimeout (timeout: int) : unit = jsNative
-
-    /// Runs failed tests n-times until they pass or until the max number 
-    /// of retries is exhausted. 
-    ///
-    /// ** This only works with jest-circus. **
-    member _.retryTimes (count: int) : unit = jsNative
-
-type Jest =
     /// Runs a function after all the tests in this file have completed. 
     /// If the function returns a promise or is a generator, Jest waits 
     /// for that promise to resolve before continuing.
@@ -117,6 +68,10 @@ type Jest =
     [<Global>]
     static member beforeEach (fn: unit -> unit, ?timeout: int) : unit = jsNative
 
+    /// Removes any pending timers from the timer system.
+    [<Emit("jest.clearAllTimers()")>]
+    static member clearAllTimers () : unit = jsNative
+
     /// Creates a block that groups together several related tests.
     [<Global>]
     static member describe (name: string, fn: unit -> unit) : unit = jsNative
@@ -145,11 +100,6 @@ type Jest =
     /// failing tests will look strange.
     [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
     static member inline expect (value: JS.Promise<'a []>) : expectedPromise = jsNative
-        //promise { 
-        //    let! v = value
-        //    return ResizeArray v
-        //}
-        //|> fun prom -> JestInternal.expectPromise(prom)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -158,11 +108,7 @@ type Jest =
     /// failing tests will look strange.
     [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
     static member expect (value: JS.Promise<'a list>) : expectedPromise = jsNative
-        //promise { 
-        //    let! v = value
-        //    return ResizeArray v
-        //}
-        //|> fun prom -> JestInternal.expectPromise(prom)
+
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -180,7 +126,63 @@ type Jest =
     /// failing tests will look strange.
     static member expect (value: Async<'a list>) = 
         Jest.expect(Async.StartAsPromise(value)).resolves
+
+    /// Returns the number of fake timers still left to run.
+    [<Emit("jest.getTimerCount()")>]
+    static member getTimerCount () : unit = jsNative
+
+    /// Runs failed tests n-times until they pass or until the max number 
+    /// of retries is exhausted. 
+    ///
+    /// ** This only works with jest-circus. **
+    [<Emit("jest.retryTimes($0)")>]
+    static member retryTimes (count: int) : unit = jsNative
+
+    /// Exhausts all tasks queued by setImmediate().
+    [<Emit("jest.runAllImmediates()")>]
+    static member runAllImmediates () : unit = jsNative
     
+    /// Exhausts the micro-task queue (usually interfaced in node 
+    /// via process.nextTick).
+    [<Emit("jest.runAllTicks()")>]
+    static member runAllTicks () :  unit = jsNative
+    
+    /// Exhausts both the macro-task queue (i.e., all tasks queued by 
+    /// setTimeout(), setInterval(), and setImmediate()) and the 
+    /// micro-task queue (usually interfaced in node via process.nextTick).
+    [<Emit("jest.runAllTimers()")>]
+    static member runAllTimers () : unit = jsNative
+    
+    /// Executes only the macro-tasks that are currently pending (i.e., 
+    /// only the tasks that have been queued by setTimeout() or 
+    /// setInterval() up to this point). 
+    ///
+    /// If any of the currently pending macro-tasks schedule new 
+    /// macro-tasks, those new tasks will not be executed by this call.
+    [<Emit("jest.runOnlyPendingTimers($0)")>]
+    static member runOnlyPendingTimers () : unit = jsNative
+    
+    /// Executes only the macro task queue (i.e. all tasks queued by 
+    /// setTimeout() or setInterval() and setImmediate()).
+    [<Emit("jest.runTimersToTime($0)")>]
+    static member runTimersToTime (msToRun: int) : unit = jsNative
+
+    /// Set the default timeout interval for tests and before/after 
+    /// hooks in milliseconds.
+    ///
+    /// The default timeout interval is 5 seconds if this method is not called.
+    ///
+    /// If you want to set the timeout for all test files, a good place to 
+    /// do this is in setupFilesAfterEnv.
+    [<Emit("jest.setTimeout($0)")>]
+    static member setTimeout (timeout: int) : unit = jsNative
+    
+    /// Instructs Jest to use fake versions of the standard timer 
+    /// functions (setTimeout, setInterval, clearTimeout, 
+    /// clearInterval, nextTick, setImmediate and clearImmediate).
+    [<Emit("jest.useFakeTimers()")>]
+    static member useFakeTimers () : unit = jsNative
+
 [<RequireQualifiedAccess>]
 module Jest = 
     /// Creates a block that groups together several related tests.
