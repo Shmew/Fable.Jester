@@ -2,6 +2,14 @@
 
 open Fable.Jest
 
+[<RequireQualifiedAccess>]
+module Async =
+    let map f computation =
+        async {
+            let! res = computation
+            return f res
+        }
+
 let myPromise = promise { return 1 + 1 }
     
 let myAsync = async { return 1 + 1 }
@@ -15,14 +23,16 @@ Jest.describe("can run basic tests", (fun () ->
         Jest.expect(myPromise).resolves.toEqual(2)
     ))
     Jest.test("running a promise test", promise {
-        return! Jest.expect(myPromise).resolves.toEqual(2)
+        do! Jest.expect(myPromise).resolves.toEqual(2)
+        do! Jest.expect(myPromise |> Promise.map ((+) 1)).resolves.toEqual(3)
     })
 
     Jest.test("running an async test", (fun () ->
         Jest.expect(myAsync).toEqual(2)
     ))
     Jest.test("running an async test", async {
-        return! Jest.expect(myAsync).toEqual(2)
+        do! Jest.expect(myAsync).toEqual(2)
+        do! Jest.expect(myAsync |> Async.map ((+) 1)).toEqual(3)
     })
 ))
 

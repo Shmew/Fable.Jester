@@ -277,7 +277,7 @@ module JestExtensions =
         /// Runs a test.
         ///
         /// The default timeout is 5 seconds.
-        static member test (name: string, prom: Async<unit>, ?timeout: int) : unit =
+        static member inline test (name: string, prom: Async<unit>, ?timeout: int) : unit =
             match timeout with
             | Some timeout -> Jest.test(name, Async.StartAsPromise prom, timeout)
             | None -> Jest.test(name, Async.StartAsPromise prom)
