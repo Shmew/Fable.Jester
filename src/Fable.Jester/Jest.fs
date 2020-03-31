@@ -160,6 +160,7 @@ type Jest =
     /// failing tests will look strange.
     static member inline expect (value: Async<HTMLElement>) = 
         Jest.expect(Async.StartAsPromise value).resolves
+
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 

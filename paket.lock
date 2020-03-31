@@ -954,6 +954,14 @@ NUGET
     Fable.Promise (2.0)
       Fable.Core (>= 3.0) - restriction: >= netstandard2.0
       FSharp.Core (>= 4.5.2) - restriction: >= netstandard2.0
+    Fable.React (5.3.6) - restriction: >= netstandard2.0
+      Fable.Browser.Dom (>= 1.0) - restriction: >= netstandard2.0
+      Fable.Core (>= 3.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.7) - restriction: >= netstandard2.0
+    Feliz (0.74)
+      Fable.Core (>= 3.1.3) - restriction: >= netstandard2.0
+      Fable.React (>= 5.3.2) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.7) - restriction: >= netstandard2.0
     FSharp.Core (4.7.1)
 
 GROUP Jest.SnapshotLoader

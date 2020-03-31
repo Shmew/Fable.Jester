@@ -223,7 +223,8 @@ Jest.describe("matcher tests", (fun () ->
     ))
 
     let myFailingFunction () =
-        failwith "uh oh!"
+        if 1 = 2 then 1
+        else failwith "uh oh!"
 
     let myNotFailingFunction () = "hi!"
 

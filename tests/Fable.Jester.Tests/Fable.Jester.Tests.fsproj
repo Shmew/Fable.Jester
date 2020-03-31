@@ -8,6 +8,7 @@
     <None Include="Snapshot.test.js.snap">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="JestDom.test.fs" />
     <Compile Include="Matchers.test.fs" />
     <Compile Include="Expect.test.fs" />
     <Compile Include="Describe.Only.test.fs" />

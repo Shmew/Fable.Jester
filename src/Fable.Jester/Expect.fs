@@ -2,6 +2,7 @@
 
 open Browser.Types
 open Fable.Core
+open Feliz
 open System
 open System.Text.RegularExpressions
 
@@ -355,16 +356,35 @@ module Expect =
         ///
         /// Note that this matcher can *only* be invoked on a form or fieldset element.
         member _.toHaveFormValues (expectedValues: obj) : 'Return = jsNative
+        /// Check if a form or fieldset contains form controls for each given name, and having the specified value.
+        ///
+        /// Note that this matcher can *only* be invoked on a form or fieldset element.
+        [<Emit("$0.toHaveFormValues(Object.fromEntries(Array.from($1)))")>]
+        member _.toHaveFormValues (expectedValues: (string * obj) list) : 'Return = jsNative
+        /// Check if a form or fieldset contains form controls for each given name, and having the specified value.
+        ///
+        /// Note that this matcher can *only* be invoked on a form or fieldset element.
+        [<Emit("$0.toHaveFormValues(Object.fromEntries(Array.from($1)))")>]
+        member _.toHaveFormValues (expectedValues: (string * obj) []) : 'Return = jsNative
 
         /// Check if a certain element has some specific css properties with specific values applied. 
         /// 
         /// It matches only if the element has all the expected properties applied, not just some of them.
         member _.toHaveStyle (css: obj) : 'Return = jsNative
-
         /// Check if a certain element has some specific css properties with specific values applied. 
         /// 
         /// It matches only if the element has all the expected properties applied, not just some of them.
         member _.toHaveStyle (css: string) : 'Return = jsNative
+        /// Check if a certain element has some specific css properties with specific values applied. 
+        /// 
+        /// It matches only if the element has all the expected properties applied, not just some of them.
+        [<Emit("$0.toHaveStyle(Object.fromEntries([$1]))")>]
+        member _.toHaveStyle (css: IStyleAttribute) : 'Return = jsNative
+        /// Check if a certain element has some specific css properties with specific values applied. 
+        /// 
+        /// It matches only if the element has all the expected properties applied, not just some of them.
+        [<Emit("$0.toHaveStyle(Object.fromEntries(Array.from($1)))")>]
+        member _.toHaveStyle (css: IStyleAttribute list) : 'Return = jsNative
 
         /// Check whether the given element has a text content or not.
         /// 
@@ -441,16 +461,6 @@ module Expect =
 
         /// Ensures that a value matches the most recent snapshot.
         member _.toMatchSnapshot (?propertyMatchers, ?hint) : 'Return = jsNative
-
-        /// Check that a function throws an error matching the most recent snapshot 
-        /// when it is called.
-        ///
-        /// You can provide an optional hint string argument that is appended to the 
-        /// test name. Although Jest always appends a number at the end of a snapshot 
-        /// name, short descriptive hints might be more useful than numbers to 
-        /// differentiate multiple snapshots in a single it or test block. Jest sorts 
-        /// snapshots by name in the corresponding .snap file.
-        member _.toThrowErrorMatchingSnapshot (?hint) : 'Return = jsNative
 
     [<NoComparison>]
     [<NoEquality>]
