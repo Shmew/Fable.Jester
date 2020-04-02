@@ -5,16 +5,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="Props\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="Expect.fs" />
     <Compile Include="Jest.fs" />
     <None Include="paket.references" />
     <None Include="paket.template" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Fable.Jester.SnapshotLoader\Fable.Jester.SnapshotLoader.fsproj" />
   </ItemGroup>
@@ -24,6 +19,5 @@
       <NpmPackage Name="@testing-library/jest-dom" Version="gte 5 lt 6" ResolutionStrategy="max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

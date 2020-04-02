@@ -38,30 +38,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{55637037
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "tools", "tools\tools.fsproj", "{E03A3045-EEAB-4616-B0D8-A50A1B75F72B}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "App", "docs\App.fsproj", "{0A840E11-9EE5-4088-ADA9-D01DABCBF57B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{CABBED80-2F75-4DFE-8F77-7F7FDFDC8008}"
-	ProjectSection(SolutionItems) = preProject
-		public\github-gist.css = public\github-gist.css
-		public\index.html = public\index.html
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReactTestingLibrary", "ReactTestingLibrary", "{C3F9583A-523B-4835-B6BC-CD8FFD2178E3}"
-	ProjectSection(SolutionItems) = preProject
-		public\ReactTestingLibrary\Installation.md = public\ReactTestingLibrary\Installation.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{7F29BFE8-02B3-4763-838C-3D8228334B4B}"
 	ProjectSection(SolutionItems) = preProject
 		.yarnrc = .yarnrc
 		package.json = package.json
 		publish.js = publish.js
-		webpack.config.js = webpack.config.js
 	EndProjectSection
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.ReactTestingLibrary", "src\Fable.ReactTestingLibrary\Fable.ReactTestingLibrary.fsproj", "{3211E1F1-10C7-4AA3-B951-8DA251755B91}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DDDBC9E4-66AF-4445-A7D6-7B93647ABB58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{27F9F1A6-C6B4-4539-B013-8549B4A6E1B5}"
 EndProject
@@ -73,6 +57,24 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jester", "src\Fable.J
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.Jester.SnapshotLoader", "src\Fable.Jester.SnapshotLoader\Fable.Jester.SnapshotLoader.fsproj", "{55F1CB4A-F19C-41F3-9A49-DB7675C88A70}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}"
+	ProjectSection(SolutionItems) = preProject
+		docs\acknowledgment.md = docs\acknowledgment.md
+		docs\contributing.md = docs\contributing.md
+		docs\index.html = docs\index.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "installation", "installation", "{BE0829CD-A553-4C7B-AF61-146B1732B44E}"
+	ProjectSection(SolutionItems) = preProject
+		docs\installation\jest.md = docs\installation\jest.md
+		docs\installation\react-testing-library.md = docs\installation\react-testing-library.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{0B2ED05A-CDCC-459C-A539-74B51EA43C4C}"
+	ProjectSection(SolutionItems) = preProject
+		docs\assets\website.css = docs\assets\website.css
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,10 +85,6 @@ Global
 		{E03A3045-EEAB-4616-B0D8-A50A1B75F72B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E03A3045-EEAB-4616-B0D8-A50A1B75F72B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E03A3045-EEAB-4616-B0D8-A50A1B75F72B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A840E11-9EE5-4088-ADA9-D01DABCBF57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A840E11-9EE5-4088-ADA9-D01DABCBF57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A840E11-9EE5-4088-ADA9-D01DABCBF57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A840E11-9EE5-4088-ADA9-D01DABCBF57B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3211E1F1-10C7-4AA3-B951-8DA251755B91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3211E1F1-10C7-4AA3-B951-8DA251755B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3211E1F1-10C7-4AA3-B951-8DA251755B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -113,10 +111,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E03A3045-EEAB-4616-B0D8-A50A1B75F72B} = {55637037-300B-4FA5-8D14-B2CECCCD4B0D}
-		{C3F9583A-523B-4835-B6BC-CD8FFD2178E3} = {CABBED80-2F75-4DFE-8F77-7F7FDFDC8008}
-		{DDDBC9E4-66AF-4445-A7D6-7B93647ABB58} = {C3F9583A-523B-4835-B6BC-CD8FFD2178E3}
 		{062D545C-F718-4DFA-85B6-0860B4D827C1} = {27F9F1A6-C6B4-4539-B013-8549B4A6E1B5}
 		{3280C17D-521D-425D-83FD-C7DB65AFDA84} = {27F9F1A6-C6B4-4539-B013-8549B4A6E1B5}
+		{BE0829CD-A553-4C7B-AF61-146B1732B44E} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
+		{0B2ED05A-CDCC-459C-A539-74B51EA43C4C} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96DAE6A9-B1CC-4FF7-B08C-D5FBFD55B385}

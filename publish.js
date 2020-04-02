@@ -4,7 +4,7 @@ var packageUrl = "https://github.com/Shmew/Fable.Jester.git";
 
 console.log("Publishing to ", packageUrl);
 
-ghPages.publish("public", {
+ghPages.publish("docs", {
     repo: packageUrl
 }, function (e) {
     if (e === undefined) {

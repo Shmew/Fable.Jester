@@ -39,8 +39,7 @@ let repo = "https://github.com/Shmew/Fable.Jester"
 
 // Files that have bindings to other languages where name linting needs to be more relaxed.
 let relaxedNameLinting = 
-    [ __SOURCE_DIRECTORY__ @@ "src/Fable.Jester/*.fs"
-      __SOURCE_DIRECTORY__ @@ "src/Fable.ReactTestingLibrary/*.fs" ]
+    [ __SOURCE_DIRECTORY__ @@ "src/Fable.*/*.fs" ]
 
 // Read additional information from the release notes document
 let release = ReleaseNotes.load (__SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md")
@@ -58,9 +57,9 @@ let srcGlob    = __SOURCE_DIRECTORY__ @@ "src/**/*.??proj"
 let fsSrcGlob  = __SOURCE_DIRECTORY__ @@ "src/**/*.fs"
 let fsTestGlob = __SOURCE_DIRECTORY__ @@ "tests/**/*.fs"
 let bin        = __SOURCE_DIRECTORY__ @@ "bin"
+let docs       = __SOURCE_DIRECTORY__ @@ "docs"
 let temp       = __SOURCE_DIRECTORY__ @@ "temp"
 let objFolder  = __SOURCE_DIRECTORY__ @@ "obj"
-let pub        = __SOURCE_DIRECTORY__ @@ "public"
 let dist       = __SOURCE_DIRECTORY__ @@ "dist"
 let libGlob    = __SOURCE_DIRECTORY__ @@ "src/**/*.fsproj"
 
@@ -85,11 +84,6 @@ let fsRelaxedNameLinting =
     | [h] when relaxedNameLinting.Length = 1 -> baseGlob h |> Some
     | h::t -> List.fold foldIncludeGlobs (baseGlob h) t |> Some
     | _ -> None
-
-let setCmd f args =
-    match Environment.isWindows with
-    | true -> Command.RawCommand(f, Arguments.OfArgs args)
-    | false -> Command.RawCommand("mono", Arguments.OfArgs (f::args))
 
 let configuration() =
     FakeVar.getOrDefault "configuration" "Release"
@@ -181,20 +175,16 @@ Target.create "Clean" <| fun _ ->
 
 Target.create "CleanDocs" <| fun _ ->
     let clean() =
-        !! (pub @@ "*.md")
-        ++ (pub @@ "*bundle.*")
-        ++ (pub @@ "**/README.md")
-        ++ (pub @@ "**/RELEASE_NOTES.md")
-        ++ (pub @@ "index.html")
+        !! (docs @@ "README.md")
+        ++ (docs @@ "RELEASE_NOTES.md")
         |> List.ofSeq
         |> List.iter Shell.rm
 
     TaskRunner.runWithRetries clean 10
 
 Target.create "CopyDocFiles" <| fun _ ->
-    [ pub @@ "ReactTestingLibrary/README.md", __SOURCE_DIRECTORY__ @@ "README.md"
-      pub @@ "ReactTestingLibrary/RELEASE_NOTES.md", __SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md"
-      pub @@ "index.html", __SOURCE_DIRECTORY__ @@ "docs/index.html" ]
+    [ docs @@ "README.md", __SOURCE_DIRECTORY__ @@ "README.md"
+      docs @@ "RELEASE_NOTES.md", __SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md" ]
     |> List.iter (fun (target, source) -> Shell.copyFile target source)
 
 Target.create "PrepDocs" ignore
@@ -366,38 +356,8 @@ Target.create "PackageJson" <| fun _ ->
     
     Json.setJsonPkg setValues
 
-// --------------------------------------------------------------------------------------
-// Documentation targets
-
-Target.createFinal "KillProcess" <| fun _ ->
-    Process.killAllByName "node.exe"
-    Process.killAllByName "Node.js"
-
 Target.create "Start" <| fun _ ->
-    let buildApp = async { Yarn.exec "start" id }
-    let launchBrowser =
-        let url = "http://localhost:8080"
-        async {
-            do! Async.Sleep 15000
-            try
-                if Environment.isLinux then
-                    Shell.Exec(
-                        sprintf "URL=\"%s\"; xdg-open $URL ||\
-                            sensible-browser $URL || x-www-browser $URL || gnome-open $URL" url)
-                    |> ignore
-                else Shell.Exec("open", args = url) |> ignore
-            with _ -> failwith "Opening browser failed."
-        }
-
-    Target.activateFinal "KillProcess"
-
-    [ buildApp; launchBrowser ]
-    |> Async.Parallel
-    |> Async.RunSynchronously
-    |> ignore
-
-Target.create "DemoRaw" <| fun _ ->
-    Yarn.exec "compile-demo-raw" id
+    Yarn.exec "start" id 
 
 Target.create "PublishPages" <| fun _ ->
     Yarn.exec "publish-docs" id
@@ -505,7 +465,6 @@ Target.create "Publish" ignore
 
 "All" 
   ==> "PrepDocs"
-  ==> "DemoRaw"
 
 "All" 
   ==> "PrepDocs"

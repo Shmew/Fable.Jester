@@ -1,52 +1,73 @@
-<!doctype html>
-<html style="overflow: hidden;">
-    <head>
-        <title>Fable.Jest</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
-            />
-        <link
-            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-            rel="stylesheet"
-            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-            crossorigin="anonymous">
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+            shrink-to-fit=no">
+    <title>Fable.Jester</title>
 
-        <link rel="stylesheet" href="github-gist.css" />
-    </head>
-    <body>
-        <style>
-            pre {
-                padding: 0;
-                margin-top:20px;
-                margin-bottom:20px;
+    <link rel="stylesheet"
+          href="https://unpkg.com/docute@4/dist/docute.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/docute@4/dist/docute.js"></script>
+    <script>
+        // make images work using absolute urls both in developement and when published to github
+        Vue.component("ResolvedImage", {
+            props: ["source"],
+            template: "<img :src='resolvedUrl' />",
+            computed: {
+                resolvedUrl: function () {
+                    let path = window.location.pathname;
+                    if (path.endsWith("/")) {
+                        return path.substr(0, path.length - 1) + this.source;
+                    } else {
+                        return path + this.source;
+                    }
+                }
             }
-            code { margin: 10px; }
+        });
 
-            .scrollbar {
-                max-height: 90vh;
-                overflow: auto;
-            }
-
-            *::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            *::-webkit-scrollbar-track {
-                display: none;
-            }
-
-            *::-webkit-scrollbar-thumb {
-                border-radius: 10px;
-                background: #00000000;
-                transition: background 3s;
-            }
-            *:hover::-webkit-scrollbar-thumb {
-                background: rgba(0, 209, 178, 0.54);
-            }
-        </style>
-        <div id="root">
-
-        </div>
-    </body>
+        var docs = new Docute({
+            layout: "wide",
+            target: "#root",
+            highlight: ["fsharp", "bash", "powershell", "json"],
+            cssVariables: {
+                accentColor: "hsl(171, 100%, 41%)",
+                sidebarWidth: "300px",
+                sidebarLinkActiveColor: "hsl(171, 100%, 41%)",
+                sidebarLinkArrowColor: "hsl(171, 100%, 41%)"
+            },
+            nav: [
+                { title: "GitHub Repository", link: "https://github.com/Shmew/Fable.Jester" }
+            ],
+            sidebar: [
+                {
+                    title: "Introduction",
+                    link: "/"
+                },
+                {
+                    title: "Installation",
+                    links: [
+                        { title: "Fable.Jester", link: "/installation/jest" },
+                        { title: "Fable.ReactTestingLibrary", link: "/installation/react-testing-library" }
+                    ]
+                },
+                {
+                    title: "Contributing",
+                    link: "/contributing"
+                },
+                {
+                    title: "Release Notes",
+                    link: "/RELEASE_NOTES"
+                },
+                {
+                    title: "Acknowledgment",
+                    link: "/acknowledgment"
+                }
+            ]
+        });
+    </script>
+</body>
 </html>

@@ -4,7 +4,6 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Interop.fs" />
@@ -14,13 +13,11 @@
     <None Include="paket.references" />
     <None Include="paket.template" />
   </ItemGroup>
-
   <PropertyGroup>
     <NpmDependencies>
       <NpmPackage Name="@testing-library/react" Version="gte 10 lt 11" ResolutionStrategy="max" DevDependency="true"/>
       <NpmPackage Name="@testing-library/user-event" Version="gte 10 lt 11" ResolutionStrategy="max" DevDependency="true"/>
     </NpmDependencies>
   </PropertyGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
