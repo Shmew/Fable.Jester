@@ -397,7 +397,7 @@ An element is visible if all the following conditions are met:
 * Does not have its css property opacity set to 0.
 * The parent element is also visible (and so on up to the top of the DOM tree).
 * Does not have the hidden attribute.
-* If <details /> it has the open attribute.
+* If `<details />` it has the open attribute.
 
 Signature:
 ```fsharp

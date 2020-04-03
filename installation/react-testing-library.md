@@ -18,10 +18,10 @@ npm install @testing-library/user-event --save-dev
 npm install @babel/plugin-transform-modules-commonjs --save-dev // Recommended, but not necessary
 ___
 
-yarn add jest --dev
-yarn add @testing-library/jest-dom --dev
+yarn add @testing-library/react --dev
+yarn add @testing-library/user-event --dev
 
-yarn add @babel/plugin-transform-modules-commonjs --dev// Recommended, but not necessary
+yarn add @babel/plugin-transform-modules-commonjs --dev // Recommended, but not necessary
 ```
 
 This library does not need the main package 

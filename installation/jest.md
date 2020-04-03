@@ -22,7 +22,7 @@ ___
 yarn add jest --dev
 yarn add @testing-library/jest-dom --dev
 
-yarn add @babel/plugin-transform-modules-commonjs --dev// Recommended, but not necessary
+yarn add @babel/plugin-transform-modules-commonjs --dev // Recommended, but not necessary
 yarn add prettier --dev // If you plan to use snapshot testing
 ```
 
