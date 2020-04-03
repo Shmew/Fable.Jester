@@ -11,7 +11,18 @@ module.exports = {
         ]
     },
     onCompiled() {
-        const snapshotLoader = require(path.join(testsDir, "Fable.Jester/SnapshotLoader"));
-        snapshotLoader.copySnaps(__dirname, this.outDir)
+        const fs = require('fs')
+        const findSnapshotLoader = () => {
+            const jesterDir =
+                fs
+                    .readdirSync(testsDir)
+                    .sort()
+                    .reverse()
+                    .find(item => { return item.startsWith("Fable.Jester") })
+
+            return require(path.join(testsDir, jesterDir, "SnapshotLoader"))
+        }
+
+        findSnapshotLoader().copySnaps(__dirname, this.outDir)
     }
 };
