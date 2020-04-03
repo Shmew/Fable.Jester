@@ -90,6 +90,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rtl", "rtl", "{FB9E5277-752
 		docs\rtl\rtl.md = docs\rtl\rtl.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "styles", "styles", "{80A18350-F484-458A-BAC0-64EE73830C5F}"
+	ProjectSection(SolutionItems) = preProject
+		docs\styles\website.css = docs\styles\website.css
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +136,7 @@ Global
 		{BE0829CD-A553-4C7B-AF61-146B1732B44E} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
 		{3312B9A9-80A1-4CE8-AC6F-708A2DDF2D41} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
 		{FB9E5277-7525-4AD5-92D6-DFEC55530DC2} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
+		{80A18350-F484-458A-BAC0-64EE73830C5F} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96DAE6A9-B1CC-4FF7-B08C-D5FBFD55B385}

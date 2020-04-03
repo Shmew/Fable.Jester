@@ -348,7 +348,7 @@ myElement.userEvent.click()
 
 Convenience method for using [fireEvent](#fireevent).
 
-/// Clicks element twice, depending on what element is it can have different side effects.
+Clicks element twice, depending on what element is it can have different side effects.
 
 `HTMLElement` is extended to also support these methods.
 
@@ -465,38 +465,46 @@ type waitFor:
 type mutationObserver
     /// An array of specific attribute names to be monitored. 
     ///
-    /// If this property isn't included, changes to all attributes cause mutation notifications.
+    /// If this property isn't included, changes to all attributes cause mutation 
+    /// notifications.
     attributeFiler (filter: string)
     attributeFiler (filters: string list)
 
     /// An array of specific attribute names to be monitored. 
     ///
-    /// If this property isn't included, changes to all attributes cause mutation notifications.
+    /// If this property isn't included, changes to all attributes cause mutation 
+    /// notifications.
     attributeOldValue (value: bool)
 
-    /// Set to true to watch for changes to the value of attributes on the node or nodes being monitored. 
+    /// Set to true to watch for changes to the value of attributes on the node 
+    /// or nodes being monitored. 
     ///
     /// The default value is false.
     attributes (value: bool)
     
-    /// Set to true to monitor the specified target node or subtree for changes to the character data contained within the node or nodes. 
+    /// Set to true to monitor the specified target node or subtree for changes 
+    /// to the character data contained within the node or nodes. 
     ///
     /// The default value is `false` via omission.
     characterData (value: bool)
     
-    /// Set to true to record the previous value of a node's text whenever the text changes on nodes being monitored.
+    /// Set to true to record the previous value of a node's text whenever the 
+    /// text changes on nodes being monitored.
     ///
     /// The default value is `false` via omission.
     characterDataOldValue (value: bool)
     
-    /// Set to true to monitor the target node (and, if subtree is true, its descendants) for the addition of 
+    /// Set to true to monitor the target node (and, if subtree is true, its 
+    /// descendants) for the addition of 
     /// new child nodes or removal of existing child nodes. 
     ///
     /// The default is false.
     childList (value: bool)
     
-    /// Set to true to extend monitoring to the entire subtree of nodes rooted at target. All of the other MutationObserverInit properties 
-    /// are then extended to all of the nodes in the subtree instead of applying solely to the target node. 
+    /// Set to true to extend monitoring to the entire subtree of nodes rooted 
+    /// at target. All of the other MutationObserverInit properties are then 
+    /// extended to all of the nodes in the subtree instead of applying 
+    /// solely to the target node. 
     ///
     /// The default value is false.
     subtree (value: bool)
