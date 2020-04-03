@@ -6,5 +6,6 @@ module.exports = {
     outDir: path.join(__dirname, "../../dist/tests/RTL"),
     babel: {
         plugins: ["@babel/plugin-transform-modules-commonjs"],
+        sourceMaps: "inline"
     }
 };
