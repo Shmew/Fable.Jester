@@ -1,6 +1,9 @@
 # Fable.Jester
 
-To install `Fable.Jester` into your project, you need to install the nuget package into your F# project
+To install `Fable.Jester` into your project, 
+you need to install the nuget package into 
+your F# project:
+
 ```bash
 # nuget
 dotnet add package Fable.Jester
@@ -25,11 +28,20 @@ yarn add prettier --dev // If you plan to use snapshot testing
 
 ### Use Femto
 
-If you happen to use [Femto](https://github.com/Zaid-Ajaj/Femto), then it can install everything for you in one go
+If you happen to use [Femto], then it can 
+install everything for you in one go:
+
 ```bash
 cd ./project
 femto install Fable.Jester
 ```
-Here, the nuget package will be installed using the package manager that the project is using (detected by Femto) and then the required npm packages will be resolved
+Here, the nuget package will be installed 
+using the package manager that the project 
+is using (detected by Femto) and then the 
+required npm packages will be resolved
 
-Do note that this will *not* install the optional dependencies listed above (the babel plugin and prettier).
+Do note that this will *not* install the 
+optional dependencies listed above (the 
+babel plugin and prettier).
+
+[Femto]: https://github.com/Zaid-Ajaj/Femto
