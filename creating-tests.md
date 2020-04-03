@@ -19,9 +19,13 @@ This is the main caveat when building your jest project. You will
 want to make sure that you include a `splitter.config.js` file and
 configure it in two main ways:
 
-The main thing to note here for both types is the inclusion of the
-`allFiles: true` property being set. __Fable will not compile all of
-your tests if this is not set__.
+There are two main things to note here for both types: 
+ * `allFiles: true` __Fable will not compile all of your tests 
+   if this is not set__.
+ * `sourceMaps: "inline"` this enables Jest to display the FSharp 
+   source code when a test fails rather than the transpiled Javascript.
+
+   <resolved-image source='/images/jest/sourcemap.png' />
 
 ### Without snapshot testing
 
@@ -37,6 +41,7 @@ module.exports = {
     outDir: path.join(__dirname, "../../dist/tests/RTL"),
     babel: {
         plugins: ["@babel/plugin-transform-modules-commonjs"],
+        sourceMaps: "inline"
     }
 };
 ```
@@ -59,7 +64,8 @@ module.exports = {
     babel: {
         plugins: [
             "@babel/plugin-transform-modules-commonjs"
-        ]
+        ],
+        sourceMaps: "inline"
     },
     onCompiled() {
         const fs = require('fs')
