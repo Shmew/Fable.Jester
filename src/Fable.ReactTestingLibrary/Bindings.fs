@@ -1312,7 +1312,7 @@ module Bindings =
         /// This will cause the rendered component to be unmounted. This is useful for testing what happens when your component 
         /// is removed from the page (like testing that you don't leave event handlers hanging around causing memory leaks).
         member _.unmount () = render.unmount()
-
+        
     type UserEventImport =
         abstract click: HTMLElement -> unit
         abstract dblClick: HTMLElement -> unit

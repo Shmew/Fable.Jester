@@ -43,6 +43,19 @@ Jest.describe("how to run a test like test.each", (fun () ->
     ))
 ))
 
+Jest.describe("how to run a describe like describe.each", (fun () ->
+    let myTestCases = [
+        (1, 1, 2)
+        (1, 2, 3)
+        (2, 1, 3)
+    ]
+
+    for (a, b, expected) in myTestCases do
+        Jest.test(sprintf "%i + %i returns %i" a b expected, (fun () ->
+            Jest.expect(a + b).toBe(expected)    
+        ))
+))
+
 Jest.describe("tests with the skip modifier don't get run", (fun () ->
     Jest.test.skip("adds", (fun () ->
         Jest.expect(true).toEqual(false)

@@ -10,8 +10,6 @@ type RTL =
     /// All it does is forward all arguments to the act function if your version of react supports act.
     static member act (callback: unit -> unit) = Bindings.act callback
 
-    /// This is a light wrapper around the react-dom/test-utils act function. All it does is 
-    /// forward all arguments to the act function if your version of react supports act.
     /// Unmounts React trees that were mounted with render.
     static member cleanup () = Bindings.cleanup()
 
@@ -23,6 +21,7 @@ type RTL =
     static member fireEvent (element: HTMLElement, event: #Browser.Types.Event) = 
         Bindings.fireEvent.custom(element, event)
 
+    /// Gets the text of the element.
     static member getNodeText (element: HTMLElement) =
         Bindings.getNodeText element
 
@@ -46,23 +45,23 @@ type RTL =
     static member logRoles (element: HTMLElement) =
         Bindings.logRoles element
 
-    /// Prints out readable representation of the DOM tree of a node.
+    /// Returns a readable representation of the DOM tree of a node.
     static member prettyDOM (element: HTMLElement) =
         Bindings.prettyDOMImport.invoke element
 
-    /// Prints out readable representation of the DOM tree of a node.
+    /// Returns a readable representation of the DOM tree of a node.
     static member prettyDOM (node: Node) =
         Bindings.prettyDOMImport.invoke (unbox<HTMLElement> node)
 
-    /// Prints out readable representation of the DOM tree of a node.
+    /// Returns a readable representation of the DOM tree of a node.
     static member prettyDOM (element: HTMLElement, maxLength: int) =
         Bindings.prettyDOMImport.invoke(element, maxLength = maxLength)
 
-    /// Prints out readable representation of the DOM tree of a node.
+    /// Returns a readable representation of the DOM tree of a node.
     static member prettyDOM (element: HTMLElement, options: IPrettyDOMOption list) =
         Bindings.prettyDOMImport.invoke(element, options = (unbox<IPrettyDOMOptions> (createObj !!options)))
 
-    /// Prints out readable representation of the DOM tree of a node.
+    /// Returns a readable representation of the DOM tree of a node.
     static member prettyDOM (element: HTMLElement, maxLength: int, options: IPrettyDOMOption list) =
         Bindings.prettyDOMImport.invoke(element, maxLength = maxLength, options = (unbox<IPrettyDOMOptions> (createObj !!options)))
 
@@ -79,19 +78,17 @@ type RTL =
     static member screen = RTL.within(Browser.Dom.document.body)
 
     /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
-    static member waitFor (callback: unit -> 'T) = Bindings.waitForImport.invoke callback //|> Async.AwaitPromise
+    static member waitFor (callback: unit -> 'T) = Bindings.waitForImport.invoke callback
     /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
     static member waitFor (callback: unit -> 'T, waitForOptions: IWaitOption list) = 
         Bindings.waitForImport.invoke(callback, unbox<IWaitOptions> (createObj !!waitForOptions)) 
-        //|> Async.AwaitPromise
 
-    /// To wait for the removal of element(s) from the DOM you can use waitForElementToBeRemoved.
+    /// Wait for the removal of element(s) from the DOM.
     static member waitForElementToBeRemoved (callback: unit -> 'T) = 
-        Bindings.waitForElementToBeRemovedImport.invoke callback |> Async.AwaitPromise
-    /// To wait for the removal of element(s) from the DOM you can use waitForElementToBeRemoved.
+        Bindings.waitForElementToBeRemovedImport.invoke callback
+    /// Wait for the removal of element(s) from the DOM.
     static member waitForElementToBeRemoved (callback: unit -> 'T, waitForOptions: IWaitOption list) = 
         Bindings.waitForElementToBeRemovedImport.invoke(callback, unbox<IWaitOptions> (createObj !!waitForOptions)) 
-        |> Async.AwaitPromise
 
     /// Takes a DOM element and binds it to the raw query functions, allowing them to be used without specifying a container. 
     static member within (element: HTMLElement) =
@@ -149,7 +146,7 @@ module prettyDOM =
         /// Default: "cyan"
         static member tag (value: string) = Interop.mkPrettyDOMOThemeption "tag" value
         /// Default: "green"
-        static member value (value: string) = Interop.mkPrettyDOMOThemeption "plugins" value
+        static member value (value: string) = Interop.mkPrettyDOMOThemeption "value" value
 
 type waitFor =
     /// The default container is the global document. 
@@ -168,6 +165,7 @@ type waitFor =
     /// The default timeout is 1000ms.
     static member timeout (value: int) = Interop.mkWaitOption "timeout" value
 
+[<RequireQualifiedAccess>]
 module waitFor =
     type mutationObserver =
         /// An array of specific attribute names to be monitored. 
@@ -412,6 +410,7 @@ module RTL =
         static member waiting (element: HTMLElement, ?eventProperties: #IEventProperty list) = Bindings.fireEvent.waiting(element, (createObj !!eventProperties))
         static member wheel (element: HTMLElement, ?eventProperties: #IMouseEventProperty list) = Bindings.fireEvent.wheel(element, (createObj !!eventProperties))
 
+    /// Convenience methods for using fireEvent.
     type userEvent =
         /// Clicks element, depending on what element is it can have different side effects.
         static member click (element: HTMLElement) : unit = Bindings.userEvent.click(element)

@@ -324,7 +324,7 @@ type Jest =
 
     /// Returns the number of fake timers still left to run.
     [<Emit("jest.getTimerCount()")>]
-    static member getTimerCount () : unit = jsNative
+    static member getTimerCount () : int = jsNative
 
     /// Runs failed tests n-times until they pass or until the max number 
     /// of retries is exhausted. 

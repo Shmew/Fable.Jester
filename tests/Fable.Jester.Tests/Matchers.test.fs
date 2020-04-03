@@ -4,9 +4,6 @@ open Fable.Core.JsInterop
 open Fable.Jester
 open System.Text.RegularExpressions
 
-type AInstance () = class end
-type BInstance () = class end
-
 Jest.describe("matcher tests", (fun () ->
     Jest.test("toBe", (fun () ->
         Jest.expect("test").toBe("test")
@@ -219,6 +216,7 @@ Jest.describe("matcher tests", (fun () ->
     Jest.test("not toStrictEqual", (fun () ->
         let actual = {| test = "hi" |}
         let expected = {| test = "hiya" |}
+
         Jest.expect(actual).not.toStrictEqual(expected)
     ))
 

@@ -248,16 +248,16 @@ module Expect =
         /// Inverts the pass/fail status of a matcher.
         member _.not : expectedPromise = jsNative
 
+        /// Unwrap the reason of a rejected promise so any other 
+        /// matcher can be chained. If the promise is fulfilled 
+        /// the assertion fails.
+        member _.rejects : expected<JS.Promise<unit>> = jsNative
+        
         /// Unwrap the value of a fulfilled promise so any other 
         /// matcher can be chained. If the promise is rejected 
         /// the assertion fails.
         ///
         /// This is automatically applied for `Async<'T>` values.
-        member _.rejects : expected<JS.Promise<unit>> = jsNative
-
-        /// Unwrap the reason of a rejected promise so any other 
-        /// matcher can be chained. If the promise is fulfilled 
-        /// the assertion fails.
         member _.resolves : expected<JS.Promise<unit>> = jsNative
 
     [<NoComparison>]
@@ -333,6 +333,8 @@ module Expect =
 
         /// Check whether an element contains another element as a descendant or not.
         member _.toContainElement (element: HTMLElement) : 'Return = jsNative
+        /// Check whether an element contains another element as a descendant or not.
+        member _.toContainElement (element: Node) : 'Return = jsNative
 
         /// Check whether a string representing a HTML element is contained in another element
         member _.toContainHTML (htmlText: string) : 'Return = jsNative
@@ -343,7 +345,7 @@ module Expect =
         /// or partial match using expect.stringContaining or expect.stringMatching.
         member _.toHaveAttribute (attr: string, ?value: obj) : 'Return = jsNative
 
-        /// check whether the given element has certain classes within its class attribute.
+        /// Check whether the given element has certain classes within its class attribute.
         ///
         /// You must provide at least one class, unless you are asserting that an element does 
         /// not have any classes.
@@ -394,7 +396,7 @@ module Expect =
         /// To perform a case-insensitive match, you can use a RegExp with the /i modifier.
         ///
         /// If you want to match the whole content, you can use a RegExp to do it.
-        member _.toHaveTextContent (text: string, ?options: obj) : 'Return = jsNative
+        member _.toHaveTextContent (text: string) : 'Return = jsNative
         /// Check whether the given element has a text content or not.
         /// 
         /// When a string argument is passed through, it will perform a partial case-sensitive match to 
@@ -403,7 +405,27 @@ module Expect =
         /// To perform a case-insensitive match, you can use a RegExp with the /i modifier.
         ///
         /// If you want to match the whole content, you can use a RegExp to do it.
-        member _.toHaveTextContent (text: Regex, ?options: obj) : 'Return = jsNative
+        [<Emit("$0.toHaveTextContent($1, { normalizeWhitespace: $2 })")>]
+        member _.toHaveTextContent (text: string, ?normalizeWhitespace: bool) : 'Return = jsNative
+        /// Check whether the given element has a text content or not.
+        /// 
+        /// When a string argument is passed through, it will perform a partial case-sensitive match to 
+        /// the element content.
+        ///
+        /// To perform a case-insensitive match, you can use a RegExp with the /i modifier.
+        ///
+        /// If you want to match the whole content, you can use a RegExp to do it.
+        member _.toHaveTextContent (text: Regex) : 'Return = jsNative
+        /// Check whether the given element has a text content or not.
+        /// 
+        /// When a string argument is passed through, it will perform a partial case-sensitive match to 
+        /// the element content.
+        ///
+        /// To perform a case-insensitive match, you can use a RegExp with the /i modifier.
+        ///
+        /// If you want to match the whole content, you can use a RegExp to do it.
+        [<Emit("$0.toHaveTextContent($1, { normalizeWhitespace: $2 })")>]
+        member _.toHaveTextContent (text: Regex, ?normalizeWhitespace: bool) : 'Return = jsNative
 
         /// Check whether the given form element has the specified value. 
         ///
@@ -469,16 +491,16 @@ module Expect =
         /// Inverts the pass/fail status of a matcher.
         member _.not : expectedHtmlPromise = jsNative
 
+        /// Unwrap the reason of a rejected promise so any other 
+        /// matcher can be chained. If the promise is fulfilled 
+        /// the assertion fails.
+        member _.rejects : expectedHtml<JS.Promise<unit>> = jsNative
+
         /// Unwrap the value of a fulfilled promise so any other 
         /// matcher can be chained. If the promise is rejected 
         /// the assertion fails.
         ///
         /// This is automatically applied for `Async<'T>` values.
-        member _.rejects : expectedHtml<JS.Promise<unit>> = jsNative
-
-        /// Unwrap the reason of a rejected promise so any other 
-        /// matcher can be chained. If the promise is fulfilled 
-        /// the assertion fails.
         member _.resolves : expectedHtml<JS.Promise<unit>> = jsNative
 
     [<NoComparison>]
@@ -487,27 +509,37 @@ module Expect =
     type unexpectedNumber<'Return> =
         inherit expected<'Return>
 
-        /// Compare floating point numbers for approximate equality.
+        /// Compare floats or decimals for approximate equality.
+        member _.toBeCloseTo(number: decimal, ?numDigits: int) : 'Return = jsNative
+        /// Compare floats or decimals for approximate equality.
         member _.toBeCloseTo(number: float, ?numDigits: int) : 'Return = jsNative
 
-        /// To compare received > expected for int or floats.
+        /// To compare received > expected.
+        member _.toBeGreaterThan (number: decimal) : 'Return = jsNative
+        /// To compare received > expected.
         member _.toBeGreaterThan (number: float) : 'Return = jsNative
-        /// To compare received > expected for int or floats.
+        /// To compare received > expected.
         member _.toBeGreaterThan (number: int) : 'Return = jsNative
-
-        /// To compare received >= expected for int or floats.
+        
+        /// To compare received >= expected.
+        member _.toBeGreaterThanOrEqual (number: decimal) : 'Return = jsNative
+        /// To compare received >= expected.
         member _.toBeGreaterThanOrEqual (number: float) : 'Return = jsNative
-        /// To compare received >= expected for int or floats.
+        /// To compare received >= expected.
         member _.toBeGreaterThanOrEqual (number: int) : 'Return = jsNative
-
-        /// To compare received < expected for int or floats.
+        
+        /// To compare received < expected.
+        member _.toBeLessThan (number: decimal) : 'Return = jsNative
+        /// To compare received < expected.
         member _.toBeLessThan (number: float) : 'Return = jsNative
-        /// To compare received < expected for int or floats.
+        /// To compare received < expected.
         member _.toBeLessThan (number: int) : 'Return = jsNative
-
-        /// To compare received <= expected for int or floats.
+        
+        /// To compare received <= expected.
+        member _.toBeLessThanOrEqual (number: decimal) : 'Return = jsNative
+        /// To compare received <= expected.
         member _.toBeLessThanOrEqual (number: float) : 'Return = jsNative
-        /// To compare received <= expected for int or floats.
+        /// To compare received <= expected.
         member _.toBeLessThanOrEqual (number: int) : 'Return = jsNative
 
     [<NoComparison>]
@@ -525,16 +557,16 @@ module Expect =
         /// Inverts the pass/fail status of a matcher.
         member _.not : expectedNumberPromise = jsNative
 
+        /// Unwrap the reason of a rejected promise so any other 
+        /// matcher can be chained. If the promise is fulfilled 
+        /// the assertion fails.
+        member _.rejects : expectedNumber<JS.Promise<unit>> = jsNative
+        
         /// Unwrap the value of a fulfilled promise so any other 
         /// matcher can be chained. If the promise is rejected 
         /// the assertion fails.
         ///
         /// This is automatically applied for `Async<'T>` values.
-        member _.rejects : expectedNumber<JS.Promise<unit>> = jsNative
-
-        /// Unwrap the reason of a rejected promise so any other 
-        /// matcher can be chained. If the promise is fulfilled 
-        /// the assertion fails.
         member _.resolves : expectedNumber<JS.Promise<unit>> = jsNative
 
     [<NoComparison>]
