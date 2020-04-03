@@ -62,7 +62,7 @@ module.exports = {
         ]
     },
     onCompiled() {
-        const snapshotLoader = require(path.join(testsDir, "Fable.Jester.SnapshotLoader/SnapshotLoader"));
+        const snapshotLoader = require(path.join(testsDir, "Fable.Jester/SnapshotLoader"));
         snapshotLoader.copySnaps(__dirname, this.outDir)
     }
 };

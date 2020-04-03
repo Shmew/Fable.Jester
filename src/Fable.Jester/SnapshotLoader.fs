@@ -1,9 +1,12 @@
 ﻿namespace Fable.Jester
 
-open Fable.Core.JsInterop
-open Node.Api
+open System.ComponentModel
 
+[<EditorBrowsable(EditorBrowsableState.Never)>]
 module SnapshotLoader =
+    open Fable.Core.JsInterop
+    open Node.Api
+
     type FS =
         inherit Node.Fs.IExports
         abstract copyFileSync: string * string -> unit

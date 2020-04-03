@@ -1,4 +1,0 @@
-﻿group Jest.SnapshotLoader
-    Fable.Core
-    Fable.Node
-    FSharp.Core

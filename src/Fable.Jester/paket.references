@@ -1,6 +1,7 @@
 ﻿group Jest
     Fable.Browser.Dom
     Fable.Core
+    Fable.Node
     Fable.Promise
     Feliz
     FSharp.Core

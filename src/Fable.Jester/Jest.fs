@@ -11,8 +11,6 @@ module JestInternal =
     [<Global("expect")>]
     let expectPromise (value: JS.Promise<'T>) : expectedPromise = jsNative
 
-    open Fable.Jester.SnapshotLoader
-
 type Jest =
     /// Executes only the macro task queue (i.e. all tasks queued by 
     /// setTimeout() or setInterval() and setImmediate()).

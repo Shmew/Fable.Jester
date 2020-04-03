@@ -5,13 +5,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="SnapshotLoader.fs" />
     <Compile Include="Expect.fs" />
     <Compile Include="Jest.fs" />
     <None Include="paket.references" />
     <None Include="paket.template" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Fable.Jester.SnapshotLoader\Fable.Jester.SnapshotLoader.fsproj" />
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
