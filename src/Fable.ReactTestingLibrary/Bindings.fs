@@ -156,8 +156,6 @@ module Bindings =
 
     let createEvent: CreateEvent = import "createEvent" "@testing-library/react"
 
-    let jsDomExpect : unit = importAll "@testing-library/jest-dom"
-
     type FireEvent =
         [<Emit("$0($1,$2)")>]
         abstract custom: node:HTMLElement * event:#Browser.Types.Event -> unit
