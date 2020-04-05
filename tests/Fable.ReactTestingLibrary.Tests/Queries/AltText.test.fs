@@ -21,7 +21,7 @@ let otherAltTextElement = React.functionComponent (fun () ->
 Jest.describe("*ByAltText query tests", (fun () ->
     Jest.test("getByAltText an element", (fun () ->
         let actual = RTL.render(altTextElement()).getByAltText("Username")
-            
+
         Jest.expect(actual).toBeInTheDocument()
     ))
     Jest.test("getByAltText throws when no element matches", (fun () ->

@@ -1,3 +1,6 @@
+### 0.3.0 - Sunday, April 5th, 2020
+* Add `Option` suffix to option types to avoid namespace collisions
+
 ### 0.2.2 - Saturday, April 4th, 2020
 * Removed unnecessary import for jest-dom in RTL
 

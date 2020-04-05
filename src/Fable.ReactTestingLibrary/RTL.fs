@@ -95,7 +95,7 @@ type RTL =
         Bindings.withinImport.invoke element
         |> Bindings.queriesForElement
 
-type configure =
+type configureOption =
     /// The default value for the hidden option used by getByRole. 
     ///
     /// Defaults to false.
@@ -111,7 +111,7 @@ type configure =
     /// Defaults to data-testid.
     static member testIdAttribute (value: string) = Interop.mkConfigureOption "defaultHidden" value
 
-type prettyDOM =
+type prettyDOMOption =
     /// Call toJSON method (if it exists) on objects.
     static member callToJSON (value: bool) = Interop.mkPrettyDOMOption "callToJSON" value
     /// Escape special characters in regular expressions.
@@ -134,7 +134,7 @@ type prettyDOM =
     static member theme (properties: IPrettyDOMThemeOption list) = Interop.mkPrettyDOMOption "theme" (createObj !!properties)
 
 [<RequireQualifiedAccess>]
-module prettyDOM =
+module prettyDOMOption =
     /// PrettyDOM theme options.
     type theme =
         /// Default: "gray"
@@ -148,7 +148,25 @@ module prettyDOM =
         /// Default: "green"
         static member value (value: string) = Interop.mkPrettyDOMOThemeption "value" value
 
-type waitFor =
+type renderOption =
+    /// By default, React Testing Library will create a div and append that div to the document.body and 
+    /// this is where your React component will be rendered. If you provide your own HTMLElement container 
+    /// via this option, it will not be appended to the document.body automatically.
+    static member container (value: HTMLElement) = Interop.mkRenderOption "container" value
+
+    /// If the container is specified, then this defaults to that, otherwise this defaults to document.documentElement. 
+    /// This is used as the base element for the queries as well as what is printed when you use debug().
+    static member baseElement (value: HTMLElement) = Interop.mkRenderOption "container" value
+
+    /// If hydrate is set to true, then it will render with ReactDOM.hydrate. This may be useful if you 
+    /// are using server-side rendering and use ReactDOM.hydrate to mount your components.
+    static member hydrate (value: bool) = Interop.mkRenderOption "container" value
+
+    /// Pass a React Component as the wrapper option to have it rendered around the inner element. 
+    /// This is most useful for creating reusable custom render functions for common data providers.
+    static member wrapper (value: ReactElement) = Interop.mkRenderOption "container" value
+
+type waitForOption =
     /// The default container is the global document. 
     ///
     /// Make sure the elements you wait for are descendants of container.
@@ -166,7 +184,7 @@ type waitFor =
     static member timeout (value: int) = Interop.mkWaitOption "timeout" value
 
 [<RequireQualifiedAccess>]
-module waitFor =
+module waitForOption =
     type mutationObserver =
         /// An array of specific attribute names to be monitored. 
         ///
@@ -209,24 +227,6 @@ module waitFor =
         ///
         /// The default value is false.
         static member subtree (value: bool) = Interop.mkMutationObserverOption "subtree" value
-
-type render =
-    /// By default, React Testing Library will create a div and append that div to the document.body and 
-    /// this is where your React component will be rendered. If you provide your own HTMLElement container 
-    /// via this option, it will not be appended to the document.body automatically.
-    static member container (value: HTMLElement) = Interop.mkRenderOption "container" value
-
-    /// If the container is specified, then this defaults to that, otherwise this defaults to document.documentElement. 
-    /// This is used as the base element for the queries as well as what is printed when you use debug().
-    static member baseElement (value: HTMLElement) = Interop.mkRenderOption "container" value
-
-    /// If hydrate is set to true, then it will render with ReactDOM.hydrate. This may be useful if you 
-    /// are using server-side rendering and use ReactDOM.hydrate to mount your components.
-    static member hydrate (value: bool) = Interop.mkRenderOption "container" value
-
-    /// Pass a React Component as the wrapper option to have it rendered around the inner element. 
-    /// This is most useful for creating reusable custom render functions for common data providers.
-    static member wrapper (value: ReactElement) = Interop.mkRenderOption "container" value
 
 [<RequireQualifiedAccess>]
 module RTL =

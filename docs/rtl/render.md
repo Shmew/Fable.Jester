@@ -7,6 +7,64 @@ what you have now is a type that inherits [queriesForElement] as
 well as exposes a few additional functions and properties that 
 will make testing your React application easier.
 
+## Render Options
+When creating your render object you can pass in options to
+modify the behavior:
+
+```fsharp
+RTL.render(myReactElement, [
+    renderOption.hydrate true
+])
+```
+
+### container
+
+By default, React Testing Library will create a div and append that 
+div to the document.body and this is where your React component will 
+be rendered. If you provide your own HTMLElement container via this 
+option, it will not be appended to the document.body automatically.
+
+Signature:
+```fsharp
+(value: HTMLElement)
+```
+
+### baseElement
+
+By default, React Testing Library will create a div and append that 
+div to the document.body and this is where your React component will 
+be rendered. If you provide your own HTMLElement container via this 
+option, it will not be appended to the document.body automatically.
+
+Signature:
+```fsharp
+(value: HTMLElement)
+```
+
+### hydrate
+
+By default, React Testing Library will create a div and append that 
+div to the document.body and this is where your React component will 
+be rendered. If you provide your own HTMLElement container via this 
+option, it will not be appended to the document.body automatically.
+
+Signature:
+```fsharp
+(value: bool)
+```
+
+### wrapper
+
+By default, React Testing Library will create a div and append that 
+div to the document.body and this is where your React component will 
+be rendered. If you provide your own HTMLElement container via this 
+option, it will not be appended to the document.body automatically.
+
+Signature:
+```fsharp
+(value: ReactElement)
+```
+
 ## baseElement
 
 The containing DOM node where your React Element is rendered in 
