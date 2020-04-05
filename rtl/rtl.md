@@ -49,7 +49,7 @@ Signature:
 (options: IConfigureOption list) -> unit
 
 // ConfigureOptions
-type configure:
+type configureOption:
     /// The default value for the hidden option used by getByRole. 
     ///
     /// Defaults to false.
@@ -69,8 +69,8 @@ You can use this like so:
 
 ```fsharp
 RTL.configure [
-    configure.defaultHidden true
-    configure.testIdAttribute "myAttribute"
+    configureOption.defaultHidden true
+    configureOption.testIdAttribute "myAttribute"
 ]
 ```
 
@@ -232,7 +232,7 @@ Signature:
 (element: HTMLElement, maxLength: int, options: IPrettyDOMOption list) -> string
 
 // prettyDOM options
-type prettyDOM:
+type prettyDOMOption:
     /// Call toJSON method (if it exists) on objects.
     callToJSON (value: bool)
 
@@ -264,7 +264,7 @@ type prettyDOM:
     theme (properties: IPrettyDOMThemeOption list)
 
 // prettyDOM theme options
-// Only accessible from prettyDOM module
+// Only accessible from prettyDOMOption module
 type theme:
     /// Default: "gray"
     comment (value: string)
@@ -286,10 +286,10 @@ You can use this like so:
 
 ```fsharp
 RTL.prettyDOM(myElem, [
-    prettyDOM.callToJSON true
-    prettyDOM.highlight true
-    prettyDOM.theme [
-        theme.comment (color.red)
+    prettyDOMOption.callToJSON true
+    prettyDOMOption.highlight true
+    prettyDOMOption.theme [
+        prettyDOMOption.theme.comment (color.red)
     ]
 ])
 ```
@@ -303,12 +303,44 @@ See [render](/rtl/render) for more details.
 Signature: 
 ```fsharp 
 (reactElement: ReactElement) -> render
+(reactElement: ReactElement, options: IRenderOption list) -> render
+
+// Render options
+type renderOption:
+    /// By default, React Testing Library will create a div and 
+    /// append that div to the document.body and this is where 
+    /// your React component will be rendered. If you provide 
+    /// your own HTMLElement container via this option, it will 
+    /// not be appended to the document.body automatically.
+    container (value: HTMLElement) 
+
+    /// If the container is specified, then this defaults to that, 
+    /// otherwise this defaults to document.documentElement. This 
+    /// is used as the base element for the queries as well as what 
+    /// is printed when you use debug().
+    baseElement (value: HTMLElement)
+
+    /// If hydrate is set to true, then it will render with 
+    /// ReactDOM.hydrate. This may be useful if you are using 
+    /// server-side rendering and use ReactDOM.hydrate to mount 
+    /// your components.
+    hydrate (value: bool)
+
+    /// Pass a React Component as the wrapper option to have it 
+    /// rendered around the inner element. This is most useful for 
+    /// creating reusable custom render functions for common data 
+    /// providers.
+    wrapper (value: ReactElement)
 ```
 
 You can use this like so:
 
 ```fsharp
 RTL.render(myReactElement)
+
+RTL.render(myReactElement, [
+    renderOption.hydrate true
+])
 ```
 
 ## screen
@@ -443,7 +475,7 @@ Signature:
 (callback: unit -> 'T, waitForOptions: IWaitOption list) -> JS.Promise<'T>
 
 // waitFor options
-type waitFor:
+type waitForOption:
     /// The default container is the global document. 
     ///
     /// Make sure the elements you wait for are descendants of container.
@@ -461,7 +493,7 @@ type waitFor:
     timeout (value: int)
 
 // waitFor mutationObserver Options
-// Only accessible from waitFor module
+// Only accessible from waitForOption module
 type mutationObserver
     /// An array of specific attribute names to be monitored. 
     ///
