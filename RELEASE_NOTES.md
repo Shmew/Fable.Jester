@@ -1,3 +1,6 @@
+### 0.2.2 - Saturday, April 4th, 2020
+* Removed unnecessary import for jest-dom in RTL
+
 ### 0.2.1 - Friday, April 3rd, 2020
 * Fix SnapshotLoader in nupkg
 

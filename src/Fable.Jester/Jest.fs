@@ -2,12 +2,19 @@
 
 open Browser.Types
 open Fable.Core
+open Fable.Core.JsInterop
 open FSharp.Core
 open System.ComponentModel
 
 [<EditorBrowsable(EditorBrowsableState.Never)>]
 [<RequireQualifiedAccess>]
 module JestInternal =
+    [<Global("expect")>]
+    let expectHtml (value: obj) : expectedHtml<unit> = jsNative
+
+    [<Global("expect")>]
+    let expectHtmlPromise (value: obj) : expectedHtmlPromise = jsNative
+
     [<Global("expect")>]
     let expectPromise (value: JS.Promise<'T>) : expectedPromise = jsNative
 
@@ -116,8 +123,8 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     static member expect (value: Async<'a []>) = 
+        importSideEffects "@testing-library/jest-dom"
         Jest.expect(Async.StartAsPromise(value)).resolves
-        //|> fun prom -> JestInternal.expectPromise(prom).resolves
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -125,6 +132,7 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     static member expect (value: Async<'a list>) = 
+        importSideEffects "@testing-library/jest-dom"
         Jest.expect(Async.StartAsPromise(value)).resolves
     /// The expect function is used every time you want to test a value.
     ///
@@ -132,24 +140,27 @@ type Jest =
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    [<Global>]
-    static member expect (value: HTMLElement) : expectedHtml<unit> = jsNative
+    static member inline expect (value: HTMLElement) : expectedHtml<unit> = 
+        importSideEffects "@testing-library/jest-dom"
+        JestInternal.expectHtml(value)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    [<Global>]
-    static member expect (value: HTMLElement option) : expectedHtml<unit> = jsNative
+    static member inline expect (value: HTMLElement option) : expectedHtml<unit> = 
+        importSideEffects "@testing-library/jest-dom"
+        JestInternal.expectHtml(value)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    [<Global>]
-    static member expect (value: JS.Promise<HTMLElement>) : expectedHtmlPromise = jsNative
+    static member inline expect (value: JS.Promise<HTMLElement>) : expectedHtmlPromise =
+        importSideEffects "@testing-library/jest-dom"
+        JestInternal.expectHtmlPromise(value)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -157,32 +168,35 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     static member inline expect (value: Async<HTMLElement>) = 
+        importSideEffects "@testing-library/jest-dom"
         Jest.expect(Async.StartAsPromise value).resolves
-
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    [<Global>]
-    static member expect (value: Node) : expectedHtml<unit> = jsNative
+    static member inline expect (value: Node) : expectedHtml<unit> =
+        importSideEffects "@testing-library/jest-dom"
+        JestInternal.expectHtml(value)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    [<Global>]
-    static member expect (value: Node option) : expectedHtml<unit> = jsNative
+    static member inline expect (value: Node option) : expectedHtml<unit> =
+        importSideEffects "@testing-library/jest-dom"
+        JestInternal.expectHtml(value)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
-    [<Global>]
-    static member expect (value: JS.Promise<Node>) : expectedHtmlPromise = jsNative
+    static member inline expect (value: JS.Promise<Node>) : expectedHtmlPromise =
+        importSideEffects "@testing-library/jest-dom"
+        JestInternal.expectHtmlPromise(value)
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 
@@ -190,6 +204,7 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     static member inline expect (value: Async<Node>) = 
+        importSideEffects "@testing-library/jest-dom"
         Jest.expect(Async.StartAsPromise value).resolves
     /// The expect function is used every time you want to test a value.
     ///

@@ -1,6 +1,6 @@
 {
   "name": "fable-jester",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Fable bindings for jest and friends",
   "homepage": "https://github.com/Shmew/Fable.Jester",
   "bugs": {
