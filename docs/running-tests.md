@@ -54,9 +54,6 @@ Here is an example:
 
 ## Test Output
 
-The library was written to try to make Fable's mangling as legible as possible
-due to the fact that jest is going to output the results in javascript.
-
 When it's time to finally run your tests you should see output like this:
 
 <resolved-image source='/images/test.gif' />
