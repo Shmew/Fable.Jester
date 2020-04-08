@@ -1,3 +1,6 @@
+### 0.3.2 - Wednesday, April 8th 2020
+* Update for jest-dom 5.4.0 release
+
 ### 0.3.1 - Tuesday, April 8th 2020
 * Fix issue with event optional parameters - thanks @Zaid-Ajaj
 
