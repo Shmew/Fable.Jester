@@ -1,5 +1,6 @@
 ﻿namespace Fable.ReactTestingLibrary
 
+[<RequireQualifiedAccess>]
 module Interop =
     let mkConfigureOption (key: string) (value: obj) : IConfigureOption = unbox (key, value)
     let mkMutationObserverOption (key: string) (value: obj) : IMutationObserverOption = unbox (key, value)

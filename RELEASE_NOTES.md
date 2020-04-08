@@ -1,3 +1,6 @@
+### 0.3.1 - Tuesday, April 8th 2020
+* Fix issue with event optional parameters - thanks @Zaid-Ajaj
+
 ### 0.3.0 - Sunday, April 5th, 2020
 * Add `Option` suffix to option types to avoid namespace collisions
 
