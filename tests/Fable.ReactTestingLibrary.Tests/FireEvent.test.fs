@@ -18,7 +18,32 @@ let testElement = React.functionComponent (fun () ->
         ]
     ])
 
+let counter = React.functionComponent(fun () ->
+    let (count, setCount) = React.useState(0)
+    React.fragment [
+        Html.h1 [
+            prop.custom("data-testid", "header")
+            prop.text count
+        ]
+
+        Html.button [
+            prop.custom("data-testid", "button-increment")
+            prop.onClick (fun _ -> setCount(count + 1))
+            prop.text "Increment"
+        ]
+    ])
+
 Jest.describe("FireEvent tests", (fun () ->
+
+    Jest.test("RTL.fireEvent.click without event properties works", (fun () -> 
+        let elem = RTL.render(counter())
+        let header = elem.getByTestId "header"
+        let button = elem.getByTestId "button-increment"
+        Jest.expect(header).toHaveTextContent("0")
+        RTL.fireEvent.click(button)
+        Jest.expect(header).toHaveTextContent("1")
+    ))
+
     Jest.test("dispatch input change", (fun () ->
         let elem = RTL.render(testElement()).getByTestId("test-input")
 
