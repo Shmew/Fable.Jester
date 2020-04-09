@@ -161,7 +161,35 @@ module Expect =
         /// You can provide an optional value argument to compare the received 
         /// property value (recursively for all properties of object instances, 
         /// also known as deep equality, like the toEqual matcher).
-        [<Emit("$0.toHaveProperty((Array.from($1).join('.')) ...)")>]
+        [<Emit("$0.toHaveProperty($1.join('.')))")>]
+        member _.toHaveProperty (keyPath: ResizeArray<string>) : 'Return = jsNative
+        /// Check if property at provided reference keyPath exists for an object.
+        ///
+        /// You can provide an optional value argument to compare the received 
+        /// property value (recursively for all properties of object instances, 
+        /// also known as deep equality, like the toEqual matcher).
+        [<Emit("$0.toHaveProperty($1.join('.')), $2)")>]
+        member _.toHaveProperty (keyPath: ResizeArray<string>, value: 'T) : 'Return = jsNative
+        /// Check if property at provided reference keyPath exists for an object.
+        ///
+        /// You can provide an optional value argument to compare the received 
+        /// property value (recursively for all properties of object instances, 
+        /// also known as deep equality, like the toEqual matcher).
+        [<Emit("$0.toHaveProperty(Array.from($1).join('.'))")>]
+        member _.toHaveProperty (keyPath: string []) : 'Return = jsNative
+        /// Check if property at provided reference keyPath exists for an object.
+        ///
+        /// You can provide an optional value argument to compare the received 
+        /// property value (recursively for all properties of object instances, 
+        /// also known as deep equality, like the toEqual matcher).
+        [<Emit("$0.toHaveProperty((Array.from($1).join('.')), $2)")>]
+        member _.toHaveProperty (keyPath: string [], value: 'T) : 'Return = jsNative
+        /// Check if property at provided reference keyPath exists for an object.
+        ///
+        /// You can provide an optional value argument to compare the received 
+        /// property value (recursively for all properties of object instances, 
+        /// also known as deep equality, like the toEqual matcher).
+        [<Emit("$0.toHaveProperty((Array.from($1).join('.')))")>]
         member _.toHaveProperty (keyPath: string list) : 'Return = jsNative
         /// Check if property at provided reference keyPath exists for an object.
         ///
@@ -170,6 +198,20 @@ module Expect =
         /// also known as deep equality, like the toEqual matcher).
         [<Emit("$0.toHaveProperty((Array.from($1).join('.')), $2)")>]
         member _.toHaveProperty (keyPath: string list, value: 'T) : 'Return = jsNative
+        /// Check if property at provided reference keyPath exists for an object.
+        ///
+        /// You can provide an optional value argument to compare the received 
+        /// property value (recursively for all properties of object instances, 
+        /// also known as deep equality, like the toEqual matcher).
+        [<Emit("$0.toHaveProperty(Array.from($1).join('.'))")>]
+        member _.toHaveProperty (keyPath: string seq) : 'Return = jsNative
+        /// Check if property at provided reference keyPath exists for an object.
+        ///
+        /// You can provide an optional value argument to compare the received 
+        /// property value (recursively for all properties of object instances, 
+        /// also known as deep equality, like the toEqual matcher).
+        [<Emit("$0.toHaveProperty((Array.from($1).join('.')), $2)")>]
+        member _.toHaveProperty (keyPath: string seq, value: 'T) : 'Return = jsNative
         
         /// Check that a variable is not undefined.
         member _.toBeDefined () : 'Return = jsNative
@@ -351,6 +393,46 @@ module Expect =
         /// not have any classes.
         member _.toHaveClass ([<ParamArray>] classNames: string []) : 'Return = jsNative
 
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        member _.toHaveDisplayValue (value: string) : 'Return = jsNative
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        member _.toHaveDisplayValue (values: ResizeArray<string>) : 'Return = jsNative
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
+        member _.toHaveDisplayValue (values: string []) : 'Return = jsNative
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
+        member _.toHaveDisplayValue (values: string list) : 'Return = jsNative
+        
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
+        member _.toHaveDisplayValue (values: string seq) : 'Return = jsNative
+
         /// Check whether an element has focus or not.
         member _.toHaveFocus () : 'Return = jsNative
 
@@ -361,13 +443,23 @@ module Expect =
         /// Check if a form or fieldset contains form controls for each given name, and having the specified value.
         ///
         /// Note that this matcher can *only* be invoked on a form or fieldset element.
+        [<Emit("$0.toHaveFormValues(Object.fromEntries($1))")>]
+        member _.toHaveFormValues (expectedValues: ResizeArray<string * obj>) : 'Return = jsNative
+        /// Check if a form or fieldset contains form controls for each given name, and having the specified value.
+        ///
+        /// Note that this matcher can *only* be invoked on a form or fieldset element.
+        [<Emit("$0.toHaveFormValues(Object.fromEntries(Array.from($1)))")>]
+        member _.toHaveFormValues (expectedValues: (string * obj) []) : 'Return = jsNative
+        /// Check if a form or fieldset contains form controls for each given name, and having the specified value.
+        ///
+        /// Note that this matcher can *only* be invoked on a form or fieldset element.
         [<Emit("$0.toHaveFormValues(Object.fromEntries(Array.from($1)))")>]
         member _.toHaveFormValues (expectedValues: (string * obj) list) : 'Return = jsNative
         /// Check if a form or fieldset contains form controls for each given name, and having the specified value.
         ///
         /// Note that this matcher can *only* be invoked on a form or fieldset element.
         [<Emit("$0.toHaveFormValues(Object.fromEntries(Array.from($1)))")>]
-        member _.toHaveFormValues (expectedValues: (string * obj) []) : 'Return = jsNative
+        member _.toHaveFormValues (expectedValues: (string * obj) seq) : 'Return = jsNative
 
         /// Check if a certain element has some specific css properties with specific values applied. 
         /// 
@@ -460,6 +552,12 @@ module Expect =
         /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
         /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
         [<Emit("$0.toHaveValue(Array.from($1))")>]
+        member _.toHaveValue (value: ResizeArray<string>) : 'Return = jsNative
+        /// Check whether the given form element has the specified value. 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
+        /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveValue(Array.from($1))")>]
         member _.toHaveValue (value: string []) : 'Return = jsNative
         /// Check whether the given form element has the specified value. 
         ///
@@ -471,7 +569,8 @@ module Expect =
         ///
         /// It accepts <input>, <select> and <textarea> elements with the exception of of <input type="checkbox"> 
         /// and <input type="radio">, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
-        member _.toHaveValue (value: ResizeArray<string>) : 'Return = jsNative
+        [<Emit("$0.toHaveValue(Array.from($1))")>]
+        member _.toHaveValue (value: string seq) : 'Return = jsNative
 
     [<NoComparison>]
     [<NoEquality>]

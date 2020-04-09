@@ -213,6 +213,17 @@ Jest.describe("jest-dom tests", (fun () ->
         Jest.expect(render.getByTestId("div")).not.toHaveClass("yourDiv")
     ))
 
+    Jest.test("toHaveDisplayValue", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("username")).toHaveDisplayValue("Shmew")
+    ))
+    Jest.test("not toHaveDisplayValue", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("username")).not.toHaveDisplayValue("somethingElse")
+    ))
+
     Jest.test("toHaveFocus", (fun () ->
         let render = RTL.render(testElement(testElemDefaults))
 

@@ -106,6 +106,14 @@ type Jest =
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
+    [<Emit("expect(Array.from($0))")>]
+    static member expect (value: 'a seq) : expected<unit> = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
     [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
     static member inline expect (value: JS.Promise<'a []>) : expectedPromise = jsNative
     /// The expect function is used every time you want to test a value.
@@ -122,6 +130,14 @@ type Jest =
     /// and any argument to the matcher should be the correct value. If you 
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
+    [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
+    static member expect (value: JS.Promise<'a seq>) : expectedPromise = jsNative
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
     static member expect (value: Async<'a []>) = 
         importSideEffects "@testing-library/jest-dom"
         Jest.expect(Async.StartAsPromise(value)).resolves
@@ -132,6 +148,15 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     static member expect (value: Async<'a list>) = 
+        importSideEffects "@testing-library/jest-dom"
+        Jest.expect(Async.StartAsPromise(value)).resolves
+    /// The expect function is used every time you want to test a value.
+    ///
+    /// The argument to expect should be the value that your code produces, 
+    /// and any argument to the matcher should be the correct value. If you 
+    /// mix them up, your tests will still work, but the error messages on 
+    /// failing tests will look strange.
+    static member expect (value: Async<'a seq>) = 
         importSideEffects "@testing-library/jest-dom"
         Jest.expect(Async.StartAsPromise(value)).resolves
     /// The expect function is used every time you want to test a value.
