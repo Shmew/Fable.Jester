@@ -3,6 +3,15 @@
 Jest and its ecosystem has many matchers available
 to make writing tests as easy as possible.
 
+To get started you need to start your expect:
+
+```fs
+Jest.expect(someValue)
+```
+
+From this point you can "dot" into all the matchers
+that are valid for the given input.
+
 ## not
 
 Inverts the pass/fail status of a matcher.
@@ -519,7 +528,7 @@ Jest.expect(true).toEqual(true)
 Check whether the given element has an attribute or not. 
 
 You can also optionally check that the attribute has a specific expected value 
-or partial match using expect.stringContaining or expect.stringMatching.
+or partial match using [expect.stringContaining] or [expect.stringMatching].
 
 Signature:
 ```fsharp
@@ -550,6 +559,31 @@ Usage:
 Jest.expect(myElement).toHaveClass("myDiv")
 ```
 
+## toHaveDisplayValue
+
+<Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
+
+Check whether the given form element has the specified displayed value (the 
+one the end user will see). 
+
+It accepts input, select and textarea elements with the exception of 
+`<input type="checkbox">` and `<input type="radio">`, which can be meaningfully 
+matched only using [toBeChecked] or [toHaveFormValues].
+
+Signature:
+```fsharp
+(value: string)
+(values: ResizeArray<string>)
+(values: string [])
+(values: string list)
+(values: string seq)
+```
+
+Usage:
+```fsharp
+Jest.expect(myElement).toHaveDisplayValue("Hello!")
+```
+
 ## toHaveFocus
 
 <Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
@@ -577,8 +611,10 @@ Note that this matcher can *only* be invoked on a form or fieldset element.
 Signature:
 ```fsharp
 (expectedValues: obj)
-(expectedValues: (string * obj) list)
+(expectedValues: ResizeArray<string * obj>)
 (expectedValues: (string * obj) [])
+(expectedValues: (string * obj) list)
+(expectedValues: (string * obj) seq)
 ```
 
 Usage:
@@ -615,8 +651,14 @@ also known as deep equality, like the toEqual matcher).
 Signature:
 ```fsharp
 (keyPath: string, ?value: 'T)
+(keyPath: ResizeArray<string>)
+(keyPath: ResizeArray<string>, value: 'T)
+(keyPath: string [])
+(keyPath: string [], value: 'T)
 (keyPath: string list)
 (keyPath: string list, value: 'T)
+(keyPath: string seq)
+(keyPath: string seq, value: 'T)
 ```
 
 Usage:
@@ -679,8 +721,8 @@ Jest.expect(myElement).toHaveTextContent(Regex("\\w+?"))
 
 Check whether the given form element has the specified value. 
 
-It accepts `<input>`, `<select>` and `<textarea>` elements with the exception of of `<input type="checkbox">`
-and `<input type="radio">`, which can be meaningfully matched only using toBeChecked or toHaveFormValues.
+It accepts input, select and textarea elements with the exception of of `<input type="checkbox">`
+and `<input type="radio">`, which can be meaningfully matched only using [toBeChecked] or [toHaveFormValues].
 
 Signature:
 ```fsharp
@@ -689,9 +731,10 @@ Signature:
 (value: System.Guid)
 (value: int)
 (value: string)
+(value: ResizeArray<string>)
 (value: string [])
 (value: string list)
-(value: ResizeArray<string>)
+(value: string seq)
 ```
 
 Usage:
@@ -812,3 +855,5 @@ functionality, create an [issue] and we can review/discuss it.
 * It's additional work to maintain. ;)
 
 [issue]: https://github.com/Shmew/Fable.Jester/issues/new/choose
+[expect.stringContaining]: /jest/expect-helpers#stringcontaining
+[expect.stringMatching]: /jest/expect-helpers#stringmatching
