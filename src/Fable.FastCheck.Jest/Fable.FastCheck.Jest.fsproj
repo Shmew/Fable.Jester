@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="FastCheck.fs" />
+    <None Include="paket.references" />
+    <None Include="paket.template" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fable.FastCheck\Fable.FastCheck.fsproj" />
+    <ProjectReference Include="..\Fable.Jester\Fable.Jester.fsproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <NpmDependencies>
+      <NpmPackage Name="@testing-library/react" Version="gte 10 lt 11" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="@testing-library/user-event" Version="gte 10 lt 11" ResolutionStrategy="max" DevDependency="true" />
+    </NpmDependencies>
+  </PropertyGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

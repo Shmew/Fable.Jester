@@ -1,0 +1,4 @@
+﻿group FastCheck
+    Fable.Core
+    Fable.Promise
+    FSharp.Core

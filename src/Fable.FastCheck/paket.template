@@ -1,0 +1,12 @@
+﻿type project
+licenseExpression https://github.com/Shmew/Fable.Jester/blob/master/LICENSE
+authors Cody Johnson
+description
+    Fable bindings for fast-check
+language
+    F#
+tags
+    fsharp, fable, testing, property, fscheck, fast-check
+files
+    *.fsproj ==> fable
+    *.fs ==> fable

@@ -1,0 +1,12 @@
+﻿type project
+licenseExpression https://github.com/Shmew/Fable.Jester/blob/master/LICENSE
+authors Cody Johnson
+description
+    Jest wrapper for fast-check
+language
+    F#
+tags
+    fsharp, fable, testing, property, fscheck, fast-check, jest
+files
+    *.fsproj ==> fable
+    *.fs ==> fable
