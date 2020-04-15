@@ -22,20 +22,3 @@ module ElmishModel =
                 m.Dispatch(msg)
                 
             member _.toString () = msg.ToString()
-
-    //type DispatchRunner<'Model,'Msg> =
-    //    { Assertions: ('Msg * ('Model -> 'Model -> unit)) list
-    //      Init: 'Model * Cmd<'Msg>
-    //      Update: 'Msg -> 'Model -> 'Model * Cmd<'Msg> }
-
-    //let create (dispatchRunner: DispatchRunner<'Model,'Msg>) =
-    //    let model = Model<'Model,'Msg>(dispatchRunner.Init, dispatchRunner.Update)
-    //    let real = Model<'Model,'Msg>(dispatchRunner.Init, dispatchRunner.Update)
-    //    let cmds = 
-    //        dispatchRunner.Assertions
-    //        |> List.map (fun (msg, assertion) -> 
-    //            Msg<'Model,'Msg>(msg, assertion) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
-    //            |> Arbitrary.constant)
-    //        |> Arbitrary.commands
-        
-    //    Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
