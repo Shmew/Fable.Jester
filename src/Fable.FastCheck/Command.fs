@@ -1,40 +1,79 @@
 ﻿namespace Fable.FastCheck
 
-type Command<'Model,'Real,'RunResult,'CheckResult> =
+open Fable.Core
+
+type ICommand<'Model,'Real> =
     /// Check if the model is in the right state to apply the command
     /// 
     /// WARNING: does not change the model
     /// Model, simplified or schematic representation of real system
-    abstract check: m: 'Model -> 'CheckResult
+    abstract check: m: 'Model -> bool
 
     /// Receive the non-updated model and the real or system under test.
     /// Perform the checks post-execution - Throw in case of invalid state.
     /// Update the model accordingly
     /// Model, simplified or schematic representation of real system
     /// Sytem under test
-    abstract run: m: 'Model * r: 'Real -> 'RunResult
+    abstract run: m: 'Model * r: 'Real -> unit
 
     /// Name of the command
     abstract toString: unit -> string
 
-type CommandWrapper<'Model,'Real,'RunResult,'CheckResult> =
-    inherit Command<'Model,'Real,'RunResult,'CheckResult>
-    abstract cmd: Command<'Model,'Real,'RunResult,'CheckResult>
+type IAsyncCommand<'Model,'Real> =
+    /// Check if the model is in the right state to apply the command
+    /// 
+    /// WARNING: does not change the model
+    /// Model, simplified or schematic representation of real system
+    abstract check: m: 'Model -> JS.Promise<bool>
+
+    /// Receive the non-updated model and the real or system under test.
+    /// Perform the checks post-execution - Throw in case of invalid state.
+    /// Update the model accordingly
+    /// Model, simplified or schematic representation of real system
+    /// Sytem under test
+    abstract run: m: 'Model * r: 'Real -> JS.Promise<unit>
+
+    /// Name of the command
+    abstract toString: unit -> string
+
+type ICommandWrapper<'Model,'Real> =
+    inherit ICommand<'Model,'Real>
+
+    abstract cmd: ICommand<'Model,'Real>
+
     abstract hasRan: bool with get, set
-    abstract check: m: obj -> obj
-    abstract run: m: 'Model * r: 'Real -> 'RunResult
-    abstract clone: unit -> CommandWrapper<'Model,'Real,'RunResult,'CheckResult>
-    abstract toString: unit -> string
 
-type CommandsIterable<'Model,'Real,'RunResult,'CheckResult> =
-    inherit Iterable<CommandWrapper<'Model,'Real,'RunResult,'CheckResult>>
+    abstract clone: unit -> ICommandWrapper<'Model,'Real>
 
-    abstract commands: ResizeArray<CommandWrapper<'Model,'Real,'RunResult,'CheckResult>>
+type IAsyncCommandWrapper<'Model,'Real> =
+    inherit IAsyncCommand<'Model,'Real>
+
+    abstract cmd: IAsyncCommand<'Model,'Real>
+
+    abstract hasRan: bool with get, set
+
+    abstract clone: unit -> IAsyncCommandWrapper<'Model,'Real>
+
+type ICommandSeq<'Model,'Real> =
+    inherit seq<ICommandWrapper<'Model,'Real>>
+
+    abstract commands: ResizeArray<ICommandWrapper<'Model,'Real>>
+
     abstract metadataForReplay: (unit -> string)
-    abstract ``[Symbol.iterator]``: unit -> Iterator<CommandWrapper<'Model,'Real,'RunResult,'CheckResult>>
-    abstract ``[cloneMethod]``: unit -> CommandsIterable<'Model,'Real,'RunResult,'CheckResult>
+
+    [<Emit("$0.[cloneMethod]$1")>]
+    abstract clone: unit -> ICommandSeq<'Model,'Real>
+
     abstract toString: unit -> string
 
-type Setup<'Model,'Real> =
-    abstract model: 'Model
-    abstract real: 'Real
+type IAsyncCommandSeq<'Model,'Real> =
+    inherit seq<IAsyncCommandWrapper<'Model,'Real>>
+
+    abstract commands: ResizeArray<IAsyncCommandWrapper<'Model,'Real>>
+
+    abstract metadataForReplay: (unit -> string)
+
+    [<Emit("$0.[cloneMethod]$1")>]
+    abstract clone: unit -> IAsyncCommandSeq<'Model,'Real>
+
+    abstract toString: unit -> string

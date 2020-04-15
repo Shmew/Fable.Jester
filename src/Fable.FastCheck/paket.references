@@ -1,4 +1,5 @@
 ﻿group FastCheck
     Fable.Core
+    Fable.Elmish
     Fable.Promise
     FSharp.Core

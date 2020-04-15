@@ -8,14 +8,14 @@
     <Compile Include="Types.fs" />
     <Compile Include="Interop.fs" />
     <Compile Include="Parameters.fs" />
-    <Compile Include="Stream.fs" />
     <Compile Include="Arbitrary.fs" />
     <Compile Include="Property.fs" />
     <Compile Include="RunDetails.fs" />
     <Compile Include="Constraints.fs" />
-    <Compile Include="Scheduler.fs" />
     <Compile Include="Command.fs" />
     <Compile Include="Bindings.fs" />
+    <Compile Include="Scheduler.fs" />
+    <Compile Include="Elmish.fs" />
     <Compile Include="Arb.fs" />
     <Compile Include="FastCheck.fs" />
     <None Include="paket.references" />

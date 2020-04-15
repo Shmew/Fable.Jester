@@ -6,6 +6,94 @@ open System
 
 [<RequireQualifiedAccess>]
 module Bindings =
+    type SchedulerAct =
+        /// Ensure that all scheduled tasks will be executed in the right context (for instance it can be the `act` of React)
+        abstract act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)
+
+    module SchedulerAct =
+        let inline create (act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) = 
+            {| act = act |}
+            |> toPlainJsObj
+            |> fun res -> res :?> SchedulerAct
+
+    type SchedulerReturnTask =
+        [<Emit("$0.done")>]
+        abstract isDone: bool
+    
+        [<Emit("$0.done")>]
+        abstract isFaulty: bool
+    
+    type SchedulerReturn =
+        [<Emit("$0.done")>]
+        abstract isDone: bool
+    
+        [<Emit("$0.done")>]
+        abstract isFaulty: bool
+    
+        abstract task: JS.Promise<SchedulerReturnTask>
+    
+    type ScheduleSequenceItem =
+        abstract builder: unit -> JS.Promise<obj>
+        abstract label: string
+
+    module ScheduleSequenceItem =
+        let inline create (builder: unit -> JS.Promise<obj>, label: string) = 
+            {| builder = builder; label = label |}
+            |> toPlainJsObj
+            |> fun res -> res :?> ScheduleSequenceItem
+    
+    /// Instance able to reschedule the ordering of promises
+    /// for a given app
+    type Scheduler<'T,'TArgs> =
+        /// Wrap a new task using the Scheduler
+        abstract schedule: (JS.Promise<'T> -> JS.Promise<'T>)
+    
+        /// Automatically wrap function output using the Scheduler
+        abstract scheduleFunction: (('TArgs -> JS.Promise<'T>) -> ('TArgs -> JS.Promise<'T>))
+    
+        /// Schedule a sequence of promises to be executed sequencially.
+        /// Items within the sequence might be interleaved by other scheduled operations.
+        /// 
+        /// Please note that whenever an item from the sequence has started,
+        /// the scheduler will wait until its end before moving to another scheduled task.
+        /// 
+        /// A handle is returned by the function in order to monitor the state of the sequence.
+        /// Sequence will be marked:
+        /// - done if all the promises have been executed properly
+        /// - faulty if one of the promises within the sequence throws
+        abstract scheduleSequence: sequenceBuilders: ResizeArray<unit -> JS.Promise<obj>> -> SchedulerReturn
+        /// Schedule a sequence of promises to be executed sequencially.
+        /// Items within the sequence might be interleaved by other scheduled operations.
+        /// 
+        /// Please note that whenever an item from the sequence has started,
+        /// the scheduler will wait until its end before moving to another scheduled task.
+        /// 
+        /// A handle is returned by the function in order to monitor the state of the sequence.
+        /// Sequence will be marked:
+        /// - done if all the promises have been executed properly
+        /// - faulty if one of the promises within the sequence throws
+        abstract scheduleSequence: sequenceBuilders: ResizeArray<ScheduleSequenceItem> -> SchedulerReturn
+
+        /// Count of pending scheduled tasks
+        abstract count: unit -> int
+    
+        /// Wait one scheduled task to be executed
+        abstract waitOne: (unit -> JS.Promise<unit>)
+    
+        /// Wait all scheduled tasks,
+        /// including the ones that might be created by one of the resolved task
+        abstract waitAll: (unit -> JS.Promise<unit>)
+
+    type Setup<'Model,'Real> =
+        abstract model: 'Model
+        abstract real: 'Real
+    
+    module Setup =
+        let inline create (model: 'Model) (real: 'Real) = 
+            {| model = model; real = real |}
+            |> toPlainJsObj
+            |> fun res -> res :?> Setup<'Model,'Real>
+
     type FC =
         abstract __type: string
         abstract __version: string
@@ -25,12 +113,12 @@ module Bindings =
         abstract asciiString: minLength: int * maxLength: int -> Arbitrary<string>
         
         [<Emit("$0.assert($1...)")>]
-        abstract assert': prop: AsyncProperty<'T> * ?parameters: Parameters<'T> -> JS.Promise<unit>
+        abstract assert': prop: AsyncProperty<'T> * ?parameters: obj -> JS.Promise<unit>
         [<Emit("$0.assert($1...)")>]
-        abstract assert': prop: Property<'T> * ?parameters: Parameters<'T> -> unit
+        abstract assert': prop: Property<'T> * ?parameters: obj -> unit
         
-        abstract asyncModelRun: Setup<'InitialModel, 'Real> * Iterable<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>> -> JS.Promise<unit>
-        abstract asyncModelRun: Setup<'InitialModel, 'Real> * CommandsIterable<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>> -> JS.Promise<unit>
+        abstract asyncModelRun: (unit -> Setup<'InitialModel, 'Real>) * seq<IAsyncCommand<'Model,'Real>> -> JS.Promise<unit>
+        abstract asyncModelRun: (unit -> Setup<'InitialModel, 'Real>) * IAsyncCommandSeq<'Model,'Real> -> JS.Promise<unit>
 
         abstract asyncProperty: arb0: Arbitrary<'T0> * predicate: ('T0 ->JS.Promise<bool>) -> AsyncProperty<'T0>
         abstract asyncProperty: arb0: Arbitrary<'T0> * predicate: ('T0 ->JS.Promise<unit>) -> AsyncProperty<'T0>
@@ -59,15 +147,15 @@ module Bindings =
         
         abstract char16bits: unit -> Arbitrary<char>
 
-        abstract check: prop: AsyncProperty<'T> * ?parameters: Parameters<'T> -> JS.Promise<RunDetails<'T>>
-        abstract check: prop: Property<'T> * ?parameters: Parameters<'T> -> RunDetails<'T>
+        abstract check: prop: AsyncProperty<'T> * ?parameters: obj -> JS.Promise<RunDetails<'T>>
+        abstract check: prop: Property<'T> * ?parameters: obj -> RunDetails<'T>
         
         abstract clonedConstant: value: 'T -> Arbitrary<'T>
         
-        abstract commands: commandArbs: ResizeArray<Arbitrary<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>>> * ?maxCommands: int -> Arbitrary<Iterable<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>>>
-        abstract commands: commandArbs: ResizeArray<Arbitrary<Command<'Model,'Real,unit,bool>>> * ?maxCommands: int -> Arbitrary<Iterable<Command<'Model,'Real,unit,bool>>>
-        abstract commands: commandArbs: ResizeArray<Arbitrary<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>>> * ?settings: obj -> Arbitrary<Iterable<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>>>
-        abstract commands: commandArbs: ResizeArray<Arbitrary<Command<'Model,'Real,unit,bool>>> * ?settings: obj -> Arbitrary<Iterable<Command<'Model,'Real,unit,bool>>>
+        abstract commands: commandArbs: ResizeArray<Arbitrary<IAsyncCommand<'Model,'Real>>> * ?maxCommands: int -> Arbitrary<seq<IAsyncCommand<'Model,'Real>>>
+        abstract commands: commandArbs: ResizeArray<Arbitrary<ICommand<'Model,'Real>>> * ?maxCommands: int -> Arbitrary<seq<ICommand<'Model,'Real>>>
+        abstract commands: commandArbs: ResizeArray<Arbitrary<IAsyncCommand<'Model,'Real>>> * ?settings: obj -> Arbitrary<seq<IAsyncCommand<'Model,'Real>>>
+        abstract commands: commandArbs: ResizeArray<Arbitrary<ICommand<'Model,'Real>>> * ?settings: obj -> Arbitrary<seq<ICommand<'Model,'Real>>>
 
         abstract compareBooleanFunc: unit -> Arbitrary<('T -> 'T -> bool)>
 
@@ -114,7 +202,7 @@ module Bindings =
         abstract hexaString: maxLength: int -> Arbitrary<string>
         abstract hexaString: minLength: int * maxLength: int -> Arbitrary<string>
 
-        abstract infiniteStream: arb: Arbitrary<'T> -> Arbitrary<Stream<'T>>
+        abstract infiniteStream: arb: Arbitrary<'T> -> Arbitrary<seq<'T>>
         
         abstract integer: unit -> ArbitraryWithShrink<int>
         abstract integer: max: int -> ArbitraryWithShrink<int>
@@ -147,8 +235,8 @@ module Bindings =
         [<Emit("$0.mixedCase($1 * { toggleCase: $2 })")>]
         abstract mixedCase: stringArb: Arbitrary<string> * toggleCase: bool -> Arbitrary<string>
         
-        abstract modelRun: Setup<'InitialModel,'Real> * Iterable<Command<'Model,'Real,unit,bool>> -> unit
-        abstract modelRun: Setup<'InitialModel,'Real> * CommandsIterable<'Model,'Real,unit,bool> -> unit
+        abstract modelRun: (unit -> Setup<'InitialModel,'Real>) * seq<ICommand<'Model,'Real>> -> unit
+        abstract modelRun: (unit -> Setup<'InitialModel,'Real>) * ICommandSeq<'Model,'Real> -> unit
 
         abstract object: unit -> Arbitrary<'T>
         [<Emit("$0.object(Object.fromEntries(Array.from($1))")>]
@@ -175,18 +263,18 @@ module Bindings =
         abstract property: arb0: Arbitrary<'T0> * arb1: Arbitrary<'T1> * arb2: Arbitrary<'T2> * arb3: Arbitrary<'T3> * arb4: Arbitrary<'T4> * arb5: Arbitrary<'T5> * arb6: Arbitrary<'T6> * predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> unit) -> Property<'T0 * 'T1 * 'T2 * 'T3 * 'T4 * 'T5 * 'T6>
         
         abstract record: recordModel: 'T -> Arbitrary<'T>
-        [<Emit("$0.record($1 * { withDeletedKeys: $2 })")>]
+        [<Emit("$0.record($1, { withDeletedKeys: $2 })")>]
         abstract record: recordModel: 'T * withDeletedKeys: bool -> Arbitrary<'T>
         
-        abstract sample: generator: Arbitrary<'T> * ?parameters: Parameters<'T> -> ResizeArray<'T>
+        abstract sample: generator: Arbitrary<'T> * ?parameters: obj -> ResizeArray<'T>
         abstract sample: generator: Arbitrary<'T> * ?parameters: int -> ResizeArray<'T>
-        abstract sample: generator: #IProperty<'T,'Return> * ?parameters: Parameters<'T> -> ResizeArray<'T>
+        abstract sample: generator: #IProperty<'T,'Return> * ?parameters: obj -> ResizeArray<'T>
         abstract sample: generator: #IProperty<'T,'Return> * ?parameters: int -> ResizeArray<'T>
 
-        abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * Iterable<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>> -> JS.Promise<unit>
-        abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * CommandsIterable<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>> -> JS.Promise<unit>
+        abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * seq<ICommand<'Model,'Real>> -> JS.Promise<unit>
+        abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * ICommandSeq<'Model,'Real> -> JS.Promise<unit>
 
-        abstract scheduler: ?constraints: SchedulerConstraints -> Arbitrary<Scheduler<'T,'TArgs>>
+        abstract scheduler: ?constraints: SchedulerAct -> Arbitrary<Scheduler<'T,'TArgs>>
         
         abstract set: arb: Arbitrary<'T> -> Arbitrary<ResizeArray<'T>>
         abstract set: arb: Arbitrary<'T> * maxLength: int -> Arbitrary<ResizeArray<'T>>
@@ -207,16 +295,14 @@ module Bindings =
         abstract shuffledSubarray: originalArray: 'T list * minLength: int * maxLength: int -> Arbitrary<ResizeArray<'T>>
         abstract shuffledSubarray: originalArray: 'T seq * minLength: int * maxLength: int -> Arbitrary<ResizeArray<'T>>
         
-        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> string) * ?parameters: Parameters<'T> -> unit
+        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> string) * ?parameters: obj -> unit
         abstract statistics: generator: Arbitrary<'T> * classify: ('T -> string) * ?parameters: int -> unit
-        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) * ?parameters: Parameters<'T> -> unit
+        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) * ?parameters: obj -> unit
         abstract statistics: generator: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) * ?parameters: int -> unit
-        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> string) * ?parameters: Parameters<'T> -> unit
+        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> string) * ?parameters: obj -> unit
         abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> string) * ?parameters: int -> unit
-        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) * ?parameters: Parameters<'T> -> unit
+        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) * ?parameters: obj -> unit
         abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) * ?parameters: int -> unit
-        
-        abstract stream: g: IterableIterator<'T> -> Stream<'T>
         
         abstract string: unit -> Arbitrary<string>
         abstract string: maxLength: int -> Arbitrary<string>

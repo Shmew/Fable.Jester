@@ -1,54 +1,35 @@
 ﻿namespace Fable.FastCheck
 
 open Fable.Core
+open System.ComponentModel
 
-type SchedulerSequenceItem =
-    U2<(unit -> JS.Promise<obj option>), string>
+type Scheduler [<EditorBrowsable(EditorBrowsableState.Never)>] (scheduler: Bindings.Scheduler<obj,obj>) =
+    member _.schedule (prom: JS.Promise<'T>) =
+        prom
+        |> Promise.map (box)
+        |> scheduler.schedule
+        |> Promise.map unbox<'T>
 
-type SchedulerConstraints =
-    /// Ensure that all scheduled tasks will be executed in the right context (for instance it can be the `act` of React)
-    abstract act: ((unit -> JS.Promise<unit>) -> JS.Promise<obj>)
+    member _.scheduleFunction (f: 'Args -> JS.Promise<'T>) =
+        unbox<'Args> >> f >> Promise.map box
+        |> scheduler.scheduleFunction
+        >> Promise.map unbox<'T>
+        |> fun res -> 
+            fun (args: 'Args) -> (box args) |> res
 
-type SchedulerScheduleSequenceReturnTaskPromise =
-    abstract ``done``: bool
+    member _.scheduleSequence (funcs: seq<unit -> JS.Promise<obj>>) =
+        scheduler.scheduleSequence (ResizeArray funcs)
 
-    abstract faulty: bool
+    member _.scheduleSequence (funcs: seq<(unit -> JS.Promise<obj>) * string>) =
+        funcs 
+        |> Seq.map Bindings.ScheduleSequenceItem.create
+        |> ResizeArray
+        |> scheduler.scheduleSequence
 
-type SchedulerScheduleSequenceReturn =
-    [<Emit("$0.done")>]
-    abstract done': bool
+    member _.count () = scheduler.count()
 
-    abstract faulty: bool
+    member _.waitOne () = scheduler.waitOne()
 
-    abstract task:JS.Promise<SchedulerScheduleSequenceReturnTaskPromise>
+    member _.waitAll () = scheduler.waitAll()
 
-/// Instance able to reschedule the ordering of promises
-/// for a given app
-type Scheduler<'T,'TArgs> =
-    /// Wrap a new task using the Scheduler
-    abstract schedule: (JS.Promise<'T> -> string -> JS.Promise<'T>)
-
-    /// Automatically wrap function output using the Scheduler
-    abstract scheduleFunction: (('TArgs -> JS.Promise<'T>) -> ('TArgs -> JS.Promise<'T>))
-
-    /// Schedule a sequence of promises to be executed sequencially.
-    /// Items within the sequence might be interleaved by other scheduled operations.
-    /// 
-    /// Please note that whenever an item from the sequence has started,
-    /// the scheduler will wait until its end before moving to another scheduled task.
-    /// 
-    /// A handle is returned by the function in order to monitor the state of the sequence.
-    /// Sequence will be marked:
-    /// - done if all the promises have been executed properly
-    /// - faulty if one of theJS.Promises within the sequence throws
-    abstract scheduleSequence: sequenceBuilders: ResizeArray<SchedulerSequenceItem> -> SchedulerScheduleSequenceReturn
-    
-    /// Count of pending scheduled tasks
-    abstract count: unit -> float
-
-    /// Wait one scheduled task to be executed
-    abstract waitOne: (unit -> JS.Promise<unit>)
-
-    /// Wait all scheduled tasks,
-    /// including the ones that might be created by one of the resolved task
-    abstract waitAll: (unit -> JS.Promise<unit>)
+    member _.scheduler = scheduler

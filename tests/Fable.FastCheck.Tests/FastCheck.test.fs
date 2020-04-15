@@ -9,33 +9,41 @@ let add x = x + 1
 let positiveInt =
     Arbitrary.Defaults.integer.filter(fun i -> i > 0)
 
-let arbTest =
+let arbCE =
     arbitrary {
         let! i = Arbitrary.Defaults.integer
         let! i2 = Arbitrary.Defaults.integer
         return i,i2
     }
 
-let moreComplexArb =
-    Arbitrary.List.ofRange 5 10 Arbitrary.Defaults.string
-    
-Jest.describe("test", (fun () ->
-    Jest.test("testing", (fun () ->
+Jest.describe("FastCheck", fun () ->
+    Jest.test("assertion works", fun () ->
         FastCheck.assert'(FastCheck.property(Arbitrary.Defaults.integer, fun i -> Jest.expect(add i).toEqual(i + 1)))
         FastCheck.assert'(FastCheck.property(positiveInt, fun i -> Jest.expect(i).toBeGreaterThan(0)))
-    ))
-    Jest.test("CE", (fun () ->
-        FastCheck.assert'(FastCheck.property(arbTest, fun (i,i2) ->
-            Jest.expect(i+1).toEqual(i+1)
+    )
+    Jest.test("CE works", fun () ->
+        FastCheck.assert'(FastCheck.property(arbCE, fun (i,i2) ->
+            Jest.expect(i+i2).toEqual(i+i2)
         ))
-        FastCheck.assert'(FastCheck.property(moreComplexArb, fun xs ->
-            Jest.expect(xs.Length).toBeLessThanOrEqual(10)
+        FastCheck.assert'(FastCheck.property(arbCE, fun (i,i2) ->
+            Jest.expect(i+i2).not.toEqual(i)
         ))
-    ))
-    Jest.test.prop("testing", positiveInt, (fun i ->
+    )
+)
+Jest.describe("FastCheck Jest Wrapper", fun () ->
+    Jest.test.prop("test.prop works", positiveInt, fun i ->
         Jest.expect(i).toBeGreaterThan(0)
-    ))
-    Jest.test.propSkip("testing", positiveInt, (fun i ->
+    )
+    Jest.test.propSkip("test.skip skips", positiveInt, fun i ->
         Jest.expect(i).toBeLessThan(0)
-    ))
-))
+    )
+)
+
+Jest.describe("FastCheck Jest test.only", fun () ->
+    Jest.test.propOnly("only this should run", positiveInt, fun i ->
+        Jest.expect(i).toBeGreaterThan(0)
+    )
+    Jest.test.prop("this shouldn't run", positiveInt, fun i ->
+        Jest.expect(i).toBeLessThan(0)
+    )
+)

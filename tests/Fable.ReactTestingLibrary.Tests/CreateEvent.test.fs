@@ -10,12 +10,12 @@ let testElement = React.functionComponent (fun (dateTime: DateTime) ->
     Html.div [
         Html.input [
             prop.type'.text
-            prop.custom("data-testid", "test-input")
+            prop.testId "test-input"
             prop.onChange (DateTime.Parse >> setValue)
         ]
         Html.h1 [
             prop.text (value.ToString())
-            prop.custom("data-testid", "header")
+            prop.testId "header"
         ]
     ])
 

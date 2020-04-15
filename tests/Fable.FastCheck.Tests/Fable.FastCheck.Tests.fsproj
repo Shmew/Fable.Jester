@@ -7,6 +7,10 @@
     <EmbeddedResource Remove="Queries\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arbitrary.test.fs" />
+    <Compile Include="Commands.test.fs" />
+    <Compile Include="Elmish.test.fs" />
+    <Compile Include="Scheduler.test.fs" />
     <Compile Include="FastCheck.test.fs" />
     <None Include="paket.references" />
     <None Include="splitter.config.js" />

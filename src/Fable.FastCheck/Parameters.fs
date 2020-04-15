@@ -1,6 +1,6 @@
 ﻿namespace Fable.FastCheck
 
-type Parameters<'T> =
+type parameters =
     /// Initial seed of the generator: `Date.now()` by default
     /// 
     /// It can be forced to replay a failed run.
@@ -78,7 +78,7 @@ type Parameters<'T> =
     /// it replays only the minimal counterexample.
     static member endOnFailure (value: bool) = Interop.mkParametersOptionAttr "endOnFailure" value
 
-module Parameters =
+module parameters =
     /// Random number generator: `xorshift128plus` by default
     /// 
     /// Random generator is the core element behind the generation of random values - changing it might directly impact the quality and performances of the generation of random values.

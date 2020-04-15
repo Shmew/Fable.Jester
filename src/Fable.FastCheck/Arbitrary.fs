@@ -7,7 +7,7 @@ open Fable.Core
 type Shrinkable<'T> =
     abstract value_ : 'T
 
-    abstract shrink: unit -> Stream<Shrinkable<'T>>
+    abstract shrink: unit -> seq<Shrinkable<'T>>
 
     /// State storing the result of hasCloneMethod
     /// If <true> the value will be cloned each time it gets accessed
@@ -32,7 +32,7 @@ type Shrinkable<'T> =
 
 type Shrinkable =
     [<Emit("new Shrinkable($1...)")>]
-    static member Create (value_: 'T, ?shrink: (unit -> Stream<Shrinkable<'T>>)) : Shrinkable<'T> = jsNative
+    static member Create (value_: 'T, ?shrink: (unit -> seq<Shrinkable<'T>>)) : Shrinkable<'T> = jsNative
 
 type Arbitrary<'T> =
     /// Generate a value of type `T` along with its shrink method
@@ -73,7 +73,7 @@ type ArbitraryWithShrink<'T> =
     /// Produce a stream of shrinks of value
     /// Value to shrink
     /// Indicate whether its the first shrink (default: false)
-    abstract shrink: value: 'T * ?shrunkOnce: bool -> Stream<'T>
+    abstract shrink: value: 'T * ?shrunkOnce: bool -> seq<'T>
 
     /// Build the Shrinkable associated to value
     /// Value to shrink

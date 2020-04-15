@@ -1,9 +1,55 @@
 ﻿namespace Fable.FastCheck
 
+open ElmishModel
 open Fable.Core
 open Fable.Core.JsInterop
 open System
 open System.ComponentModel
+
+[<AutoOpen>]
+module ArbitraryBuilder =
+    let inline private dispose (x: #IDisposable) = x.Dispose()
+    let inline private using (a, k) = 
+        try k a
+        finally dispose a
+
+    type ArbitraryBuilder internal () =
+        member _.Bind (a: #Arbitrary<_>, f) = a.bind(f)
+
+        member _.Combine (a: #Arbitrary<_>, f) = a.bind(f)
+
+        member _.Delay f = f
+
+        member this.For (s: #seq<_>, m) =
+            using(s.GetEnumerator(), fun (enum: Collections.Generic.IEnumerator<_>) ->
+                this.While(enum.MoveNext,
+                    this.Delay(fun () -> m enum.Current)))
+
+        member _.Return a = Bindings.fc.constant a
+
+        member _.ReturnFrom (a: #Arbitrary<_>) = a
+
+        member _.Run f = f()
+
+        member this.TryFinally ((m: #Arbitrary<_>), handler) =
+            try this.ReturnFrom(m)
+            finally handler()
+
+        member this.TryWith ((m: #Arbitrary<_>), handler) =
+            try this.ReturnFrom(m)
+            with e -> handler e
+
+        member this.Using (a, k) = 
+            this.TryFinally(k a, (fun () -> dispose a))
+
+        member this.While (p, m) =
+            if not (p()) then this.Zero()
+            else this.Bind(m(), fun () ->
+                this.While(p, m))
+
+        member this.Zero () = this.Return ()
+
+    let arbitrary = ArbitraryBuilder()
 
 [<RequireQualifiedAccess>]
 module Arbitrary =
@@ -95,16 +141,19 @@ module Arbitrary =
         /// For lorem ipsum string of words or sentences with maximal number of words or sentences
         /// Upper bound of the number of words/sentences allowed
         /// If enabled, multiple sentences might be generated
-        static member inline lorem (maxWordsCount: float, sentencesMode: bool) = Bindings.fc.lorem(maxWordsCount, sentencesMode)
+        static member inline lorem (maxWordsCount: float, sentencesMode: bool) = 
+            Bindings.fc.lorem(maxWordsCount, sentencesMode)
         
         /// For any objects following the constraints defined by `settings`
         /// 
         /// You may use sample to preview the values that will be generated
         /// Constraints to apply when building instances
-        static member inline object (constraints: IObjConstraintProperty list) = Bindings.fc.object(constraints)
+        static member inline object (constraints: IObjConstraintProperty list) = 
+            Bindings.fc.object(constraints)
         
         /// For scheduler of promises
-        static member inline scheduler (constraints: SchedulerConstraints) = Bindings.fc.scheduler(constraints)
+        static member inline scheduler (act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) = 
+            Bindings.fc.scheduler(Bindings.SchedulerAct.create act).map(fun s -> new Scheduler(s))
 
         /// For strings of char
         /// Upper bound of the generated string length
@@ -252,7 +301,7 @@ module Arbitrary =
         static member inline hexaString = Bindings.fc.hexaString()
         
         /// For integers between -2147483648 (included) and 2147483647 (included)
-        static member inline integer = Bindings.fc.integer()
+        static member integer = Bindings.fc.integer()
         
         /// For valid IP v4
         /// 
@@ -300,7 +349,7 @@ module Arbitrary =
         static member inline object = Bindings.fc.object()
         
         /// For scheduler of promises
-        static member inline scheduler = Bindings.fc.scheduler()
+        static member inline scheduler = Bindings.fc.scheduler().map(fun s -> Scheduler(s))
 
         /// For strings of char
         static member inline string = Bindings.fc.string()
@@ -386,7 +435,7 @@ module Arbitrary =
     /// It should shrink more efficiently than array for AsyncCommand arrays.
     /// Arbitraries responsible to build commands
     /// Maximal number of commands to build
-    let inline asyncCommands (commandArbs: Arbitrary<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>> list) = 
+    let inline asyncCommands (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, ?maxCommands = None)
 
     /// For arrays of AsyncCommand to be executed by asyncModelRun
@@ -395,7 +444,7 @@ module Arbitrary =
     /// It should shrink more efficiently than array for AsyncCommand arrays.
     /// Arbitraries responsible to build commands
     /// Maximal number of commands to build
-    let inline asyncCommandsOfMax (maxCommands: int) (commandArbs: Arbitrary<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>> list) = 
+    let inline asyncCommandsOfMax (maxCommands: int) (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, maxCommands = maxCommands)
 
     /// For arrays of AsyncCommand to be executed by asyncModelRun
@@ -403,7 +452,7 @@ module Arbitrary =
     /// This implementation comes with a shrinker adapted for commands.
     /// It should shrink more efficiently than array for AsyncCommand arrays.
     /// Arbitraries responsible to build commands
-    let inline asyncCommandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<Command<'Model,'Real,JS.Promise<unit>,JS.Promise<bool>>> list) = 
+    let inline asyncCommandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, settings = createObj !!(settings))
 
     /// For arrays of Command to be executed by modelRun
@@ -412,7 +461,7 @@ module Arbitrary =
     /// It should shrink more efficiently than array for Command arrays.
     /// Arbitraries responsible to build commands
     /// Maximal number of commands to build
-    let inline commands (commandArbs: Arbitrary<Command<'Model,'Real,unit,bool>> list) = 
+    let inline commands (commandArbs: Arbitrary<ICommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, ?maxCommands = None)
     
     /// For arrays of AsyncCommand to be executed by asyncModelRun
@@ -421,7 +470,7 @@ module Arbitrary =
     /// It should shrink more efficiently than array for AsyncCommand arrays.
     /// Arbitraries responsible to build commands
     /// Maximal number of commands to build
-    let inline commandsOfMax (maxCommands: int) (commandArbs: Arbitrary<Command<'Model,'Real,unit,bool>> list) = 
+    let inline commandsOfMax (maxCommands: int) (commandArbs: Arbitrary<ICommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, maxCommands = maxCommands)
 
     /// For arrays of AsyncCommand to be executed by asyncModelRun
@@ -429,7 +478,7 @@ module Arbitrary =
     /// This implementation comes with a shrinker adapted for commands.
     /// It should shrink more efficiently than array for AsyncCommand arrays.
     /// Arbitraries responsible to build commands
-    let inline commandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<Command<'Model,'Real,unit,bool>> list) = 
+    let inline commandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<ICommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, settings = createObj !!(settings))
 
     /// Build an arbitrary that randomly generates one of the values in the given non-empty seq.
@@ -440,7 +489,20 @@ module Arbitrary =
         | :? list<'T> as lst ->
             Bindings.fc.integer(0, lst.Length - 1).map(fun i -> List.item i lst)
         | _ -> Bindings.fc.integer(0, (Seq.length xs) - 1).map(fun i -> Seq.item i xs)
+
+    let inline filter f (a: Arbitrary<'T>) = a.filter f
+
+    let inline fresh fv = arbitrary { let a = fv() in return a }
     
+    let inline func (arb: Arbitrary<'TOut>) = Bindings.fc.func(arb)
+
+    /// Produce an infinite stream of values
+    /// 
+    /// WARNING: Requires Object.assign
+    /// Arbitrary used to generate the values
+    let inline infiniteStream (arb: Arbitrary<'T>) = 
+        Bindings.fc.infiniteStream(arb)
+
     let inline map (f: 'A -> 'B) (a: Arbitrary<'A>) = a.map(f)
     
     let inline map2 (f: 'A -> 'B -> 'C) (a: Arbitrary<'A>) (b: Arbitrary<'B>) =
@@ -458,6 +520,62 @@ module Arbitrary =
     let inline map6 (f: 'A -> 'B -> 'C -> 'D -> 'E -> 'G -> 'H) (a: Arbitrary<'A>) (b: Arbitrary<'B>) (c: Arbitrary<'C>) (d: Arbitrary<'D>) (e: Arbitrary<'E>) (g: Arbitrary<'G>) =
         apply(apply(apply(apply(apply(map f a, b), c), d), e), g)
     
+    /// Randomly switch the case of characters generated by `stringArb` (upper/lower)
+    /// 
+    /// WARNING:
+    /// Require any support.
+    /// Under-the-hood the arbitrary relies on any to compute the flags that should be toggled or not.
+    /// Arbitrary able to build string values
+    /// Constraints to be applied when computing upper/lower case version
+    let inline mixedCase (stringArb: Arbitrary<string>) = 
+        Bindings.fc.mixedCase(stringArb)
+
+    /// Randomly switch the case of characters generated by `stringArb` (upper/lower)
+    /// 
+    /// WARNING:
+    /// Require any support.
+    /// Under-the-hood the arbitrary relies on any to compute the flags that should be toggled or not.
+    /// Arbitrary able to build string values
+    /// Constraints to be applied when computing upper/lower case version
+    let inline mixedCaseWithToggle (toggleCase: bool) (stringArb: Arbitrary<string>) = 
+        Bindings.fc.mixedCase(stringArb, toggleCase)
+
+    /// For either null or a value coming from `arb`
+    /// Arbitrary that will be called to generate a non null value
+    let inline option (arb: Arbitrary<'T>) = Bindings.fc.option(arb)
+
+    /// For either null or a value coming from `arb` with custom frequency
+    /// Arbitrary that will be called to generate a non null value
+    /// The probability to build a null value is of `1 / freq`
+    let inline optionOfFreq (freq: float) (arb: Arbitrary<'T>) = 
+        Bindings.fc.option(arb, freq)
+
+    /// For records following the `recordModel` schema
+    /// Schema of the record
+    let inline record (recordModel: Map<string,'T>) = 
+        Bindings.fc.record(createObj !!(recordModel |> Map.toList))
+
+    /// For records following the `recordModel` schema
+    /// Schema of the record
+    /// Contraints on the generated record
+    let inline recordWithDeletedKeys (recordModel: Map<string,'T>) = 
+        Bindings.fc.record(createObj !!(recordModel |> Map.toList), true)
+
+    /// For strings using the characters produced by `charArb`
+    let inline stringOf (charArb: Arbitrary<char>) = 
+        Bindings.fc.stringOf(charArb)
+
+    /// For strings using the characters produced by `charArb`
+    /// Upper bound of the generated string length
+    let inline stringOfMaxSize (maxLength: int) (charArb: Arbitrary<char>) = 
+        Bindings.fc.stringOf(charArb, maxLength)
+
+    /// For strings using the characters produced by `charArb`
+    /// Lower bound of the generated string length
+    /// Upper bound of the generated string length
+    let inline stringOfSize (minLength: int) (maxLength: int)  (charArb: Arbitrary<char>) = 
+        Bindings.fc.stringOf(charArb, minLength, maxLength)
+
     let inline unzip (a: Arbitrary<'A * 'B>) =
         a.map(fst), a.map(snd)
     
@@ -499,7 +617,7 @@ module Arbitrary =
     
     let inline zip6 (a: Arbitrary<'A>) (b: Arbitrary<'B>) (c: Arbitrary<'C>)  (d: Arbitrary<'D>) (e: Arbitrary<'E>) (f: Arbitrary<'F>) =
         map6(fun u v w x y z -> u, v, w, x, y, z) a b c d e f
-    
+
     module Array =
         let inline traverse f (arbs: Arbitrary<'T> []) =
             constant [||]
@@ -543,32 +661,41 @@ module Arbitrary =
             |> yatesShuffle
 
         let inline piles k sum =
-            let arbSorted p n m =
-                let result = Array.zeroCreate<Arbitrary<int>> k
-                let mutable n = constant(n)
-                let mutable m = constant(m)
-                [ p .. -1 .. 1 ]
-                |> List.iter (fun i ->
-                    if i = 1 then
-                        result.[i - 1] <- n
-                        else
-                            let r =
-                                (n,m)
-                                ||> bind2(fun n m ->
-                                    ConstrainedDefaults.integer(
-                                        int (Math.Ceiling(float n / float i)), 
-                                        int (Math.Min(m, n))) :> Arbitrary<int>)
-                                
-                            result.[i - 1] <- r
-                            n <- map2(fun n r -> n - r) n r
-                            m <- map2(fun m r -> Math.Min(int m, int r)) m r)
-                result
-        
-            if k <= 0 then constant([||])
+            if k <= 0 then constant [||]
             else 
-                arbSorted k sum sum
-                |> sequence
+                arbitrary {
+                    let result = Array.zeroCreate<int> k
+                    let! n' = clonedConstant sum
+                    let mutable n = n'
+
+                    let! m' = clonedConstant sum
+                    let mutable m = m'
+                    
+                    for i in k .. -1 .. 1 do
+                        if i = 1 then
+                            result.[i - 1] <- n
+                        else
+                            let! r = ConstrainedDefaults.integer(int (Math.Ceiling(float n / float i)), Math.Min(m, n))
+                                    
+                            result.[i - 1] <- r
+                            n <- n - r
+                            m <- Math.Min(m, r)
+                    return result
+                }
                 |> bind yatesShuffle
+
+        let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! arr1 = ofLength (rows * cols) arb
+                return Array2D.init rows cols (fun r c -> arr1.[cols * r + c])
+            }
+
+        let inline twoDimOf (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! rows = ConstrainedDefaults.integer(0, 200)
+                let! cols = ConstrainedDefaults.integer(0, 200)
+                return! twoDimOfDim rows cols arb 
+            }
 
         /// For subarrays of `originalArray`
         /// Original array
@@ -623,6 +750,10 @@ module Arbitrary =
             let xs = xs |> Seq.toArray
             Array.copy xs
             |> Array.yatesShuffle
+            |> map List.ofArray
+
+        let inline piles k sum = 
+            Array.piles k sum
             |> map List.ofArray
 
         /// For subarrays of `originalArray`
@@ -683,6 +814,10 @@ module Arbitrary =
             |> Array.yatesShuffle
             |> map ResizeArray
 
+        let inline piles k sum = 
+            Array.piles k sum
+            |> map ResizeArray
+
         /// For subarrays of `originalArray`
         /// Original array
         let inline shuffledSub (originalArray: ResizeArray<'T>) = 
@@ -733,6 +868,10 @@ module Arbitrary =
             |> Array.yatesShuffle
             |> map Seq.ofArray
 
+        let inline piles k sum = 
+            Array.piles k sum
+            |> map Seq.ofArray
+
         /// For subarrays of `originalArray`
         /// Original array
         let inline shuffledSub (originalArray: 'T seq) = 
@@ -760,71 +899,38 @@ module Arbitrary =
         let inline subOfSize (minLength: int) (maxLength: int) (xs: 'T seq) = 
             Bindings.fc.subarray(ResizeArray xs, minLength, maxLength)
             |> map (fun r -> r :> seq<'T>)
-    
-    /// Produce an infinite stream of values
-    /// 
-    /// WARNING: Requires Object.assign
-    /// Arbitrary used to generate the values
-    let inline infiniteStream (arb: Arbitrary<'T>) = 
-        Bindings.fc.infiniteStream(arb)
-    
-    /// Randomly switch the case of characters generated by `stringArb` (upper/lower)
-    /// 
-    /// WARNING:
-    /// Require any support.
-    /// Under-the-hood the arbitrary relies on any to compute the flags that should be toggled or not.
-    /// Arbitrary able to build string values
-    /// Constraints to be applied when computing upper/lower case version
-    let inline mixedCase (stringArb: Arbitrary<string>) = 
-        Bindings.fc.mixedCase(stringArb)
-    /// Randomly switch the case of characters generated by `stringArb` (upper/lower)
-    /// 
-    /// WARNING:
-    /// Require any support.
-    /// Under-the-hood the arbitrary relies on any to compute the flags that should be toggled or not.
-    /// Arbitrary able to build string values
-    /// Constraints to be applied when computing upper/lower case version
-    let inline mixedCaseWithToggle (toggleCase: bool) (stringArb: Arbitrary<string>) = 
-        Bindings.fc.mixedCase(stringArb, toggleCase)
+
+type Arbitrary =
+    static member elmish (init: 'Model * Elmish.Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, assertions: ('Msg * ('Model -> 'Model -> unit)) list) =
+        let model = Model<'Model,'Msg>(init, update)
+        let real = Model<'Model,'Msg>(init, update)
+        let cmds = 
+            assertions
+            |> List.map (fun (msg, assertion) -> 
+                Msg<'Model,'Msg>(msg, assertion) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                |> Arbitrary.constant)
+            |> Arbitrary.commands
         
-    /// For either null or a value coming from `arb`
-    /// Arbitrary that will be called to generate a non null value
-    let inline option (arb: Arbitrary<'T>) = Bindings.fc.option(arb)
-    /// For either null or a value coming from `arb` with custom frequency
-    /// Arbitrary that will be called to generate a non null value
-    /// The probability to build a null value is of `1 / freq`
-    let inline optionOfFreq (freq: float) (arb: Arbitrary<'T>) = 
-        Bindings.fc.option(arb, freq)
-                
-    /// For records following the `recordModel` schema
-    /// Schema of the record
-    let inline record (recordModel: 'T) = Bindings.fc.record(recordModel)
-    /// For records following the `recordModel` schema
-    /// Schema of the record
-    /// Contraints on the generated record
-    let inline recordWithDeletedKeys (recordModel: 'T) = Bindings.fc.record(recordModel, true)
-            
-    /// For strings using the characters produced by `charArb`
-    let inline stringOf (charArb: Arbitrary<char>) = 
-        Bindings.fc.stringOf(charArb)
-    /// For strings using the characters produced by `charArb`
-    /// Upper bound of the generated string length
-    let inline stringOfMaxSize (maxLength: int) (charArb: Arbitrary<char>) = 
-        Bindings.fc.stringOf(charArb, maxLength)
-    /// For strings using the characters produced by `charArb`
-    /// Lower bound of the generated string length
-    /// Upper bound of the generated string length
-    let inline stringOfSize (minLength: int) (maxLength: int)  (charArb: Arbitrary<char>) = 
-        Bindings.fc.stringOf(charArb, minLength, maxLength)
-
-[<AutoOpen>]
-module ArbitraryBuilder =
-    type ArbitraryBuilder internal () =
-        member _.Return(a) = Arbitrary.constant a
-        member _.ReturnFrom(a: Arbitrary<_>) = a
-        member _.Bind(a: Arbitrary<_>, f) = a.bind(f)
-        member _.Combine(a: Arbitrary<_>, f) = a.bind(f)
-        member _.Delay(f: unit -> _) = f
-        member _.Run(f) = f()
-
-    let arbitrary = ArbitraryBuilder()
+        Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
+    static member elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, assertions: ('Msg * ('Model -> 'Model -> unit)) list) =
+        let model = Model<'Model,'Msg>((init, Elmish.Cmd.none), update)
+        let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), update)
+        let cmds = 
+            assertions
+            |> List.map (fun (msg, assertion) -> 
+                Msg<'Model,'Msg>(msg, assertion) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                |> Arbitrary.constant)
+            |> Arbitrary.commands
+        
+        Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
+    static member elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model, assertions: ('Msg * ('Model -> 'Model -> unit)) list) =
+        let model = Model<'Model,'Msg>((init, Elmish.Cmd.none), (fun msg model -> update msg model, Elmish.Cmd.none))
+        let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), (fun msg model -> update msg model, Elmish.Cmd.none))
+        let cmds = 
+            assertions
+            |> List.map (fun (msg, assertion) -> 
+                Msg<'Model,'Msg>(msg, assertion) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                |> Arbitrary.constant)
+            |> Arbitrary.commands
+        
+        Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds

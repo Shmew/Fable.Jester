@@ -9,12 +9,12 @@ let testElement = React.functionComponent (fun () ->
     Html.div [
         Html.input [
             prop.type'.text
-            prop.custom("data-testid", "test-input")
+            prop.testId "test-input"
             prop.onChange setValue
         ]
         Html.h1 [
             prop.text value
-            prop.custom("data-testid", "header")
+            prop.testId "header"
         ]
     ])
 
@@ -22,12 +22,12 @@ let counter = React.functionComponent(fun () ->
     let (count, setCount) = React.useState(0)
     React.fragment [
         Html.h1 [
-            prop.custom("data-testid", "header")
+            prop.testId "header"
             prop.text count
         ]
 
         Html.button [
-            prop.custom("data-testid", "button-increment")
+            prop.testId "button-increment"
             prop.onClick (fun _ -> setCount(count + 1))
             prop.text "Increment"
         ]

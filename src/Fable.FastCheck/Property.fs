@@ -3,8 +3,10 @@
 open Fable.Core
 
 type PreconditionFailure =
-    //inherit System.Exception how to resolve this?
-    abstract interruptExecution : bool
+    inherit System.Exception
+
+    [<Emit("$0.interruptExecution")>]
+    member _.interruptExecution : bool = jsNative
 
 /// Property
 /// 

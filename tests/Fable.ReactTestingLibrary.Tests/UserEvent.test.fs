@@ -9,12 +9,12 @@ let inputTestElement = React.functionComponent (fun () ->
     Html.div [
         Html.input [
             prop.type'.text
-            prop.custom("data-testid", "test-input")
+            prop.testId "test-input"
             prop.onChange setValue
         ]
         Html.h1 [
             prop.text value
-            prop.custom("data-testid", "header")
+            prop.testId "header"
         ]
     ])
 
@@ -22,13 +22,13 @@ let buttonTestElement = React.functionComponent (fun () ->
     let value, setValue = React.useState "Hello"
     Html.div [
         Html.button [
-            prop.custom("data-testid", "test-button")
+            prop.testId "test-button"
             prop.onClick (fun _ -> setValue "Howdy!")
             prop.onDoubleClick (fun _ -> setValue "Bonjour!")
         ]
         Html.h1 [
             prop.text value
-            prop.custom("data-testid", "header")
+            prop.testId "header"
         ]
     ])
 
