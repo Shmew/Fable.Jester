@@ -260,7 +260,7 @@ Signature:
     -> JS.Promise<unit>
 ```
 
-See [Model Testing](/model-testing) for usage.
+See [Model Testing](/fast-check/model-testing) for usage.
 
 ## asyncProperty
 
@@ -403,7 +403,7 @@ Signature:
 (initialModel: 'Model, real: 'Real, commandIter: ICommandSeq<'Model,'Real>) -> unit
 ```
 
-See [Model Testing](/model-testing) for usage.
+See [Model Testing](/fast-check/model-testing) for usage.
 
 ## promiseCheck
 
@@ -606,7 +606,7 @@ Signature:
     -> JS.Promise<unit>
 ```
 
-See [Model Testing](/model-testing) and [Scheduler](/scheduler) for usage.
+See [Model Testing](/fast-check/model-testing) and [Scheduler](/fast-check/scheduler) for usage.
 
 ## statistics
 
