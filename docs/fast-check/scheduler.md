@@ -64,7 +64,8 @@ type AsyncScheduler =
     /// Returns None if there is no more pending tasks.
     tryWaitOne: unit -> Async<unit> option
 
-    /// Wait all scheduled tasks, including the ones that might be created by one of the resolved task.
+    /// Wait all scheduled tasks, including the ones that might be created by one of 
+    /// the resolved task.
     ///
     /// Do not use if waitAll call has to be wrapped into an helper function such as act that can 
     /// relaunch new tasks afterwards.

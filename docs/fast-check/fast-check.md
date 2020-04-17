@@ -178,14 +178,16 @@ type RunDetails<'T> =
 
     /// Number of runs.
     /// 
-    /// - In case of failed property: Number of runs up to the first failure (including the failure run).
+    /// - In case of failed property: Number of runs up to the first failure 
+    /// (including the failure run).
     ///
     /// - Otherwise: Number of successful executions.
     numRuns: float
 
     /// Number of skipped entries due to failed pre-condition.
     /// 
-    /// As `numRuns` it only takes into account the skipped values that occured before the first failure.
+    /// As `numRuns` it only takes into account the skipped values that occured before the 
+    /// first failure.
     numSkips: float
 
     /// Number of shrinks required to get to the minimal failing case (aka counterexample).
@@ -196,7 +198,8 @@ type RunDetails<'T> =
     /// It can be forced in assert', check, sample and statistics using parameters.
     seed: float
 
-    /// In case of failure: the counterexample contains the minimal failing case (first failure after shrinking).
+    /// In case of failure: the counterexample contains the minimal failing case 
+    /// (first failure after shrinking).
     counterexample: 'T option
 
     /// In case of failure: it contains the reason of the failure.
@@ -204,7 +207,8 @@ type RunDetails<'T> =
 
     /// In case of failure: path to the counterexample.
     /// 
-    /// For replay purposes, it can be forced in assert', check, sample and statistics using parameters.
+    /// For replay purposes, it can be forced in assert', check, sample and statistics using 
+    /// parameters.
     counterexamplePath: string option
 
     /// List all failures that have occurred during the run.
@@ -250,8 +254,10 @@ Throw in case of inconsistency.
 
 Signature: 
 ```fsharp 
-(initialModel: 'Model, real: 'Real, commandIter: seq<IAsyncCommand<'Model,'Real>>) -> JS.Promise<unit>
-(initialModel: 'Model, real: 'Real, commandIter: IAsyncCommandSeq<'Model,'Real>) -> JS.Promise<unit>
+(initialModel: 'Model, real: 'Real, commandIter: seq<IAsyncCommand<'Model,'Real>>) 
+    -> JS.Promise<unit>
+(initialModel: 'Model, real: 'Real, commandIter: IAsyncCommandSeq<'Model,'Real>) 
+    -> JS.Promise<unit>
 ```
 
 See [Model Testing](/model-testing) for usage.
@@ -266,8 +272,10 @@ Signature:
 ```fsharp 
 (arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<bool>)) -> AsyncProperty<'T0>
 (arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<unit>)) -> AsyncProperty<'T0>
-(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<bool>)) -> AsyncProperty<'T0 * 'T1>
-(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<unit>)) -> AsyncProperty<'T0 & 'T1>
+(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<bool>)) 
+    -> AsyncProperty<'T0 * 'T1>
+(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<unit>)) 
+    -> AsyncProperty<'T0 & 'T1>
 ...
 ```
 
@@ -318,14 +326,16 @@ type RunDetails<'T> =
 
     /// Number of runs.
     /// 
-    /// - In case of failed property: Number of runs up to the first failure (including the failure run).
+    /// - In case of failed property: Number of runs up to the first failure 
+    /// (including the failure run).
     ///
     /// - Otherwise: Number of successful executions.
     numRuns: float
 
     /// Number of skipped entries due to failed pre-condition.
     /// 
-    /// As `numRuns` it only takes into account the skipped values that occured before the first failure.
+    /// As `numRuns` it only takes into account the skipped values that occured before the 
+    /// first failure.
     numSkips: float
 
     /// Number of shrinks required to get to the minimal failing case (aka counterexample).
@@ -336,7 +346,8 @@ type RunDetails<'T> =
     /// It can be forced in assert', check, sample and statistics using parameters.
     seed: float
 
-    /// In case of failure: the counterexample contains the minimal failing case (first failure after shrinking).
+    /// In case of failure: the counterexample contains the minimal failing case 
+    /// (first failure after shrinking).
     counterexample: 'T option
 
     /// In case of failure: it contains the reason of the failure.
@@ -344,7 +355,8 @@ type RunDetails<'T> =
 
     /// In case of failure: path to the counterexample.
     /// 
-    /// For replay purposes, it can be forced in assert', check, sample and statistics using parameters.
+    /// For replay purposes, it can be forced in assert', check, sample and statistics using 
+    /// parameters.
     counterexamplePath: string option
 
     /// List all failures that have occurred during the run.
@@ -432,14 +444,16 @@ type RunDetails<'T> =
 
     /// Number of runs.
     /// 
-    /// - In case of failed property: Number of runs up to the first failure (including the failure run).
+    /// - In case of failed property: Number of runs up to the first failure 
+    /// (including the failure run).
     ///
     /// - Otherwise: Number of successful executions.
     numRuns: float
 
     /// Number of skipped entries due to failed pre-condition.
     /// 
-    /// As `numRuns` it only takes into account the skipped values that occured before the first failure.
+    /// As `numRuns` it only takes into account the skipped values that occured before the 
+    /// first failure.
     numSkips: float
 
     /// Number of shrinks required to get to the minimal failing case (aka counterexample).
@@ -450,7 +464,8 @@ type RunDetails<'T> =
     /// It can be forced in assert', check, sample and statistics using parameters.
     seed: float
 
-    /// In case of failure: the counterexample contains the minimal failing case (first failure after shrinking).
+    /// In case of failure: the counterexample contains the minimal failing case 
+    /// (first failure after shrinking).
     counterexample: 'T option
 
     /// In case of failure: it contains the reason of the failure.
@@ -458,7 +473,8 @@ type RunDetails<'T> =
 
     /// In case of failure: path to the counterexample.
     /// 
-    /// For replay purposes, it can be forced in assert', check, sample and statistics using parameters.
+    /// For replay purposes, it can be forced in assert', check, sample and statistics using 
+    /// parameters.
     counterexamplePath: string option
 
     /// List all failures that have occurred during the run.
@@ -506,8 +522,10 @@ Signature:
 ```fsharp 
 (arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<bool>)) -> AsyncProperty<'T0>
 (arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<unit>)) -> AsyncProperty<'T0>
-(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<bool>)) -> AsyncProperty<'T0 * 'T1>
-(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<unit>)) -> AsyncProperty<'T0 & 'T1>
+(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<bool>)) 
+    -> AsyncProperty<'T0 * 'T1>
+(arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<unit>)) 
+    -> AsyncProperty<'T0 & 'T1>
 ...
 ```
 
@@ -563,10 +581,29 @@ Throw in case of inconsistency.
 
 Signature: 
 ```fsharp 
-(scheduler: AsyncScheduler, initialModel: 'Model, real: 'Real, commandIter: seq<ICommand<'Model,'Real>>) -> JS.Promise<unit>
-(scheduler: AsyncScheduler, initialModel: 'Model, real: 'Real, commandIter: ICommandSeq<'Model,'Real>) -> JS.Promise<unit>
-(scheduler: PromiseScheduler, initialModel: 'Model, real: 'Real, commandIter: seq<ICommand<'Model,'Real>>) -> JS.Promise<unit>
-(scheduler: PromiseScheduler, initialModel: 'Model, real: 'Real, commandIter: ICommandSeq<'Model,'Real>) -> JS.Promise<unit>
+(scheduler: AsyncScheduler, 
+ initialModel: 'Model, 
+ real: 'Real, 
+ commandIter: seq<ICommand<'Model,'Real>>) 
+    -> JS.Promise<unit>
+
+(scheduler: AsyncScheduler, 
+ initialModel: 'Model, 
+ real: 'Real, 
+ commandIter: ICommandSeq<'Model,'Real>) 
+    -> JS.Promise<unit>
+
+(scheduler: PromiseScheduler, 
+ initialModel: 'Model, 
+ real: 'Real, 
+ commandIter: seq<ICommand<'Model,'Real>>) 
+    -> JS.Promise<unit>
+
+(scheduler: PromiseScheduler, 
+ initialModel: 'Model, 
+ real: 'Real, 
+ commandIter: ICommandSeq<'Model,'Real>) 
+    -> JS.Promise<unit>
 ```
 
 See [Model Testing](/model-testing) and [Scheduler](/scheduler) for usage.
@@ -582,16 +619,20 @@ Classifier function that can classify the generated value in zero, one, or more 
 Signature: 
 ```fsharp 
 (arb: Arbitrary<'T>, classify: 'T -> string) -> unit
-(arb: Arbitrary<'T>, classify: 'T -> string, fastCheckOptions: IFastCheckOptionsProperty list) -> unit
+(arb: Arbitrary<'T>, classify: 'T -> string, 
+    fastCheckOptions: IFastCheckOptionsProperty list) -> unit
 (arb: Arbitrary<'T>, classify: 'T -> string, numValues: int) -> unit
 (arb: Arbitrary<'T>, classify: 'T -> seq<string>) -> unit
-(arb: Arbitrary<'T>, classify: 'T -> seq<string>, fastCheckOptions: IFastCheckOptionsProperty list) -> unit
+(arb: Arbitrary<'T>, classify: 'T -> seq<string>, 
+    fastCheckOptions: IFastCheckOptionsProperty list) -> unit
 (arb: Arbitrary<'T>, classify: 'T -> seq<string>, numValues: int) -> unit
 (prop: IProperty<'T,'Return>, classify: 'T -> string) -> unit
-(prop: IProperty<'T,'Return>, classify: 'T -> string, fastCheckOptions: IFastCheckOptionsProperty list) -> unit
+(prop: IProperty<'T,'Return>, classify: 'T -> string, 
+    fastCheckOptions: IFastCheckOptionsProperty list) -> unit
 (prop: IProperty<'T,'Return>, classify: 'T -> string, numValues: int) -> unit
 (prop: IProperty<'T,'Return>, classify: 'T -> seq<string>) -> unit
-(prop: IProperty<'T,'Return>, classify: 'T -> seq<string>, fastCheckOptions: IFastCheckOptionsProperty list) -> unit
+(prop: IProperty<'T,'Return>, classify: 'T -> seq<string>, 
+    fastCheckOptions: IFastCheckOptionsProperty list) -> unit
 (prop: IProperty<'T,'Return>, classify: 'T -> seq<string>, numValues: int) -> unit
 ```
 
