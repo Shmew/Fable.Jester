@@ -8,40 +8,41 @@ type PreconditionFailure =
     [<Emit("$0.interruptExecution")>]
     member _.interruptExecution : bool = jsNative
 
-/// Property
-/// 
 /// A property is the combination of:
-/// - Arbitraries: how to generate the inputs for the algorithm
+/// - Arbitraries: how to generate the inputs for the algorithm.
 /// - Predicate: how to confirm the algorithm succeeded?
 type IProperty<'T,'Return> =
-    /// Generate values of type Ts
-    /// Random number generator
-    /// Id of the generation, starting at 0 - if set the generation might be biased
+    /// Generate values of type 'T
+    ///
+    /// Option parameter runId: Id of the generation, starting at 0
+    /// - if set the generation might be biased
     abstract generate: mrng: Random * ?runId: float -> Shrinkable<'T>
 
-    /// Is the property asynchronous?
-    /// 
-    /// true in case of asynchronous property, false otherwise
+    /// true in case of asynchronous property, false otherwise.
     abstract isAsync: unit -> bool
 
-    /// Check the predicate for v
-    /// Value of which we want to check the predicate
+    /// Check the predicate for a value.
     abstract run: v: 'T -> 'Return
 
-/// Property, see IProperty
-/// 
-/// Prefer using property instead
 type Property<'T> =
     inherit IProperty<'T, U2<PreconditionFailure, string> option>
     
+    /// Generate values of type 'T
+    ///
+    /// Option parameter runId: Id of the generation, starting at 0
+    /// - if set the generation might be biased
     abstract generate: mrng: Random * ?runId: float -> Shrinkable<'T>
 
+    /// true in case of asynchronous property, false otherwise.
     abstract isAsync: unit -> bool
 
+    /// Check the predicate for a value.
     abstract run: v: 'T -> U2<PreconditionFailure, string> option
 
+    /// The arbitrary of the property.
     abstract arb : Arbitrary<'T>
 
+    /// The predicate the arbitrary will be tested against.
     abstract predicate : ('T -> U2<bool, unit>)    
 
 /// Asynchronous property, see IAsyncProperty
@@ -50,13 +51,21 @@ type Property<'T> =
 type AsyncProperty<'T> =
     inherit IProperty<'T, JS.Promise<U2<PreconditionFailure, string> option>>
 
+    /// Generate values of type 'T
+    ///
+    /// Option parameter runId: Id of the generation, starting at 0
+    /// - if set the generation might be biased
     abstract generate: mrng: Random * ?runId: float -> Shrinkable<'T>
 
+    /// true in case of asynchronous property, false otherwise.
     abstract isAsync: unit -> bool
 
+    /// Check the predicate for a value.
     abstract run: v: 'T -> JS.Promise<U2<PreconditionFailure, string> option> 
 
+    /// The arbitrary of the property.
     abstract arb : Arbitrary<'T>
 
+    /// The predicate the arbitrary will be tested against.
     abstract predicate : ('T -> JS.Promise<U2<bool, unit>>)
     

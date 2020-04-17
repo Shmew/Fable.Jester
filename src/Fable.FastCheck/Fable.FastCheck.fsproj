@@ -23,8 +23,7 @@
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
-      <NpmPackage Name="@testing-library/react" Version="gte 10 lt 11" ResolutionStrategy="max" DevDependency="true" />
-      <NpmPackage Name="@testing-library/user-event" Version="gte 10 lt 11" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="fast-check" Version="gte 1 lt 2" ResolutionStrategy="max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

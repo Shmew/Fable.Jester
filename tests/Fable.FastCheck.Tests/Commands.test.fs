@@ -44,11 +44,13 @@ type IncrementCommand () =
         
         member _.toString () = "Increment" 
 
-let commandArb = 
-    Arbitrary.commands [ Arbitrary.constant (DecrementCommand() :> ICommand<Model,Model>); Arbitrary.constant (IncrementCommand() :> ICommand<Model,Model>) ]
+let commandArb = Arbitrary.commands [ 
+    Arbitrary.constant (DecrementCommand() :> ICommand<Model,Model>)
+    Arbitrary.constant (IncrementCommand() :> ICommand<Model,Model>) 
+]
 
-type AsyncDecrementCommand () =
-    interface IAsyncCommand<Model, Model> with
+type PromiseDecrementCommand () =
+    interface IPromiseCommand<Model, Model> with
         member _.check (m: Model) = promise { return true }
         member _.run (m: Model, r: Model) =
             promise {
@@ -59,8 +61,8 @@ type AsyncDecrementCommand () =
         
         member _.toString () = "Decrement" 
 
-type AsyncIncrementCommand () =
-    interface IAsyncCommand<Model, Model> with
+type PromiseIncrementCommand () =
+    interface IPromiseCommand<Model, Model> with
         member _.check (m: Model) = promise { return true }
         member _.run (m: Model, r: Model) =
             promise {
@@ -71,24 +73,70 @@ type AsyncIncrementCommand () =
         
         member _.toString () = "Increment" 
 
-let asyncCommandArb =
-    Arbitrary.asyncCommands [ Arbitrary.constant (AsyncDecrementCommand() :> IAsyncCommand<Model,Model>); Arbitrary.constant (AsyncIncrementCommand() :> IAsyncCommand<Model,Model>) ]
+let promiseCommandArb = Arbitrary.promiseCommands [ 
+    Arbitrary.constant (PromiseDecrementCommand() :> IPromiseCommand<Model,Model>)
+    Arbitrary.constant (PromiseIncrementCommand() :> IPromiseCommand<Model,Model>) 
+]
+
+type AsyncDecrementCommand () =
+    interface IAsyncCommand<Model, Model> with
+        member _.check (m: Model) = async { return true }
+        member _.run (m: Model, r: Model) =
+            async {
+                update Decrement r
+                Jest.expect(r.Count).toBeLessThanOrEqual(m.Count)
+                m.Decrement()
+            }
+        
+        member _.toString () = "Decrement" 
+
+type AsyncIncrementCommand () =
+    interface IAsyncCommand<Model, Model> with
+        member _.check (m: Model) = async { return true }
+        member _.run (m: Model, r: Model) =
+            async {
+                update Increment r
+                Jest.expect(r.Count).toBeGreaterThanOrEqual(m.Count)
+                m.Increment()
+            }
+        
+        member _.toString () = "Increment" 
+
+let asyncCommandArb = Arbitrary.asyncCommands [ 
+    Arbitrary.constant (AsyncDecrementCommand() :> IAsyncCommand<Model,Model>)
+    Arbitrary.constant (AsyncIncrementCommand() :> IAsyncCommand<Model,Model>) 
+]
 
 Jest.describe("Commands tests", fun () ->
     Jest.test.prop("Commands are runnable", commandArb, fun cmds ->
-        cmds
-        |> Seq.iter (fun cmd ->
+        for cmd in cmds do
             cmd.run(Model(), Model())
-        )
     )
     Jest.test.prop("ModelRun executes model", commandArb, fun cmds ->
         FastCheck.modelRun(Model(), Model(), cmds)
     )
 )
 
-Jest.describe("Async Commands tests", fun () ->
-    Jest.test.prop("Async commands are runnable", asyncCommandArb, fun cmds ->
+Jest.describe("Promise Commands tests", fun () ->
+    Jest.test.prop("Promise commands are runnable", promiseCommandArb, fun cmds ->
         promise {
+            for cmd in cmds do
+                do! cmd.run(Model(), Model())
+        }
+    )
+    Jest.test.prop("promiseModelRun executes model", promiseCommandArb, fun cmds ->
+        FastCheck.promiseModelRun(Model(), Model(), cmds)
+    )
+)
+
+Jest.describe("Async Commands tests", fun () ->
+    Jest.test.prop("Async command is runnable", Arbitrary.constant (AsyncDecrementCommand() :> IAsyncCommand<Model,Model>), fun cmd ->
+        async {
+            do! cmd.run(Model(), Model())
+        }
+    )
+    Jest.test.prop("Async commands are runnable", asyncCommandArb, fun cmds ->
+        async {
             for cmd in cmds do
                 do! cmd.run(Model(), Model())
         }
@@ -97,3 +145,4 @@ Jest.describe("Async Commands tests", fun () ->
         FastCheck.asyncModelRun(Model(), Model(), cmds)
     )
 )
+

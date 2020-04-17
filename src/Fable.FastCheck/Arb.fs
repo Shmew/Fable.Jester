@@ -3,6 +3,7 @@
 open ElmishModel
 open Fable.Core
 open Fable.Core.JsInterop
+open Microsoft.FSharp.Reflection
 open System
 open System.ComponentModel
 
@@ -54,220 +55,172 @@ module ArbitraryBuilder =
 [<RequireQualifiedAccess>]
 module Arbitrary =
     type ConstrainedDefaults =
-        /// For any type of values following the constraints defined by `settings`
-        /// 
-        /// You may use sample to preview the values that will be generated
-        /// Constraints to apply when building instances
+        /// Any type of values following the constraints defined by `settings`.
         static member inline anything (constraints: IObjConstraintProperty list) = Bindings.fc.anything(constraints)
         
-        /// For strings of ascii
-        /// Upper bound of the generated string length
         static member inline asciiString (maxLength: int) = Bindings.fc.asciiString(maxLength)
-        /// For strings of ascii
-        /// Lower bound of the generated string length
-        /// Upper bound of the generated string length
         static member inline asciiString (minLength: int, maxLength: int) = Bindings.fc.asciiString(minLength, maxLength)
         
-        /// For base64 strings
-        /// 
-        /// A base64 string will always have a length multiple of 4 (padded with =)
-        /// Upper bound of the generated string length
+        /// Creates a scheduler with a wrapped act function.
+        static member inline asyncScheduler (act: ((unit -> Async<unit>) -> Async<unit>)) =
+            let act (f: unit -> JS.Promise<unit>) =
+                    (fun () -> f() |> Async.AwaitPromise)
+                    |> act
+                    |> Async.StartAsPromise
+
+            Bindings.fc.scheduler(Bindings.SchedulerAct.create act).map(fun s -> AsyncScheduler(PromiseScheduler(s)))
+
+        /// A base64 string will always have a length multiple of 4 (padded with =).
         static member inline base64String (maxLength: int) = Bindings.fc.base64String(maxLength)
-        /// For base64 strings
-        /// 
-        /// A base64 string will always have a length multiple of 4 (padded with =)
-        /// Lower bound of the generated string length
-        /// Upper bound of the generated string length
+        /// A base64 string will always have a length multiple of 4 (padded with =).
         static member inline base64String (minLength: int, maxLength: int) = Bindings.fc.base64String(minLength, maxLength)
         
-        /// For date between constraints.min or new Date(-8640000000000000) (included) and constraints.max or new Date(8640000000000000) (included)
+        /// All possible bigint between min (included) and max (included).
+        static member inline bigInt (min: bigint, max: bigint) = Bindings.fc.bigInt(min, max)
+        
+        /// All possible bigint between -2^(n-1) (included) and 2^(n-1)-1 (included).
+        static member inline bigintN (n: int) = Bindings.fc.bigIntN(n)
+        
+        /// All possible bigint between 0 (included) and max (included).
+        static member inline bigUint (max: bigint) = Bindings.fc.bigUint(max)
+
+        /// All possible bigint between 0 (included) and 2^n -1 (included).
+        static member inline bigUintN (n: int) = Bindings.fc.bigUintN(n)
+
         static member inline date (constraints: IDateConstraintProperty list) = Bindings.fc.date(constraints)
         
-        /// For floating point numbers between 0.0 (included) and max (excluded) - accuracy of `max / 2**53`
-        /// Upper bound of the generated floating point
+        /// Floating point numbers between 0.0 (included) and max (excluded) - accuracy of `max / 2**53`.
         static member inline double (max: float) = Bindings.fc.double(max)
-        /// For floating point numbers between min (included) and max (excluded) - accuracy of `(max - min) / 2**53`
-        /// Lower bound of the generated floating point
-        /// Upper bound of the generated floating point
+        /// Floating point numbers between min (included) and max (excluded) - accuracy of `(max - min) / 2**53`.
         static member inline double (min: float, max: float) = Bindings.fc.double(min, max)
         
-        /// For floating point numbers between 0.0 (included) and max (excluded) - accuracy of `max / 2**24`
-        /// Upper bound of the generated floating point
+        /// Floating point numbers between 0.0 (included) and max (excluded) - accuracy of `max / 2**24`.
         static member inline float (max: float) = Bindings.fc.float(max)
-        /// For floating point numbers between min (included) and max (excluded) - accuracy of `(max - min) / 2**24`
-        /// Lower bound of the generated floating point
-        /// Upper bound of the generated floating point
+        /// Floating point numbers between min (included) and max (excluded) - accuracy of `(max - min) / 2**24`.
         static member inline float (min: float, max: float) = Bindings.fc.float(min, max)
         
-        /// For strings of fullUnicode
-        /// Upper bound of the generated string length
         static member inline fullUnicodeString (maxLength: int) = Bindings.fc.fullUnicodeString(maxLength)
-        /// For strings of fullUnicode
-        /// Lower bound of the generated string length
-        /// Upper bound of the generated string length
         static member inline fullUnicodeString (minLength: int, maxLength: int) = Bindings.fc.fullUnicodeString(minLength, maxLength)
         
-        /// For strings of hexa
-        /// Upper bound of the generated string length
         static member inline hexaString (maxLength: int) = Bindings.fc.hexaString(maxLength)
-        /// For strings of hexa
-        /// Lower bound of the generated string length
-        /// Upper bound of the generated string length
         static member inline hexaString (minLength: int, maxLength: int) = Bindings.fc.hexaString(minLength, maxLength)
         
-        /// For integers between -2147483648 (included) and max (included)
-        /// Upper bound for the generated integers (eg.: 2147483647, Number.MAX_SAFE_INTEGER)
         static member inline integer (max: int) = Bindings.fc.integer(max)
-        /// For integers between min (included) and max (included)
-        /// Lower bound for the generated integers (eg.: 0, Number.MIN_SAFE_INTEGER)
-        /// Upper bound for the generated integers (eg.: 2147483647, Number.MAX_SAFE_INTEGER)
         static member inline integer (min: int, max: int) = Bindings.fc.integer(min, max)
         
-        /// For any JSON strings with a maximal depth
-        /// 
-        /// Keys and string values rely on string
-        /// Maximal depth of the generated objects
+        /// JSON strings with a maximal depth.
         static member inline json (maxDepth: int) = Bindings.fc.json(maxDepth)
         
-        /// For any JSON compliant values with a maximal depth
-        /// 
-        /// Keys and string values rely on string
-        /// Maximal depth of the generated values
+        /// JSON compliant values with a maximal depth.
         static member inline jsonObject (maxDepth: int) = Bindings.fc.jsonObject(maxDepth)
         
-        /// For lorem ipsum string of words with maximal number of words
-        /// Upper bound of the number of words allowed
-        static member inline lorem (maxWordsCount: float) = Bindings.fc.lorem(maxWordsCount)
-        /// For lorem ipsum string of words or sentences with maximal number of words or sentences
-        /// Upper bound of the number of words/sentences allowed
-        /// If enabled, multiple sentences might be generated
-        static member inline lorem (maxWordsCount: float, sentencesMode: bool) = 
+        /// Lorem ipsum string of words with maximal number of words.
+        static member inline lorem (maxWordsCount: int) = Bindings.fc.lorem(maxWordsCount)
+        /// Lorem ipsum string of words or sentences with maximal number of words or sentences.
+        static member inline lorem (maxWordsCount: int, sentencesMode: bool) = 
             Bindings.fc.lorem(maxWordsCount, sentencesMode)
         
-        /// For any objects following the constraints defined by `settings`
-        /// 
-        /// You may use sample to preview the values that will be generated
-        /// Constraints to apply when building instances
+        /// Objects following the constraints defined by `settings`.
         static member inline object (constraints: IObjConstraintProperty list) = 
             Bindings.fc.object(constraints)
         
-        /// For scheduler of promises
-        static member inline scheduler (act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) = 
-            Bindings.fc.scheduler(Bindings.SchedulerAct.create act).map(fun s -> new Scheduler(s))
+        /// Creates a scheduler with a wrapped act function.
+        static member inline promiseScheduler (act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) = 
+            Bindings.fc.scheduler(Bindings.SchedulerAct.create act).map(fun s -> new PromiseScheduler(s))
 
-        /// For strings of char
-        /// Upper bound of the generated string length
         static member inline string (maxLength: int) = Bindings.fc.string(maxLength)
-        /// For strings of char
-        /// Lower bound of the generated string length
-        /// Upper bound of the generated string length
         static member inline string (minLength: int, maxLength: int) = Bindings.fc.string(minLength, maxLength)
         
-        /// For strings of string16bits
-        /// Upper bound of the generated string length
         static member inline string16bits (maxLength: int) = Bindings.fc.string16bits(maxLength)
-        /// For strings of string16bits
-        /// Lower bound of the generated string length
-        /// Upper bound of the generated string length
         static member inline string16bits (minLength: int, maxLength: int) = Bindings.fc.string16bits(minLength, maxLength)
         
-        /// For any JSON strings with unicode support and a maximal depth
-        /// 
-        /// Keys and string values rely on unicode
-        /// Maximal depth of the generated objects
+        /// JSON strings with unicode support and a maximal depth.
         static member inline unicodeJson (maxDepth: int) = Bindings.fc.unicodeJson(maxDepth)
         
-        /// For any JSON compliant values with unicode support and a maximal depth
-        /// 
-        /// Keys and string values rely on unicode
-        /// Maximal depth of the generated values
+        /// JSON compliant values with unicode support and a maximal depth.
         static member inline unicodeJsonObject (maxDepth: int) = Bindings.fc.unicodeJsonObject(maxDepth)
         
-        /// For strings of unicode
-        /// Upper bound of the generated string length
         static member inline unicodeString (maxLength: int) = Bindings.fc.unicodeString(maxLength)
-        /// For strings of unicode
-        /// Lower bound of the generated string length
-        /// Upper bound of the generated string length
         static member inline unicodeString (minLength: int, maxLength: int) = Bindings.fc.unicodeString(minLength, maxLength)
         
-        /// For UUID of a given version (in v1 to v5)
+        /// UUID of a given version (in v1 to v5).
         /// 
         /// According to RFC 4122 - https://tools.ietf.org/html/rfc4122
         /// 
-        /// No mixed case, only lower case digits (0-9a-f)
+        /// No mixed case, only lower case digits (0-9a-f).
         static member inline uuidV (versionNumber: IUuidVersionConstraintProperty) = Bindings.fc.uuidV(versionNumber)
         
-        /// For web authority
-        /// 
         /// According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt - `authority = [ userinfo "@" ] host [ ":" port ]`
         static member inline webAuthority (constraints: IWebAuthorityConstraintProperty list) = Bindings.fc.webAuthority(constraints)
         
-        /// For web url
-        /// 
         /// According to RFC 3986 and WHATWG URL Standard
         /// - https://www.ietf.org/rfc/rfc3986.txt
         /// - https://url.spec.whatwg.org/
         static member inline webUrl (constraints: IWebUrlConstraintProperty list) = Bindings.fc.webUrl(constraints)    
 
     type Defaults =
-        /// For any type of values
-        /// 
-        /// You may use sample to preview the values that will be generated
+        /// Any type of values.
         static member inline anything = Bindings.fc.anything()
 
-        /// For single ascii characters - char code between 0x00 (included) and 0x7f (included)
+        /// Single ascii characters - char code between 0x00 (included) and 0x7f (included).
         static member inline ascii = Bindings.fc.ascii()
 
-        /// For strings of ascii
         static member inline asciiString = Bindings.fc.asciiString()
         
-        /// For single base64 characters - A-Z, a-z, 0-9, + or /
+        /// Scheduler of asyncs.
+        static member inline asyncScheduler = Bindings.fc.scheduler().map(fun s -> AsyncScheduler(PromiseScheduler(s)))
+
+        /// Single base64 characters - A-Z, a-z, 0-9, + or /
         static member inline base64 = Bindings.fc.base64()
         
-        /// For base64 strings
-        /// 
         /// A base64 string will always have a length multiple of 4 (padded with =)
         static member inline base64String = Bindings.fc.base64String()
         
-        /// For booleans
+        /// Uniformly distributed bigint values
+        static member inline bigInt = Bindings.fc.bigInt()
+
+        /// Uniformly distributed bigint positive values
+        static member inline bigUint = Bindings.fc.bigUint()
+
         static member inline boolean = Bindings.fc.boolean()
+
+        static member inline byte = Bindings.fc.integer(int Byte.MinValue, int Byte.MaxValue).map(byte)
         
-        /// For single printable ascii characters - char code between 0x20 (included) and 0x7e (included)
+        /// Single printable ascii characters - char code between 0x20 (included) and 0x7e (included)
         static member inline char = Bindings.fc.char()
         
-        /// For single characters - all values in 0x0000-0xffff can be generated
+        /// Single characters - all values in 0x0000-0xffff can be generated
         /// 
         /// WARNING:
         /// 
         /// Some generated characters might appear invalid regarding UCS-2 and UTF-16 encoding.
+        ///
         /// Indeed values within 0xd800 and 0xdfff constitute surrogate pair characters and are illegal without their paired character.
         static member inline char16bits = Bindings.fc.char16bits()
         
-        /// For comparison boolean functions
-        /// 
         /// A comparison boolean function returns:
+        ///
         /// - true whenever a < b
+        ///
         /// - false otherwise (ie. a = b or a > b)
         static member inline compareBooleanFunc = Bindings.fc.compareBooleanFunc()
         
-        /// For comparison functions
-        /// 
         /// A comparison function returns:
-        /// - negative value whenever a < b
-        /// - positive value whenever a > b
-        /// - zero whenever a and b are equivalent
+        ///
+        /// - Negative value whenever a < b.
+        ///
+        /// - Positive value whenever a > b
+        ///
+        /// - Zero whenever a and b are equivalent
         /// 
         /// Comparison functions are transitive: `a < b and b < c => a < c`
         /// 
         /// They also satisfy: `a < b <=> b > a` and `a = b <=> b = a`
         static member inline compareFunc = Bindings.fc.compareFunc()
         
-        /// For date between constraints.min or new Date(-8640000000000000) (included) and constraints.max or new Date(8640000000000000) (included)
         static member inline date = Bindings.fc.date()
         
-        /// For domains
-        /// having an extension with at least two lowercase characters
+        /// Having an extension with at least two lowercase characters.
         /// 
         /// According to RFC 1034, RFC 1123 and WHATWG URL Standard
         /// - https://www.ietf.org/rfc/rfc1034.txt
@@ -275,141 +228,149 @@ module Arbitrary =
         /// - https://url.spec.whatwg.org/
         static member inline domain = Bindings.fc.domain()
         
-        /// For floating point numbers between 0.0 (included) and 1.0 (excluded) - accuracy of `1 / 2**53`
+        /// Floating point numbers between 0.0 (included) and 1.0 (excluded) - accuracy of `1 / 2**53`.
         static member inline double = Bindings.fc.double()
         
-        /// For email address
-        /// 
         /// According to RFC 5322 - https://www.ietf.org/rfc/rfc5322.txt
         static member inline emailAddress = Bindings.fc.emailAddress()
         
-        /// For floating point numbers between 0.0 (included) and 1.0 (excluded) - accuracy of `1 / 2**24`
+        static member inline exn : Arbitrary<exn> = Bindings.fc.string().map(fun s -> Exception(s))
+
+        /// Floating point numbers between 0.0 (included) and 1.0 (excluded) - accuracy of `1 / 2**24`.
         static member inline float = Bindings.fc.float()
+
+        static member inline float32 = Bindings.fc.integer(int Single.MinValue, int Single.MaxValue).map(float32)
         
-        /// For single unicode characters - any of the code points defined in the unicode standard
+        /// Single unicode characters - any of the code points defined in the unicode standard.
         /// 
         /// WARNING: Generated values can have a length greater than 1.
         static member inline fullUnicode = Bindings.fc.fullUnicode()
         
-        /// For strings of fullUnicode
         static member inline fullUnicodeString = Bindings.fc.fullUnicodeString()
         
-        /// For single hexadecimal characters - 0-9 or a-f
+        static member inline guid = arbitrary { return Guid() }
+
+        /// Single hexadecimal characters - 0-9 or a-f
         static member inline hexa = Bindings.fc.hexa()
         
-        /// For strings of hexa
         static member inline hexaString = Bindings.fc.hexaString()
         
-        /// For integers between -2147483648 (included) and 2147483647 (included)
+        static member int16 = Bindings.fc.integer(int Int16.MinValue, int Int16.MaxValue).map(int16)
+
         static member integer = Bindings.fc.integer()
+
+        /// Integers between Number.MIN_SAFE_INTEGER (included) and Number.MAX_SAFE_INTEGER (included).
+        static member int64 = Bindings.fc.maxSafeInteger()
         
-        /// For valid IP v4
+        /// Valid IP v4.
         /// 
         /// Following RFC 3986
         /// https://tools.ietf.org/html/rfc3986#section-3.2.2
         static member inline ipV4 = Bindings.fc.ipV4()
         
-        /// For valid IP v4 according to WhatWG
+        /// Valid IP v4 according to WhatWG.
         /// 
-        /// Following WhatWG, the specification for web-browsers
+        /// Following WhatWG, the specification for web-browsers:
         /// https://url.spec.whatwg.org/
         /// 
-        /// There is no equivalent for IP v6 according to the IP v6 parser
+        /// There is no equivalent for IP v6 according to the IP v6 parser:
         /// https://url.spec.whatwg.org/#concept-ipv6-parser
         static member inline ipV4Extended = Bindings.fc.ipV4Extended()
         
-        /// For valid IP v6
+        /// Valid IP v6.
         /// 
-        /// Following RFC 3986
+        /// Following RFC 3986:
         /// https://tools.ietf.org/html/rfc3986#section-3.2.2
         static member inline ipV6 = Bindings.fc.ipV6()
         
-        /// For any JSON strings
-        /// 
-        /// Keys and string values rely on string
+        /// JSON compliant string.
         static member inline json = Bindings.fc.json()
 
-        /// For any JSON compliant values
-        /// 
-        /// Keys and string values rely on string
+        /// JSON compliant values.
         static member inline jsonObject = Bindings.fc.jsonObject()
         
-        /// For lorem ipsum strings of words
+        /// lorem ipsum strings of words.
         static member inline lorem = Bindings.fc.lorem()
         
-        /// For integers between Number.MIN_SAFE_INTEGER (included) and Number.MAX_SAFE_INTEGER (included)
+        /// Integers between Number.MIN_SAFE_INTEGER (included) and Number.MAX_SAFE_INTEGER (included).
         static member inline maxSafeInteger = Bindings.fc.maxSafeInteger()
         
-        /// For positive integers between 0 (included) and Number.MAX_SAFE_INTEGER (included)
+        /// positive integers between 0 (included) and Number.MAX_SAFE_INTEGER (included).
         static member inline maxSafeNat = Bindings.fc.maxSafeNat()
         
-        /// For any objects
-        /// 
-        /// You may use sample to preview the values that will be generated
         static member inline object = Bindings.fc.object()
         
-        /// For scheduler of promises
-        static member inline scheduler = Bindings.fc.scheduler().map(fun s -> Scheduler(s))
+        static member inline sbyte = Bindings.fc.integer(int SByte.MinValue, int SByte.MaxValue).map(sbyte)
 
-        /// For strings of char
+        /// Scheduler of promises.
+        static member inline promiseScheduler = Bindings.fc.scheduler().map(fun s -> PromiseScheduler(s))
+
         static member inline string = Bindings.fc.string()
         
-        /// For strings of string16bits
         static member inline string16bits = Bindings.fc.string16bits()
         
-        /// For single unicode characters defined in the BMP plan - char code between 0x0000 (included) and 0xffff (included) and without the range 0xd800 to 0xdfff (surrogate pair characters)
+        /// Single unicode characters defined in the BMP plan - char code between 
+        /// 0x0000 (included) and 0xffff (included) and without the range 0xd800 
+        /// to 0xdfff (surrogate pair characters).
         static member inline unicode = Bindings.fc.unicode()
         
-        /// For any JSON strings with unicode support
-        /// 
-        /// Keys and string values rely on unicode
+        /// JSON strings with unicode support.
         static member inline unicodeJson = Bindings.fc.unicodeJson()
         
-        /// For any JSON compliant values with unicode support
-        /// 
-        /// Keys and string values rely on unicode
+        /// JSON compliant values with unicode support.
         static member inline unicodeJsonObject = Bindings.fc.unicodeJsonObject()
         
-        /// For strings of unicode
         static member inline unicodeString = Bindings.fc.unicodeString()
         
-        /// For UUID from v1 to v5
+        static member inline uint16 = Bindings.fc.integer(int UInt16.MinValue, int UInt16.MaxValue)
+
+        static member inline uint32 = Bindings.fc.maxSafeNat().filter(fun i -> i < 0L || i > int64 UInt32.MaxValue)
+        
+        /// Due to number limitations this is just an alias and cast from maxSafeNat.
+        static member inline uint64 = Bindings.fc.maxSafeNat().map(uint64)
+
+        /// UUID from v1 to v5.
         /// 
-        /// According to RFC 4122 - https://tools.ietf.org/html/rfc4122
+        /// According to RFC 4122:
+        /// https://tools.ietf.org/html/rfc4122
         /// 
-        /// No mixed case, only lower case digits (0-9a-f)
+        /// No mixed case, only lower case digits (0-9a-f).
         static member inline uuid = Bindings.fc.uuid()
         
-        /// For web authority
+        /// According to RFC 3986:
+        /// https://www.ietf.org/rfc/rfc3986.txt 
         /// 
-        /// According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt - `authority = [ userinfo "@" ] host [ ":" port ]`
+        /// `authority = [ userinfo "@" ] host [ ":" port ]`
         static member inline webAuthority = Bindings.fc.webAuthority()
         
-        /// For fragments of an URI (web included)
+        /// Fragments of an URI (web included).
         /// 
-        /// According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt
+        /// According to RFC 3986:
+        /// https://www.ietf.org/rfc/rfc3986.txt
         /// 
-        /// eg.: In the url `https://domain/plop?page=1#hello=1&world=2`, `?hello=1&world=2` are query parameters
+        /// eg.: In the url `https://domain/plop?page=1#hello=1&world=2`, `?hello=1&world=2` are query parameters.
         static member inline webFragments = Bindings.fc.webFragments()
         
-        /// For query parameters of an URI (web included)
+        /// Query parameters of an URI (web included).
         /// 
-        /// According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt
+        /// According to RFC 3986:
+        /// https://www.ietf.org/rfc/rfc3986.txt
         /// 
-        /// eg.: In the url `https://domain/plop/?hello=1&world=2`, `?hello=1&world=2` are query parameters
+        /// eg.: In the url `https://domain/plop/?hello=1&world=2`, `?hello=1&world=2` are query parameters.
         static member inline webQueryParameters = Bindings.fc.webQueryParameters()
         
-        /// For internal segment of an URI (web included)
+        /// Internal segment of an URI (web included).
         /// 
-        /// According to RFC 3986 - https://www.ietf.org/rfc/rfc3986.txt
+        /// According to RFC 3986:
+        /// https://www.ietf.org/rfc/rfc3986.txt
         /// 
-        /// eg.: In the url `https://github.com/dubzzz/fast-check/`, `dubzzz` and `fast-check` are segments
+        /// eg.: In the url `https://github.com/dubzzz/fast-check/`, `dubzzz` and `fast-check` are segments.
         static member inline webSegment = Bindings.fc.webSegment()
         
-        /// For web url
-        /// 
-        /// According to RFC 3986 and WHATWG URL Standard
+        /// According to RFC 3986 and WHATWG URL Standard:
+        ///
         /// - https://www.ietf.org/rfc/rfc3986.txt
+        ///
         /// - https://url.spec.whatwg.org/
         static member inline webUrl = Bindings.fc.webUrl()
 
@@ -421,63 +382,32 @@ module Arbitrary =
     let inline bind2 (f: 'A -> 'B -> Arbitrary<'C>) (a: Arbitrary<'A>) (b: Arbitrary<'B>) = 
         apply(a.map(f), b) |> bind id
 
-    /// For `value`
-    /// The value to produce
+    /// Clones a constant, useful when generating an arbitrary from a mutable value.
     let inline clonedConstant (value: 'T) = Bindings.fc.clonedConstant(value)
         
-    /// For `value`
-    /// The value to produce
-    let inline constant (value: 'T) = Bindings.fc.constant(value)
-                
-    /// For arrays of AsyncCommand to be executed by asyncModelRun
-    /// 
-    /// This implementation comes with a shrinker adapted for commands.
-    /// It should shrink more efficiently than array for AsyncCommand arrays.
-    /// Arbitraries responsible to build commands
-    /// Maximal number of commands to build
-    let inline asyncCommands (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) = 
-        Bindings.fc.commands(ResizeArray commandArbs, ?maxCommands = None)
+    /// Creates an arbitrary that returns a constant value.
+    let inline constant (value: 'T) = 
+        try Bindings.fc.constant(value)
+        with _ -> Bindings.fc.clonedConstant(value)
 
-    /// For arrays of AsyncCommand to be executed by asyncModelRun
+    /// Sequence of Command to be executed by modelRun.
     /// 
     /// This implementation comes with a shrinker adapted for commands.
-    /// It should shrink more efficiently than array for AsyncCommand arrays.
-    /// Arbitraries responsible to build commands
-    /// Maximal number of commands to build
-    let inline asyncCommandsOfMax (maxCommands: int) (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) = 
-        Bindings.fc.commands(ResizeArray commandArbs, maxCommands = maxCommands)
-
-    /// For arrays of AsyncCommand to be executed by asyncModelRun
-    /// 
-    /// This implementation comes with a shrinker adapted for commands.
-    /// It should shrink more efficiently than array for AsyncCommand arrays.
-    /// Arbitraries responsible to build commands
-    let inline asyncCommandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) = 
-        Bindings.fc.commands(ResizeArray commandArbs, settings = createObj !!(settings))
-
-    /// For arrays of Command to be executed by modelRun
-    /// 
-    /// This implementation comes with a shrinker adapted for commands.
-    /// It should shrink more efficiently than array for Command arrays.
-    /// Arbitraries responsible to build commands
-    /// Maximal number of commands to build
+    /// It should shrink more efficiently than a normal sequence of Commands.
     let inline commands (commandArbs: Arbitrary<ICommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, ?maxCommands = None)
     
-    /// For arrays of AsyncCommand to be executed by asyncModelRun
+    /// Sequence of Command to be executed by modelRun.
     /// 
     /// This implementation comes with a shrinker adapted for commands.
-    /// It should shrink more efficiently than array for AsyncCommand arrays.
-    /// Arbitraries responsible to build commands
-    /// Maximal number of commands to build
+    /// It should shrink more efficiently than a normal sequence of Commands.
     let inline commandsOfMax (maxCommands: int) (commandArbs: Arbitrary<ICommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, maxCommands = maxCommands)
 
-    /// For arrays of AsyncCommand to be executed by asyncModelRun
+    /// Sequence of Command to be executed by modelRun.
     /// 
     /// This implementation comes with a shrinker adapted for commands.
-    /// It should shrink more efficiently than array for AsyncCommand arrays.
-    /// Arbitraries responsible to build commands
+    /// It should shrink more efficiently than a normal sequence of Commands.
     let inline commandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<ICommand<'Model,'Real>> list) = 
         Bindings.fc.commands(ResizeArray commandArbs, settings = createObj !!(settings))
 
@@ -490,16 +420,17 @@ module Arbitrary =
             Bindings.fc.integer(0, lst.Length - 1).map(fun i -> List.item i lst)
         | _ -> Bindings.fc.integer(0, (Seq.length xs) - 1).map(fun i -> Seq.item i xs)
 
+    /// Create another arbitrary by filtering values against a predicate.
+    /// 
+    /// Return true to keep the element, false otherwise.
     let inline filter f (a: Arbitrary<'T>) = a.filter f
 
-    let inline fresh fv = arbitrary { let a = fv() in return a }
-    
+    /// Creates an arbitrary function that returns the given arbitrary value.
     let inline func (arb: Arbitrary<'TOut>) = Bindings.fc.func(arb)
 
-    /// Produce an infinite stream of values
+    /// Produce an infinite stream of values.
     /// 
-    /// WARNING: Requires Object.assign
-    /// Arbitrary used to generate the values
+    /// WARNING: Requires Object.assign.
     let inline infiniteStream (arb: Arbitrary<'T>) = 
         Bindings.fc.infiniteStream(arb)
 
@@ -519,61 +450,125 @@ module Arbitrary =
     
     let inline map6 (f: 'A -> 'B -> 'C -> 'D -> 'E -> 'G -> 'H) (a: Arbitrary<'A>) (b: Arbitrary<'B>) (c: Arbitrary<'C>) (d: Arbitrary<'D>) (e: Arbitrary<'E>) (g: Arbitrary<'G>) =
         apply(apply(apply(apply(apply(map f a, b), c), d), e), g)
-    
-    /// Randomly switch the case of characters generated by `stringArb` (upper/lower)
-    /// 
-    /// WARNING:
-    /// Require any support.
-    /// Under-the-hood the arbitrary relies on any to compute the flags that should be toggled or not.
-    /// Arbitrary able to build string values
-    /// Constraints to be applied when computing upper/lower case version
+
+    /// Randomly switch the case of characters generated by Arbitrary<string> (upper/lower).
     let inline mixedCase (stringArb: Arbitrary<string>) = 
         Bindings.fc.mixedCase(stringArb)
 
-    /// Randomly switch the case of characters generated by `stringArb` (upper/lower)
-    /// 
-    /// WARNING:
-    /// Require any support.
-    /// Under-the-hood the arbitrary relies on any to compute the flags that should be toggled or not.
-    /// Arbitrary able to build string values
-    /// Constraints to be applied when computing upper/lower case version
+    /// Randomly switch the case of characters generated by Arbitrary<string> (upper/lower).
     let inline mixedCaseWithToggle (toggleCase: bool) (stringArb: Arbitrary<string>) = 
         Bindings.fc.mixedCase(stringArb, toggleCase)
 
-    /// For either null or a value coming from `arb`
-    /// Arbitrary that will be called to generate a non null value
+    /// Generates an option of a given arbitrary.
     let inline option (arb: Arbitrary<'T>) = Bindings.fc.option(arb)
 
-    /// For either null or a value coming from `arb` with custom frequency
-    /// Arbitrary that will be called to generate a non null value
-    /// The probability to build a null value is of `1 / freq`
+    /// Generates an option of a given arbitrary.
+    ///
+    /// The probability of None is `1. / freq`.
     let inline optionOfFreq (freq: float) (arb: Arbitrary<'T>) = 
         Bindings.fc.option(arb, freq)
 
-    /// For records following the `recordModel` schema
-    /// Schema of the record
-    let inline record (recordModel: Map<string,'T>) = 
+    /// Sequence of IAsyncCommand to be executed by asyncModelRun.
+    /// 
+    /// This implementation comes with a shrinker adapted for commands.
+    /// It should shrink more efficiently than a normal sequence of IAsyncCommand.
+    let inline asyncCommands (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) =
+        let commandArbs =
+            commandArbs
+            |> List.map (map (fun cmd -> AsyncCommand(cmd) :> IPromiseCommand<'Model,'Real>))
+
+        Bindings.fc.commands(ResizeArray commandArbs, ?maxCommands = None)
+        |> map (fun cmds -> 
+            cmds 
+            |> Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
+
+    /// Sequence of IAsyncCommand to be executed by asyncModelRun.
+    /// 
+    /// This implementation comes with a shrinker adapted for commands.
+    /// It should shrink more efficiently than a normal sequence of IAsyncCommand.
+    let inline asyncCommandsOfMax (maxCommands: int) (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) =
+        let cmds =
+            commandArbs
+            |> List.map (map (fun cmd -> AsyncCommand(cmd) :> IPromiseCommand<'Model,'Real>))
+
+        Bindings.fc.commands(ResizeArray cmds, maxCommands = maxCommands)
+        |> map (fun cmds -> 
+            cmds 
+            |> Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
+
+    /// Sequence of IAsyncCommand to be executed by asyncModelRun.
+    /// 
+    /// This implementation comes with a shrinker adapted for commands.
+    /// It should shrink more efficiently than a normal sequence of IAsyncCommand.
+    let inline asyncCommandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<IAsyncCommand<'Model,'Real>> list) = 
+        let cmds =
+            commandArbs
+            |> List.map (map (fun cmd -> AsyncCommand(cmd) :> IPromiseCommand<'Model,'Real>))
+
+        Bindings.fc.commands(ResizeArray cmds, settings = createObj !!(settings))
+        |> map (fun cmds -> 
+            cmds 
+            |> Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
+
+    /// Sequence of IPromiseCommand to be executed by promiseModelRun.
+    /// 
+    /// This implementation comes with a shrinker adapted for commands.
+    /// It should shrink more efficiently than a normal sequence of IPromiseCommand.
+    let inline promiseCommands (commandArbs: Arbitrary<IPromiseCommand<'Model,'Real>> list) = 
+        Bindings.fc.commands(ResizeArray commandArbs, ?maxCommands = None)
+
+    /// Sequence of IPromiseCommand to be executed by promiseModelRun.
+    /// 
+    /// This implementation comes with a shrinker adapted for commands.
+    /// It should shrink more efficiently than a normal sequence of IPromiseCommand.
+    let inline promiseCommandsOfMax (maxCommands: int) (commandArbs: Arbitrary<IPromiseCommand<'Model,'Real>> list) = 
+        Bindings.fc.commands(ResizeArray commandArbs, maxCommands = maxCommands)
+
+    /// Sequence of IPromiseCommand to be executed by promiseModelRun.
+    /// 
+    /// This implementation comes with a shrinker adapted for commands.
+    /// It should shrink more efficiently than a normal sequence of IPromiseCommand.
+    let inline promiseCommandsOfSettings (settings: ICommandConstraintProperty list) (commandArbs: Arbitrary<IPromiseCommand<'Model,'Real>> list) = 
+        Bindings.fc.commands(ResizeArray commandArbs, settings = createObj !!(settings))
+
+    /// Records following the `recordModel` schema.
+    let inline record (recordModel: Map<string,obj>) = 
         Bindings.fc.record(createObj !!(recordModel |> Map.toList))
 
-    /// For records following the `recordModel` schema
-    /// Schema of the record
-    /// Contraints on the generated record
-    let inline recordWithDeletedKeys (recordModel: Map<string,'T>) = 
+    /// Records following the `recordModel` schema.
+    let inline recordWithDeletedKeys (recordModel: Map<string,obj>) = 
         Bindings.fc.record(createObj !!(recordModel |> Map.toList), true)
 
-    /// For strings using the characters produced by `charArb`
+    /// Generates a result of the given arbitraries.
+    let inline result (ok: Arbitrary<'Success>) (err: Arbitrary<'Failure>) =
+        Defaults.boolean |> bind (fun b -> if b then ok.map Ok else err.map Error)
+
+    /// Generates a result of the given arbitraries.
+    ///
+    /// The probability of Error is `1. / freq`.
+    let inline resultOfFreq (freq: float) (ok: Arbitrary<'Success>) (err: Arbitrary<'Failure>) =
+        optionOfFreq freq ok
+        |> bind (fun res ->
+            arbitrary {
+                let! ok = ok
+                let! err = err
+                
+                return
+                    match res with
+                    | Some _ -> Ok ok
+                    | None -> Error err
+            }
+        )
+    /// Creates a string arbitrary using the characters produced by a char arbitrary.
     let inline stringOf (charArb: Arbitrary<char>) = 
         Bindings.fc.stringOf(charArb)
 
-    /// For strings using the characters produced by `charArb`
-    /// Upper bound of the generated string length
+    /// Creates a string arbitrary using the characters produced by a char arbitrary.
     let inline stringOfMaxSize (maxLength: int) (charArb: Arbitrary<char>) = 
         Bindings.fc.stringOf(charArb, maxLength)
 
-    /// For strings using the characters produced by `charArb`
-    /// Lower bound of the generated string length
-    /// Upper bound of the generated string length
-    let inline stringOfSize (minLength: int) (maxLength: int)  (charArb: Arbitrary<char>) = 
+    /// Creates a string arbitrary using the characters produced by a char arbitrary.
+    let inline stringOfSize (minLength: int) (maxLength: int) (charArb: Arbitrary<char>) = 
         Bindings.fc.stringOf(charArb, minLength, maxLength)
 
     let inline unzip (a: Arbitrary<'A * 'B>) =
@@ -619,7 +614,7 @@ module Arbitrary =
         map6(fun u v w x y z -> u, v, w, x, y, z) a b c d e f
 
     module Array =
-        let inline traverse f (arbs: Arbitrary<'T> []) =
+        let inline traverse (f: 'T -> Arbitrary<'U>) (arbs: Arbitrary<'T> []) =
             constant [||]
             |> Array.foldBack (fun x xs ->
                 let x' = x |> bind f
@@ -655,23 +650,26 @@ module Arbitrary =
                 res |> Array.iteri (swap arr)
                 arr)
 
+        /// Creates an arbitrary of a collection that is shuffled.
         let inline shuffle (xs: 'T []) =
             let xs = xs |> Seq.toArray
             Array.copy xs
             |> yatesShuffle
 
-        let inline piles k sum =
-            if k <= 0 then constant [||]
+        /// Creates an arbitrary of a collection of a given length 
+        /// such that all elements have the given sum.
+        let inline piles (length: int) (sum: int) =
+            if length <= 0 then constant [||]
             else 
                 arbitrary {
-                    let result = Array.zeroCreate<int> k
+                    let result = Array.zeroCreate<int> length
                     let! n' = clonedConstant sum
                     let mutable n = n'
 
                     let! m' = clonedConstant sum
                     let mutable m = m'
                     
-                    for i in k .. -1 .. 1 do
+                    for i in length .. -1 .. 1 do
                         if i = 1 then
                             result.[i - 1] <- n
                         else
@@ -684,12 +682,14 @@ module Arbitrary =
                 }
                 |> bind yatesShuffle
 
+        /// Creates an array of arrays arbitrary from a given arbitrary.
         let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
             arbitrary {
-                let! arr1 = ofLength (rows * cols) arb
-                return Array2D.init rows cols (fun r c -> arr1.[cols * r + c])
+                let! arr = ofLength (rows * cols) arb
+                return arr |> Array.chunkBySize rows
             }
 
+        /// Creates a array of arrays arbitrary from a given arbitrary.
         let inline twoDimOf (arb: Arbitrary<'T>) =
             arbitrary {
                 let! rows = ConstrainedDefaults.integer(0, 200)
@@ -697,30 +697,22 @@ module Arbitrary =
                 return! twoDimOfDim rows cols arb 
             }
 
-        /// For subarrays of `originalArray`
-        /// Original array
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSub (originalArray: 'T []) = 
             Bindings.fc.shuffledSubarray(originalArray)
             |> map Array.ofSeq
 
-        /// For subarrays of `originalArray`
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSubOfSize (minLength: int) (maxLength: int) (xs: 'T []) = 
             Bindings.fc.shuffledSubarray(xs, minLength, maxLength)
             |> map Array.ofSeq
 
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline sub (xs: 'T []) = 
             Bindings.fc.subarray(ResizeArray xs)
             |> map Array.ofSeq
 
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline subOfSize (minLength: int) (maxLength: int) (xs: 'T []) = 
             Bindings.fc.subarray(ResizeArray xs, minLength, maxLength)
             |> map Array.ofSeq
@@ -746,43 +738,65 @@ module Arbitrary =
                 List.init i (fun _ -> arb))
             |> bind sequence
 
+        /// Creates an arbitrary of a collection that is shuffled.
         let inline shuffle (xs: 'T list) =
             let xs = xs |> Seq.toArray
             Array.copy xs
             |> Array.yatesShuffle
             |> map List.ofArray
 
-        let inline piles k sum = 
-            Array.piles k sum
+        /// Creates an arbitrary of a collection of a given length 
+        /// such that all elements have the given sum.
+        let inline piles length sum = 
+            Array.piles length sum
             |> map List.ofArray
 
-        /// For subarrays of `originalArray`
-        /// Original array
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSub (originalArray: 'T list) = 
             Bindings.fc.shuffledSubarray(originalArray)
             |> map List.ofSeq
 
-        /// For subarrays of `originalArray`
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSubOfSize (minLength: int) (maxLength: int) (xs: 'T list) = 
             Bindings.fc.shuffledSubarray(xs, minLength, maxLength)
             |> map List.ofSeq
 
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline sub (xs: 'T list) = 
             Bindings.fc.subarray(ResizeArray xs)
             |> map List.ofSeq
 
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline subOfSize (minLength: int) (maxLength: int) (xs: 'T list) = 
             Bindings.fc.subarray(ResizeArray xs, minLength, maxLength)
             |> map List.ofSeq
+
+        /// Creates a list of lists arbitrary from a given arbitrary.
+        let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! arr = ofLength (rows * cols) arb
+                return arr |> List.chunkBySize rows
+            }
+
+        /// Creates a array of arrays arbitrary from a given arbitrary.
+        let inline twoDimOf (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! rows = ConstrainedDefaults.integer(0, 200)
+                let! cols = ConstrainedDefaults.integer(0, 200)
+                return! twoDimOfDim rows cols arb 
+            }
+
+    module Map =
+        let ofRange (min: int) (max: int) (key: Arbitrary<'Key>) (value: Arbitrary<'Value>) =
+            arbitrary {
+                let! size = ConstrainedDefaults.integer(min, max)
+                let! keys, values = zip (List.ofLength size key) (List.ofLength size value)
+                
+                return List.zip keys values |> Map.ofList
+            }
+
+        let ofLength (length: int) (key: Arbitrary<'Key>) (value: Arbitrary<'Value>) =
+            ofRange length length key value
 
     module ResizeArray =
         let inline traverse f (arbs: ResizeArray<Arbitrary<'T>>) =
@@ -808,38 +822,48 @@ module Arbitrary =
                 |> ResizeArray)
             |> bind sequence
 
+        /// Creates an arbitrary of a collection that is shuffled.
         let inline shuffle (xs: ResizeArray<'T>) =
             let xs = xs |> Seq.toArray
             Array.copy xs
             |> Array.yatesShuffle
             |> map ResizeArray
 
+        /// Creates an arbitrary of a collection of a given length 
+        /// such that all elements have the given sum.
         let inline piles k sum = 
             Array.piles k sum
             |> map ResizeArray
 
-        /// For subarrays of `originalArray`
-        /// Original array
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSub (originalArray: ResizeArray<'T>) = 
             Bindings.fc.shuffledSubarray(originalArray)
 
-        /// For subarrays of `originalArray`
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSubOfSize (minLength: int, maxLength: int) (xs: ResizeArray<'T>) = 
             Bindings.fc.shuffledSubarray(xs, minLength, maxLength)
 
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline sub (xs: ResizeArray<'T>) = Bindings.fc.subarray(xs)
 
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline subOfSize (minLength: int) (maxLength: int) (xs: ResizeArray<'T>) = 
             Bindings.fc.subarray(xs, minLength, maxLength)
+
+        /// Creates a ResizeArray of ResizeArrays arbitrary from a given arbitrary.
+        let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! arr = List.ofLength (rows * cols) arb
+                return arr |> List.chunkBySize rows |> List.map ResizeArray |> ResizeArray
+            }
+
+        /// Creates a ResizeArray of ResizeArrays arbitrary from a given arbitrary.
+        let inline twoDimOf (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! rows = ConstrainedDefaults.integer(0, 200)
+                let! cols = ConstrainedDefaults.integer(0, 200)
+                return! twoDimOfDim rows cols arb 
+            }
     
     module Seq =
         let inline traverse f (arbs: Arbitrary<'T> seq) =
@@ -862,75 +886,317 @@ module Arbitrary =
                 Seq.init i (fun _ -> arb))
             |> bind sequence
     
+        /// Creates an arbitrary of a collection that is shuffled.
         let inline shuffle (xs: 'T seq) =
             let xs = xs |> Seq.toArray
             Array.copy xs
             |> Array.yatesShuffle
             |> map Seq.ofArray
 
+        /// Creates an arbitrary of a collection of a given length 
+        /// such that all elements have the given sum.
         let inline piles k sum = 
             Array.piles k sum
             |> map Seq.ofArray
 
-        /// For subarrays of `originalArray`
-        /// Original array
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSub (originalArray: 'T seq) = 
             Bindings.fc.shuffledSubarray(originalArray)
             |> map (fun r -> r :> seq<'T>)
         
-        /// For subarrays of `originalArray`
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is shuffled and a sub-section of the given collection.
         let inline shuffledSubOfSize (minLength: int) (maxLength: int) (xs: 'T seq) = 
             Bindings.fc.shuffledSubarray(xs, minLength, maxLength)
             |> map (fun r -> r :> seq<'T>)
 
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline sub (xs: 'T seq) = 
             Bindings.fc.subarray(ResizeArray xs)
             |> map (fun r -> r :> seq<'T>)
             
-        /// For subarrays of `originalArray` (keeps ordering)
-        /// Original array
-        /// Lower bound of the generated array size
-        /// Upper bound of the generated array size
+        /// Creates an arbitrary that is a sub-section of the given collection.
         let inline subOfSize (minLength: int) (maxLength: int) (xs: 'T seq) = 
             Bindings.fc.subarray(ResizeArray xs, minLength, maxLength)
             |> map (fun r -> r :> seq<'T>)
 
+        /// Creates a seq of seqs arbitrary from a given arbitrary.
+        let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! arr = ofLength (rows * cols) arb
+                return arr |> Seq.chunkBySize rows
+            }
+
+        /// Creates a seq of seqs arbitrary from a given arbitrary.
+        let inline twoDimOf (arb: Arbitrary<'T>) =
+            arbitrary {
+                let! rows = ConstrainedDefaults.integer(0, 200)
+                let! cols = ConstrainedDefaults.integer(0, 200)
+                return! twoDimOfDim rows cols arb 
+            }
+
+    module Set =
+        let ofRange (min: int) (max: int) (arb: Arbitrary<'T>) =
+            List.ofRange min max arb |> map Set.ofList
+
+        let ofLength (length: int) (arb: Arbitrary<'T>) =
+            List.ofLength length arb |> map Set.ofList
+
+    [<System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)>]
+    module rec Auto =
+        let primitive<'T> (type': System.Type) =
+            let t = type'.FullName
+
+            if t = typeof<bigint>.FullName then Defaults.bigInt |> box |> Some
+            elif t = typeof<bool>.FullName then Defaults.boolean |> box |> Some
+            elif t = typeof<byte>.FullName then Defaults.byte |> box |> Some
+            elif t = typeof<char>.FullName then Defaults.char |> box |> Some
+            elif t = typeof<DateTime>.FullName then Defaults.date |> box |> Some
+            elif t = typeof<DateTimeOffset>.FullName then Defaults.date |> map DateTimeOffset |> box |> Some
+            elif t = typeof<decimal>.FullName then unbox<decimal> Defaults.integer |> box |> Some
+            elif t = typeof<exn>.FullName then Defaults.exn |> box |> Some
+            elif t = typeof<float>.FullName then unbox<float> Defaults.integer |> box |> Some
+            elif t = typeof<float32>.FullName then Defaults.float32 |> box |> Some
+            elif t = typeof<Guid>.FullName then Defaults.guid |> box |> Some
+            elif t = typeof<int16>.FullName then Defaults.int16 |> box |> Some
+            elif t = typeof<int32>.FullName then Defaults.integer |> box |> Some
+            elif t = typeof<obj>.FullName then Defaults.object |> box |> Some
+            elif t = typeof<sbyte>.FullName then Defaults.sbyte |> box |> Some
+            elif t = typeof<string>.FullName then Defaults.string |> box |> Some
+            elif t = typeof<TimeSpan>.FullName then Defaults.date |> map (fun d -> d.TimeOfDay) |> box |> Some
+            elif t = typeof<uint16>.FullName then Defaults.uint16 |> box |> Some
+            elif t = typeof<uint32>.FullName then Defaults.uint32 |> box |> Some
+            elif t = typeof<unit>.FullName then constant () |> box |> Some
+            else None
+            |> Option.map unbox<Arbitrary<'T>>
+
+        let gen<'T> (t: System.Type) : Arbitrary<'T> =
+            match primitive<'T>(t) with
+            | Some res -> res
+            | None ->
+                if FSharpType.IsTuple t then tuple t |> box
+                elif FSharpType.IsRecord(t, allowAccessToPrivateRepresentation = true) then 
+                    record t |> box
+                elif FSharpType.IsUnion(t, allowAccessToPrivateRepresentation = true) then 
+                    du t |> box
+                elif FSharpType.IsFunction t then
+                    try t.GetGenericArguments().[1] |> Some
+                    with _ -> None
+                    |> Option.map gen
+                    |> function
+                    | Some res -> res |> func |> box
+                    | None -> 
+                        FSharpType.GetFunctionElements(t) 
+                        |> snd 
+                        |> gen
+                        |> func 
+                        |> box
+                elif t.IsArray then 
+                    t.GetElementType() 
+                    |> gen 
+                    |> Array.ofRange 0 10 
+                    |> box
+                elif t.IsEnum then
+                    t.GetEnumValues()
+                    |> unbox<array<_>>
+                    |> Array.map (fun o -> constant o)
+                    |> Seq.sequence
+                    |> bind elements
+                    |> map (fun o -> System.Enum.Parse(t, o.ToString()))
+                    |> box
+                elif t.IsGenericType then
+                    match t.GetGenericTypeDefinition() with
+                    | tDef when tDef = typedefof<Option<_>> -> 
+                        t.GenericTypeArguments.[0] 
+                        |> gen 
+                        |> option 
+                        |> box
+                    | tDef when tDef = typedefof<List<_>> ->
+                        t.GenericTypeArguments.[0] 
+                        |> gen 
+                        |> List.ofRange 0 10 
+                        |> box
+                    | tDef when tDef = typedefof<seq<_>> ->
+                        t.GenericTypeArguments.[0] 
+                        |> gen 
+                        |> Seq.ofRange 0 10 
+                        |> box
+                    | tDef when tDef = typedefof<Result<_,_>> ->
+                        let ok = t.GenericTypeArguments.[0] |> gen 
+                        let err = t.GenericTypeArguments.[1] |> gen
+                        
+                        result ok err |> box
+                    | tDef when tDef = typedefof<Map<_,_>> ->
+                        let keys = 
+                            t.GenericTypeArguments.[0] 
+                            |> gen
+                            |> map (fun k -> unbox<IComparable> k)
+                        let values = t.GenericTypeArguments.[1] |> gen
+
+                        Map.ofRange 1 10 keys values 
+                        |> box
+                    | tDef when tDef = typedefof<Set<_>> ->
+                        t.GenericTypeArguments.[0] 
+                        |> gen 
+                        |> map (fun v -> unbox<IComparable> v)
+                        |> Set.ofRange 0 10 
+                        |> box
+                    | _ -> failwithf "Unsupported type for auto generation: %s" t.FullName
+                else failwithf "Unsupported type for auto generation: %s" t.FullName
+                |> unbox<Arbitrary<'T>>
+
+        let tuple (type': System.Type) =
+            FSharpType.GetTupleElements(type') 
+            |> Array.map gen
+            |> Array.sequence
+            |> bind (fun arr ->
+                FSharpValue.MakeTuple(arr, type')
+                |> constant)
+
+        let record (type': System.Type) =
+            let names, arbs =
+                FSharpType.GetRecordFields(type', allowAccessToPrivateRepresentation = true)
+                |> Array.map (fun field -> (field.Name, gen field.PropertyType))
+                |> Array.unzip
+
+            Array.sequence arbs
+            |> map (fun fields ->
+                Array.zip names fields
+                |> List.ofArray
+                |> fun res -> createObj !!res)
+
+        let duAllCases<'T> (type': System.Type) =
+            FSharpType.GetUnionCases(type', allowAccessToPrivateRepresentation = true)
+            |> Array.map (fun uc -> 
+                uc.GetFields()
+                |> Array.map (fun field -> gen field.PropertyType)
+                |> Array.sequence
+                |> map(fun o -> FSharpValue.MakeUnion(uc, o) :?> 'T))
+            |> List.ofArray
+            |> List.sequence
+
+        let du (type': System.Type) =
+            FSharpType.GetUnionCases(type', allowAccessToPrivateRepresentation = true)
+            |> Array.map (fun uc -> 
+                uc.GetFields()
+                |> Array.map (fun field -> gen field.PropertyType)
+                |> Array.sequence
+                |> map(fun o -> FSharpValue.MakeUnion(uc, o) :?> 'T))
+            |> List.ofArray
+            |> List.sequence
+            |> bind elements
+
+    /// Attempts to auto generate arbitraries for a given type.
+    ///
+    /// This is mostly intended for very complex types that
+    /// would be very cumbersome to write an Arbitrary for.
+    ///
+    /// All types generated from this will use the default 
+    /// Arbitrary for each primitive.
+    ///
+    /// Classes are not supported, see https://github.com/fable-compiler/Fable/issues/2027
+    let inline auto<'T> () : Arbitrary<'T> =
+        Auto.gen<'T> typeof<'T>
+
 type Arbitrary =
-    static member elmish (init: 'Model * Elmish.Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, assertions: ('Msg * ('Model -> 'Model -> unit)) list) =
+    /// Creates an arbitrary of elmish commands to use with runModel.
+    static member inline elmish (init: 'Model * Elmish.Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, asserter: ('Msg -> 'Model -> 'Model -> unit)) =
         let model = Model<'Model,'Msg>(init, update)
         let real = Model<'Model,'Msg>(init, update)
         let cmds = 
-            assertions
-            |> List.map (fun (msg, assertion) -> 
-                Msg<'Model,'Msg>(msg, assertion) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
-                |> Arbitrary.constant)
-            |> Arbitrary.commands
-        
+            arbitrary {
+                let! msgs = Arbitrary.Auto.duAllCases<'Msg> typeof<'Msg>
+
+                return!
+                    msgs
+                    |> List.map (fun msg -> 
+                        Msg<'Model,'Msg>(msg, asserter) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                        |> Arbitrary.constant)
+                    |> Arbitrary.commands
+            }
+            
         Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
-    static member elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, assertions: ('Msg * ('Model -> 'Model -> unit)) list) =
+    /// Creates an arbitrary of elmish commands to use with runModel.
+    static member inline elmish (init: 'Model * Elmish.Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, asserter: ('Msg -> 'Model -> 'Model -> unit), msgs: Arbitrary<'Msg list>) =
+        let model = Model<'Model,'Msg>(init, update)
+        let real = Model<'Model,'Msg>(init, update)
+        let cmds = 
+            arbitrary {
+                let! msgs = msgs
+
+                return!
+                    msgs
+                    |> List.map (fun msg -> 
+                        Msg<'Model,'Msg>(msg, asserter) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                        |> Arbitrary.constant)
+                    |> Arbitrary.commands
+            }
+            
+        Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
+    /// Creates an arbitrary of elmish commands to use with runModel.
+    static member inline elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, asserter: ('Msg -> 'Model -> 'Model -> unit)) =
         let model = Model<'Model,'Msg>((init, Elmish.Cmd.none), update)
         let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), update)
         let cmds = 
-            assertions
-            |> List.map (fun (msg, assertion) -> 
-                Msg<'Model,'Msg>(msg, assertion) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
-                |> Arbitrary.constant)
-            |> Arbitrary.commands
+            arbitrary {
+                let! msgs = Arbitrary.Auto.duAllCases<'Msg> typeof<'Msg>
+
+                return!
+                    msgs
+                    |> List.map (fun msg -> 
+                        Msg<'Model,'Msg>(msg, asserter) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                        |> Arbitrary.constant)
+                    |> Arbitrary.commands
+            }
         
         Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
-    static member elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model, assertions: ('Msg * ('Model -> 'Model -> unit)) list) =
+    /// Creates an arbitrary of elmish commands to use with runModel.
+    static member inline elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model * Elmish.Cmd<'Msg>, asserter: ('Msg -> 'Model -> 'Model -> unit), msgs: Arbitrary<'Msg list>) =
+        let model = Model<'Model,'Msg>((init, Elmish.Cmd.none), update)
+        let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), update)
+        let cmds = 
+            arbitrary {
+                let! msgs = msgs
+
+                return!
+                    msgs
+                    |> List.map (fun msg -> 
+                        Msg<'Model,'Msg>(msg, asserter) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                        |> Arbitrary.constant)
+                    |> Arbitrary.commands
+            }
+        
+        Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
+    /// Creates an arbitrary of elmish commands to use with runModel.
+    static member inline elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model, asserter: ('Msg -> 'Model -> 'Model -> unit)) =
         let model = Model<'Model,'Msg>((init, Elmish.Cmd.none), (fun msg model -> update msg model, Elmish.Cmd.none))
         let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), (fun msg model -> update msg model, Elmish.Cmd.none))
         let cmds = 
-            assertions
-            |> List.map (fun (msg, assertion) -> 
-                Msg<'Model,'Msg>(msg, assertion) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
-                |> Arbitrary.constant)
-            |> Arbitrary.commands
+            arbitrary {
+                let! msgs = Arbitrary.Auto.duAllCases<'Msg> typeof<'Msg>
+
+                return!
+                    msgs
+                    |> List.map (fun msg -> 
+                        Msg<'Model,'Msg>(msg, asserter) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                        |> Arbitrary.constant)
+                    |> Arbitrary.commands
+            }
+        
+        Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
+    /// Creates an arbitrary of elmish commands to use with runModel.
+    static member inline elmish (init: 'Model, update: 'Msg -> 'Model -> 'Model, asserter: ('Msg -> 'Model -> 'Model -> unit), msgs: Arbitrary<'Msg list>) =
+        let model = Model<'Model,'Msg>((init, Elmish.Cmd.none), (fun msg model -> update msg model, Elmish.Cmd.none))
+        let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), (fun msg model -> update msg model, Elmish.Cmd.none))
+        let cmds = 
+            arbitrary {
+                let! msgs = msgs
+
+                return!
+                    msgs
+                    |> List.map (fun msg -> 
+                        Msg<'Model,'Msg>(msg, asserter) :> ICommand<Model<'Model,'Msg>,Model<'Model,'Msg>>
+                        |> Arbitrary.constant)
+                    |> Arbitrary.commands
+            }
         
         Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds

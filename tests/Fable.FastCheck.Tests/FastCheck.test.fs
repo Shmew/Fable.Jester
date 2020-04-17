@@ -34,13 +34,13 @@ Jest.describe("FastCheck Jest Wrapper", fun () ->
     Jest.test.prop("test.prop works", positiveInt, fun i ->
         Jest.expect(i).toBeGreaterThan(0)
     )
-    Jest.test.propSkip("test.skip skips", positiveInt, fun i ->
+    Jest.test.prop.skip("test.skip skips", positiveInt, fun i ->
         Jest.expect(i).toBeLessThan(0)
     )
 )
 
 Jest.describe("FastCheck Jest test.only", fun () ->
-    Jest.test.propOnly("only this should run", positiveInt, fun i ->
+    Jest.test.prop.only("only this should run", positiveInt, fun i ->
         Jest.expect(i).toBeGreaterThan(0)
     )
     Jest.test.prop("this shouldn't run", positiveInt, fun i ->

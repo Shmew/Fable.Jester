@@ -19,11 +19,12 @@ let update msg (model: Model) =
     | Decrement -> { model with Count = model.Count - 1 }, Cmd.none
     | Increment -> { model with Count = model.Count + 1 }, Cmd.none
 
-let assertions = [
-    Decrement, (fun old new' -> Jest.expect(old.Count).toBeGreaterThan(new'.Count))
-    Increment, (fun old new' -> Jest.expect(old.Count).toBeLessThan(new'.Count))
-]
+let asserter msg oldModel newModel =
+    match msg with
+    | Decrement -> Jest.expect(oldModel.Count).toBeGreaterThan(newModel.Count)
+    | Increment -> Jest.expect(oldModel.Count).toBeLessThan(newModel.Count)
 
 Jest.describe("Elmish Model tests", fun () ->
-    Jest.test.elmish("Model assertions run", init(), update, assertions)
+    Jest.test.elmish("Model assertions run via auto generation", init(), update, asserter)
+    Jest.test.elmish("Model assertions run via explicity arbitrary", init(), update, asserter, Arbitrary.constant [ Decrement; Increment ])
 )

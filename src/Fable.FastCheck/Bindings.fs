@@ -12,8 +12,7 @@ module Bindings =
 
     module SchedulerAct =
         let inline create (act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) = 
-            {| act = act |}
-            |> toPlainJsObj
+            createObj [ "act" ==> act ]
             |> fun res -> res :?> SchedulerAct
 
     type SchedulerReturnTask =
@@ -23,7 +22,7 @@ module Bindings =
         [<Emit("$0.done")>]
         abstract isFaulty: bool
     
-    type SchedulerReturn =
+    type PromiseSchedulerReturn =
         [<Emit("$0.done")>]
         abstract isDone: bool
     
@@ -37,9 +36,11 @@ module Bindings =
         abstract label: string
 
     module ScheduleSequenceItem =
-        let inline create (builder: unit -> JS.Promise<obj>, label: string) = 
-            {| builder = builder; label = label |}
-            |> toPlainJsObj
+        let inline create (builder: unit -> JS.Promise<obj>, label: string) =
+            createObj [ 
+                "builder" ==> builder
+                "label" ==> label
+            ]
             |> fun res -> res :?> ScheduleSequenceItem
     
     /// Instance able to reschedule the ordering of promises
@@ -61,7 +62,7 @@ module Bindings =
         /// Sequence will be marked:
         /// - done if all the promises have been executed properly
         /// - faulty if one of the promises within the sequence throws
-        abstract scheduleSequence: sequenceBuilders: ResizeArray<unit -> JS.Promise<obj>> -> SchedulerReturn
+        abstract scheduleSequence: sequenceBuilders: ResizeArray<unit -> JS.Promise<obj>> -> PromiseSchedulerReturn
         /// Schedule a sequence of promises to be executed sequencially.
         /// Items within the sequence might be interleaved by other scheduled operations.
         /// 
@@ -72,7 +73,7 @@ module Bindings =
         /// Sequence will be marked:
         /// - done if all the promises have been executed properly
         /// - faulty if one of the promises within the sequence throws
-        abstract scheduleSequence: sequenceBuilders: ResizeArray<ScheduleSequenceItem> -> SchedulerReturn
+        abstract scheduleSequence: sequenceBuilders: ResizeArray<ScheduleSequenceItem> -> PromiseSchedulerReturn
 
         /// Count of pending scheduled tasks
         abstract count: unit -> int
@@ -89,9 +90,11 @@ module Bindings =
         abstract real: 'Real
     
     module Setup =
-        let inline create (model: 'Model) (real: 'Real) = 
-            {| model = model; real = real |}
-            |> toPlainJsObj
+        let inline create (model: 'Model) (real: 'Real) =
+            createObj [ 
+                "model" ==> model
+                "real" ==> real
+            ]
             |> fun res -> res :?> Setup<'Model,'Real>
 
     type FC =
@@ -117,8 +120,8 @@ module Bindings =
         [<Emit("$0.assert($1...)")>]
         abstract assert': prop: Property<'T> * ?parameters: obj -> unit
         
-        abstract asyncModelRun: (unit -> Setup<'InitialModel, 'Real>) * seq<IAsyncCommand<'Model,'Real>> -> JS.Promise<unit>
-        abstract asyncModelRun: (unit -> Setup<'InitialModel, 'Real>) * IAsyncCommandSeq<'Model,'Real> -> JS.Promise<unit>
+        abstract asyncModelRun: (unit -> Setup<'InitialModel, 'Real>) * seq<IPromiseCommand<'Model,'Real>> -> JS.Promise<unit>
+        abstract asyncModelRun: (unit -> Setup<'InitialModel, 'Real>) * IPromiseCommandSeq<'Model,'Real> -> JS.Promise<unit>
 
         abstract asyncProperty: arb0: Arbitrary<'T0> * predicate: ('T0 ->JS.Promise<bool>) -> AsyncProperty<'T0>
         abstract asyncProperty: arb0: Arbitrary<'T0> * predicate: ('T0 ->JS.Promise<unit>) -> AsyncProperty<'T0>
@@ -141,25 +144,35 @@ module Bindings =
         abstract base64String: maxLength: int -> Arbitrary<string>
         abstract base64String: minLength: int * maxLength: int -> Arbitrary<string>
 
+        abstract bigInt: unit -> Arbitrary<bigint>
+        abstract bigInt: min: bigint * max: bigint -> Arbitrary<bigint>
+        
+        abstract bigIntN: int -> Arbitrary<bigint>
+
+        abstract bigUint: unit -> Arbitrary<bigint>
+        abstract bigUint: max: bigint -> Arbitrary<bigint>
+
+        abstract bigUintN: int -> Arbitrary<bigint>
+
         abstract boolean: unit -> Arbitrary<bool>
 
         abstract char: unit -> Arbitrary<char>
         
         abstract char16bits: unit -> Arbitrary<char>
 
-        abstract check: prop: AsyncProperty<'T> * ?parameters: obj -> JS.Promise<RunDetails<'T>>
-        abstract check: prop: Property<'T> * ?parameters: obj -> RunDetails<'T>
+        abstract check: prop: AsyncProperty<'T> * ?parameters: obj -> JS.Promise<IRunDetails<'T>>
+        abstract check: prop: Property<'T> * ?parameters: obj -> IRunDetails<'T>
         
         abstract clonedConstant: value: 'T -> Arbitrary<'T>
         
-        abstract commands: commandArbs: ResizeArray<Arbitrary<IAsyncCommand<'Model,'Real>>> * ?maxCommands: int -> Arbitrary<seq<IAsyncCommand<'Model,'Real>>>
+        abstract commands: commandArbs: ResizeArray<Arbitrary<IPromiseCommand<'Model,'Real>>> * ?maxCommands: int -> Arbitrary<seq<IPromiseCommand<'Model,'Real>>>
         abstract commands: commandArbs: ResizeArray<Arbitrary<ICommand<'Model,'Real>>> * ?maxCommands: int -> Arbitrary<seq<ICommand<'Model,'Real>>>
-        abstract commands: commandArbs: ResizeArray<Arbitrary<IAsyncCommand<'Model,'Real>>> * ?settings: obj -> Arbitrary<seq<IAsyncCommand<'Model,'Real>>>
+        abstract commands: commandArbs: ResizeArray<Arbitrary<IPromiseCommand<'Model,'Real>>> * ?settings: obj -> Arbitrary<seq<IPromiseCommand<'Model,'Real>>>
         abstract commands: commandArbs: ResizeArray<Arbitrary<ICommand<'Model,'Real>>> * ?settings: obj -> Arbitrary<seq<ICommand<'Model,'Real>>>
 
         abstract compareBooleanFunc: unit -> Arbitrary<('T -> 'T -> bool)>
 
-        abstract compareFunc: unit -> Arbitrary<('T -> 'T -> float)>
+        abstract compareFunc: unit -> Arbitrary<('T -> 'T -> int)>
         
         abstract constant: value: 'T -> Arbitrary<'T>
 
@@ -186,7 +199,7 @@ module Bindings =
 
         abstract frequency: warbs: ResizeArray<obj> -> Arbitrary<'T>
 
-        abstract fullUnicode: unit -> Arbitrary<char>
+        abstract fullUnicode: unit -> Arbitrary<string>
         
         abstract fullUnicodeString: unit -> Arbitrary<string>
         abstract fullUnicodeString: maxLength: int -> Arbitrary<string>
@@ -224,12 +237,12 @@ module Bindings =
         
         abstract lorem: unit -> Arbitrary<string>
         
-        abstract lorem: maxWordsCount: float -> Arbitrary<string>
-        abstract lorem: maxWordsCount: float * sentencesMode: bool -> Arbitrary<string>
+        abstract lorem: maxWordsCount: int -> Arbitrary<string>
+        abstract lorem: maxWordsCount: int * sentencesMode: bool -> Arbitrary<string>
         
-        abstract maxSafeInteger: unit -> ArbitraryWithShrink<int>
+        abstract maxSafeInteger: unit -> ArbitraryWithShrink<int64>
         
-        abstract maxSafeNat: unit -> ArbitraryWithShrink<int>
+        abstract maxSafeNat: unit -> ArbitraryWithShrink<int64>
         
         abstract mixedCase: stringArb: Arbitrary<string> -> Arbitrary<string>
         [<Emit("$0.mixedCase($1 * { toggleCase: $2 })")>]
@@ -266,10 +279,12 @@ module Bindings =
         [<Emit("$0.record($1, { withDeletedKeys: $2 })")>]
         abstract record: recordModel: 'T * withDeletedKeys: bool -> Arbitrary<'T>
         
-        abstract sample: generator: Arbitrary<'T> * ?parameters: obj -> ResizeArray<'T>
-        abstract sample: generator: Arbitrary<'T> * ?parameters: int -> ResizeArray<'T>
-        abstract sample: generator: #IProperty<'T,'Return> * ?parameters: obj -> ResizeArray<'T>
-        abstract sample: generator: #IProperty<'T,'Return> * ?parameters: int -> ResizeArray<'T>
+        abstract sample: generator: Arbitrary<'T> -> ResizeArray<'T>
+        abstract sample: generator: Arbitrary<'T> * parameters: obj -> ResizeArray<'T>
+        abstract sample: generator: Arbitrary<'T> * parameters: int -> ResizeArray<'T>
+        abstract sample: generator: #IProperty<'T,'Return> -> ResizeArray<'T>
+        abstract sample: generator: #IProperty<'T,'Return> * parameters: obj -> ResizeArray<'T>
+        abstract sample: generator: #IProperty<'T,'Return> * parameters: int -> ResizeArray<'T>
 
         abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * seq<ICommand<'Model,'Real>> -> JS.Promise<unit>
         abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * ICommandSeq<'Model,'Real> -> JS.Promise<unit>
@@ -295,14 +310,18 @@ module Bindings =
         abstract shuffledSubarray: originalArray: 'T list * minLength: int * maxLength: int -> Arbitrary<ResizeArray<'T>>
         abstract shuffledSubarray: originalArray: 'T seq * minLength: int * maxLength: int -> Arbitrary<ResizeArray<'T>>
         
-        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> string) * ?parameters: obj -> unit
-        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> string) * ?parameters: int -> unit
-        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) * ?parameters: obj -> unit
-        abstract statistics: generator: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) * ?parameters: int -> unit
-        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> string) * ?parameters: obj -> unit
-        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> string) * ?parameters: int -> unit
-        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) * ?parameters: obj -> unit
-        abstract statistics: generator: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) * ?parameters: int -> unit
+        abstract statistics: arb: Arbitrary<'T> * classify: ('T -> string) -> unit
+        abstract statistics: arb: Arbitrary<'T> * classify: ('T -> string) * parameters: obj -> unit
+        abstract statistics: arb: Arbitrary<'T> * classify: ('T -> string) * parameters: int -> unit
+        abstract statistics: arb: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) -> unit
+        abstract statistics: arb: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) * parameters: obj -> unit
+        abstract statistics: arb: Arbitrary<'T> * classify: ('T -> ResizeArray<string>) * parameters: int -> unit
+        abstract statistics: prop: #IProperty<'T,'Return> * classify: ('T -> string) -> unit
+        abstract statistics: prop: #IProperty<'T,'Return> * classify: ('T -> string) * parameters: obj -> unit
+        abstract statistics: prop: #IProperty<'T,'Return> * classify: ('T -> string) * parameters: int -> unit
+        abstract statistics: prop: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) -> unit
+        abstract statistics: prop: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) * parameters: obj -> unit
+        abstract statistics: prop: #IProperty<'T,'Return> * classify: ('T -> ResizeArray<string>) * parameters: int -> unit
         
         abstract string: unit -> Arbitrary<string>
         abstract string: maxLength: int -> Arbitrary<string>

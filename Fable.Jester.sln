@@ -66,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{D05F59F8-1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "installation", "installation", "{BE0829CD-A553-4C7B-AF61-146B1732B44E}"
 	ProjectSection(SolutionItems) = preProject
+		docs\installation\fast-check-jest.md = docs\installation\fast-check-jest.md
+		docs\installation\fast-check.md = docs\installation\fast-check.md
 		docs\installation\jest.md = docs\installation\jest.md
 		docs\installation\react-testing-library.md = docs\installation\react-testing-library.md
 	EndProjectSection
@@ -98,6 +100,30 @@ EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.FastCheck.Tests", "tests\Fable.FastCheck.Tests\Fable.FastCheck.Tests.fsproj", "{C010CC36-66B2-457F-9D8B-661670A17764}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.FastCheck.Jest", "src\Fable.FastCheck.Jest\Fable.FastCheck.Jest.fsproj", "{375F62BB-CB4F-499D-BC62-40DA01641EB0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fast-check", "fast-check", "{DCC97AAF-315E-45E7-BB43-CDACB5313758}"
+	ProjectSection(SolutionItems) = preProject
+		docs\fast-check\elmish-model-testing.md = docs\fast-check\elmish-model-testing.md
+		docs\fast-check\fast-check.md = docs\fast-check\fast-check.md
+		docs\fast-check\jest-extension.md = docs\fast-check\jest-extension.md
+		docs\fast-check\model-testing.md = docs\fast-check\model-testing.md
+		docs\fast-check\README.md = docs\fast-check\README.md
+		docs\fast-check\scheduler.md = docs\fast-check\scheduler.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "arbitrary", "arbitrary", "{C8B206F1-2629-47F1-A6C6-255718289E88}"
+	ProjectSection(SolutionItems) = preProject
+		docs\fast-check\arbitrary\array.md = docs\fast-check\arbitrary\array.md
+		docs\fast-check\arbitrary\ce.md = docs\fast-check\arbitrary\ce.md
+		docs\fast-check\arbitrary\constrained-defaults.md = docs\fast-check\arbitrary\constrained-defaults.md
+		docs\fast-check\arbitrary\defaults.md = docs\fast-check\arbitrary\defaults.md
+		docs\fast-check\arbitrary\list.md = docs\fast-check\arbitrary\list.md
+		docs\fast-check\arbitrary\map.md = docs\fast-check\arbitrary\map.md
+		docs\fast-check\arbitrary\README.md = docs\fast-check\arbitrary\README.md
+		docs\fast-check\arbitrary\resizearray.md = docs\fast-check\arbitrary\resizearray.md
+		docs\fast-check\arbitrary\seq.md = docs\fast-check\arbitrary\seq.md
+		docs\fast-check\arbitrary\set.md = docs\fast-check\arbitrary\set.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,6 +176,8 @@ Global
 		{FB9E5277-7525-4AD5-92D6-DFEC55530DC2} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
 		{80A18350-F484-458A-BAC0-64EE73830C5F} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
 		{C010CC36-66B2-457F-9D8B-661670A17764} = {27F9F1A6-C6B4-4539-B013-8549B4A6E1B5}
+		{DCC97AAF-315E-45E7-BB43-CDACB5313758} = {D05F59F8-14B6-44AB-8FE6-493EE0CA4A75}
+		{C8B206F1-2629-47F1-A6C6-255718289E88} = {DCC97AAF-315E-45E7-BB43-CDACB5313758}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96DAE6A9-B1CC-4FF7-B08C-D5FBFD55B385}
