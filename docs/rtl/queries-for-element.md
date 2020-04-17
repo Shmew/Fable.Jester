@@ -77,7 +77,8 @@ Signature:
 ```fsharp
 (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
 (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
+(matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, 
+    ?normalizer: string -> string)
 ```
 
 Usage:
@@ -105,7 +106,8 @@ Signature:
 ```fsharp
 (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string)
 (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string)
+(matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, 
+    ?normalizer: string -> string)
 ```
 
 Usage:
@@ -147,7 +149,8 @@ Signature:
 ```fsharp
 (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
 (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
+(matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, 
+    ?normalizer: string -> string)
 ```
 
 Usage:
