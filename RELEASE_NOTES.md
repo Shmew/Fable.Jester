@@ -1,3 +1,8 @@
+### 0.5.0 - Friday, April 17th, 2020
+Initial release of:
+* Fable.FastCheck
+* Fable.FastCheck.Jest
+
 ### 0.4.0 - Thursday, April 9th, 2020
 * Update for jest-dom 5.5.0 release - adds `toHaveDisplayValue` matcher
 * Added some missing overloads for `expect` and expect matchers

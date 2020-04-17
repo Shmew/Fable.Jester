@@ -1,8 +1,7 @@
 # Fable.ReactTestingLibrary
 
-To install `Fable.ReactTestingLibrary` into 
-your project, you need to install the nuget
-package into your F# project:
+To install `Fable.ReactTestingLibrary` you need 
+to add the nuget package into your F# project:
 
 ```bash
 # nuget

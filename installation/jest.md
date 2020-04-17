@@ -1,8 +1,7 @@
 # Fable.Jester
 
-To install `Fable.Jester` into your project, 
-you need to install the nuget package into 
-your F# project:
+To install `Fable.Jester` to add the nuget 
+package into your F# project:
 
 ```bash
 # nuget
