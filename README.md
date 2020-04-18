@@ -22,5 +22,6 @@ Jest.describe("my tests", fun () ->
 )
 ```
 
-## Full documentation
-Please go to: https://shmew.github.io/Fable.Jester
+[![Running Tests](https://raw.githubusercontent.com/Shmew/Fable.Jester/master/docs/images/test.gif)]
+
+Full documentation can be found [here](https://shmew.github.io/Fable.Jester).

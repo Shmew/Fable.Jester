@@ -175,16 +175,14 @@ Target.create "Clean" <| fun _ ->
 
 Target.create "CleanDocs" <| fun _ ->
     let clean() =
-        !! (docs @@ "README.md")
-        ++ (docs @@ "RELEASE_NOTES.md")
+        !! (docs @@ "RELEASE_NOTES.md")
         |> List.ofSeq
         |> List.iter Shell.rm
 
     TaskRunner.runWithRetries clean 10
 
 Target.create "CopyDocFiles" <| fun _ ->
-    [ docs @@ "README.md", __SOURCE_DIRECTORY__ @@ "README.md"
-      docs @@ "RELEASE_NOTES.md", __SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md" ]
+    [ docs @@ "RELEASE_NOTES.md", __SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md" ]
     |> List.iter (fun (target, source) -> Shell.copyFile target source)
 
 Target.create "PrepDocs" ignore

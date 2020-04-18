@@ -151,13 +151,22 @@ Returns:
 Arbitrary<obj -> obj -> int>
 ```
 
-## date
+## dateTime
 
 Any DateTime value.
 
 Returns:
 ```fsharp
 Arbitrary<DateTime>
+```
+
+## dateTimeOffset
+
+Any DateTimeOffset value.
+
+Returns:
+```fsharp
+Arbitrary<DateTimeOffset>
 ```
 
 ## domain
@@ -386,15 +395,6 @@ Returns:
 Arbitrary<obj>
 ```
 
-## sbyte
-
-Any sbyte value.
-
-Returns:
-```fsharp
-Arbitrary<sbyte>
-```
-
 ## promiseScheduler
 
 A scheduler instance.
@@ -404,6 +404,24 @@ See [scheduler](/scheduler) for more details.
 Returns:
 ```fsharp
 Arbitrary<PromiseScheduler>
+```
+
+## regex
+
+Any valid `Regex`.
+
+Returns:
+```fsharp
+Arbitrary<Regex>
+```
+
+## sbyte
+
+Any sbyte value.
+
+Returns:
+```fsharp
+Arbitrary<sbyte>
 ```
 
 ## string
@@ -422,6 +440,15 @@ Any 16-bit string.
 Returns:
 ```fsharp
 Arbitrary<string>
+```
+
+## timeSpan
+
+Any TimeSpan.
+
+Returns:
+```fsharp
+Arbitrary<TimeSpan>
 ```
 
 ## unicode

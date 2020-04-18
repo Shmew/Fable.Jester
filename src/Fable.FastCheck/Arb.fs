@@ -6,6 +6,7 @@ open Fable.Core.JsInterop
 open Microsoft.FSharp.Reflection
 open System
 open System.ComponentModel
+open System.Text.RegularExpressions
 
 [<AutoOpen>]
 module ArbitraryBuilder =
@@ -87,7 +88,7 @@ module Arbitrary =
         /// All possible bigint between 0 (included) and 2^n -1 (included).
         static member inline bigUintN (n: int) = Bindings.fc.bigUintN(n)
 
-        static member inline date (constraints: IDateConstraintProperty list) = Bindings.fc.date(constraints)
+        static member inline dateTime (constraints: IDateConstraintProperty list) = Bindings.fc.date(constraints)
         
         /// Floating point numbers between 0.0 (included) and max (excluded) - accuracy of `max / 2**53`.
         static member inline double (max: float) = Bindings.fc.double(max)
@@ -218,8 +219,10 @@ module Arbitrary =
         /// They also satisfy: `a < b <=> b > a` and `a = b <=> b = a`
         static member inline compareFunc = Bindings.fc.compareFunc()
         
-        static member inline date = Bindings.fc.date()
+        static member inline dateTime = Bindings.fc.date()
         
+        static member inline dateTimeOffset = Bindings.fc.date().map(DateTimeOffset)
+
         /// Having an extension with at least two lowercase characters.
         /// 
         /// According to RFC 1034, RFC 1123 and WHATWG URL Standard
@@ -305,10 +308,23 @@ module Arbitrary =
         /// Scheduler of promises.
         static member inline promiseScheduler = Bindings.fc.scheduler().map(fun s -> PromiseScheduler(s))
 
+        /// Any valid Regex.
+        static member inline regex =
+            Bindings.fc
+                .string()
+                .filter(fun s -> 
+                    try 
+                        Regex(s, RegexOptions.ECMAScript) 
+                        |> fun _ -> true 
+                    with _ -> false)
+                .map(Regex)
+
         static member inline string = Bindings.fc.string()
         
         static member inline string16bits = Bindings.fc.string16bits()
         
+        static member inline timeSpan = Bindings.fc.date().map(fun d -> d.TimeOfDay)
+
         /// Single unicode characters defined in the BMP plan - char code between 
         /// 0x0000 (included) and 0xffff (included) and without the range 0xd800 
         /// to 0xdfff (surrogate pair characters).
@@ -374,14 +390,45 @@ module Arbitrary =
         /// - https://url.spec.whatwg.org/
         static member inline webUrl = Bindings.fc.webUrl()
 
-    let inline apply (arbF: Arbitrary<'T -> 'U>, arb: Arbitrary<'T>) =
+    let inline apply (arbF: Arbitrary<'T -> 'U>) (arb: Arbitrary<'T>) =
         arbF.bind(fun f -> arb.map f)
 
     let inline bind (f: 'A -> Arbitrary<'B>) (arb: Arbitrary<'A>) = arb.bind(f)
+
+    let inline map (f: 'A -> 'B) (a: Arbitrary<'A>) = a.map(f)
+
+    [<EditorBrowsable(EditorBrowsableState.Never)>]
+    module Operators =
+        /// Infix apply.
+        let inline (<*>) f m = apply f m
+        
+        /// Infix map.
+        let inline (<!>) f m = map f m
+        
+        /// Infix bind.
+        let inline (>>=) f m = bind f m
+        
+        /// Infix bind (right to left).
+        let inline (=<<) m f = bind f m
+    
+        /// Left-to-right Kleisli composition
+        let inline (>=>) f g = fun x -> f x >>= g
+    
+        /// Right-to-left Kleisli composition
+        let inline (<=<) x = (fun f a b -> f b a) (>=>) x
+
+    open Operators
     
     let inline bind2 (f: 'A -> 'B -> Arbitrary<'C>) (a: Arbitrary<'A>) (b: Arbitrary<'B>) = 
-        apply(a.map(f), b) |> bind id
+        f >=> b >>= a
 
+    /// Applies the given function to the arbitrary. 
+    /// Returns an arbitrary comprised of the results 
+    /// x for each generated value where the function 
+    /// returns Some(x).
+    let choose (chooser: 'T -> 'U option) (arb: Arbitrary<'T>) =
+        arb.filter(chooser >> Option.isSome).map(chooser >> Option.get)
+    
     /// Clones a constant, useful when generating an arbitrary from a mutable value.
     let inline clonedConstant (value: 'T) = Bindings.fc.clonedConstant(value)
         
@@ -434,22 +481,20 @@ module Arbitrary =
     let inline infiniteStream (arb: Arbitrary<'T>) = 
         Bindings.fc.infiniteStream(arb)
 
-    let inline map (f: 'A -> 'B) (a: Arbitrary<'A>) = a.map(f)
-    
     let inline map2 (f: 'A -> 'B -> 'C) (a: Arbitrary<'A>) (b: Arbitrary<'B>) =
-        apply(map f a, b)
+        map f a <*> b
     
     let inline map3 (f: 'A -> 'B -> 'C -> 'D) (a: Arbitrary<'A>) (b: Arbitrary<'B>) (c: Arbitrary<'C>) =
-        apply(apply(map f a, b), c)
+        map f a <*> b <*> c
     
     let inline map4 (f: 'A -> 'B -> 'C -> 'D -> 'E) (a: Arbitrary<'A>) (b: Arbitrary<'B>) (c: Arbitrary<'C>) (d: Arbitrary<'D>) =
-        apply(apply(apply(map f a, b), c), d)
+        map f a <*> b <*> c <*> d
     
     let inline map5 (f: 'A -> 'B -> 'C -> 'D -> 'E -> 'G) (a: Arbitrary<'A>) (b: Arbitrary<'B>) (c: Arbitrary<'C>) (d: Arbitrary<'D>) (e: Arbitrary<'E>) =
-        apply(apply(apply(apply(map f a, b), c), d), e)
+        map f a <*> b <*> c <*> d <*> e
     
     let inline map6 (f: 'A -> 'B -> 'C -> 'D -> 'E -> 'G -> 'H) (a: Arbitrary<'A>) (b: Arbitrary<'B>) (c: Arbitrary<'C>) (d: Arbitrary<'D>) (e: Arbitrary<'E>) (g: Arbitrary<'G>) =
-        apply(apply(apply(apply(apply(map f a, b), c), d), e), g)
+        map f a <*> b <*> c <*> d <*> e <*> g
 
     /// Randomly switch the case of characters generated by Arbitrary<string> (upper/lower).
     let inline mixedCase (stringArb: Arbitrary<string>) = 
@@ -478,9 +523,7 @@ module Arbitrary =
             |> List.map (map (fun cmd -> AsyncCommand(cmd) :> IPromiseCommand<'Model,'Real>))
 
         Bindings.fc.commands(ResizeArray commandArbs, ?maxCommands = None)
-        |> map (fun cmds -> 
-            cmds 
-            |> Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
+        |> map (Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
 
     /// Sequence of IAsyncCommand to be executed by asyncModelRun.
     /// 
@@ -492,9 +535,7 @@ module Arbitrary =
             |> List.map (map (fun cmd -> AsyncCommand(cmd) :> IPromiseCommand<'Model,'Real>))
 
         Bindings.fc.commands(ResizeArray cmds, maxCommands = maxCommands)
-        |> map (fun cmds -> 
-            cmds 
-            |> Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
+        |> map (Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
 
     /// Sequence of IAsyncCommand to be executed by asyncModelRun.
     /// 
@@ -506,9 +547,7 @@ module Arbitrary =
             |> List.map (map (fun cmd -> AsyncCommand(cmd) :> IPromiseCommand<'Model,'Real>))
 
         Bindings.fc.commands(ResizeArray cmds, settings = createObj !!(settings))
-        |> map (fun cmds -> 
-            cmds 
-            |> Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
+        |> map (Seq.map (fun cmd -> PromiseCommandConverter(cmd) :> IAsyncCommand<'Model,'Real>))
 
     /// Sequence of IPromiseCommand to be executed by promiseModelRun.
     /// 
@@ -684,10 +723,7 @@ module Arbitrary =
 
         /// Creates an array of arrays arbitrary from a given arbitrary.
         let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
-            arbitrary {
-                let! arr = ofLength (rows * cols) arb
-                return arr |> Array.chunkBySize rows
-            }
+            Array.chunkBySize rows <!> ofLength (rows * cols) arb
 
         /// Creates a array of arrays arbitrary from a given arbitrary.
         let inline twoDimOf (arb: Arbitrary<'T>) =
@@ -773,10 +809,7 @@ module Arbitrary =
 
         /// Creates a list of lists arbitrary from a given arbitrary.
         let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
-            arbitrary {
-                let! arr = ofLength (rows * cols) arb
-                return arr |> List.chunkBySize rows
-            }
+            List.chunkBySize rows <!> ofLength (rows * cols) arb
 
         /// Creates a array of arrays arbitrary from a given arbitrary.
         let inline twoDimOf (arb: Arbitrary<'T>) =
@@ -852,11 +885,12 @@ module Arbitrary =
 
         /// Creates a ResizeArray of ResizeArrays arbitrary from a given arbitrary.
         let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
-            arbitrary {
-                let! arr = List.ofLength (rows * cols) arb
-                return arr |> List.chunkBySize rows |> List.map ResizeArray |> ResizeArray
-            }
-
+            List.ofLength (rows * cols) arb
+            |> map (fun arr -> 
+                List.chunkBySize rows arr 
+                |> List.map ResizeArray 
+                |> ResizeArray) 
+            
         /// Creates a ResizeArray of ResizeArrays arbitrary from a given arbitrary.
         let inline twoDimOf (arb: Arbitrary<'T>) =
             arbitrary {
@@ -921,10 +955,7 @@ module Arbitrary =
 
         /// Creates a seq of seqs arbitrary from a given arbitrary.
         let inline twoDimOfDim (rows: int) (cols: int) (arb: Arbitrary<'T>) =
-            arbitrary {
-                let! arr = ofLength (rows * cols) arb
-                return arr |> Seq.chunkBySize rows
-            }
+            Seq.chunkBySize rows <!> ofLength (rows * cols) arb
 
         /// Creates a seq of seqs arbitrary from a given arbitrary.
         let inline twoDimOf (arb: Arbitrary<'T>) =
@@ -941,7 +972,7 @@ module Arbitrary =
         let ofLength (length: int) (arb: Arbitrary<'T>) =
             List.ofLength length arb |> map Set.ofList
 
-    [<System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)>]
+    [<EditorBrowsable(EditorBrowsableState.Never)>]
     module rec Auto =
         let primitive<'T> (type': System.Type) =
             let t = type'.FullName
@@ -950,8 +981,8 @@ module Arbitrary =
             elif t = typeof<bool>.FullName then Defaults.boolean |> box |> Some
             elif t = typeof<byte>.FullName then Defaults.byte |> box |> Some
             elif t = typeof<char>.FullName then Defaults.char |> box |> Some
-            elif t = typeof<DateTime>.FullName then Defaults.date |> box |> Some
-            elif t = typeof<DateTimeOffset>.FullName then Defaults.date |> map DateTimeOffset |> box |> Some
+            elif t = typeof<DateTime>.FullName then Defaults.dateTime |> box |> Some
+            elif t = typeof<DateTimeOffset>.FullName then Defaults.dateTimeOffset |> box |> Some
             elif t = typeof<decimal>.FullName then unbox<decimal> Defaults.integer |> box |> Some
             elif t = typeof<exn>.FullName then Defaults.exn |> box |> Some
             elif t = typeof<float>.FullName then unbox<float> Defaults.integer |> box |> Some
@@ -960,9 +991,10 @@ module Arbitrary =
             elif t = typeof<int16>.FullName then Defaults.int16 |> box |> Some
             elif t = typeof<int32>.FullName then Defaults.integer |> box |> Some
             elif t = typeof<obj>.FullName then Defaults.object |> box |> Some
+            elif t = typeof<Regex>.FullName then Defaults.regex |> box |> Some
             elif t = typeof<sbyte>.FullName then Defaults.sbyte |> box |> Some
             elif t = typeof<string>.FullName then Defaults.string |> box |> Some
-            elif t = typeof<TimeSpan>.FullName then Defaults.date |> map (fun d -> d.TimeOfDay) |> box |> Some
+            elif t = typeof<TimeSpan>.FullName then Defaults.timeSpan |> box |> Some
             elif t = typeof<uint16>.FullName then Defaults.uint16 |> box |> Some
             elif t = typeof<uint32>.FullName then Defaults.uint32 |> box |> Some
             elif t = typeof<unit>.FullName then constant () |> box |> Some
@@ -973,11 +1005,11 @@ module Arbitrary =
             match primitive<'T>(t) with
             | Some res -> res
             | None ->
-                if FSharpType.IsTuple t then tuple t |> box
+                if FSharpType.IsTuple t then mkTuple t |> box
                 elif FSharpType.IsRecord(t, allowAccessToPrivateRepresentation = true) then 
-                    record t |> box
+                    mkRecord t |> box
                 elif FSharpType.IsUnion(t, allowAccessToPrivateRepresentation = true) then 
-                    du t |> box
+                    mkDU t |> box
                 elif FSharpType.IsFunction t then
                     try t.GetGenericArguments().[1] |> Some
                     with _ -> None
@@ -1013,38 +1045,58 @@ module Arbitrary =
                     | tDef when tDef = typedefof<List<_>> ->
                         t.GenericTypeArguments.[0] 
                         |> gen 
-                        |> List.ofRange 0 10 
+                        |> List.ofRange 0 10
                         |> box
                     | tDef when tDef = typedefof<seq<_>> ->
                         t.GenericTypeArguments.[0] 
                         |> gen 
-                        |> Seq.ofRange 0 10 
+                        |> Seq.ofRange 0 10
                         |> box
                     | tDef when tDef = typedefof<Result<_,_>> ->
                         let ok = t.GenericTypeArguments.[0] |> gen 
                         let err = t.GenericTypeArguments.[1] |> gen
                         
                         result ok err |> box
-                    | tDef when tDef = typedefof<Map<_,_>> ->
-                        let keys = 
-                            t.GenericTypeArguments.[0] 
-                            |> gen
-                            |> map (fun k -> unbox<IComparable> k)
-                        let values = t.GenericTypeArguments.[1] |> gen
-
-                        Map.ofRange 1 10 keys values 
-                        |> box
-                    | tDef when tDef = typedefof<Set<_>> ->
-                        t.GenericTypeArguments.[0] 
+                    | tDef when tDef = typedefof<Map<_,_>> -> mkMap t |> box
+                    | tDef when tDef = typedefof<Set<_>> -> mkSet t |> box
+                    | tDef when tDef = typedefof<Async<_>> ->
+                        t.GenericTypeArguments.[0]
                         |> gen 
-                        |> map (fun v -> unbox<IComparable> v)
-                        |> Set.ofRange 0 10 
+                        |> map (fun res -> async { return res })
+                        |> box
+                    | tDef when tDef = typedefof<JS.Promise<_>> ->
+                        t.GenericTypeArguments.[0]
+                        |> gen 
+                        |> map (fun res -> promise { return res })
+                        |> box
+                    | tDef when tDef = typedefof<JS.Set<_>> ->
+                        mkSet t
+                        |> map (Set.toSeq >> (fun s -> JS.Constructors.Set.Create(s)))
+                        |> box
+                    | tDef when tDef = typedefof<JS.Map<_,_>> ->
+                        mkMap t 
+                        |> map (Map.toSeq >> (fun s -> JS.Constructors.Map.Create(s))) 
                         |> box
                     | _ -> failwithf "Unsupported type for auto generation: %s" t.FullName
                 else failwithf "Unsupported type for auto generation: %s" t.FullName
                 |> unbox<Arbitrary<'T>>
 
-        let tuple (type': System.Type) =
+        let mkMap (t: System.Type) =
+            let keys = 
+                t.GenericTypeArguments.[0] 
+                |> gen
+                |> map (fun k -> unbox<IComparable> k)
+            let values = t.GenericTypeArguments.[1] |> gen
+
+            Map.ofRange 1 10 keys values
+
+        let mkSet (t: System.Type) =
+            t.GenericTypeArguments.[0] 
+            |> gen 
+            |> map (fun v -> unbox<IComparable> v)
+            |> Set.ofRange 0 10 
+
+        let mkTuple (type': System.Type) =
             FSharpType.GetTupleElements(type') 
             |> Array.map gen
             |> Array.sequence
@@ -1052,7 +1104,7 @@ module Arbitrary =
                 FSharpValue.MakeTuple(arr, type')
                 |> constant)
 
-        let record (type': System.Type) =
+        let mkRecord (type': System.Type) =
             let names, arbs =
                 FSharpType.GetRecordFields(type', allowAccessToPrivateRepresentation = true)
                 |> Array.map (fun field -> (field.Name, gen field.PropertyType))
@@ -1064,7 +1116,7 @@ module Arbitrary =
                 |> List.ofArray
                 |> fun res -> createObj !!res)
 
-        let duAllCases<'T> (type': System.Type) =
+        let mkDUAllCases<'T> (type': System.Type) =
             FSharpType.GetUnionCases(type', allowAccessToPrivateRepresentation = true)
             |> Array.map (fun uc -> 
                 uc.GetFields()
@@ -1074,13 +1126,13 @@ module Arbitrary =
             |> List.ofArray
             |> List.sequence
 
-        let du (type': System.Type) =
+        let mkDU (type': System.Type) =
             FSharpType.GetUnionCases(type', allowAccessToPrivateRepresentation = true)
             |> Array.map (fun uc -> 
                 uc.GetFields()
                 |> Array.map (fun field -> gen field.PropertyType)
                 |> Array.sequence
-                |> map(fun o -> FSharpValue.MakeUnion(uc, o) :?> 'T))
+                |> map (fun o -> FSharpValue.MakeUnion(uc, o) :?> 'T))
             |> List.ofArray
             |> List.sequence
             |> bind elements
@@ -1104,7 +1156,7 @@ type Arbitrary =
         let real = Model<'Model,'Msg>(init, update)
         let cmds = 
             arbitrary {
-                let! msgs = Arbitrary.Auto.duAllCases<'Msg> typeof<'Msg>
+                let! msgs = Arbitrary.Auto.mkDUAllCases<'Msg> typeof<'Msg>
 
                 return!
                     msgs
@@ -1138,7 +1190,7 @@ type Arbitrary =
         let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), update)
         let cmds = 
             arbitrary {
-                let! msgs = Arbitrary.Auto.duAllCases<'Msg> typeof<'Msg>
+                let! msgs = Arbitrary.Auto.mkDUAllCases<'Msg> typeof<'Msg>
 
                 return!
                     msgs
@@ -1172,7 +1224,7 @@ type Arbitrary =
         let real = Model<'Model,'Msg>((init, Elmish.Cmd.none), (fun msg model -> update msg model, Elmish.Cmd.none))
         let cmds = 
             arbitrary {
-                let! msgs = Arbitrary.Auto.duAllCases<'Msg> typeof<'Msg>
+                let! msgs = Arbitrary.Auto.mkDUAllCases<'Msg> typeof<'Msg>
 
                 return!
                     msgs
@@ -1200,3 +1252,22 @@ type Arbitrary =
             }
         
         Arbitrary.zip3 (Arbitrary.clonedConstant model) (Arbitrary.clonedConstant real) cmds
+
+module Operators =
+    /// Infix apply.
+    let inline (<*>) f m = Arbitrary.apply f m
+    
+    /// Infix map.
+    let inline (<!>) f m = Arbitrary.map f m
+    
+    /// Infix bind.
+    let inline (>>=) f m = Arbitrary.bind f m
+    
+    /// Infix bind (right to left).
+    let inline (=<<) m f = Arbitrary.bind f m
+
+    /// Left-to-right Kleisli composition
+    let inline (>=>) f g = fun x -> f x >>= g
+
+    /// Right-to-left Kleisli composition
+    let inline (<=<) x = (fun f a b -> f b a) (>=>) x

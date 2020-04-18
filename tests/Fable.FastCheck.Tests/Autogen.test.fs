@@ -1,5 +1,6 @@
 ﻿module AutogenTests
 
+open Fable.Core
 open Fable.Jester
 open Fable.FastCheck
 open Fable.FastCheck.Jest
@@ -81,5 +82,20 @@ Jest.describe("Autogen tests", fun () ->
     )
     Jest.test.prop("Autogen a set", Arbitrary.auto<Set<int>>(), fun set ->
         Jest.expect(set).toBeDefined()
+    )
+    Jest.test.prop("Autogen an async", Arbitrary.auto<Async<int>>(), fun asnc ->
+        Jest.expect(asnc).toBeGreaterThanOrEqual(System.Int32.MinValue)
+    )
+    Jest.test.prop("Autogen a promise", Arbitrary.auto<JS.Promise<int>>(), fun prom ->
+        Jest.expect(prom).resolves.toBeGreaterThanOrEqual(System.Int32.MinValue)
+    )
+    Jest.test.prop("Autogen a js map", Arbitrary.auto<JS.Map<int,string>>(), fun mp ->
+        Jest.expect(mp.set(1, "Test").get(1)).toEqual("Test")
+    )
+    Jest.test.prop("Autogen a js set", Arbitrary.auto<JS.Set<int>>(), fun set ->
+        Jest.expect(set).toBeDefined()
+    )
+    Jest.test.prop("Autogen a Regex", Arbitrary.auto<System.Text.RegularExpressions.Regex>(), fun regex ->
+        Jest.expect(regex).toBeDefined()
     )
 )

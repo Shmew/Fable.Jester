@@ -95,7 +95,7 @@ The functions outlined below are located in the `Arbitrary` module.
 
 Signature:
 ```fsharp
-(arbF: Arbitrary<'T -> 'U>, arb: Arbitrary<'T>) -> Arbitrary<'U>
+(arbF: Arbitrary<'T -> 'U>) (arb: Arbitrary<'T>) -> Arbitrary<'U>
 ```
 
 ## asyncCommands
@@ -187,6 +187,18 @@ Signature:
 Signature:
 ```fsharp
 (f: 'A -> 'B -> Arbitrary<'C>) (a: Arbitrary<'A>) (b: Arbitrary<'B>) -> Arbitrary<'B>
+```
+
+## choose
+
+Applies the given function to the arbitrary. 
+Returns an arbitrary comprised of the results 
+x for each generated value where the function 
+returns Some(x).
+
+Signature:
+```fsharp
+(chooser: 'T -> 'U option) (arb: Arbitrary<'T>) -> Arbitrary<'U>
 ```
 
 ## clonedConstant

@@ -35,4 +35,7 @@ Jest.describe("Arbitrary tests", fun () ->
     Jest.test.prop("StringOf creates a string from char arb", Arbitrary.Defaults.char |> Arbitrary.stringOf, fun c ->
         Jest.expect(c).toBeDefined()
     )
+    Jest.test.prop("Generate a random regexp", Arbitrary.Defaults.regex, fun rg ->
+        Jest.expect(rg).toBeDefined()
+    )
 )

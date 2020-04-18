@@ -1,3 +1,8 @@
+### 0.6.0 - Saturday, April 18th, 2020
+* Added FastCheck operators module
+* Added additional cases for Arbitrary.autogen
+* Added a few additonal Arbitrary functions
+
 ### 0.5.0 - Friday, April 17th, 2020
 Initial release of:
 * Fable.FastCheck
