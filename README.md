@@ -21,3 +21,6 @@ Jest.describe("my tests", fun () ->
     )
 )
 ```
+
+## Full documentation
+Please go to: https://shmew.github.io/Fable.Jester
