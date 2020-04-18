@@ -22,6 +22,8 @@ Jest.describe("my tests", fun () ->
 )
 ```
 
-![Running Tests](https://raw.githubusercontent.com/Shmew/Fable.Jester/master/docs/images/test.gif)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/Shmew/Fable.Jester/master/docs/images/test.gif">
+</p>
 
 Full documentation can be found [here](https://shmew.github.io/Fable.Jester).
