@@ -55,11 +55,17 @@ Jest.describe("Autogen tests", fun () ->
     Jest.test.prop("Autogen an array of arrays", Arbitrary.auto<int [][]>(), fun arr ->
         Jest.expect(arr |> Array.map Array.sum |> Array.sum).toBeDefined()
     )
-    Jest.test.prop("Autogen a list of lists", Arbitrary.auto<int list>(), fun lst ->
+    Jest.test.prop("Autogen a list", Arbitrary.auto<int list>(), fun lst ->
         Jest.expect(lst |> List.sum).toBeDefined()
     )
-    Jest.test.prop("Autogen an array of arrays", Arbitrary.auto<int list list>(), fun lst ->
+    Jest.test.prop("Autogen a list of lists", Arbitrary.auto<int list list>(), fun lst ->
         Jest.expect(lst |> List.map List.sum |> List.sum).toBeDefined()
+    )
+    Jest.test.prop("Autogen a ResizeArray", Arbitrary.auto<ResizeArray<int>>(), fun ra ->
+        Jest.expect(ra |> List.ofSeq |> List.sum).toBeDefined()
+    )
+    Jest.test.prop("Autogen a ResizeArray of ResizeArrays", Arbitrary.auto<ResizeArray<ResizeArray<int>>>(), fun ra ->
+        Jest.expect(ra |> List.ofSeq |> List.map (List.ofSeq >> List.sum) |> List.sum).toBeDefined()
     )
     Jest.test.prop("Autogen a seq", Arbitrary.auto<int seq>(), fun sq ->
         Jest.expect(sq |> Seq.sum).toBeDefined()
@@ -79,6 +85,13 @@ Jest.describe("Autogen tests", fun () ->
     )
     Jest.test.prop("Autogen a map", Arbitrary.auto<Map<int,string>>(), fun mp ->
         Jest.expect(mp.Add(1, "Test").TryFind(1)).toEqual(Some "Test")
+    )
+    Jest.test.prop("Autogen a dict", Arbitrary.auto<System.Collections.Generic.Dictionary<int,string>>(), fun dct ->
+        [ 0 .. dct.Keys.Count + 1]
+        |> List.find (dct.ContainsKey >> not)
+        |> fun k -> dct.Add(k, "Test")
+        
+        Jest.expect(dct.ContainsValue("Test")).toEqual(true)
     )
     Jest.test.prop("Autogen a set", Arbitrary.auto<Set<int>>(), fun set ->
         Jest.expect(set).toBeDefined()

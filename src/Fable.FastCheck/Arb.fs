@@ -1052,11 +1052,26 @@ module Arbitrary =
                         |> gen 
                         |> Seq.ofRange 0 10
                         |> box
+                    | tDef when tDef = typedefof<ResizeArray<_>> ->
+                        t.GenericTypeArguments.[0] 
+                        |> gen 
+                        |> ResizeArray.ofRange 0 10
+                        |> box
                     | tDef when tDef = typedefof<Result<_,_>> ->
                         let ok = t.GenericTypeArguments.[0] |> gen 
                         let err = t.GenericTypeArguments.[1] |> gen
                         
                         result ok err |> box
+                    | tDef when tDef = typedefof<System.Collections.Generic.Dictionary<_,_>> ->
+                        let keys = 
+                            t.GenericTypeArguments.[0] 
+                            |> gen
+                            |> map (fun k -> unbox<IComparable> k)
+                        let values = t.GenericTypeArguments.[1] |> gen
+
+                        Map.ofRange 1 10 keys values
+                        |> map (Map.toSeq >> dict)
+                        |> box
                     | tDef when tDef = typedefof<Map<_,_>> -> mkMap t |> box
                     | tDef when tDef = typedefof<Set<_>> -> mkSet t |> box
                     | tDef when tDef = typedefof<Async<_>> ->
