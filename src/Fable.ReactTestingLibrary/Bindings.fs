@@ -4,7 +4,6 @@ open Browser.Types
 open Fable.Core
 open Fable.Core.JsInterop
 open Feliz
-open System
 open System.Text.RegularExpressions
 
 [<RequireQualifiedAccess>]
@@ -1312,6 +1311,7 @@ module Bindings =
         member _.unmount () = render.unmount()
         
     type UserEventImport =
+        abstract clear: HTMLElement -> unit
         abstract click: HTMLElement -> unit
         abstract dblClick: HTMLElement -> unit
         [<Emit("$0.selectOptions($1, Array.from($2))")>]

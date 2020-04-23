@@ -32,7 +32,7 @@ let buttonTestElement = React.functionComponent (fun () ->
         ]
     ])
 
-Jest.describe("UserEvent tests", (fun () ->
+Jest.describe("UserEvent tests", fun () ->
     Jest.test("dispatch input change", promise {
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")
 
@@ -40,7 +40,6 @@ Jest.describe("UserEvent tests", (fun () ->
 
         return Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
     })
-
     Jest.test("dispatch input change", promise {
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")
         
@@ -49,34 +48,43 @@ Jest.describe("UserEvent tests", (fun () ->
         return Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
     })
 
-    Jest.test("dispatch button click", (fun () ->
+    Jest.test("clear input element", promise {
+        let elem = RTL.render(inputTestElement()).getByTestId("test-input")
+
+        do! elem.userEvent.type'("Hello world")
+        do Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
+        do elem.userEvent.clear()
+        
+        return! RTL.waitFor(fun () -> Jest.expect(RTL.screen.getByTestId("test-input")).toBeEmpty())
+    })
+
+    Jest.test("dispatch button click", fun () ->
         let elem = RTL.render(buttonTestElement()).getByTestId("test-button")
 
         elem.userEvent.click()
 
         Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Howdy!")
-    ))
-    Jest.test("dispatch button click", (fun () ->
+    )
+    Jest.test("dispatch button click", fun () ->
         let elem = RTL.render(buttonTestElement()).getByTestId("test-button")
         
         elem.userEvent.click()
 
         Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
-    ))
+    )
 
-
-    Jest.test("dispatch button double click", (fun () ->
+    Jest.test("dispatch button double click", fun () ->
         let elem = RTL.render(buttonTestElement()).getByTestId("test-button")
 
         elem.userEvent.dblClick()
 
         Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Bonjour!")
-    ))
-    Jest.test("dispatch button double click", (fun () ->
+    )
+    Jest.test("dispatch button double click", fun () ->
         let elem = RTL.render(buttonTestElement()).getByTestId("test-button")
         
         elem.userEvent.dblClick()
 
         Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
-    ))
-))
+    )
+)

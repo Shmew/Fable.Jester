@@ -1,3 +1,6 @@
+### 0.7.0 - Thursday, April 23rd, 2020
+* Update for user-event 10.1 to add userEvent.clear()
+
 ### 0.6.1 - Sunday, April 19th, 2020
 * Added autogen support for ResizeArray and dict
 

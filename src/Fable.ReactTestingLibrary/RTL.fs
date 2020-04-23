@@ -412,6 +412,8 @@ module RTL =
 
     /// Convenience methods for using fireEvent.
     type userEvent =
+        /// Selects the text inside an input or textarea and deletes it.
+        static member clear (element: HTMLElement) : unit = Bindings.userEvent.clear(element)
         /// Clicks element, depending on what element is it can have different side effects.
         static member click (element: HTMLElement) : unit = Bindings.userEvent.click(element)
         /// Clicks element twice, depending on what element is it can have different side effects.
@@ -621,6 +623,8 @@ module RTLExtensions =
     [<NoComparison>]
     [<NoEquality>]
     type HTMLElementUserEvent (element: HTMLElement) =
+        /// Selects the text inside an input or textarea and deletes it.
+        member _.clear () : unit = Bindings.userEvent.clear(element)
         /// Clicks element, depending on what element is it can have different side effects.
         member _.click () : unit = Bindings.userEvent.click(element)
         /// Clicks element twice, depending on what element is it can have different side effects.

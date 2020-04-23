@@ -355,6 +355,27 @@ You can use this like so:
 RTL.screen.getByTestId("my-test-id")
 ```
 
+## userEvent.clear
+
+Convenience method for using [fireEvent](#fireevent).
+
+Selects the text inside an input or textarea and deletes it.
+
+`HTMLElement` is extended to also support these methods.
+
+Signature: 
+```fsharp 
+(element: HTMLElement) -> unit
+```
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.clear(myElement)
+
+myElement.userEvent.clear()
+```
+
 ## userEvent.click
 
 Convenience method for using [fireEvent](#fireevent).
