@@ -1,3 +1,6 @@
+### 0.7.1 - Saturday, April 25th, 2020
+* Relax FSharp.Core dependency
+
 ### 0.7.0 - Thursday, April 23rd, 2020
 * Update for user-event 10.1 to add userEvent.clear()
 
