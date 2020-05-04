@@ -200,6 +200,7 @@ Signature:
 (number: decimal)
 (number: float)
 (number: int)
+(number: int64)
 ```
 
 Usage:
@@ -218,6 +219,7 @@ Signature:
 (number: decimal)
 (number: float)
 (number: int)
+(number: int64)
 ```
 
 Usage:
@@ -272,6 +274,7 @@ Signature:
 (number: decimal)
 (number: float)
 (number: int)
+(number: int64)
 ```
 
 Usage:
@@ -290,6 +293,7 @@ Signature:
 (number: decimal)
 (number: float)
 (number: int)
+(number: int64)
 ```
 
 Usage:

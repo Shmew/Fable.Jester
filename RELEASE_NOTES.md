@@ -1,3 +1,6 @@
+### 0.8.0 - Monday, May 4th, 2020
+* Update for Jest 26 release
+
 ### 0.7.1 - Saturday, April 25th, 2020
 * Relax FSharp.Core dependency
 

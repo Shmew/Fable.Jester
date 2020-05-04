@@ -8,21 +8,6 @@ Jest also has a `jest` object with additional helpers,
 this has been merged into `Jest` so everything is readily
 accessible.
 
-## advanceTimersByTime
-
-Executes only the macro task queue (i.e. all tasks 
-queued by setTimeout() or setInterval() and setImmediate()).
-
-Signature:
-```fsharp
-(msToRun:int) -> unit
-```
-
-Usage:
-```fsharp
-Jest.advanceTimersByTime(10)
-```
-
 ## advanceTimersToNextTimer
 
 Advances all timers by the needed milliseconds so that only 
@@ -30,6 +15,8 @@ the next timeouts/intervals will run.
 
 Optionally, you can provide steps, so it will run steps 
 amount of next timeouts/intervals.
+
+<Note type="warning">Requires [fake-timers].</Note>
 
 Signature:
 ```fsharp
@@ -130,6 +117,8 @@ Jest.beforeEach((fun () -> printfn "Hello world!"))
 
 Removes any pending timers from the timer system.
 
+<Note type="warning">Requires [fake-timers].</Note>
+
 Signature:
 ```fsharp
 unit -> unit
@@ -140,9 +129,29 @@ Usage:
 Jest.clearAllTimers()
 ```
 
+## getRealSystemTime
+
+When mocking time, `Date.now()` will also be mocked. If 
+you for some reason need access to the real current time, 
+you can invoke this function.
+
+<Note type="warning">Requires [fake-timers].</Note>
+
+Signature:
+```fsharp
+unit -> int64
+```
+
+Usage:
+```fsharp
+Jest.getRealSystemTime()
+```
+
 ## getTimerCount
 
 Returns the number of fake timers still left to run.
+
+<Note type="warning">Requires [fake-timers].</Note>
 
 Signature:
 ```fsharp
@@ -175,6 +184,8 @@ Jest.retryTimes(10)
 
 Exhausts all tasks queued by setImmediate().
 
+<Note type="warning">Requires [fake-timers].</Note>
+
 Signature:
 ```fsharp
 unit -> unit
@@ -189,6 +200,8 @@ Jest.runAllImmediates()
 
 Exhausts the micro-task queue (usually interfaced in node 
 via process.nextTick).
+
+<Note type="warning">Requires [fake-timers].</Note>
 
 Signature:
 ```fsharp
@@ -205,6 +218,8 @@ Jest.runAllTicks()
 Exhausts both the macro-task queue (i.e., all tasks queued by 
 setTimeout(), setInterval(), and setImmediate()) and the 
 micro-task queue (usually interfaced in node via process.nextTick).
+
+<Note type="warning">Requires [fake-timers].</Note>
 
 Signature:
 ```fsharp
@@ -225,6 +240,8 @@ setInterval() up to this point).
 If any of the currently pending macro-tasks schedule new 
 macro-tasks, those new tasks will not be executed by this call.
 
+<Note type="warning">Requires [fake-timers].</Note>
+
 Signature:
 ```fsharp
 unit -> unit
@@ -240,6 +257,8 @@ Jest.runOnlyPendingTimers()
 Executes only the macro task queue (i.e. all tasks queued by 
 setTimeout() or setInterval() and setImmediate()).
 
+<Note type="warning">Requires [fake-timers].</Note>
+
 Signature:
 ```fsharp
 int -> unit
@@ -248,6 +267,30 @@ int -> unit
 Usage:
 ```fsharp
 Jest.runTimersToTime(10)
+```
+
+## setSystemTime
+
+Set the current system time used by fake timers. Simulates a user 
+changing the system clock while your program is running. 
+
+It affects the current time but it does not in itself cause e.g. 
+timers to fire; they will fire exactly as they would have done 
+without the call to `setSystemTime`.
+
+<Note type="warning">Requires [fake-timers].</Note>
+
+Signature:
+```fsharp
+// Defaults to 0
+unit -> unit
+(ticks: int) -> unit
+(ticks: int64) -> unit
+```
+
+Usage:
+```fsharp
+Jest.setSystemTime()
 ```
 
 ## setTimeout
@@ -259,6 +302,8 @@ The default timeout interval is 5 seconds if this method is not called.
 
 If you want to set the timeout for all test files, a good place to 
 do this is in setupFilesAfterEnv.
+
+<Note type="warning">Requires [fake-timers].</Note>
 
 Signature:
 ```fsharp
@@ -275,6 +320,8 @@ Jest.setTimeout(10)
 Instructs Jest to use fake versions of the standard timer 
 functions (setTimeout, setInterval, clearTimeout, 
 clearInterval, nextTick, setImmediate and clearImmediate).
+
+<Note type="warning">Requires [fake-timers].</Note>
 
 Signature:
 ```fsharp
