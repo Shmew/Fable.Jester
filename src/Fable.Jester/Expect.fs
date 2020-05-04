@@ -619,6 +619,8 @@ module Expect =
         member _.toBeGreaterThan (number: float) : 'Return = jsNative
         /// To compare received > expected.
         member _.toBeGreaterThan (number: int) : 'Return = jsNative
+        /// To compare received > expected.
+        member _.toBeGreaterThan (number: int64) : 'Return = jsNative
         
         /// To compare received >= expected.
         member _.toBeGreaterThanOrEqual (number: decimal) : 'Return = jsNative
@@ -626,6 +628,8 @@ module Expect =
         member _.toBeGreaterThanOrEqual (number: float) : 'Return = jsNative
         /// To compare received >= expected.
         member _.toBeGreaterThanOrEqual (number: int) : 'Return = jsNative
+        /// To compare received >= expected.
+        member _.toBeGreaterThanOrEqual (number: int64) : 'Return = jsNative
         
         /// To compare received < expected.
         member _.toBeLessThan (number: decimal) : 'Return = jsNative
@@ -640,6 +644,8 @@ module Expect =
         member _.toBeLessThanOrEqual (number: float) : 'Return = jsNative
         /// To compare received <= expected.
         member _.toBeLessThanOrEqual (number: int) : 'Return = jsNative
+        /// To compare received <= expected.
+        member _.toBeLessThanOrEqual (number: int64) : 'Return = jsNative
 
     [<NoComparison>]
     [<NoEquality>]

@@ -6,60 +6,60 @@ group FastCheck
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Core ~> 3.1
-    nuget Fable.Elmish ~> 3.0
-    nuget Fable.Promise ~> 2.0
+    nuget Fable.Core ~> 3
+    nuget Fable.Elmish ~> 3
+    nuget Fable.Promise ~> 2
     nuget FSharp.Core ~> 4.7 lowest_matching: true
 
 group FastCheck.Tests
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Core ~> 3.1
-    nuget Fable.Elmish ~> 3.0
-    nuget Fable.Promise ~> 2.0
+    nuget Fable.Core ~> 3
+    nuget Fable.Elmish ~> 3
+    nuget Fable.Promise ~> 2
     nuget FSharp.Core ~> 4.7 lowest_matching: true
 
 group Jest
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Dom ~> 1.0
-    nuget Fable.Core ~> 3.1
-    nuget Fable.Node ~> 1.0
-    nuget Fable.Promise ~> 2.0
-    nuget Feliz ~> 0.72
+    nuget Fable.Browser.Dom ~> 1
+    nuget Fable.Core ~> 3
+    nuget Fable.Node ~> 1
+    nuget Fable.Promise ~> 2
+    nuget Feliz ~> 0
     nuget FSharp.Core ~> 4.7 lowest_matching: true
 
 group Jest.Tests
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Dom ~> 1.0
-    nuget Fable.Core ~> 3.1
-    nuget Fable.Promise ~> 2.0
-    nuget Feliz ~> 0.72
+    nuget Fable.Browser.Dom ~> 1
+    nuget Fable.Core ~> 3
+    nuget Fable.Promise ~> 2
+    nuget Feliz ~> 0
     nuget FSharp.Core ~> 4.7 lowest_matching: true
 
 group RTL
 	source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Event ~> 1.0
-    nuget Fable.Core ~> 3.1
-    nuget Fable.Promise ~> 2.0
-    nuget Feliz ~> 0.70
+    nuget Fable.Browser.Event ~> 1
+    nuget Fable.Core ~> 3
+    nuget Fable.Promise ~> 2
+    nuget Feliz ~> 0
     nuget FSharp.Core ~> 4.7 lowest_matching: true
 
 group RTL.Tests
 	source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Dom ~> 1.0
-    nuget Fable.Browser.Event ~> 1.0
-    nuget Fable.Core ~> 3.1
-    nuget Fable.Promise ~> 2.0
-    nuget Feliz ~> 0.70
+    nuget Fable.Browser.Dom ~> 1
+    nuget Fable.Browser.Event ~> 1
+    nuget Fable.Core ~> 3
+    nuget Fable.Promise ~> 2
+    nuget Feliz ~> 0
     nuget FSharp.Core ~> 4.7 lowest_matching: true
 
 group Tooling
@@ -68,11 +68,11 @@ group Tooling
 
 	nuget Fake.IO.FileSystem ~> 5
 	nuget FSharp.Core ~> 4.7 lowest_matching: true
-    nuget FSharp.Json ~> 0.3
-	nuget FSharpLint.Core ~> 0.12
-    nuget Yarnpkg.Yarn ~> 1.15
+    nuget FSharp.Json ~> 0
+	nuget FSharpLint.Core ~> 0
+    nuget Yarnpkg.Yarn ~> 1
 
-	clitool dotnet-fable ~> 2.0
+	clitool dotnet-fable ~> 2
 	clitool dotnet-fake ~> 5
 
 group FakeBuild
@@ -88,5 +88,5 @@ group FakeBuild
     nuget Fake.JavaScript.Yarn ~> 5
 	nuget Fake.JavaScript.Npm ~> 5
 	nuget Fake.Tools.Git ~> 5
-    nuget FSharp.Json ~> 0.3
-	nuget FSharpLint.Core ~> 0.12
+    nuget FSharp.Json ~> 0
+	nuget FSharpLint.Core ~> 0

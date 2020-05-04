@@ -1,6 +1,6 @@
 {
-  "name": "fable-jester",
-  "version": "0.7.1",
+  "name": "fable.-jester",
+  "version": "0.8.0",
   "description": "Fable bindings for jest and friends",
   "homepage": "https://github.com/Shmew/Fable.Jester",
   "bugs": {
@@ -25,24 +25,25 @@
     "testRTL": "yarn pretestRTL && yarn jest"
   },
   "dependencies": {
-    "react": "^16.10",
-    "react-dom": "^16.10"
+    "react": "^16",
+    "react-dom": "^16"
   },
   "devDependencies": {
-    "@babel/core": "^7.6",
-    "@babel/plugin-transform-modules-commonjs": "^7.9",
-    "@babel/preset-env": "^7.6",
-    "@testing-library/jest-dom": "^5.2",
-    "@testing-library/react": "^10.0",
-    "@testing-library/user-event": "^10.0",
-    "core-js": "^3.2",
-    "fable-compiler": "^2.4",
-    "fable-splitter": "^2.1",
-    "fast-check": "^1.24",
-    "gh-pages": "^2.1",
-    "jest": "^25.2",
-    "live-server": "^1.2",
-    "prettier": "^2.0"
+    "@babel/core": "^7",
+    "@babel/plugin-transform-modules-commonjs": "^7",
+    "@babel/preset-env": "^7",
+    "@sinonjs/fake-timers": "^6",
+    "@testing-library/jest-dom": "^5",
+    "@testing-library/react": "^10",
+    "@testing-library/user-event": "^10",
+    "core-js": "^3",
+    "fable-compiler": "^2",
+    "fable-splitter": "^2",
+    "fast-check": "^1",
+    "gh-pages": "^2",
+    "jest": "^26.0.0",
+    "live-server": "^1",
+    "prettier": "^2"
   },
   "private": true,
   "jest": {

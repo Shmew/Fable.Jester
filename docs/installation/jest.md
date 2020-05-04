@@ -15,6 +15,7 @@ npm install jest --save-dev
 npm install @testing-library/jest-dom --save-dev
 
 npm install @babel/plugin-transform-modules-commonjs --save-dev // Recommended, but not necessary
+npm install @sinonjs/fake-timers --save-dev // If you plan to use timer mocks
 npm install prettier --save-dev // If you plan to use snapshot testing
 ___
 
@@ -22,6 +23,7 @@ yarn add jest --dev
 yarn add @testing-library/jest-dom --dev
 
 yarn add @babel/plugin-transform-modules-commonjs --dev // Recommended, but not necessary
+yarn add @sinonjs/fake-timers --dev // If you plan to use timer mocks
 yarn add prettier --dev // If you plan to use snapshot testing
 ```
 

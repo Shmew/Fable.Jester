@@ -11,6 +11,7 @@
     <Compile Include="JestDom.test.fs" />
     <Compile Include="Matchers.test.fs" />
     <Compile Include="Expect.test.fs" />
+    <Compile Include="Timers.test.fs" />
     <Compile Include="Describe.Only.test.fs" />
     <Compile Include="Only.test.fs" />
     <Compile Include="Jest.test.fs" />

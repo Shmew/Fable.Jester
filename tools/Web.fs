@@ -102,4 +102,4 @@ module Str =
 
     let setLowerFirst (s : string) = sprintf "%s%s" (s.Substring(0, 1).ToLower()) (s.Substring(1))
     let toKebabCase (s : string) =
-        MatchEvaluator(fun m -> "-" + m.Value.ToLower()) |> (fun m -> Regex.Replace(setLowerFirst s, "[A-Z]", m) |> fun s -> s.Replace(".",""))
+        MatchEvaluator(fun m -> "-" + m.Value.ToLower()) |> (fun m -> Regex.Replace(setLowerFirst s, "[A-Z]", m))

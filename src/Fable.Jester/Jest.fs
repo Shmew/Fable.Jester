@@ -19,11 +19,6 @@ module JestInternal =
     let expectPromise (value: JS.Promise<'T>) : expectedPromise = jsNative
 
 type Jest =
-    /// Executes only the macro task queue (i.e. all tasks queued by 
-    /// setTimeout() or setInterval() and setImmediate()).
-    [<Emit("jest.advanceTimersByTime($0)")>]
-    static member advanceTimersByTime (msToRun: int) : unit = jsNative
-    
     /// Advances all timers by the needed milliseconds so that only 
     /// the next timeouts/intervals will run.
     ///
@@ -360,6 +355,11 @@ type Jest =
     static member inline expect (value: Async<string>) = 
         Jest.expect(Async.StartAsPromise value).resolves
 
+    /// When mocking time, `Date.now()` will also be mocked. If you for some 
+    /// reason need access to the real current time, you can invoke this function.
+    [<Emit("jest.getRealSystemTime()")>]
+    static member getRealSystemTime () : int64 = jsNative
+
     /// Returns the number of fake timers still left to run.
     [<Emit("jest.getTimerCount()")>]
     static member getTimerCount () : int = jsNative
@@ -400,6 +400,33 @@ type Jest =
     [<Emit("jest.runTimersToTime($0)")>]
     static member runTimersToTime (msToRun: int) : unit = jsNative
 
+    /// Set the current system time used by fake timers. Simulates a user 
+    /// changing the system clock while your program is running. 
+    ///
+    /// It affects the current time but it does not in itself cause e.g. 
+    /// timers to fire; they will fire exactly as they would have done 
+    /// without the call to `setSystemTime`.
+    ///
+    /// Same as setSystemTime(0)
+    [<Emit("jest.setSystemTime()")>]
+    static member setSystemTime () : unit = jsNative
+    /// Set the current system time used by fake timers. Simulates a user 
+    /// changing the system clock while your program is running. 
+    ///
+    /// It affects the current time but it does not in itself cause e.g. 
+    /// timers to fire; they will fire exactly as they would have done 
+    /// without the call to `setSystemTime`.
+    [<Emit("jest.setSystemTime($0)")>]
+    static member setSystemTime (ticks: int) : unit = jsNative
+    /// Set the current system time used by fake timers. Simulates a user 
+    /// changing the system clock while your program is running. 
+    ///
+    /// It affects the current time but it does not in itself cause e.g. 
+    /// timers to fire; they will fire exactly as they would have done 
+    /// without the call to `setSystemTime`.
+    [<Emit("jest.setSystemTime($0)")>]
+    static member setSystemTime (ticks: int64) : unit = jsNative
+
     /// Set the default timeout interval for tests and before/after 
     /// hooks in milliseconds.
     ///
@@ -413,7 +440,7 @@ type Jest =
     /// Instructs Jest to use fake versions of the standard timer 
     /// functions (setTimeout, setInterval, clearTimeout, 
     /// clearInterval, nextTick, setImmediate and clearImmediate).
-    [<Emit("jest.useFakeTimers()")>]
+    [<Emit("jest.useFakeTimers('modern')")>]
     static member useFakeTimers () : unit = jsNative
 
 [<RequireQualifiedAccess>]

@@ -53,25 +53,25 @@ Jest.describe("Autogen tests", fun () ->
         Jest.expect(arr |> Array.sum).toBeDefined()
     )
     Jest.test.prop("Autogen an array of arrays", Arbitrary.auto<int [][]>(), fun arr ->
-        Jest.expect(arr |> Array.map Array.sum |> Array.sum).toBeDefined()
+        Jest.expect(arr |> Array.sumBy Array.sum).toBeDefined()
     )
     Jest.test.prop("Autogen a list", Arbitrary.auto<int list>(), fun lst ->
         Jest.expect(lst |> List.sum).toBeDefined()
     )
     Jest.test.prop("Autogen a list of lists", Arbitrary.auto<int list list>(), fun lst ->
-        Jest.expect(lst |> List.map List.sum |> List.sum).toBeDefined()
+        Jest.expect(lst |> List.sumBy List.sum).toBeDefined()
     )
     Jest.test.prop("Autogen a ResizeArray", Arbitrary.auto<ResizeArray<int>>(), fun ra ->
         Jest.expect(ra |> List.ofSeq |> List.sum).toBeDefined()
     )
     Jest.test.prop("Autogen a ResizeArray of ResizeArrays", Arbitrary.auto<ResizeArray<ResizeArray<int>>>(), fun ra ->
-        Jest.expect(ra |> List.ofSeq |> List.map (List.ofSeq >> List.sum) |> List.sum).toBeDefined()
+        Jest.expect(ra |> List.ofSeq |> List.sumBy (List.ofSeq >> List.sum)).toBeDefined()
     )
     Jest.test.prop("Autogen a seq", Arbitrary.auto<int seq>(), fun sq ->
         Jest.expect(sq |> Seq.sum).toBeDefined()
     )
     Jest.test.prop("Autogen an seq of seqs", Arbitrary.auto<int seq seq>(), fun sq ->
-        Jest.expect(sq |> Seq.map Seq.sum |> Seq.sum).toBeDefined()
+        Jest.expect(sq |> Seq.sumBy Seq.sum).toBeDefined()
     )
     Jest.test.prop("Autogen an option", Arbitrary.auto<int option>(), fun iOpt ->
         match iOpt with
