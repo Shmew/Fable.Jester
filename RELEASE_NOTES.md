@@ -1,3 +1,6 @@
+### 0.8.1 - Tuesday, May 5th, 2020
+* Fix some issues with `waitFor` and `waitForElementToBeRemoved`
+
 ### 0.8.0 - Monday, May 4th, 2020
 * Update for Jest 26 release
 

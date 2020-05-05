@@ -15,6 +15,7 @@
     <Compile Include="CreateEvent.test.fs" />
     <Compile Include="FireEvent.test.fs" />
     <Compile Include="UserEvent.test.fs" />
+    <Compile Include="Wait.test.fs" />
     <None Include="paket.references" />
     <None Include="splitter.config.js" />
   </ItemGroup>

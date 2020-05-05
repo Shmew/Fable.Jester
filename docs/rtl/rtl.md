@@ -492,8 +492,8 @@ When in need to wait for any period of time you can use waitFor, to wait for you
 
 Signature: 
 ```fsharp 
-(callback: unit -> 'T) -> JS.Promise<'T>
-(callback: unit -> 'T, waitForOptions: IWaitOption list) -> JS.Promise<'T>
+(callback: unit -> unit) -> JS.Promise<unit>
+(callback: unit -> unit, waitForOptions: IWaitOption list) -> JS.Promise<unit>
 
 // waitFor options
 type waitForOption:
@@ -580,8 +580,10 @@ See [waitFor](#waitfor) for details on options.
 
 Signature: 
 ```fsharp 
-(callback: unit -> 'T) -> JS.Promise<'T>
-(callback: unit -> 'T, waitForOptions: IWaitOption list) -> JS.Promise<'T>
+(callback: unit -> #HTMLElement option) -> JS.Promise<unit>
+(callback: unit -> #HTMLElement list) -> JS.Promise<unit>
+(callback: unit -> #HTMLElement option, waitForOptions: IWaitOption list) -> JS.Promise<unit>
+(callback: unit -> #HTMLElement list, waitForOptions: IWaitOption list) -> JS.Promise<unit>
 ```
 
 You can use this like so:
@@ -589,7 +591,7 @@ You can use this like so:
 ```fsharp
 promise {
     ...
-    return! RTL.waitForElementToBeRemoved(fun () -> ...)
+    return! RTL.waitForElementToBeRemoved(fun () -> RTL.screen.queryByTestId("myElementTestId"))
 }
 ```
 
