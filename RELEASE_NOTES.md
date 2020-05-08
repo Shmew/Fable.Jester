@@ -1,3 +1,6 @@
+### 0.9.0 - Friday, May 8th, 2020
+* Update for jest-dom 5.7 release
+
 ### 0.8.1 - Tuesday, May 5th, 2020
 * Fix some issues with `waitFor` and `waitForElementToBeRemoved`
 
