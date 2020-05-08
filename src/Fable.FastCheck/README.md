@@ -54,3 +54,5 @@ Jest.describe("Elmish Model tests", fun () ->
     Jest.test.elmish("Model assertions run via explicity arbitrary", init(), update, asserter, Arbitrary.constant [ Decrement; Increment ])
 )
 ```
+
+Full documentation can be found [here](https://shmew.github.io/Fable.Jester).
