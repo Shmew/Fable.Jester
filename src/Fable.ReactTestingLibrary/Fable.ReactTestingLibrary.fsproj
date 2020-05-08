@@ -12,6 +12,7 @@
     <Compile Include="RTL.fs" />
     <None Include="paket.references" />
     <None Include="paket.template" />
+    <None Include="README.md" />
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
