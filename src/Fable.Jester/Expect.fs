@@ -393,6 +393,32 @@ module Expect =
         /// not have any classes.
         member _.toHaveClass ([<ParamArray>] classNames: string []) : 'Return = jsNative
 
+        /// Check whether the given element has a description or not.
+        ///
+        /// An element gets its description via the aria-describedby attribute. Set this to 
+        /// the id of one or more other elements. These elements may be nested inside, be 
+        /// outside, or a sibling of the passed in element.
+        ///
+        /// Whitespace is normalized. Using multiple ids will join the referenced elements’ 
+        /// text content separated by a space.
+        member _.toHaveDescription (value: Regex) : 'Return = jsNative
+        /// Check whether the given element has a description or not.
+        ///
+        /// An element gets its description via the aria-describedby attribute. Set this to 
+        /// the id of one or more other elements. These elements may be nested inside, be 
+        /// outside, or a sibling of the passed in element.
+        ///
+        /// Whitespace is normalized. Using multiple ids will join the referenced elements’ 
+        /// text content separated by a space.
+        member _.toHaveDescription (value: string) : 'Return = jsNative
+        
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        member _.toHaveDisplayValue (value: Regex) : 'Return = jsNative
         /// Check whether the given form element has the specified displayed value (the 
         /// one the end user will see). 
         ///
@@ -406,7 +432,22 @@ module Expect =
         /// It accepts <input>, <select> and <textarea> elements with the exception of 
         /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
         /// matched only using toBeChecked or toHaveFormValues.
+        member _.toHaveDisplayValue (values: ResizeArray<Regex>) : 'Return = jsNative
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
         member _.toHaveDisplayValue (values: ResizeArray<string>) : 'Return = jsNative
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
+        member _.toHaveDisplayValue (values: Regex []) : 'Return = jsNative
         /// Check whether the given form element has the specified displayed value (the 
         /// one the end user will see). 
         ///
@@ -422,8 +463,23 @@ module Expect =
         /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
         /// matched only using toBeChecked or toHaveFormValues.
         [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
+        member _.toHaveDisplayValue (values: Regex list) : 'Return = jsNative
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
         member _.toHaveDisplayValue (values: string list) : 'Return = jsNative
-        
+        /// Check whether the given form element has the specified displayed value (the 
+        /// one the end user will see). 
+        ///
+        /// It accepts <input>, <select> and <textarea> elements with the exception of 
+        /// <input type="checkbox"> and <input type="radio">, which can be meaningfully 
+        /// matched only using toBeChecked or toHaveFormValues.
+        [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
+        member _.toHaveDisplayValue (values: Regex seq) : 'Return = jsNative
         /// Check whether the given form element has the specified displayed value (the 
         /// one the end user will see). 
         ///

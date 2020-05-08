@@ -563,6 +563,30 @@ Usage:
 Jest.expect(myElement).toHaveClass("myDiv")
 ```
 
+## toHaveDescription
+
+<Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
+
+Check whether the given element has a description or not.
+
+An element gets its description via the aria-describedby attribute. Set this to 
+the id of one or more other elements. These elements may be nested inside, be 
+outside, or a sibling of the passed in element.
+
+Whitespace is normalized. Using multiple ids will join the referenced elements’ 
+text content separated by a space.
+
+Signature:
+```fsharp
+(value: Regex)
+(value: string)
+```
+
+Usage:
+```fsharp
+Jest.expect(myElement).toHaveDescription("Hello!")
+```
+
 ## toHaveDisplayValue
 
 <Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
@@ -576,10 +600,15 @@ matched only using [toBeChecked] or [toHaveFormValues].
 
 Signature:
 ```fsharp
+(value: Regex)
 (value: string)
+(values: ResizeArray<Regex>)
 (values: ResizeArray<string>)
+(values: Regex [])
 (values: string [])
+(values: Regex list)
 (values: string list)
+(values: Regex seq)
 (values: string seq)
 ```
 

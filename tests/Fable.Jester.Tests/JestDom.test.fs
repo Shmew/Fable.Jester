@@ -18,9 +18,14 @@ let testElement = React.functionComponent(fun (input: {| isDisabled: bool; hasCo
                     prop.testId "header"
                     prop.text count
                 ]
+                Html.div [
+                    prop.id "description-button"
+                    prop.text "Button description"
+                ]
                 Html.button [
                     if input.isDisabled then prop.disabled true
                     prop.testId "button"
+                    prop.ariaDescribedBy "description-button"
                     prop.text "Increment"
                     prop.onClick (fun _ -> setCount(count + 1))
                     prop.onChange (fun (s: string) -> ())
@@ -213,15 +218,28 @@ Jest.describe("jest-dom tests", (fun () ->
         Jest.expect(render.getByTestId("div")).not.toHaveClass("yourDiv")
     ))
 
+    Jest.test("toHaveDescription", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("button")).toHaveDescription("Button description")
+    ))
+    Jest.test("not toHaveDescription", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("button")).not.toHaveDescription("somethingElse")
+    ))
+
     Jest.test("toHaveDisplayValue", (fun () ->
         let render = RTL.render(testElement(testElemDefaults))
 
         Jest.expect(render.getByTestId("username")).toHaveDisplayValue("Shmew")
+        Jest.expect(render.getByTestId("username")).toHaveDisplayValue(Regex("Shme.*?"))
     ))
     Jest.test("not toHaveDisplayValue", (fun () ->
         let render = RTL.render(testElement(testElemDefaults))
 
         Jest.expect(render.getByTestId("username")).not.toHaveDisplayValue("somethingElse")
+        Jest.expect(render.getByTestId("username")).not.toHaveDisplayValue(Regex("somethi.*?"))
     ))
 
     Jest.test("toHaveFocus", (fun () ->

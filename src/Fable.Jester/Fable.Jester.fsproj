@@ -14,7 +14,7 @@
   <PropertyGroup>
     <NpmDependencies>
       <NpmPackage Name="jest" Version="gte 26 lt 27" ResolutionStrategy="max" DevDependency="true" />
-      <NpmPackage Name="@testing-library/jest-dom" Version="gte 5.5 lt 6" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="@testing-library/jest-dom" Version="gte 5.7 lt 6" ResolutionStrategy="max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
