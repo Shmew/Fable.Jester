@@ -347,5 +347,6 @@ If you find that you *really* need this functionality, create an [issue]
 and we can review/discuss it.
 * It's additional work to maintain. ;)
 
+[fake-timers]: https://github.com/sinonjs/fake-timers
 [jest-circus]: https://www.npmjs.com/package/jest-circus
 [issue]: https://github.com/Shmew/Fable.Jester/issues/new/choose
