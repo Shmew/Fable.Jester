@@ -422,6 +422,8 @@ module RTL =
         static member clear (element: HTMLElement) : unit = Bindings.userEvent.clear(element)
         /// Clicks element, depending on what element is it can have different side effects.
         static member click (element: HTMLElement) : unit = Bindings.userEvent.click(element)
+        /// Cntrl + clicks element, depending on what element is it can have different side effects.
+        static member ctrlClick (element: HTMLElement) : unit = Bindings.userEvent.click(element, createObj !!["ctrlKey" ==> true])
         /// Clicks element twice, depending on what element is it can have different side effects.
         static member dblClick (element: HTMLElement) : unit = Bindings.userEvent.dblClick(element)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
@@ -430,6 +432,10 @@ module RTL =
         static member selectOptions (element: HTMLElement, values: 'T list) : unit = Bindings.userEvent.selectOptions(element, values)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
         static member selectOptions (element: HTMLElement, values: ResizeArray<'T>) : unit = Bindings.userEvent.selectOptions(element, values)
+        /// Shift + clicks element, depending on what element is it can have different side effects.
+        static member shiftClick (element: HTMLElement) : unit = Bindings.userEvent.click(element, createObj !!["shiftKey" ==> true])
+        /// Cntrl + shift + clicks element, depending on what element is it can have different side effects.
+        static member shiftCtrlClick (element: HTMLElement) : unit = Bindings.userEvent.click(element, createObj !!["ctrlKey" ==> true; "shiftKey" ==> true])
         /// Fires a tab event changing the document.activeElement in the same way the browser does.
         static member tab (shift: bool, focusTrap: HTMLElement) : unit = Bindings.userEvent.tab(shift, focusTrap)
         /// Writes text inside an <input> or a <textarea>.
@@ -633,6 +639,8 @@ module RTLExtensions =
         member _.clear () : unit = Bindings.userEvent.clear(element)
         /// Clicks element, depending on what element is it can have different side effects.
         member _.click () : unit = Bindings.userEvent.click(element)
+        /// Cntrl + clicks element, depending on what element is it can have different side effects.
+        member _.ctrlClick () : unit = Bindings.userEvent.click(element, createObj !!["ctrlKey" ==> true])
         /// Clicks element twice, depending on what element is it can have different side effects.
         member _.dblClick () : unit = Bindings.userEvent.dblClick(element)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
@@ -641,6 +649,10 @@ module RTLExtensions =
         member _.selectOptions (values: 'T list) : unit = Bindings.userEvent.selectOptions(element, values)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
         member _.selectOptions (values: ResizeArray<'T>) : unit = Bindings.userEvent.selectOptions(element, values)
+        /// Shift + clicks element, depending on what element is it can have different side effects.
+        member _.shiftClick () : unit = Bindings.userEvent.click(element, createObj !!["shiftKey" ==> true])
+        /// Cntrl + shift + clicks element, depending on what element is it can have different side effects.
+        member _.shiftCtrlClick () : unit = Bindings.userEvent.click(element, createObj !!["ctrlKey" ==> true; "shiftKey" ==> true])
         /// Fires a tab event changing the document.activeElement in the same way the browser does.
         member _.tab (shift: bool, focusTrap: HTMLElement) : unit = Bindings.userEvent.tab(shift, focusTrap)
         /// Writes text inside an <input> or a <textarea>.

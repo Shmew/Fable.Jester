@@ -1313,6 +1313,7 @@ module Bindings =
     type UserEventImport =
         abstract clear: HTMLElement -> unit
         abstract click: HTMLElement -> unit
+        abstract click: HTMLElement * obj -> unit
         abstract dblClick: HTMLElement -> unit
         [<Emit("$0.selectOptions($1, Array.from($2))")>]
         abstract selectOptions: HTMLElement * 'T [] -> unit
