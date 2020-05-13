@@ -1,3 +1,7 @@
+### 0.10.0 - Tuesday, May 12th, 2020
+* Update for user-event 10.2 release
+* Adds ctrlClick, ctrlShiftClick, and shiftClick
+
 ### 0.9.0 - Friday, May 8th, 2020
 * Update for jest-dom 5.7 release
 

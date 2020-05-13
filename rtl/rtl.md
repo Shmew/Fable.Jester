@@ -397,6 +397,28 @@ RTL.userEvent.click(myElement)
 myElement.userEvent.click()
 ```
 
+## userEvent.ctrlClick
+
+Convenience method for using [fireEvent](#fireevent).
+
+Clicks element while holding the control key, depending on what 
+element is it can have different side effects.
+
+`HTMLElement` is extended to also support these methods.
+
+Signature: 
+```fsharp 
+(element: HTMLElement) -> unit
+```
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.ctrlClick(myElement)
+
+myElement.userEvent.ctrlClick()
+```
+
 ## userEvent.dblClick
 
 Convenience method for using [fireEvent](#fireevent).
@@ -439,6 +461,50 @@ You can use this like so:
 RTL.userEvent.selectOptions(myElement, ["Peach"])
 
 myElement.userEvent.selectOptions(["Peach"])
+```
+
+## userEvent.shiftClick
+
+Convenience method for using [fireEvent](#fireevent).
+
+Clicks element while holding the shift key, depending on what 
+element is it can have different side effects.
+
+`HTMLElement` is extended to also support these methods.
+
+Signature: 
+```fsharp 
+(element: HTMLElement) -> unit
+```
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.shiftClick(myElement)
+
+myElement.userEvent.shiftClick()
+```
+
+## userEvent.shiftCtrlClick
+
+Convenience method for using [fireEvent](#fireevent).
+
+Clicks element while holding the shift and control keys, depending on what 
+element is it can have different side effects.
+
+`HTMLElement` is extended to also support these methods.
+
+Signature: 
+```fsharp 
+(element: HTMLElement) -> unit
+```
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.shiftCtrlClick(myElement)
+
+myElement.userEvent.shiftCtrlClick()
 ```
 
 ## userEvent.tab
