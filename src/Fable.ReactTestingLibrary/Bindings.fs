@@ -1323,6 +1323,8 @@ module Bindings =
         abstract tab: bool * HTMLElement -> unit
         [<Emit("$0.type($1...)")>]
         abstract typeInternal: HTMLElement * string * ?options: obj -> JS.Promise<unit>
+        abstract upload: HTMLElement * Browser.Types.File * ?options: obj -> unit
+        abstract upload: HTMLElement * ResizeArray<Browser.Types.File> * ?options: obj -> unit
 
     let userEvent : UserEventImport = importDefault "@testing-library/user-event"
 

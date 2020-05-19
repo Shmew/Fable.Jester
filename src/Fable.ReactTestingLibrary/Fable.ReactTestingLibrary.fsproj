@@ -17,7 +17,7 @@
   <PropertyGroup>
     <NpmDependencies>
       <NpmPackage Name="@testing-library/react" Version="gte 10 lt 11" ResolutionStrategy="max" DevDependency="true" />
-      <NpmPackage Name="@testing-library/user-event" Version="gte 10.2 lt 11" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="@testing-library/user-event" Version="gte 10.3 lt 11" ResolutionStrategy="max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

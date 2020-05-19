@@ -1,10 +1,14 @@
 ﻿module UserEventTests
 
+open Browser.Blob
+open Browser.Types
+open Fable.Core
+open Fable.Core.JsInterop
 open Fable.Jester
 open Fable.ReactTestingLibrary
 open Feliz
 
-let inputTestElement = React.functionComponent (fun () ->
+let inputTestElement = React.functionComponent(fun () ->
     let value, setValue = React.useState "Hello"
     Html.div [
         Html.input [
@@ -18,7 +22,7 @@ let inputTestElement = React.functionComponent (fun () ->
         ]
     ])
 
-let buttonTestElement = React.functionComponent (fun () ->
+let buttonTestElement = React.functionComponent(fun () ->
     let value, setValue = React.useState "Hello"
     Html.div [
         Html.button [
@@ -30,6 +34,13 @@ let buttonTestElement = React.functionComponent (fun () ->
             prop.text value
             prop.testId "header"
         ]
+    ])
+
+let uploadTestElement = React.functionComponent(fun (input: {| isMultiple: bool |}) ->
+    Html.input [
+        prop.type'.file
+        prop.testId "upload"
+        prop.multiple input.isMultiple
     ])
 
 Jest.describe("UserEvent tests", fun () ->
@@ -86,5 +97,52 @@ Jest.describe("UserEvent tests", fun () ->
         elem.userEvent.dblClick()
 
         Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
+    )
+    
+    Jest.test("can upload a file", fun () ->
+        let elem : HTMLInputElement = RTL.render(uploadTestElement {| isMultiple = false |}).getByTestId("upload") |> unbox
+
+        let myFile = 
+            let propBag = 
+                JsInterop.jsOptions<BlobPropertyBag>(fun o -> o.``type`` <- "image/png")
+             
+            let file = Blob.Create([| "hello" :> obj |], propBag) :?> File
+                
+            file?name <- "hello.png"
+            
+            file
+
+        elem.userEvent.upload(myFile)
+        
+        Jest.expect(elem.files.[0]).toStrictEqual(myFile)
+        Jest.expect(elem.files.item(0)).toStrictEqual(myFile)
+        Jest.expect(elem.files).toHaveLength(1)
+    )
+    Jest.test("can upload multiple files", fun () ->
+        let elem : HTMLInputElement = RTL.render(uploadTestElement {| isMultiple = true |}).getByTestId("upload") |> unbox
+
+        let myFiles = 
+            let propBag = 
+                JsInterop.jsOptions<BlobPropertyBag>(fun o -> o.``type`` <- "image/png")
+             
+            let file = 
+                Blob.Create([| "hello" :> obj |], propBag) :?> File
+                |> fun file -> 
+                    file?name <- "hello.png"
+                    file
+
+            let file2 =
+                Blob.Create([| "there" :> obj |], propBag) :?> File
+                |> fun file -> 
+                    file?name <- "there.png"
+                    file
+            
+            [ file; file2 ]
+
+        elem.userEvent.upload(myFiles)
+        
+        Jest.expect(elem.files.[0]).toStrictEqual(myFiles.[0])
+        Jest.expect(elem.files.[1]).toStrictEqual(myFiles.[1])
+        Jest.expect(elem.files).toHaveLength(2)
     )
 )

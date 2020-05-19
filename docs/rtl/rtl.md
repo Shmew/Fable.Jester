@@ -552,6 +552,38 @@ RTL.userEvent.type'(myElement, "oh, hello there!")
 myElement.userEvent.type'("oh, hello there!")
 ```
 
+## userEvent.upload
+
+<Note>The Fable API is a bit rough for accomplishing this. I recommend you view
+this library's [tests] for more information.</Note>
+
+Convenience method for using [fireEvent](#fireevent).
+
+Uploads a file/files to an `<input>`. 
+
+`HTMLElement` is extended to also support these methods.
+
+Signature: 
+```fsharp 
+(element: HTMLElement, file: File) -> unit
+(element: HTMLElement, file: File, clickInit: EventInit) -> unit
+(element: HTMLElement, file: File, changeInit: Event) -> unit
+(element: HTMLElement, file: File, clickInit: EventInit, changeInit: Event) -> unit
+
+(element: HTMLElement, files: seq<File>) -> unit
+(element: HTMLElement, file: seq<File>, clickInit: EventInit) -> unit
+(element: HTMLElement, file: seq<File>, changeInit: Event) -> unit
+(element: HTMLElement, file: seq<File>, clickInit: EventInit, changeInit: Event) -> unit
+```
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.upload(myElement, myFile)
+
+myElement.userEvent.upload(myFile)
+```
+
 ## waitFor
 
 When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
@@ -678,3 +710,5 @@ You can use this like so:
 ```fsharp
 RTL.within(myElement)
 ```
+
+[tests]: https://github.com/Shmew/Fable.Jester/blob/master/tests/Fable.ReactTestingLibrary.Tests/UserEvent.test.fs

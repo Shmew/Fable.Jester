@@ -1,3 +1,7 @@
+### 0.11.0 - Tuesday, May 12th, 2020
+* Update for user-event 10.3 release
+* Adds file uploading
+
 ### 0.10.0 - Tuesday, May 12th, 2020
 * Update for user-event 10.2 release
 * Adds ctrlClick, ctrlShiftClick, and shiftClick
