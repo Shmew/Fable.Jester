@@ -46,6 +46,21 @@ let testElement = React.functionComponent(fun (input: {| isDisabled: bool; hasCo
                     prop.type'.text
                 ]
                 Html.input [
+                    prop.testId "input-3"
+                    prop.type'.checkbox
+                    prop.ariaChecked.mixed
+                ]
+                Html.input [
+                    prop.testId "input-4"
+                    prop.type'.checkbox
+                    prop.ariaChecked true
+                ]
+                Html.input [
+                    prop.testId "input-5"
+                    prop.type'.checkbox
+                    prop.ariaChecked false
+                ]
+                Html.input [
                     prop.testId "checkbox"
                     prop.type'.checkbox
                     prop.isChecked true
@@ -141,6 +156,18 @@ Jest.describe("jest-dom tests", (fun () ->
 
         Jest.expect(render.getByTestId("username")).toBeInvalid()
     ))
+
+    Jest.test("toBePartiallyChecked", fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("input-3")).toBePartiallyChecked()
+    )
+    Jest.test("not toBePartiallyChecked", fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("input-4")).not.toBePartiallyChecked()
+        Jest.expect(render.getByTestId("input-5")).not.toBePartiallyChecked()
+    )
 
     Jest.test("toBeRequired", (fun () ->
         let render = RTL.render(testElement(testElemDefaults))

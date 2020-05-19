@@ -329,6 +329,25 @@ Usage:
 Jest.expect(myString).toBeNull()
 ```
 
+## toBePartiallyChecked
+
+<Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
+
+Check whether the given element is partially checked. 
+
+It accepts an input of type checkbox and elements with a role of checkbox with a 
+aria-checked="mixed", or input of type checkbox with indeterminate set to true.
+
+Signature:
+```fsharp
+unit
+```
+
+Usage:
+```fsharp
+Jest.expect(myElement).toBePartiallyChecked()
+```
+
 ## toBeRequired
 
 <Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>

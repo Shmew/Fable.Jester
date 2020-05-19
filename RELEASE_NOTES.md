@@ -1,3 +1,7 @@
+### 0.12.0 - Tuesday, May 12th, 2020
+* Update for jest-dom 5.8 release
+* Adds expect.toBePartiallyChecked
+
 ### 0.11.0 - Tuesday, May 12th, 2020
 * Update for user-event 10.3 release
 * Adds file uploading

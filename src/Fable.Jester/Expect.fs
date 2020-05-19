@@ -343,6 +343,13 @@ module Expect =
         /// result of checkValidity() is false.
         member _.toBeInvalid () : 'Return = jsNative
 
+        /// Check whether the given element is partially checked. 
+        ///
+        /// It accepts an input of type checkbox and elements with a role of 
+        /// checkbox with an aria-checked="mixed", or input of type checkbox with 
+        /// indeterminate set to true.
+        member _.toBePartiallyChecked () : 'Return = jsNative
+
         /// Check if a form element is currently required.
         ///
         /// An element is required if it is having a required or 
