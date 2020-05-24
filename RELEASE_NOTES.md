@@ -1,3 +1,6 @@
+### 0.12.1 - Sunday, May 24th, 2020
+* Update for Feliz stable release
+
 ### 0.12.0 - Tuesday, May 12th, 2020
 * Update for jest-dom 5.8 release
 * Adds expect.toBePartiallyChecked
