@@ -30,7 +30,7 @@ Jest.describe("Arbitrary tests", fun () ->
     Jest.test.prop("Option correctly makes an option", Arbitrary.Defaults.integer |> Arbitrary.option, fun iOpt ->
         match iOpt with
         | Some i -> Jest.expect(iOpt).toBe(Some i)
-        | None -> Jest.expect(iOpt).toBe(None)
+        | None -> Jest.expect(iOpt).toBeNull()
     )
     Jest.test.prop("StringOf creates a string from char arb", Arbitrary.Defaults.char |> Arbitrary.stringOf, fun c ->
         Jest.expect(c).toBeDefined()

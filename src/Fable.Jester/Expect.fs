@@ -331,7 +331,7 @@ module Expect =
         member _.toBeEnabled () : 'Return = jsNative
 
         /// Check whether an element has content or not.
-        member _.toBeEmpty () : 'Return = jsNative
+        member _.toBeEmptyDOMElement () : 'Return = jsNative
 
         /// Check whether an element is present in the document or not.
         member _.toBeInTheDocument () : 'Return = jsNative

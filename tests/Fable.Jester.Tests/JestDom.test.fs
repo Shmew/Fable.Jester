@@ -119,15 +119,15 @@ Jest.describe("jest-dom tests", (fun () ->
         Jest.expect(render.getByTestId("button")).toBeDisabled()
     ))
 
-    Jest.test("toBeEmpty", (fun () ->
+    Jest.test("toBeEmptyDOMElement", (fun () ->
         let render = RTL.render(testElement({| testElemDefaults with hasContent = false |}))
 
-        Jest.expect(render.getByTestId("div")).toBeEmpty()
+        Jest.expect(render.getByTestId("div")).toBeEmptyDOMElement()
     ))
-    Jest.test("not toBeEmpty", (fun () ->
+    Jest.test("not toBeEmptyDOMElement", (fun () ->
         let render = RTL.render(testElement(testElemDefaults))
 
-        Jest.expect(render.getByTestId("div")).not.toBeEmpty()
+        Jest.expect(render.getByTestId("div")).not.toBeEmptyDOMElement()
     ))
 
     Jest.test("toBeEnabled", (fun () ->

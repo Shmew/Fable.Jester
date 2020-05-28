@@ -76,7 +76,7 @@ Jest.describe("Autogen tests", fun () ->
     Jest.test.prop("Autogen an option", Arbitrary.auto<int option>(), fun iOpt ->
         match iOpt with
         | Some i -> Jest.expect(iOpt).toEqual(Some i)
-        | None -> Jest.expect(iOpt).toEqual(None)
+        | None -> Jest.expect(iOpt).toBeNull()
     )
     Jest.test.prop("Autogen a result", Arbitrary.auto<Result<int,string>>(), fun iOpt ->
         match iOpt with
