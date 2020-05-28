@@ -1,3 +1,7 @@
+### 0.13.0 - Thursday, May 28th, 2020
+* Update for jest-dom 5.9.0
+* Fix breaking changes from fable-compiler 2.10
+
 ### 0.12.1 - Sunday, May 24th, 2020
 * Update for Feliz stable release
 

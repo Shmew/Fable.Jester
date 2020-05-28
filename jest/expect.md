@@ -158,7 +158,7 @@ Usage:
 Jest.expect(myElement).toBeEnabled()
 ```
 
-## toBeEmpty
+## toBeEmptyDOMElement
 
 <Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
 
@@ -171,7 +171,7 @@ unit
 
 Usage:
 ```fsharp
-Jest.expect(myElement).toBeEmpty()
+Jest.expect(myElement).toBeEmptyDOMElement()
 ```
 
 ## toBeFalsy
@@ -393,7 +393,7 @@ unit
 
 Usage:
 ```fsharp
-Jest.expect(myObj).toBeUndefined()
+Jest.expect(None).toBeUndefined()
 ```
 
 ## toBeValid
