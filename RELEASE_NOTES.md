@@ -1,3 +1,6 @@
+### 0.14.0 - Tuesday, June 2nd, 2020
+* Update for user-event 11.0.0
+
 ### 0.13.0 - Thursday, May 28th, 2020
 * Update for jest-dom 5.9.0
 * Fix breaking changes from fable-compiler 2.10
