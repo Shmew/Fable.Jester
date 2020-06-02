@@ -1,6 +1,6 @@
 {
   "name": "fable.-jester",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Fable bindings for jest and friends",
   "homepage": "https://github.com/Shmew/Fable.Jester",
   "bugs": {
@@ -35,7 +35,7 @@
     "@sinonjs/fake-timers": "^6",
     "@testing-library/jest-dom": "^5",
     "@testing-library/react": "^10",
-    "@testing-library/user-event": "^10",
+    "@testing-library/user-event": "^11",
     "core-js": "^3",
     "fable-compiler": "^2",
     "fable-splitter": "^2",
