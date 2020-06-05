@@ -1321,6 +1321,11 @@ module Bindings =
         abstract selectOptions: HTMLElement * 'T list -> unit
         abstract selectOptions: HTMLElement * ResizeArray<'T> -> unit
         abstract tab: bool * HTMLElement -> unit
+        [<Emit("$0.selectOptions($1, Array.from($2))")>]
+        abstract toggleSelectOptions: HTMLElement * 'T [] -> unit
+        [<Emit("$0.selectOptions($1, Array.from($2))")>]
+        abstract toggleSelectOptions: HTMLElement * 'T list -> unit
+        abstract toggleSelectOptions: HTMLElement * ResizeArray<'T> -> unit
         [<Emit("$0.type($1...)")>]
         abstract typeInternal: HTMLElement * string * ?options: obj -> JS.Promise<unit>
         abstract upload: HTMLElement * Browser.Types.File * ?options: obj -> unit

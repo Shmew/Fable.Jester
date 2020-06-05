@@ -23,6 +23,30 @@ let inputTestElement = React.functionComponent(fun () ->
         ]
     ])
 
+let selectMultipleTestElement = React.functionComponent(fun () ->
+    Html.select [
+        prop.testId "test-select-multiple"
+        prop.multiple true
+
+        prop.children [
+            Html.option [
+                prop.testId "val1"
+                prop.value 1
+                prop.text "A"
+            ]
+            Html.option [
+                prop.testId "val2"
+                prop.value 2
+                prop.text "B"
+            ]
+            Html.option [
+                prop.testId "val3"
+                prop.value 3
+                prop.text "C"
+            ]
+        ]
+    ])
+
 let textAreaTestElement = React.functionComponent(fun () ->
     Html.textarea [
         prop.testId "test-textarea"
@@ -119,6 +143,26 @@ Jest.describe("UserEvent tests", fun () ->
         elem.userEvent.dblClick()
 
         Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
+    )
+
+    Jest.test("dispatch selection of options", fun () ->
+        let elem = RTL.render(selectMultipleTestElement()).getByTestId("test-select-multiple")
+        
+        elem.userEvent.selectOptions(["1";"3"])
+
+        Jest.expect((RTL.screen.getByTestId("val1") |> unbox<HTMLOptionElement>).selected).toEqual(true)
+        Jest.expect((RTL.screen.getByTestId("val2") |> unbox<HTMLOptionElement>).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId("val3") |> unbox<HTMLOptionElement>).selected).toEqual(true)
+    )
+
+    Jest.test("dispatch toggle selection of options", fun () ->
+        let elem = RTL.render(selectMultipleTestElement()).getByTestId("test-select-multiple")
+        
+        elem.userEvent.toggleSelectOptions(["1";"3"])
+
+        Jest.expect((RTL.screen.getByTestId("val1") |> unbox<HTMLOptionElement>).selected).toEqual(true)
+        Jest.expect((RTL.screen.getByTestId("val2") |> unbox<HTMLOptionElement>).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId("val3") |> unbox<HTMLOptionElement>).selected).toEqual(true)
     )
     
     Jest.test("can upload a file", fun () ->

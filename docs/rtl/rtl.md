@@ -528,6 +528,20 @@ RTL.userEvent.tab(false, myElement)
 myElement.userEvent.tab(false)
 ```
 
+## userEvent.toggleSelectOptions
+
+Toggle the specified option(s) of a <select multiple> element.
+
+`HTMLElement` is extended to also support these methods.
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.toggleSelectOptions(myElement, ["Peach"])
+
+myElement.userEvent.toggleSelectOptions(["Peach"])
+```
+
 ## userEvent.type'
 
 Convenience method for using [fireEvent](#fireevent).

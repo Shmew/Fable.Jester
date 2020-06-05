@@ -432,6 +432,12 @@ module RTL =
         static member selectOptions (element: HTMLElement, values: 'T list) = Bindings.userEvent.selectOptions(element, values)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
         static member selectOptions (element: HTMLElement, values: ResizeArray<'T>) = Bindings.userEvent.selectOptions(element, values)
+        /// Toggle the specified option(s) of a <select multiple> element.
+        static member toggleSelectOptions (element: HTMLElement, values: 'T []) : unit = Bindings.userEvent.toggleSelectOptions(element, values)
+        /// Toggle the specified option(s) of a <select multiple> element.
+        static member toggleSelectOptions (element: HTMLElement, values: 'T list) : unit = Bindings.userEvent.toggleSelectOptions(element, values)
+        /// Toggle the specified option(s) of a <select multiple> element.
+        static member toggleSelectOptions (element: HTMLElement, values: ResizeArray<'T>) : unit = Bindings.userEvent.toggleSelectOptions(element, values)
         /// Shift + clicks element, depending on what element is it can have different side effects.
         static member shiftClick (element: HTMLElement) = Bindings.userEvent.click(element, createObj !!["shiftKey" ==> true])
         /// Cntrl + shift + clicks element, depending on what element is it can have different side effects.
@@ -713,6 +719,12 @@ module RTLExtensions =
         member _.selectOptions (values: 'T list) : unit = Bindings.userEvent.selectOptions(element, values)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
         member _.selectOptions (values: ResizeArray<'T>) : unit = Bindings.userEvent.selectOptions(element, values)
+        /// Toggle the specified option(s) of a <select multiple> element.
+        member _.toggleSelectOptions (values: 'T []) : unit = Bindings.userEvent.toggleSelectOptions(element, values)
+        /// Toggle the specified option(s) of a <select multiple> element.
+        member _.toggleSelectOptions (values: 'T list) : unit = Bindings.userEvent.toggleSelectOptions(element, values)
+        /// Toggle the specified option(s) of a <select multiple> element.
+        member _.toggleSelectOptions (values: ResizeArray<'T>) : unit = Bindings.userEvent.toggleSelectOptions(element, values)
         /// Shift + clicks element, depending on what element is it can have different side effects.
         member _.shiftClick () : unit = Bindings.userEvent.click(element, createObj !!["shiftKey" ==> true])
         /// Cntrl + shift + clicks element, depending on what element is it can have different side effects.
