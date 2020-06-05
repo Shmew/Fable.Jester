@@ -10,6 +10,7 @@ open Feliz
 
 let inputTestElement = React.functionComponent(fun () ->
     let value, setValue = React.useState "Hello"
+
     Html.div [
         Html.input [
             prop.type'.text
@@ -22,8 +23,14 @@ let inputTestElement = React.functionComponent(fun () ->
         ]
     ])
 
+let textAreaTestElement = React.functionComponent(fun () ->
+    Html.textarea [
+        prop.testId "test-textarea"
+    ])
+
 let buttonTestElement = React.functionComponent(fun () ->
     let value, setValue = React.useState "Hello"
+
     Html.div [
         Html.button [
             prop.testId "test-button"
@@ -57,6 +64,21 @@ Jest.describe("UserEvent tests", fun () ->
         do! elem.userEvent.type'("Hello world")
 
         return Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
+    })
+
+    Jest.test("dispatch textarea change", promise {
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        do! elem.userEvent.type'("Hello{enter}world")
+
+        return Jest.expect(RTL.screen.getByTestId("test-textarea")).toHaveValue("Hello\nworld")
+    })
+    Jest.test("dispatch textarea change", promise {
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        do! elem.userEvent.type'("Hello{enter}world")
+
+        return Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
     })
 
     Jest.test("clear input element", promise {

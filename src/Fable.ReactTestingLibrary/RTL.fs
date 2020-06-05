@@ -439,14 +439,46 @@ module RTL =
         /// Fires a tab event changing the document.activeElement in the same way the browser does.
         static member tab (shift: bool, focusTrap: HTMLElement) = Bindings.userEvent.tab(shift, focusTrap)
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         static member type' (element: HTMLElement, text: string) = Bindings.userEvent.typeInternal(element, text)
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         static member type' (element: HTMLElement, text: string, allAtOnce: bool) = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| allAtOnce = allAtOnce |})
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         static member type' (element: HTMLElement, text: string, delay: int) = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| delay = delay |})
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         static member type' (element: HTMLElement, text: string, allAtOnce: bool, delay: int) = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| allAtOnce = allAtOnce; delay = delay |})
         /// Uploads a file to an <input>. 
@@ -688,14 +720,46 @@ module RTLExtensions =
         /// Fires a tab event changing the document.activeElement in the same way the browser does.
         member _.tab (shift: bool, focusTrap: HTMLElement) : unit = Bindings.userEvent.tab(shift, focusTrap)
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         member _.type' (text: string) : JS.Promise<unit> = Bindings.userEvent.typeInternal(element, text)
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         member _.type' (text: string, allAtOnce: bool) : JS.Promise<unit> = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| allAtOnce = allAtOnce |})
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         member _.type' (text: string, delay: int) : JS.Promise<unit> = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| delay = delay |})
         /// Writes text inside an <input> or a <textarea>.
+        ///
+        /// You can use special characters via brackets such as {enter}, supported keys:
+        /// enter, esc, backspace, shift, ctrl, alt, meta
+        ///
+        /// shift, ctrl, alt, and meta will activate their respective event key. Which is 
+        /// ended with a closing tag: {/shift}, {/ctrl}, {/alt}, and {/meta}.
+        ///
+        /// shift does *not* cause lowercase text to become uppercase.
         member _.type' (text: string, allAtOnce: bool, delay: int) : JS.Promise<unit> = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| allAtOnce = allAtOnce; delay = delay |})
         /// Uploads a file to an <input>. 
