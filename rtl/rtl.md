@@ -536,6 +536,22 @@ Writes text inside an `<input>` or a `<textarea>`.
 
 `HTMLElement` is extended to also support these methods.
 
+### Special characters
+
+The following special character strings are supported:
+
+| Text string   | Key       | Modifier   | Notes                                                                              |
+| ------------- | --------- | ---------- | ---------------------------------------------------------------------------------- |
+| `{enter}`     | Enter     | N/A        | Will insert a newline character (`<textarea />` only).                             |
+| `{esc}`       | Escape    | N/A        |                                                                                    |
+| `{backspace}` | Backspace | N/A        | Will delete the previous character (or the characters within the `selectedRange`). |
+| `{shift}`     | Shift     | `shiftKey` | Does **not** capitalize following characters.                                      |
+| `{ctrl}`      | Control   | `ctrlKey`  |                                                                                    |
+| `{alt}`       | Alt       | `altKey`   |                                                                                    |
+| `{meta}`      | OS        | `metaKey`  |                                                                                    |
+
+To un-press a key with a modifier give it an ending tag e.g.: {/shift}
+
 Signature: 
 ```fsharp 
 (element: HTMLElement, text: string) -> JS.Promise<unit>
@@ -549,7 +565,7 @@ You can use this like so:
 ```fsharp
 RTL.userEvent.type'(myElement, "oh, hello there!")
 
-myElement.userEvent.type'("oh, hello there!")
+myElement.userEvent.type'("oh, {enter}hello there!")
 ```
 
 ## userEvent.upload
