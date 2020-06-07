@@ -85,7 +85,7 @@ functions, etc. As long as you don't need custom behavior
 this is a way to quickly get tests up and running without
 constructing some potentially very large arbitraries.
 
-[Arbitrary.auto]:/fast-check/arbitrary/arbitrary#auto
+[Arbitrary.auto]:/fast-check/arbitrary/#auto
 [Book]:https://zaid-ajaj.github.io/the-elmish-book
 [Elmish]:https://github.com/elmish/elmish
 [Zaid-Ajaj]:https://github.com/Zaid-Ajaj
