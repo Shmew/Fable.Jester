@@ -426,6 +426,8 @@ module RTL =
         static member ctrlClick (element: HTMLElement) = Bindings.userEvent.click(element, createObj !!["ctrlKey" ==> true])
         /// Clicks element twice, depending on what element is it can have different side effects.
         static member dblClick (element: HTMLElement) = Bindings.userEvent.dblClick(element)
+        /// Hovers over an element.
+        static member hover (element: HTMLElement) = Bindings.userEvent.hover(element)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
         static member selectOptions (element: HTMLElement, values: 'T []) = Bindings.userEvent.selectOptions(element, values)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
@@ -487,6 +489,8 @@ module RTL =
         /// shift does *not* cause lowercase text to become uppercase.
         static member type' (element: HTMLElement, text: string, allAtOnce: bool, delay: int) = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| allAtOnce = allAtOnce; delay = delay |})
+        /// Unhovers an element.
+        static member unhover (element: HTMLElement) = Bindings.userEvent.unhover(element)
         /// Uploads a file to an <input>. 
         static member upload (element: HTMLElement, file: File) =
             Bindings.userEvent.upload(element, file)
@@ -713,6 +717,8 @@ module RTLExtensions =
         member _.ctrlClick () : unit = Bindings.userEvent.click(element, createObj !!["ctrlKey" ==> true])
         /// Clicks element twice, depending on what element is it can have different side effects.
         member _.dblClick () : unit = Bindings.userEvent.dblClick(element)
+        /// Hovers over the element.
+        member _.hover () = Bindings.userEvent.hover(element)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
         member _.selectOptions (values: 'T []) : unit = Bindings.userEvent.selectOptions(element, values)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
@@ -774,6 +780,8 @@ module RTLExtensions =
         /// shift does *not* cause lowercase text to become uppercase.
         member _.type' (text: string, allAtOnce: bool, delay: int) : JS.Promise<unit> = 
             Bindings.userEvent.typeInternal(element, text, toPlainJsObj {| allAtOnce = allAtOnce; delay = delay |})
+        /// Unhovers the element.
+        member _.unhover () = Bindings.userEvent.unhover(element)
         /// Uploads a file to an <input>. 
         member _.upload (file: File) =
             Bindings.userEvent.upload(element, file)

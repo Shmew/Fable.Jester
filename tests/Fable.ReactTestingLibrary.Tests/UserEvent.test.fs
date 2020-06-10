@@ -74,6 +74,18 @@ let uploadTestElement = React.functionComponent(fun (input: {| isMultiple: bool 
         prop.multiple input.isMultiple
     ])
 
+let hoverTestElement = React.functionComponent(fun () ->
+    let hover,setHover = React.useState false
+    
+    Html.div [
+        prop.testId "test-hover"
+
+        prop.onMouseEnter(fun _ -> setHover true)
+        prop.onMouseLeave(fun _ -> setHover false)
+        
+        prop.text (string hover)
+    ])
+
 Jest.describe("UserEvent tests", fun () ->
     Jest.test("dispatch input change", promise {
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")
@@ -211,4 +223,18 @@ Jest.describe("UserEvent tests", fun () ->
         Jest.expect(elem.files.[1]).toStrictEqual(myFiles.[1])
         Jest.expect(elem.files).toHaveLength(2)
     )
+
+    Jest.test("can hover an element", async {
+        let elem = RTL.render(hoverTestElement()).getByTestId "test-hover"
+
+        Jest.expect(elem).toHaveTextContent "false"
+
+        do! elem.userEvent.hover()
+
+        Jest.expect(elem).toHaveTextContent "true"
+
+        do! elem.userEvent.unhover()
+
+        Jest.expect(elem).toHaveTextContent "false"
+    })
 )

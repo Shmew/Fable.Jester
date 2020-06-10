@@ -1315,6 +1315,7 @@ module Bindings =
         abstract click: HTMLElement -> unit
         abstract click: HTMLElement * obj -> unit
         abstract dblClick: HTMLElement -> unit
+        abstract hover: HTMLElement -> JS.Promise<unit>
         [<Emit("$0.selectOptions($1, Array.from($2))")>]
         abstract selectOptions: HTMLElement * 'T [] -> unit
         [<Emit("$0.selectOptions($1, Array.from($2))")>]
@@ -1328,6 +1329,7 @@ module Bindings =
         abstract toggleSelectOptions: HTMLElement * ResizeArray<'T> -> unit
         [<Emit("$0.type($1...)")>]
         abstract typeInternal: HTMLElement * string * ?options: obj -> JS.Promise<unit>
+        abstract unhover: HTMLElement -> JS.Promise<unit>
         abstract upload: HTMLElement * Browser.Types.File * ?options: obj -> unit
         abstract upload: HTMLElement * ResizeArray<Browser.Types.File> * ?options: obj -> unit
 
