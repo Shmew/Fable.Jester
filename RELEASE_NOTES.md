@@ -1,3 +1,6 @@
+### 0.17.0 - Friday, June 10th, 2020
+* Update for user-event 11.4.0
+
 ### 0.16.0 - Friday, June 5th, 2020
 * Update for user-event 11.2.0
 

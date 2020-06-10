@@ -440,6 +440,27 @@ RTL.userEvent.dblClick(myElement)
 myElement.userEvent.dblClick()
 ```
 
+## userEvent.hover
+
+Convenience method for using [fireEvent](#fireevent).
+
+Hovers over an element.
+
+`HTMLElement` is extended to also support these methods.
+
+Signature: 
+```fsharp 
+(element: HTMLElement) -> unit
+```
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.hover(myElement)
+
+myElement.userEvent.hover()
+```
+
 ## userEvent.selectOptions
 
 Convenience method for using [fireEvent](#fireevent).
@@ -580,6 +601,27 @@ You can use this like so:
 RTL.userEvent.type'(myElement, "oh, hello there!")
 
 myElement.userEvent.type'("oh, {enter}hello there!")
+```
+
+## userEvent.unhover
+
+Convenience method for using [fireEvent](#fireevent).
+
+Unhovers an element.
+
+`HTMLElement` is extended to also support these methods.
+
+Signature: 
+```fsharp 
+(element: HTMLElement) -> unit
+```
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.unhover(myElement)
+
+myElement.userEvent.unhover()
 ```
 
 ## userEvent.upload
