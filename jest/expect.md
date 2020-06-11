@@ -249,9 +249,8 @@ Jest.expect(myElement).toBeInTheDocument()
 
 Check if a form element, or the entire form, is currently invalid.
 
-An input, select, textarea, or form element is invalid if it has an 
-aria-invalid attribute with no value or a value of "true", or if the 
-result of checkValidity() is false.
+An element is invalid if it has an aria-invalid attribute with no value or a value of 
+"true", or if the result of checkValidity() is false.
 
 Signature:
 ```fsharp
@@ -402,9 +401,8 @@ Jest.expect(None).toBeUndefined()
 
 Check if the value of a form element, or the entire form, is currently valid.
 
-An input, select, textarea, or form element is valid if it has no aria-invalid 
-attribute or an attribute value of "false". The result of checkValidity() must 
-also be true.
+An element is valid if it has no aria-invalid attribute or an attribute value of 
+"false". The result of checkValidity() must also be true.
 
 Signature:
 ```fsharp
