@@ -1,4 +1,7 @@
-### 0.17.0 - Friday, June 10th, 2020
+### 0.18.0 - Thursday, June 11th, 2020
+* Update for jest-dom 5.10.0
+
+### 0.17.0 - Wednesday, June 10th, 2020
 * Update for user-event 11.4.0
 
 ### 0.16.0 - Friday, June 5th, 2020
