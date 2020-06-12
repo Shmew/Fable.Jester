@@ -63,7 +63,7 @@ module Arbitrary =
         static member inline asciiString (minLength: int, maxLength: int) = Bindings.fc.asciiString(minLength, maxLength)
         
         /// Creates a scheduler with a wrapped act function.
-        static member inline asyncScheduler (act: ((unit -> Async<unit>) -> Async<unit>)) =
+        static member asyncScheduler (act: ((unit -> Async<unit>) -> Async<unit>)) =
             let act (f: unit -> JS.Promise<unit>) =
                     (fun () -> f() |> Async.AwaitPromise)
                     |> act
@@ -126,8 +126,8 @@ module Arbitrary =
             Bindings.fc.object(constraints)
         
         /// Creates a scheduler with a wrapped act function.
-        static member inline promiseScheduler (act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) = 
-            Bindings.fc.scheduler(Bindings.SchedulerAct.create act).map(fun s -> new PromiseScheduler(s))
+        static member promiseScheduler (act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) = 
+            Bindings.fc.scheduler(Bindings.SchedulerAct.create act).map(fun s -> new PromiseScheduler<'Metadata>(s))
 
         static member inline string (maxLength: int) = Bindings.fc.string(maxLength)
         static member inline string (minLength: int, maxLength: int) = Bindings.fc.string(minLength, maxLength)
@@ -169,7 +169,7 @@ module Arbitrary =
         static member inline asciiString = Bindings.fc.asciiString()
         
         /// Scheduler of asyncs.
-        static member inline asyncScheduler = Bindings.fc.scheduler().map(fun s -> AsyncScheduler(PromiseScheduler(s)))
+        static member asyncScheduler = Bindings.fc.scheduler().map(fun s -> AsyncScheduler(PromiseScheduler(s)))
 
         /// Single base64 characters - A-Z, a-z, 0-9, + or /
         static member inline base64 = Bindings.fc.base64()
@@ -306,7 +306,7 @@ module Arbitrary =
         static member inline sbyte = Bindings.fc.integer(int SByte.MinValue, int SByte.MaxValue).map(sbyte)
 
         /// Scheduler of promises.
-        static member inline promiseScheduler = Bindings.fc.scheduler().map(fun s -> PromiseScheduler(s))
+        static member promiseScheduler = Bindings.fc.scheduler().map(fun s -> PromiseScheduler(s))
 
         /// Any valid Regex.
         static member inline regex =

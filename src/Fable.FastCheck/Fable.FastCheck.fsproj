@@ -10,10 +10,10 @@
     <Compile Include="Parameters.fs" />
     <Compile Include="Arbitrary.fs" />
     <Compile Include="Property.fs" />
-    <Compile Include="RunDetails.fs" />
     <Compile Include="Constraints.fs" />
     <Compile Include="Command.fs" />
     <Compile Include="Bindings.fs" />
+    <Compile Include="RunDetails.fs" />
     <Compile Include="Scheduler.fs" />
     <Compile Include="Elmish.fs" />
     <Compile Include="Arb.fs" />
@@ -24,7 +24,7 @@
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
-      <NpmPackage Name="fast-check" Version="gte 1 lt 2" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="fast-check" Version="gte 1.25 lt 2" ResolutionStrategy="max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

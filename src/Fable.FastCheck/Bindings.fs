@@ -6,8 +6,23 @@ open System
 
 [<RequireQualifiedAccess>]
 module Bindings =
+    type Parameters<'T> =
+        abstract endOnFailure: bool
+        abstract examples: ResizeArray<'T> 
+        abstract interruptAfterTimeLimit: int
+        abstract logger: (string -> unit)
+        abstract markInterruptAsFailure: bool
+        abstract maxSkipsPerRun: int
+        abstract numRuns: int
+        abstract path: string
+        abstract seed: float
+        abstract skipAllAfterTimeLimit: int
+        abstract timeout: int
+        abstract unbiased: bool
+        abstract verbose: VerbosityLevel
+        abstract randomType: RandomType
+
     type SchedulerAct =
-        /// Ensure that all scheduled tasks will be executed in the right context (for instance it can be the `act` of React)
         abstract act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)
 
     module SchedulerAct =
@@ -31,59 +46,28 @@ module Bindings =
     
         abstract task: JS.Promise<SchedulerReturnTask>
     
-    type ScheduleSequenceItem =
+    type ScheduleSequenceItem<'Metadata> =
         abstract builder: unit -> JS.Promise<obj>
         abstract label: string
+        abstract metadata: 'Metadata option
 
     module ScheduleSequenceItem =
-        let inline create (builder: unit -> JS.Promise<obj>, label: string) =
+        let inline create (builder: unit -> JS.Promise<obj>, label: string, metadata: 'Metadata option) =
             createObj [ 
                 "builder" ==> builder
                 "label" ==> label
+                if metadata.IsSome then "metadata" ==> metadata.Value
             ]
-            |> fun res -> res :?> ScheduleSequenceItem
-    
-    /// Instance able to reschedule the ordering of promises
-    /// for a given app
-    type Scheduler<'T,'TArgs> =
-        /// Wrap a new task using the Scheduler
-        abstract schedule: (JS.Promise<'T> -> JS.Promise<'T>)
-    
-        /// Automatically wrap function output using the Scheduler
-        abstract scheduleFunction: (('TArgs -> JS.Promise<'T>) -> ('TArgs -> JS.Promise<'T>))
-    
-        /// Schedule a sequence of promises to be executed sequencially.
-        /// Items within the sequence might be interleaved by other scheduled operations.
-        /// 
-        /// Please note that whenever an item from the sequence has started,
-        /// the scheduler will wait until its end before moving to another scheduled task.
-        /// 
-        /// A handle is returned by the function in order to monitor the state of the sequence.
-        /// Sequence will be marked:
-        /// - done if all the promises have been executed properly
-        /// - faulty if one of the promises within the sequence throws
-        abstract scheduleSequence: sequenceBuilders: ResizeArray<unit -> JS.Promise<obj>> -> PromiseSchedulerReturn
-        /// Schedule a sequence of promises to be executed sequencially.
-        /// Items within the sequence might be interleaved by other scheduled operations.
-        /// 
-        /// Please note that whenever an item from the sequence has started,
-        /// the scheduler will wait until its end before moving to another scheduled task.
-        /// 
-        /// A handle is returned by the function in order to monitor the state of the sequence.
-        /// Sequence will be marked:
-        /// - done if all the promises have been executed properly
-        /// - faulty if one of the promises within the sequence throws
-        abstract scheduleSequence: sequenceBuilders: ResizeArray<ScheduleSequenceItem> -> PromiseSchedulerReturn
+            |> fun res -> res :?> ScheduleSequenceItem<'Metadata>
 
-        /// Count of pending scheduled tasks
+    type Scheduler<'T,'TArgs,'Metadata> =
+        abstract schedule: JS.Promise<'T> * ?label: string * ?metadata: 'Metadata -> JS.Promise<'T>
+        abstract scheduleFunction: ('TArgs -> JS.Promise<'T>) -> ('TArgs -> JS.Promise<'T>)
+        abstract scheduleSequence: sequenceBuilders: ResizeArray<ScheduleSequenceItem<'Metadata>> -> PromiseSchedulerReturn
         abstract count: unit -> int
-    
-        /// Wait one scheduled task to be executed
-        abstract waitOne: (unit -> JS.Promise<unit>)
-    
-        /// Wait all scheduled tasks,
-        /// including the ones that might be created by one of the resolved task
-        abstract waitAll: (unit -> JS.Promise<unit>)
+        abstract waitOne: unit -> JS.Promise<unit>
+        abstract waitAll: unit -> JS.Promise<unit>
+        abstract report: unit -> ResizeArray<SchedulerReportItem<'Metadata>>
 
     type Setup<'Model,'Real> =
         abstract model: 'Model
@@ -96,6 +80,26 @@ module Bindings =
                 "real" ==> real
             ]
             |> fun res -> res :?> Setup<'Model,'Real>
+
+    type IExecutionTree<'T> =
+        abstract status: ExecutionStatus
+        abstract value: 'T
+        abstract children: ResizeArray<IExecutionTree<'T>>
+
+    type IRunDetails<'T> =
+        abstract failed: bool
+        abstract interrupted: bool
+        abstract numRuns: int
+        abstract numSkips: int
+        abstract numShrinks: int
+        abstract seed: float
+        abstract counterexample: 'T option
+        abstract error: string option
+        abstract counterexamplePath: string option
+        abstract failures: ResizeArray<'T>
+        abstract executionSummary: ResizeArray<IExecutionTree<'T>>
+        abstract verbose: VerbosityLevel
+        abstract runConfiguration: Parameters<'T>
 
     type FC =
         abstract __type: string
@@ -183,6 +187,8 @@ module Bindings =
         abstract date: constraints: IDateConstraintProperty list -> Arbitrary<DateTime>
 
         abstract dedup: arb: Arbitrary<'T> * numValues: 'N -> Arbitrary<'T>
+
+        abstract defaultReportMessage : out: IRunDetails<'T> -> string option
 
         abstract dictionary: keyArb: Arbitrary<string> * valueArb: Arbitrary<'T> -> Arbitrary<System.Collections.Generic.IDictionary<string,'T>>
         
@@ -286,10 +292,13 @@ module Bindings =
         abstract sample: generator: #IProperty<'T,'Return> * parameters: obj -> ResizeArray<'T>
         abstract sample: generator: #IProperty<'T,'Return> * parameters: int -> ResizeArray<'T>
 
-        abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * seq<ICommand<'Model,'Real>> -> JS.Promise<unit>
-        abstract scheduledModelRun: Scheduler<'T,'TArgs> * Setup<'InitialModel,'Real> * ICommandSeq<'Model,'Real> -> JS.Promise<unit>
+        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * seq<ICommand<'Model,'Real>> -> JS.Promise<unit>
+        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * ICommandSeq<'Model,'Real> -> JS.Promise<unit>
 
-        abstract scheduler: ?constraints: SchedulerAct -> Arbitrary<Scheduler<'T,'TArgs>>
+        abstract scheduler: ?constraints: SchedulerAct -> Arbitrary<Scheduler<'T,'TArgs,'Metadata>>
+        // Not exposed: see https://github.com/fable-compiler/Fable/issues/1973
+        abstract schedulerFor: ?constraints: SchedulerAct -> (ResizeArray<string> * ResizeArray<int> -> Scheduler<'T,'TArgs,'Metadata>)
+        abstract schedulerFor: customOrdering: ResizeArray<int> * ?constraints: SchedulerAct -> Scheduler<'T,'TArgs,'Metadata>
         
         abstract set: arb: Arbitrary<'T> -> Arbitrary<ResizeArray<'T>>
         abstract set: arb: Arbitrary<'T> * maxLength: int -> Arbitrary<ResizeArray<'T>>

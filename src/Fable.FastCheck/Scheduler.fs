@@ -3,20 +3,25 @@
 open Fable.Core
 open System.ComponentModel
 
-type PromiseScheduler [<EditorBrowsable(EditorBrowsableState.Never)>] (scheduler: Bindings.Scheduler<obj,obj>) =
+type SchedulerReturnTask internal (promTask: Bindings.SchedulerReturnTask) =
+    member _.isDone = promTask.isDone
+    member _.isFaulty = promTask.isFaulty
+
+type PromiseSchedulerReturn internal (promReturn: Bindings.PromiseSchedulerReturn) =
+    member _.isDone = promReturn.isDone
+    member _.isFaulty = promReturn.isFaulty
+    member _.task = promReturn.task |> Promise.map SchedulerReturnTask
+
+    member internal _.promReturn = promReturn
+
+type PromiseScheduler<'Metadata> internal (scheduler: Bindings.Scheduler<obj,obj,_>) =
     /// Adds a promise to the scheduler, returns the same 
     /// promise that now runs in the context of the scheduler.
-    member _.schedule (prom: JS.Promise<'T>) =
+    member _.schedule (prom: JS.Promise<'T>, ?label: string, ?metadata: 'Metadata) =
         prom
         |> Promise.map (box)
-        |> scheduler.schedule
+        |> fun prom -> scheduler.schedule(prom, ?label = label, ?metadata = metadata)
         |> Promise.map unbox<'T>
-    /// Adds an async to the scheduler, returns the same 
-    /// async that now runs in the context of the scheduler.
-    member this.schedule (a: Async<'T>) =
-        Async.StartAsPromise a
-        |> this.schedule
-        |> Async.AwaitPromise
 
     /// Adds a functions that generates promises to the scheduler, returns the same 
     /// promise that now runs in the context of the scheduler.
@@ -26,37 +31,19 @@ type PromiseScheduler [<EditorBrowsable(EditorBrowsableState.Never)>] (scheduler
         >> Promise.map unbox<'T>
         |> fun res -> 
             fun (args: 'Args) -> (box args) |> res
-    /// Adds a functions that generates asyncs to the scheduler, returns the same 
-    /// async that now runs in the context of the scheduler.
-    member this.scheduleFunction (f: 'Args -> Async<'T>) =
-        f 
-        >> Async.StartAsPromise
-        |> this.scheduleFunction
-        >> Async.AwaitPromise
 
-    /// Adds a sequence of promises to the scheduler, returns the same 
-    /// promises that now runs in the context of the scheduler.
-    member _.scheduleSequence (funcs: seq<unit -> JS.Promise<obj>>) =
-        scheduler.scheduleSequence (ResizeArray funcs)
-    /// Adds a sequence of asyncs to the scheduler, returns the same 
-    /// asyncs that now runs in the context of the scheduler.
-    member _.scheduleSequence (funcs: seq<unit -> Async<obj>>) =
-        funcs 
-        |> Seq.map (fun f -> f >> Async.StartAsPromise)
-        |> ResizeArray
-        |> scheduler.scheduleSequence
     /// Adds a sequence of promises to the scheduler with labels, returns the same 
     /// promises that now runs in the context of the scheduler.
     member _.scheduleSequence (funcs: seq<(unit -> JS.Promise<obj>) * string>) =
         funcs 
-        |> Seq.map Bindings.ScheduleSequenceItem.create
+        |> Seq.map (fun (prom, label) -> Bindings.ScheduleSequenceItem.create(prom, label, None))
         |> ResizeArray
         |> scheduler.scheduleSequence
-    /// Adds a sequence of asyncs to the scheduler, returns the same 
-    /// asyncs that now runs in the context of the scheduler.
-    member _.scheduleSequence (funcs: seq<(unit -> Async<obj>) * string>) =
+    /// Adds a sequence of promises to the scheduler with labels, returns the same 
+    /// promises that now runs in the context of the scheduler.
+    member _.scheduleSequence (funcs: seq<(unit -> JS.Promise<obj>) * string * ('Metadata option)>) =
         funcs 
-        |> Seq.map (fun (f,label) -> Bindings.ScheduleSequenceItem.create(f >> Async.StartAsPromise, label))
+        |> Seq.map Bindings.ScheduleSequenceItem.create
         |> ResizeArray
         |> scheduler.scheduleSequence
 
@@ -81,18 +68,24 @@ type PromiseScheduler [<EditorBrowsable(EditorBrowsableState.Never)>] (scheduler
     /// relaunch new tasks afterwards.
     member _.waitAll () = scheduler.waitAll()
 
-    /// The inner scheduler object, intended for internal use.
-    [<EditorBrowsable(EditorBrowsableState.Never)>]
-    member _.scheduler = scheduler
+    /// Produce an array containing all the scheduled tasks so far with their execution status. 
+    ///
+    /// If the task has been executed, it includes a string representation of the associated 
+    /// output or error produced by the task if any.
+    ///
+    /// Tasks will be returned in the order they get executed by the scheduler.
+    member _.report () = scheduler.report()
 
-type AsyncSchedulerReturn [<EditorBrowsable(EditorBrowsableState.Never)>] (promReturn: Bindings.PromiseSchedulerReturn) =
+    member internal _.scheduler = scheduler
+
+type AsyncSchedulerReturn internal (promReturn: Bindings.PromiseSchedulerReturn) =
     member _.isDone = promReturn.isDone
-
     member _.isFaulty = promReturn.isFaulty
+    member _.task = promReturn.task |> Promise.map SchedulerReturnTask |> Async.AwaitPromise
 
-    member _.task = promReturn.task |> Async.AwaitPromise
+    member internal _.promReturn = promReturn
 
-type AsyncScheduler [<EditorBrowsable(EditorBrowsableState.Never)>] (promScheduler: PromiseScheduler) =
+type AsyncScheduler<'Metadata> [<EditorBrowsable(EditorBrowsableState.Never)>] (promScheduler: PromiseScheduler<'Metadata>) =
     /// Adds an async to the scheduler, returns the same 
     /// async that now runs in the context of the scheduler.
     member _.schedule (a: Async<'T>) =
@@ -110,20 +103,19 @@ type AsyncScheduler [<EditorBrowsable(EditorBrowsableState.Never)>] (promSchedul
 
     /// Adds a sequence of asyncs to the scheduler, returns the same 
     /// asyncs that now runs in the context of the scheduler.
-    member _.scheduleSequence (funcs: seq<unit -> Async<obj>>) =
-        funcs 
-        |> Seq.map (fun f -> f >> Async.StartAsPromise)
-        |> ResizeArray
-        |> promScheduler.scheduler.scheduleSequence
-        |> AsyncSchedulerReturn
-    /// Adds a sequence of asyncs to the scheduler, returns the same 
-    /// asyncs that now runs in the context of the scheduler.
     member _.scheduleSequence (funcs: seq<(unit -> Async<obj>) * string>) =
         funcs 
-        |> Seq.map (fun (f,label) -> Bindings.ScheduleSequenceItem.create(f >> Async.StartAsPromise, label))
+        |> Seq.map (fun (f,label) -> Bindings.ScheduleSequenceItem.create(f >> Async.StartAsPromise, label, None))
         |> ResizeArray
         |> promScheduler.scheduler.scheduleSequence
         |> AsyncSchedulerReturn
+    /// Adds a sequence of promises to the scheduler with labels, returns the same 
+    /// promises that now runs in the context of the scheduler.
+    member _.scheduleSequence (funcs: seq<(unit -> Async<obj>) * string * ('Metadata option)>) =
+        funcs 
+        |> Seq.map (fun (f,label,m) -> Bindings.ScheduleSequenceItem.create(f >> Async.StartAsPromise, label, m))
+        |> ResizeArray
+        |> promScheduler.scheduler.scheduleSequence
 
     /// Number of pending tasks waiting to be scheduled by the scheduler.
     member _.count () = promScheduler.scheduler.count()
@@ -146,6 +138,12 @@ type AsyncScheduler [<EditorBrowsable(EditorBrowsableState.Never)>] (promSchedul
     /// relaunch new tasks afterwards.
     member _.waitAll () = promScheduler.scheduler.waitAll() |> Async.AwaitPromise
 
-    /// The inner scheduler object, intended for internal use.
-    [<EditorBrowsable(EditorBrowsableState.Never)>]
-    member _.scheduler = promScheduler.scheduler
+    /// Produce an array containing all the scheduled tasks so far with their execution status. 
+    ///
+    /// If the task has been executed, it includes a string representation of the associated 
+    /// output or error produced by the task if any.
+    ///
+    /// Tasks will be returned in the order they get executed by the scheduler.
+    member _.report () = promScheduler.report()
+
+    member internal _.scheduler = promScheduler.scheduler

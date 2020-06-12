@@ -1064,9 +1064,9 @@
     "@testing-library/dom" "^7.9.0"
 
 "@testing-library/user-event@^11":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-11.4.1.tgz#2134e4cbbb345dbc49001123ff9a036f09259464"
-  integrity sha512-ZaK+3AmocU2WjJ7UyrlnmdPecYt4fridqMwrniENCqoy/Pj2Nc9tTnpjCvMN/Ql/DQ0eRqfBoZdKNqYPBMZFhA==
+  version "11.4.2"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-11.4.2.tgz#90d98fd18455ae81d008e9b26e94d25e8d5bf846"
+  integrity sha512-Kut7G1L+ffozEhYTDNjV9C6RFbUfsKA05rGr1arwbSUoDZQ82OMmsyaXEDznT22Qc0PtZ1Hz3soX0pPosu8+Sw==
   dependencies:
     "@babel/runtime" "^7.10.2"
 
@@ -1995,9 +1995,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.413:
-  version "1.3.467"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.467.tgz#84eeb332134d49f0e49b88588824e56b20af9e27"
-  integrity sha512-U+QgsL8TZDU/n+rDnYDa3hY5uy3C4iry9mrJS0PNBBGwnocuQ+aHSfgY44mdlaK9744X5YqrrGUvD9PxCLY1HA==
+  version "1.3.468"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.468.tgz#7ff3e162e4ca91fd972c67dd51b00e7e421ceba2"
+  integrity sha512-+KAppdklzPd5v8nLOvtDiD/S67mCT9gFRAvngYe8zuFy9azHhT9vWWH6WEPPCcyjQ1JMYVgqbN29yZ0paqxsEw==
 
 email-addresses@^3.0.1:
   version "3.1.0"
@@ -2218,12 +2218,12 @@ fable-splitter@^2:
     fs-extra "^7.0.0"
 
 fast-check@^1:
-  version "1.24.2"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-1.24.2.tgz#1f5e4a3c20530c3a85a861e60f680c32229d4fcb"
-  integrity sha512-ZL48cyZZLJnVsUj127Zi1mfFLM98yzw0LlSSH8CMeVmpL5RCfSRcZSZZ0kJWrRK4eOgNFnXXKNDbzuRb3Vsdhg==
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-1.25.0.tgz#ae22f452e2d53577c32c7903d5b4e1eb3aacf7d5"
+  integrity sha512-HhiFqNBfty56YNuPLBlEKBmyCmUtAAV8d9qr/n3DJT1mi8dM34uK542tnO5HAgrhVjICLQuH3jrD6kULw+uCJQ==
   dependencies:
     pure-rand "^2.0.0"
-    tslib "^1.10.0"
+    tslib "^2.0.0"
 
 fast-deep-equal@^3.1.1:
   version "3.1.3"
@@ -4931,10 +4931,10 @@ trim-repeated@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-tslib@^1.10.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
-  integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
+tslib@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
+  integrity sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

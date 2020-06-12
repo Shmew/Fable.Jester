@@ -1,7 +1,7 @@
 ﻿namespace Fable.FastCheck
 
 type FastCheckOptions =
-    /// Stop run on failure
+    /// Stop run on failure.
     /// 
     /// It makes the run stop at the first encountered failure without shrinking.
     /// 
@@ -9,12 +9,12 @@ type FastCheckOptions =
     /// it replays only the minimal counterexample.
     static member endOnFailure (value: bool) = Interop.mkParametersOptionAttr "endOnFailure" value
         
-    /// Custom values added at the beginning of generated ones
+    /// Custom values added at the beginning of generated ones.
     /// 
-    /// It enables users to come with examples they want to test at every run
+    /// It enables users to come with examples they want to test at every run.
     static member examples (value: 'T list) = Interop.mkParametersOptionAttr "examples" (ResizeArray value)
     
-    /// Interrupt test execution after a given time limit: disabled by default
+    /// Interrupt test execution after a given time limit: disabled by default.
     /// 
     /// NOTE: Relies on `Date.now()`.
     /// 
@@ -26,7 +26,7 @@ type FastCheckOptions =
     /// WARNING:
     /// If the test got interrupted before any failure occured
     /// and before it reached the requested number of runs specified by numRuns
-    /// it will be marked as success. Except if markInterruptAsFailure as been set to `true`
+    /// it will be marked as success. Except if markInterruptAsFailure as been set to `true`.
     static member interruptAfterTimeLimit (value: int) = Interop.mkParametersOptionAttr "interruptAfterTimeLimit" value
 
     /// Logger (see statistics): `console.log` by default
@@ -35,16 +35,16 @@ type FastCheckOptions =
     /// Mark interrupted runs as failed runs: disabled by default
     static member markInterruptAsFailure (value: bool) = Interop.mkParametersOptionAttr "markInterruptAsFailure" value
 
-    /// Maximal number of skipped values per run
+    /// Maximal number of skipped values per run.
     /// 
     /// Skipped is considered globally, so this value is used to compute maxSkips = maxSkipsPerRun * numRuns.
     ///
     /// Runner will consider a run to have failed if it skipped maxSkips+1 times before having generated numRuns valid entries.
     /// 
-    /// See pre for more details on pre-conditions
+    /// See pre for more details on pre-conditions.
     static member maxSkipsPerRun (value: int) = Interop.mkParametersOptionAttr "maxSkipsPerRun" value
 
-    /// Number of runs before success: 100 by default
+    /// Number of runs before success: 100 by default.
     static member numRuns (value: int) = Interop.mkParametersOptionAttr "numRuns" value
 
     /// Way to replay a failing property directly with the counterexample.
@@ -52,7 +52,7 @@ type FastCheckOptions =
     /// It can be fed with the counterexamplePath returned by the failing test (requires `seed` too).
     static member path (value: string) = Interop.mkParametersOptionAttr "path" value
 
-    /// Initial seed of the generator: `Date.now()` by default
+    /// Initial seed of the generator: `Date.now()` by default.
     /// 
     /// It can be forced to replay a failed run.
     /// 
@@ -62,7 +62,7 @@ type FastCheckOptions =
     /// valid 32 bits integer (eg.: values between 0 and 1 will be evenly spread into the range of possible seeds).
     static member seed (value: float) = Interop.mkParametersOptionAttr "seed" value
 
-    /// Skip all runs after a given time limit: disabled by default
+    /// Skip all runs after a given time limit: disabled by default.
     /// 
     /// NOTE: Relies on `Date.now()`.
     /// 
