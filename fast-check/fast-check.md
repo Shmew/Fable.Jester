@@ -99,6 +99,29 @@ type FastCheckOptions =
     /// Force the use of unbiased arbitraries: biased by default
     unbiased: (value: bool)
 
+    /// Custom reporter replacing the default reporter. 
+    ///
+    /// It is responsible to throw in case of failure.
+    ///
+    /// Cannot be used in conjunction with the async/promise reporter options.
+    ///
+    /// it will be used by assert for both synchronous and asynchronous properties.
+    reporter (handler: RunDetails<'T> -> unit)
+        
+    /// Custom reporter replacing the default reporter. 
+    ///
+    /// It is responsible to throw in case of failure.
+    ///
+    /// it will be used by assert for asynchronous properties only.
+    promiseReporter (handler: RunDetails<'T> -> JS.Promise<'T>)
+        
+    /// Custom reporter replacing the default reporter. 
+    ///
+    /// It is responsible to throw in case of failure.
+    ///
+    /// it will be used by assert for asynchronous properties only.
+    asyncReporter (handler: RunDetails<'T> -> Async<'T>)
+
 module FastCheckOptions =
     /// Random generator is the core element behind the generation of random values 
     /// - changing it might directly impact the quality and performances of the 
@@ -287,6 +310,26 @@ FastCheck.property(Arbitrary.Defaults.integer, fun i ->
 )
 ```
 
+## asyncSchedulerFor
+
+Creates a custom scheduler with predefined resolution order.
+
+The custom scheduler will neither check that all the referred asyncs have 
+been scheduled nor that they resolved with the same status and value.
+
+Signature: 
+```fsharp 
+(ordering: int list) -> AsyncScheduler
+(ordering: int list, act: ((unit -> Async<unit>) -> Async<unit>)) -> AsyncScheduler
+...
+```
+
+You can use this like so:
+
+```fsharp
+FastCheck.asyncSchedulerFor([1;2;3])
+```
+
 ## check
 
 Run the property, does not throw contrary to [assert](#assert).
@@ -391,6 +434,23 @@ You can use this like so:
 FastCheck.check(FastCheck.property(Arbitrary.Defaults.integer, fun i -> 
     add i = i + 1
 ) |> fun res -> Jest.expect(res.failed).toEqual(false)
+```
+
+## defaultReportMessage
+
+Produces a string containing the formated error in case of failed run.
+
+Signature: 
+```fsharp 
+(runDetails: RunDetails<'T>) -> string option
+```
+
+You can use this like so:
+
+```fsharp
+FastCheck.check(FastCheck.property(Arbitrary.Defaults.integer, fun i -> add i = i + 1 ) 
+|> FastCheck.defaultReportMessage 
+|> Option.iter (printfn "%s")
 ```
 
 ## modelRun
@@ -500,6 +560,9 @@ type RunDetails<'T> =
     /// Verbosity level required by the user.
     verbose: VerbosityLevel
 
+    /// Configuration used for this test.
+    runConfiguration: RunDetails.Parameters<'T>
+
 (prop: AsyncProperty<'T>, ?fastCheckOptions: IFastCheckOptionsProperty list) 
     -> Async<RunDetails<'T>>
 ```
@@ -527,6 +590,26 @@ Signature:
 (arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<unit>)) 
     -> AsyncProperty<'T0 & 'T1>
 ...
+```
+
+## promiseSchedulerFor
+
+Creates a custom scheduler with predefined resolution order.
+
+The custom scheduler will neither check that all the referred promises have 
+been scheduled nor that they resolved with the same status and value.
+
+Signature: 
+```fsharp 
+(ordering: int list) -> PromiseScheduler
+(ordering: int list, act: ((unit -> JS.Promise<unit>) -> JS.Promise<unit>)) -> PromiseScheduler
+...
+```
+
+You can use this like so:
+
+```fsharp
+FastCheck.promiseSchedulerFor([1;2;3])
 ```
 
 ## property

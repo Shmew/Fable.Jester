@@ -1,3 +1,6 @@
+### 0.19.0 - Friday, June 12th, 2020
+* Update for fast-check 1.25.0
+
 ### 0.18.0 - Thursday, June 11th, 2020
 * Update for jest-dom 5.10.0
 
