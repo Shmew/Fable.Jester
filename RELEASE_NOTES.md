@@ -1,3 +1,8 @@
+### 0.21.0 - Monday, June 15th, 2020
+* Simplify test api
+* Add async and promise support for test.skip and test.only
+* Add timeout restriction support for test.skip and test.only
+
 ### 0.20.0 - Monday, June 15th, 2020
 * Add Jest async and promise matcher extending
 

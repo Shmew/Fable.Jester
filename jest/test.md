@@ -16,19 +16,17 @@ in the results.
 
 Signatures: 
 ```fsharp 
-(name: string, fn: unit -> unit) -> unit
-(name: string, fn: unit -> JS.Promise<unit>) -> unit
-(name: string, fn: unit -> Async<unit>) -> unit
-(name: string, fn: JS.Promise<unit>) -> unit
-(name: string, fn: Async<unit>) -> unit
+(name: string, fn: unit -> unit, ?timeout: int) -> unit
+(name: string, prom: JS.Promise<unit>, ?timeout: int) -> unit
+(name: string, asnc: Async<unit>, ?timeout: int) -> unit
 ```
 
 You can use this like so:
 
 ```fsharp
-Jest.test("my test", (fun () ->
+Jest.test("my test", fun () ->
     // assertions go here
-))
+)
 
 Jest.test("my test", promise {
     do! Jest.expect(myPromise).resolves.toBe(1)
@@ -47,19 +45,17 @@ other test blocks will be skipped!__
 
 Signatures: 
 ```fsharp 
-(name: string, fn: unit -> unit) -> unit
-(name: string, fn: unit -> JS.Promise<unit>) -> unit
-(name: string, fn: unit -> Async<unit>) -> unit
-(name: string, fn: JS.Promise<unit>) -> unit
-(name: string, fn: Async<unit>) -> unit
+(name: string, fn: unit -> unit, ?timeout: int) -> unit
+(name: string, prom: JS.Promise<unit>, ?timeout: int) -> unit
+(name: string, asnc: Async<unit>, ?timeout: int) -> unit
 ```
 
 You can use this like so:
 
 ```fsharp
-Jest.test.only("my test", (fun () ->
+Jest.test.only("my test", fun () ->
     // assertions go here
-))
+)
 
 Jest.test.only("my test", promise {
     do! Jest.expect(myPromise).resolves.toBe(1)
@@ -76,19 +72,17 @@ __Runs no assertions within the test block__.
 
 Signatures: 
 ```fsharp 
-(name: string, fn: unit -> unit) -> unit
-(name: string, fn: unit -> JS.Promise<unit>) -> unit
-(name: string, fn: unit -> Async<unit>) -> unit
-(name: string, fn: JS.Promise<unit>) -> unit
-(name: string, fn: Async<unit>) -> unit
+(name: string, fn: unit -> unit, ?timeout: int) -> unit
+(name: string, prom: JS.Promise<unit>, ?timeout: int) -> unit
+(name: string, asnc: Async<unit>, ?timeout: int) -> unit
 ```
 
 You can use this like so:
 
 ```fsharp
-Jest.test.skip("my test", (fun () ->
+Jest.test.skip("my test", fun () ->
     // assertions go here, but won't be executed
-))
+)
 
 Jest.test.skip("my test", promise {
     // will not assert
@@ -182,10 +176,10 @@ If you want this type of functionality, it can be implemented
 like this:
 
 ```fsharp
-Jest.test("same functionality as test.each", (fun () ->
+Jest.test("same functionality as test.each", fun () ->
     for (input, output) in [|(1, 2);(2, 3);(3, 4)|] do 
         Jest.expect(input + 1).toEqual(output)
-))
+)
 ```
 
 [Jest docs]: https://jestjs.io/docs/en/api#testeachtablename-fn-timeout
