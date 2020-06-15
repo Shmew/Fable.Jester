@@ -92,20 +92,39 @@ of `this` properties and methods
 
 Signature:
 ```fsharp
-(matchers: unit -> MatcherResponse) -> unit
-(matchers: 'a -> MatcherResponse) -> unit
-(matchers: 'a -> 'b -> MatcherResponse) -> unit
+(name: string, matchers: 'a -> MatcherResponse) -> unit
+(name: string, matchers: 'a -> 'b -> MatcherResponse) -> unit
 ...
 
 /// The response structure of matcher extensions.
-type MatcherResponse =
-    abstract pass: bool
-    abstract message: unit -> string
+type MatcherResponse = 
+    { pass: bool
+      message: unit -> string }
 ```
 
 Usage:
 ```fsharp
-expect.extend(myExtension)
+expect.extend("toRunSuccessfully", fun (x: int) -> 
+    { pass = x >= 1; message = fun () -> "You did it!" })
+
+expect.extend("toRunSuccessfullyWithArg", fun (x: int) (y: int) (z: int) -> 
+    { pass = (x + y + z) >= 5; message = fun () -> "You did it!" })
+
+type expected<'Return> with
+    [<Emit("$0.toRunSuccessfully()")>]
+    member _.toRunSuccessfully () : 'Return = jsNative
+
+    [<Emit("$0.toRunSuccessfullyWithArg($1, $2)")>]
+    member _.toRunSuccessfullyWithArg (y: int, z: int) : 'Return = jsNative
+
+Jest.describe("example", fun () ->
+    Jest.test("can extend jest matchers", fun () ->
+        Jest.expect(1).toRunSuccessfully()
+        Jest.expect(0).not.toRunSuccessfully()
+        Jest.expect(1).toRunSuccessfullyWithArg(2, 4)
+        Jest.expect(0).not.toRunSuccessfullyWithArg(0, -1)
+    )
+)
 ```
 
 ## hasAssertions

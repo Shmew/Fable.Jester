@@ -1,3 +1,6 @@
+### 0.19.1 - Sunday, June 14th, 2020
+* Fix Jest matcher extending
+
 ### 0.19.0 - Friday, June 12th, 2020
 * Update for fast-check 1.25.0
 
