@@ -121,8 +121,10 @@ Jest.describe("UserEvent tests", fun () ->
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")
 
         do! elem.userEvent.type'("Hello world")
-        do Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
-        do elem.userEvent.clear()
+
+        Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
+        
+        elem.userEvent.clear()
         
         return! RTL.waitFor(fun () -> Jest.expect(RTL.screen.getByTestId("test-input")).toBeEmptyDOMElement())
     })

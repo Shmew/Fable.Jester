@@ -64,24 +64,24 @@ module JestExtensions =
 
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
             Jest.test(name, (fun () ->
@@ -94,24 +94,24 @@ module JestExtensions =
             ), ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
             Jest.test(name, (fun () ->
@@ -124,24 +124,24 @@ module JestExtensions =
             ), ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
             Jest.test(name, (fun () ->
@@ -154,24 +154,24 @@ module JestExtensions =
             ), ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
             Jest.test(name, (fun () ->
@@ -184,24 +184,24 @@ module JestExtensions =
             ), ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
             Jest.test(name, (fun () ->
@@ -214,24 +214,24 @@ module JestExtensions =
             ), ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
             Jest.test(name, (fun () ->
@@ -244,24 +244,24 @@ module JestExtensions =
             ), ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-            Jest.test(name, (fun () ->
-                FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-            ), ?timeout = timeout)
+            Jest.test(name, promise {
+                do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+            }, ?timeout = timeout)
         /// Runs a test using the provided arbitraries and predicate function.
         static member prop (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
             Jest.test(name, (fun () ->
@@ -389,24 +389,24 @@ module JestExtensions =
             type prop =
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
                     Jest.test.only(name, (fun () ->
@@ -419,24 +419,24 @@ module JestExtensions =
                     ), ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
                     Jest.test.only(name, (fun () ->
@@ -449,24 +449,24 @@ module JestExtensions =
                     ), ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
                     Jest.test.only(name, (fun () ->
@@ -479,24 +479,24 @@ module JestExtensions =
                     ), ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
                     Jest.test.only(name, (fun () ->
@@ -509,24 +509,24 @@ module JestExtensions =
                     ), ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
                     Jest.test.only(name, (fun () ->
@@ -539,24 +539,24 @@ module JestExtensions =
                     ), ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
                     Jest.test.only(name, (fun () ->
@@ -569,24 +569,24 @@ module JestExtensions =
                     ), ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
-                    Jest.test.only(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ), ?timeout = timeout)
+                    Jest.test.only(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    }, ?timeout = timeout)
                 /// Runs only this test using the provided arbitraries and predicate function.
                 static member only (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list, ?timeout: int) =
                     Jest.test.only(name, (fun () ->
@@ -600,24 +600,24 @@ module JestExtensions =
 
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, predicate: ('T0 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list) =
                     Jest.test.skip(name, (fun () ->
@@ -630,24 +630,24 @@ module JestExtensions =
                     ))
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, predicate: ('T0 -> 'T1 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list) =
                     Jest.test.skip(name, (fun () ->
@@ -660,24 +660,24 @@ module JestExtensions =
                     ))
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, predicate: ('T0 -> 'T1 -> 'T2 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list) =
                     Jest.test.skip(name, (fun () ->
@@ -690,24 +690,24 @@ module JestExtensions =
                     ))
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list) =
                     Jest.test.skip(name, (fun () ->
@@ -720,24 +720,24 @@ module JestExtensions =
                     ))
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list) =
                     Jest.test.skip(name, (fun () ->
@@ -750,24 +750,24 @@ module JestExtensions =
                     ))
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list) =
                     Jest.test.skip(name, (fun () ->
@@ -780,24 +780,24 @@ module JestExtensions =
                     ))
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Async<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Async<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.asyncProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> JS.Promise<bool>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> JS.Promise<unit>), ?fastCheckOptions: IFastCheckOptionsProperty list) =
-                    Jest.test.skip(name, (fun () ->
-                        FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
-                    ))
+                    Jest.test.skip(name, promise {
+                        do! FastCheck.assert'(FastCheck.promiseProperty(arb0, arb1, arb2, arb3, arb4, arb5, arb6, predicate), ?fastCheckOptions = fastCheckOptions)
+                    })
                 /// Skips this test using the provided arbitraries and predicate function.
                 static member skip (name: string, arb0: Arbitrary<'T0>, arb1: Arbitrary<'T1>, arb2: Arbitrary<'T2>, arb3: Arbitrary<'T3>, arb4: Arbitrary<'T4>, arb5: Arbitrary<'T5>, arb6: Arbitrary<'T6>, predicate: ('T0 -> 'T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> bool), ?fastCheckOptions: IFastCheckOptionsProperty list) =
                     Jest.test.skip(name, (fun () ->

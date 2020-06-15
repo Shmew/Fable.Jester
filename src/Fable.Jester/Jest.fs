@@ -464,19 +464,29 @@ module Jest =
         /// Runs only this test within the scope it's defined in.
         ///
         /// The default timeout is 5 seconds.
-        [<Emit("test.only($0...)")>]
-        static member only (name:string, fn: unit -> JS.Promise<unit>, ?timeout: int) : unit = jsNative
+        [<Emit("test.only($0, async () => { await $1 }, $2)")>]
+        static member only (name: string, prom: JS.Promise<unit>, ?timeout: int) : unit = jsNative
+        /// Runs only this test within the scope it's defined in.
+        ///
+        /// The default timeout is 5 seconds.
+        static member inline only (name: string, asnc: Async<unit>, ?timeout: int) : unit =
+            test.only(name, Async.StartAsPromise asnc, ?timeout = timeout)
 
         /// Skips a test.
         ///
         /// The default timeout is 5 seconds.
         [<Emit("test.skip($0...)")>]
-        static member skip (name:string, fn: unit -> unit) : unit = jsNative
+        static member skip (name:string, fn: unit -> unit, ?timeout: int) : unit = jsNative
         /// Skips a test.
         ///
         /// The default timeout is 5 seconds.
-        [<Emit("test.skip($0...)")>]
-        static member skip (name:string, fn: unit -> JS.Promise<unit>) : unit = jsNative
+        [<Emit("test.skip($0, async () => { await $1 }, $2)")>]
+        static member skip (name: string, prom: JS.Promise<unit>, ?timeout: int) : unit = jsNative
+        /// Skips a test.
+        ///
+        /// The default timeout is 5 seconds.
+        static member inline skip (name: string, asnc: Async<unit>, ?timeout: int) : unit =
+            test.skip(name, Async.StartAsPromise asnc, ?timeout = timeout)
 
         /// Creates a todo category in your test results to keep 
         /// track of what needs to be implemented still.
@@ -524,22 +534,10 @@ module JestExtensions =
         /// Runs a test.
         ///
         /// The default timeout is 5 seconds.
-        [<Global>]
-        static member test (name: string, fn: unit -> JS.Promise<unit>, ?timeout: int) : unit = jsNative
-        /// Runs a test.
-        ///
-        /// The default timeout is 5 seconds.
         [<Emit("test($0, async () => { await $1 }, $2)")>]
-        static member test (name: string, prom: JS.Promise<unit>, timeout: int) : unit = jsNative
+        static member test (name: string, prom: JS.Promise<unit>, ?timeout: int) : unit = jsNative
         /// Runs a test.
         ///
         /// The default timeout is 5 seconds.
-        [<Emit("test($0, async () => { await $1 })")>]
-        static member test (name: string, prom: JS.Promise<unit>) : unit = jsNative
-        /// Runs a test.
-        ///
-        /// The default timeout is 5 seconds.
-        static member inline test (name: string, prom: Async<unit>, ?timeout: int) : unit =
-            match timeout with
-            | Some timeout -> Jest.test(name, Async.StartAsPromise prom, timeout)
-            | None -> Jest.test(name, Async.StartAsPromise prom)
+        static member inline test (name: string, asnc: Async<unit>, ?timeout: int) : unit =
+            Jest.test(name, Async.StartAsPromise asnc, ?timeout = timeout)

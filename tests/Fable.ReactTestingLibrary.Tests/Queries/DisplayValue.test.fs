@@ -20,70 +20,70 @@ let otherDisplayValueElement = React.functionComponent (fun () ->
         ]
     ])
 
-Jest.describe("*ByDisplayValue query tests", (fun () ->
-    Jest.test("getByDisplayValue an element", (fun () ->
+Jest.describe("*ByDisplayValue query tests", fun () ->
+    Jest.test("getByDisplayValue an element", fun () ->
         let actual = RTL.render(displayValueElement()).getByDisplayValue("Username")
             
         Jest.expect(actual).toBeInTheDocument()
-    ))
-    Jest.test("getByDisplayValue throws when no element matches", (fun () ->
+    )
+    Jest.test("getByDisplayValue throws when no element matches", fun () ->
         let actual () = RTL.render(otherDisplayValueElement()).getByDisplayValue("Username")
             
         Jest.expect(actual).toThrow()
-    ))
+    )
 
-    Jest.test("getAllByDisplayValue an element", (fun () ->
+    Jest.test("getAllByDisplayValue an element", fun () ->
         let actual = RTL.render(displayValueElement()).getAllByDisplayValue("Username")
         
         Jest.expect(actual).toHaveLength(1)
-    ))
-    Jest.test("getAllByDisplayValue throws when no element matches", (fun () ->
+    )
+    Jest.test("getAllByDisplayValue throws when no element matches", fun () ->
         let actual () = RTL.render(otherDisplayValueElement()).getAllByDisplayValue("Username")
             
         Jest.expect(actual).toThrow()
-    ))
+    )
 
-    Jest.test("queryByDisplayValue an element", (fun () ->
+    Jest.test("queryByDisplayValue an element", fun () ->
         let actual = RTL.render(displayValueElement()).queryByDisplayValue("Username")
         
         Jest.expect(actual).toBeInTheDocument()
-    ))
-    Jest.test("queryByDisplayValue no element matches", (fun () ->
+    )
+    Jest.test("queryByDisplayValue no element matches", fun () ->
         let actual = RTL.render(otherDisplayValueElement()).queryByDisplayValue("Username")
             
         Jest.expect(actual).toBeNull()
-    ))
+    )
 
-    Jest.test("queryAllByDisplayValue an element", (fun () ->
+    Jest.test("queryAllByDisplayValue an element", fun () ->
         let actual = RTL.render(displayValueElement()).queryAllByDisplayValue("Username")
         
         Jest.expect(actual).toHaveLength(1)
-    ))
-    Jest.test("queryAllByDisplayValue no element matches", (fun () ->
+    )
+    Jest.test("queryAllByDisplayValue no element matches", fun () ->
         let actual = RTL.render(otherDisplayValueElement()).queryAllByDisplayValue("Username")
             
         Jest.expect(actual).toHaveLength(0)
-    ))
+    )
 
-    Jest.test("findByDisplayValue an element", (fun () ->
+    Jest.test("findByDisplayValue an element", promise {
         let actual = RTL.render(displayValueElement()).findByDisplayValue("Username")
             
-        Jest.expect(actual).resolves.toBeInTheDocument()
-    ))
-    Jest.test("findByDisplayValue throws when no element matches", (fun () ->
+        do! Jest.expect(actual).resolves.toBeInTheDocument()
+    })
+    Jest.test("findByDisplayValue throws when no element matches", promise {
         let actual = RTL.render(otherDisplayValueElement()).findByDisplayValue("Username")
         
-        Jest.expect(actual).rejects.toThrow()
-    ))
+        do! Jest.expect(actual).rejects.toThrow()
+    })
 
-    Jest.test("findAllByDisplayValue an element", (fun () ->
+    Jest.test("findAllByDisplayValue an element", promise {
         let actual = RTL.render(displayValueElement()).findAllByDisplayValue("Username")
             
-        Jest.expect(actual).resolves.toHaveLength(1)
-    ))
-    Jest.test("findAllByDisplayValue no element matches", (fun () ->
+        do! Jest.expect(actual).resolves.toHaveLength(1)
+    })
+    Jest.test("findAllByDisplayValue no element matches", promise {
         let actual = RTL.render(otherDisplayValueElement()).findAllByDisplayValue("Username")
             
-        Jest.expect(actual).rejects.toThrow()
-    ))
-))
+        do! Jest.expect(actual).rejects.toThrow()
+    })
+)

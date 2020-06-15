@@ -101,7 +101,7 @@ describe.each([
 If you want this type of functionality, it can be implemented like this:
 
 ```fsharp
-Jest.describe("how to run a describe like describe.each", (fun () ->
+Jest.describe("how to run a describe like describe.each", fun () ->
     let myTestCases = [
         (1, 1, 2)
         (1, 2, 3)
@@ -109,10 +109,10 @@ Jest.describe("how to run a describe like describe.each", (fun () ->
     ]
 
     for (a, b, expected) in myTestCases do
-        Jest.test(sprintf "%i + %i returns %i" a b expected, (fun () ->
+        Jest.test(sprintf "%i + %i returns %i" a b expected, fun () ->
             Jest.expect(a + b).toBe(expected)    
-        ))
-))
+        )
+)
 ```
 
 [Expecto]: https://github.com/haf/expecto

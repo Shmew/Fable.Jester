@@ -19,17 +19,11 @@ Jest.describe("can run basic tests", (fun () ->
         Jest.expect(1+1).toEqual(2)
     ))
 
-    Jest.test("running a promise test", (fun () ->
-        Jest.expect(myPromise).resolves.toEqual(2)
-    ))
     Jest.test("running a promise test", promise {
         do! Jest.expect(myPromise).resolves.toEqual(2)
         do! Jest.expect(myPromise |> Promise.map ((+) 1)).resolves.toEqual(3)
     })
 
-    Jest.test("running an async test", (fun () ->
-        Jest.expect(myAsync).toEqual(2)
-    ))
     Jest.test("running an async test", async {
         do! Jest.expect(myAsync).toEqual(2)
         do! Jest.expect(myAsync |> Async.map ((+) 1)).toEqual(3)
@@ -57,9 +51,12 @@ Jest.describe("how to run a describe like describe.each", (fun () ->
 ))
 
 Jest.describe("tests with the skip modifier don't get run", (fun () ->
-    Jest.test.skip("adds", (fun () ->
+    Jest.test.skip("this should skip", (fun () ->
         Jest.expect(true).toEqual(false)
     ))
+    Jest.test.skip("this should skip", async {
+        do Jest.expect(true).toEqual(false)
+    })
     Jest.test("this should execute", (fun () ->
         Jest.expect(true).toEqual(true)
     ))
