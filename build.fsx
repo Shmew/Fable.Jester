@@ -39,7 +39,8 @@ let repo = "https://github.com/Shmew/Fable.Jester"
 
 // Files that have bindings to other languages where name linting needs to be more relaxed.
 let relaxedNameLinting = 
-    [ __SOURCE_DIRECTORY__ @@ "src/Fable.*/*.fs" ]
+    [ __SOURCE_DIRECTORY__ @@ "src/Fable.*/*.fs"
+      __SOURCE_DIRECTORY__ @@ "tests/Fable.*/*.fs" ]
 
 // Read additional information from the release notes document
 let release = ReleaseNotes.load (__SOURCE_DIRECTORY__ @@ "RELEASE_NOTES.md")

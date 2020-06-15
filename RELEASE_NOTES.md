@@ -1,3 +1,6 @@
+### 0.20.0 - Monday, June 15th, 2020
+* Add Jest async and promise matcher extending
+
 ### 0.19.1 - Sunday, June 14th, 2020
 * Fix Jest matcher extending
 

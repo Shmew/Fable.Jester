@@ -4,9 +4,15 @@ open Fable.Core
 open Fable.Jester
 open System.Text.RegularExpressions
 
-expect.extend("toRunSuccessfully", fun (x: int) ->  { pass = x >= 1; message = fun () -> "You did it!" })
+expect.extend("toRunSuccessfully", fun (x: int) -> { pass = x >= 1; message = fun () -> "You did it!" })
 
 expect.extend("toRunSuccessfullyWithArg", fun (x: int) (y: int) (z: int) -> { pass = (x + y + z) >= 5; message = fun () -> "You did it!" })
+
+expect.extend("toRunSuccessfullyAsync", fun (x: Async<int>) -> 
+    async {
+        let! x = x
+        return { pass = x >= 1; message = fun () -> "You did it!" }
+    })
 
 type expected<'Return> with
     [<Emit("$0.toRunSuccessfully()")>]
@@ -14,6 +20,9 @@ type expected<'Return> with
 
     [<Emit("$0.toRunSuccessfullyWithArg($1, $2)")>]
     member _.toRunSuccessfullyWithArg (y: int, z: int) : 'Return = jsNative
+
+    [<Emit("$0.toRunSuccessfully()")>]
+    member _.toRunSuccessfullyAsync () : 'Return = jsNative
 
 Jest.describe("expect tests", fun () ->
     Jest.test("stringMatching string", fun () ->
@@ -97,4 +106,9 @@ Jest.describe("expect tests", fun () ->
         Jest.expect(1).toRunSuccessfullyWithArg(2, 4)
         Jest.expect(0).not.toRunSuccessfullyWithArg(0, -1)
     )
+
+    Jest.test("can extend async jest matchers", async {
+        do! Jest.expect(async { return 1 }).toRunSuccessfullyAsync()
+        do! Jest.expect(async { return 0 }).not.toRunSuccessfullyAsync()
+    })
 )

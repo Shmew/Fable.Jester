@@ -68,53 +68,84 @@ module Expect =
         [<Emit("expect.extend($0)")>]
         static member extend' (extension: obj) : unit = jsNative
 
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> MatcherResponse) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_>(matcher) ])
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_>(matcher >> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> JS.Promise<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_>(matcher) ])
+
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> 'b -> MatcherResponse) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_,_>(matcher) ])
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_>(fun a b -> matcher a b |> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> JS.Promise<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_>(matcher) ])
+
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> MatcherResponse) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(matcher) ])
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(fun a b c -> matcher a b c |> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> JS.Promise<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(matcher) ])
+
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> MatcherResponse) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_>(matcher) ])
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(fun a b c d -> matcher a b c d |> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> JS.Promise<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_>(matcher) ])
+
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> MatcherResponse) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_>(matcher) ])
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(fun a b c d e -> matcher a b c d e |> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> JS.Promise<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_>(matcher) ])
+
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> MatcherResponse) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_>(matcher) ])
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(fun a b c d e f -> matcher a b c d e f |> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> JS.Promise<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_>(matcher) ])
+
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> MatcherResponse) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_,_>(matcher) ])
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(fun a b c d e f g -> matcher a b c d e f g |> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> JS.Promise<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_,_>(matcher) ])
+
+        /// Adds a custom matcher to Jest.
         static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'h -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_,_,_>(matcher) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'h -> Async<MatcherResponse>) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(fun a b c d e f g h  -> matcher a b c d e f g h |> Async.StartAsPromise) ])
+        /// Adds a custom matcher to Jest.
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'h -> JS.Promise<MatcherResponse>) = 
             expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_,_,_>(matcher) ])
 
         /// Verifies that at least one assertion is called during a test.
