@@ -2,6 +2,7 @@
 
 open Browser.Types
 open Fable.Core
+open Fable.Core.JsInterop
 open Feliz
 open System
 open System.Text.RegularExpressions
@@ -9,129 +10,142 @@ open System.Text.RegularExpressions
 [<AutoOpen>]
 module Expect =
     /// The response structure of matcher extensions.
-    type MatcherResponse =
-        abstract pass: bool
-        abstract message: unit -> string
+    type MatcherResponse = 
+        { pass: bool
+          message: unit -> string }
 
     [<NoComparison>]
     [<NoEquality>]
-    [<Global>]
     type expect =
         /// Add a module that formats application-specific data structures.
         ///
         /// `expect.addSnapshotSerializer(import "serializer" "my-serializer-module")`
-        member _.addSnapshotSerializer (serializer: obj) = jsNative
+        [<Emit("expect.addSnapshotSerializer($0)")>]
+        static member addSnapshotSerializer (serializer: obj) = jsNative
         
         /// Matches anything that was created with the given constructor.
-        member _.any (value: 'Constructor) = jsNative
+        [<Emit("expect.any($0)")>]
+        static member any (value: 'Constructor) = jsNative
         
         /// Matches anything but null or undefined.
-        member _.anything () = jsNative
+        [<Emit("expect.anything()")>]
+        static member anything () = jsNative
 
         /// Matches a received collection which contains all of the elements 
         /// in the expected array. That is, the expected collection is a 
         /// subset of the received collection. Therefore, it matches a 
         /// received collection which contains elements that are not in the 
         /// expected collection.
-        member _.arrayContaining (values: ResizeArray<'T>) = jsNative
+        [<Emit("expect.arrayContaining($0)")>]
+        static member arrayContaining (values: ResizeArray<'T>) = jsNative
         /// Matches a received collection which contains all of the elements 
         /// in the expected array. That is, the expected collection is a 
         /// subset of the received collection. Therefore, it matches a 
         /// received collection which contains elements that are not in the 
         /// expected collection.
-        [<Emit("$0.arrayContaining(Array.from($1))")>]
-        member _.arrayContaining (values: 'T []) = jsNative
+        [<Emit("expect.arrayContaining(Array.from($0))")>]
+        static member arrayContaining (values: 'T []) = jsNative
         /// Matches a received collection which contains all of the elements 
         /// in the expected array. That is, the expected collection is a 
         /// subset of the received collection. Therefore, it matches a 
         /// received collection which contains elements that are not in the 
         /// expected collection.
-        [<Emit("$0.arrayContaining(Array.from($1))")>]
-        member _.arrayContaining (values: 'T list) = jsNative
+        [<Emit("expect.arrayContaining(Array.from($0))")>]
+        static member arrayContaining (values: 'T list) = jsNative
         /// Matches a received collection which contains all of the elements 
         /// in the expected array. That is, the expected collection is a 
         /// subset of the received collection. Therefore, it matches a 
         /// received collection which contains elements that are not in the 
         /// expected collection.
-        [<Emit("$0.arrayContaining(Array.from($1))")>]
-        member _.arrayContaining (values: 'T seq) = jsNative
+        [<Emit("expect.arrayContaining(Array.from($0))")>]
+        static member arrayContaining (values: 'T seq) = jsNative
 
         /// Verifies that a certain number of assertions are called 
         /// during a test.
-        member _.assertions (number: int) = jsNative
+        [<Emit("expect.assertions($0)")>]
+        static member assertions (number: int) = jsNative
+
+        [<Emit("expect.extend($0)")>]
+        static member extend' (extension: obj) : unit = jsNative
 
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: unit -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_>(matcher) ])
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> 'b -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_>(matcher) ])
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> 'b -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_>(matcher) ])
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> 'b -> 'c -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_>(matcher) ])
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> 'b -> 'c -> 'd -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_>(matcher) ])
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> 'b -> 'c -> 'd -> 'e -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_>(matcher) ])
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_,_>(matcher) ])
         /// Adds custom matchers to Jest.
         ///
         /// See docs for list of `this` properties and methods 
         /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> MatcherResponse) : 'Return = jsNative
-        /// Adds custom matchers to Jest.
-        ///
-        /// See docs for list of `this` properties and methods 
-        /// https://jestjs.io/docs/en/expect
-        member _.extend (matchers: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'h -> MatcherResponse) : 'Return = jsNative
+        static member inline extend (name: string, matcher: 'a -> 'b -> 'c -> 'd -> 'e -> 'f -> 'g -> 'h -> MatcherResponse) = 
+            expect.extend'(createObj !![ name ==> System.Func<_,_,_,_,_,_,_,_,_>(matcher) ])
 
         /// Verifies that at least one assertion is called during a test.
-        member _.hasAssertions () : 'Return = jsNative
+        [<Emit("expect.hasAssertions()")>]
+        static member hasAssertions () : 'Return = jsNative
 
         /// Inverts the pass/fail status of a matcher.
-        member _.not : expect = jsNative
+        [<Emit("expect.not")>]
+        static member not : expect = jsNative
 
         /// Matches any received object that recursively matches the 
         /// expected properties. That is, the expected object is a 
         /// subset of the received object. Therefore, it matches a 
         /// received object which contains properties that are 
         /// present in the expected object.
-        member _.objectContaining (value: obj) = jsNative
+        [<Emit("expect.objectContaining($0)")>]
+        static member objectContaining (value: obj) = jsNative
 
         /// Matches the received value if it is a string that 
         /// contains the exact expected string.
-        member _.stringContaining (value: string) = jsNative
+        [<Emit("expect.stringContaining($0)")>]
+        static member stringContaining (value: string) = jsNative
 
         /// Matches the received value if it is a string that matches 
         /// the expected string or regular expression.
-        member _.stringMatching (value: string) = jsNative
+        [<Emit("expect.stringMatching($0)")>]
+        static member stringMatching (value: string) = jsNative
         /// Matches the received value if it is a string that matches 
         /// the expected string or regular expression.
-        member _.stringMatching (value: Regex) = jsNative
-
-    [<Global>]
-    let expect : expect = jsNative
+        [<Emit("expect.stringMatching($0)")>]
+        static member stringMatching (value: Regex) = jsNative
 
     [<NoComparison>]
     [<NoEquality>]

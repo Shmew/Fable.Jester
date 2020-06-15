@@ -4,9 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="Queries\**" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Autogen.test.fs" />
     <Compile Include="Arbitrary.test.fs" />
     <Compile Include="Commands.test.fs" />
