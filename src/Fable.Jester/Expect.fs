@@ -332,9 +332,6 @@ module Expect =
     [<NoEquality>]
     [<Global("expect")>]
     type expectedPromise =
-        /// Inverts the pass/fail status of a matcher.
-        member _.not : expectedPromise = jsNative
-
         /// Unwrap the reason of a rejected promise so any other 
         /// matcher can be chained. If the promise is fulfilled 
         /// the assertion fails.
@@ -693,9 +690,6 @@ module Expect =
     [<NoEquality>]
     [<Global("expect")>]
     type expectedHtmlPromise =
-        /// Inverts the pass/fail status of a matcher.
-        member _.not : expectedHtmlPromise = jsNative
-
         /// Unwrap the reason of a rejected promise so any other 
         /// matcher can be chained. If the promise is fulfilled 
         /// the assertion fails.
@@ -765,9 +759,6 @@ module Expect =
     [<NoEquality>]
     [<Global("expect")>]
     type expectedNumberPromise =
-        /// Inverts the pass/fail status of a matcher.
-        member _.not : expectedNumberPromise = jsNative
-
         /// Unwrap the reason of a rejected promise so any other 
         /// matcher can be chained. If the promise is fulfilled 
         /// the assertion fails.
@@ -807,9 +798,6 @@ module Expect =
     [<NoEquality>]
     [<Global("expect")>]
     type expectedStringPromise =
-        /// Inverts the pass/fail status of a matcher.
-        member _.not : expectedStringPromise = jsNative
-
         /// Unwrap the value of a fulfilled promise so any other 
         /// matcher can be chained. If the promise is rejected 
         /// the assertion fails.

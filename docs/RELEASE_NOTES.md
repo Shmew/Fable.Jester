@@ -1,3 +1,6 @@
+### 0.21.1 - Monday, June 15th, 2020
+* Fix expect not modifier ordering for promises
+
 ### 0.21.0 - Monday, June 15th, 2020
 * Simplify test api
 * Add async and promise support for test.skip and test.only
