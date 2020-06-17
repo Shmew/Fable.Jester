@@ -6,6 +6,7 @@ init:
 install:
   - ps: Install-Product node 14
   - yarn --cache-folder=.cache/yarn --no-progress --pure-lockfile
+  - cinst fake
 cache:
   - .cache/yarn
 build_script:
