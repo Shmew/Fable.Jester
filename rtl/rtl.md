@@ -303,44 +303,20 @@ See [render](/rtl/render) for more details.
 Signature: 
 ```fsharp 
 (reactElement: ReactElement) -> render
-(reactElement: ReactElement, options: IRenderOption list) -> render
 
-// Render options
-type renderOption:
-    /// By default, React Testing Library will create a div and 
-    /// append that div to the document.body and this is where 
-    /// your React component will be rendered. If you provide 
-    /// your own HTMLElement container via this option, it will 
-    /// not be appended to the document.body automatically.
-    container (value: HTMLElement) 
-
-    /// If the container is specified, then this defaults to that, 
-    /// otherwise this defaults to document.documentElement. This 
-    /// is used as the base element for the queries as well as what 
-    /// is printed when you use debug().
-    baseElement (value: HTMLElement)
-
-    /// If hydrate is set to true, then it will render with 
-    /// ReactDOM.hydrate. This may be useful if you are using 
-    /// server-side rendering and use ReactDOM.hydrate to mount 
-    /// your components.
-    hydrate (value: bool)
-
-    /// Pass a React Component as the wrapper option to have it 
-    /// rendered around the inner element. This is most useful for 
-    /// creating reusable custom render functions for common data 
-    /// providers.
-    wrapper (value: ReactElement)
-```
+(reactElement: ReactElement, 
+ ?baseElement: #HTMLElement, 
+ ?container: #HTMLElement, 
+ ?hydrate: bool, 
+ ?wrapper: ReactElement) 
+    -> render
 
 You can use this like so:
 
 ```fsharp
 RTL.render(myReactElement)
 
-RTL.render(myReactElement, [
-    renderOption.hydrate true
-])
+RTL.render(myReactElement, hydrate = true)
 ```
 
 ## screen
@@ -365,7 +341,7 @@ Selects the text inside an input or textarea and deletes it.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement) -> unit
 ```
 
 You can use this like so:
@@ -386,7 +362,7 @@ Clicks element, depending on what element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
 ```
 
 You can use this like so:
@@ -408,7 +384,7 @@ element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
 ```
 
 You can use this like so:
@@ -429,7 +405,7 @@ Clicks element twice, depending on what element is it can have different side ef
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement, ?eventProperties: #IMouseEventProperty list) -> unit
 ```
 
 You can use this like so:
@@ -438,6 +414,20 @@ You can use this like so:
 RTL.userEvent.dblClick(myElement)
 
 myElement.userEvent.dblClick()
+```
+
+## userEvent.deselectOptions
+
+Toggle the specified option(s) of a <select multiple> element.
+
+`HTMLElement` is extended to also support these methods.
+
+You can use this like so:
+
+```fsharp
+RTL.userEvent.deselectOptions(myElement, ["Peach"])
+
+myElement.userEvent.deselectOptions(["Peach"])
 ```
 
 ## userEvent.hover
@@ -450,7 +440,7 @@ Hovers over an element.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement) -> unit
 ```
 
 You can use this like so:
@@ -471,9 +461,9 @@ Selects the specified option(s) of a `<select>` or a `<select multiple>` element
 
 Signature: 
 ```fsharp 
-(element: HTMLElement, values: 'T []) -> unit
-(element: HTMLElement, values: 'T list) -> unit
-(element: HTMLElement, values: ResizeArray<'T>) -> unit
+(element: #HTMLElement, values: 'T []) -> unit
+(element: #HTMLElement, values: 'T list) -> unit
+(element: #HTMLElement, values: ResizeArray<'T>) -> unit
 ```
 
 You can use this like so:
@@ -495,7 +485,7 @@ element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
 ```
 
 You can use this like so:
@@ -517,7 +507,7 @@ element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
 ```
 
 You can use this like so:
@@ -534,33 +524,19 @@ Convenience method for using [fireEvent](#fireevent).
 
 Fires a tab event changing the document.activeElement in the same way the browser does.
 
-`HTMLElement` is extended to also support these methods.
+`HTMLElement` is extended to also support this method, do note it will apply the focus trap to that element.
 
 Signature: 
 ```fsharp 
-(shift: bool, focusTrap: HTMLElement) -> unit
+(?shift: bool, ?focusTrap: #HTMLElement) -> unit
 ```
 
 You can use this like so:
 
 ```fsharp
-RTL.userEvent.tab(false, myElement)
+RTL.userEvent.tab()
 
-myElement.userEvent.tab(false)
-```
-
-## userEvent.toggleSelectOptions
-
-Toggle the specified option(s) of a <select multiple> element.
-
-`HTMLElement` is extended to also support these methods.
-
-You can use this like so:
-
-```fsharp
-RTL.userEvent.toggleSelectOptions(myElement, ["Peach"])
-
-myElement.userEvent.toggleSelectOptions(["Peach"])
+myElement.userEvent.tab()
 ```
 
 ## userEvent.type'
@@ -589,10 +565,22 @@ To un-press a key with a modifier give it an ending tag e.g.: {/shift}
 
 Signature: 
 ```fsharp 
-(element: HTMLElement, text: string) -> JS.Promise<unit>
-(element: HTMLElement, text: string, allAtOnce: bool) -> JS.Promise<unit>
-(element: HTMLElement, text: string, delay: int) -> JS.Promise<unit>
-(element: HTMLElement, text: string, allAtOnce: bool, delay: int) -> JS.Promise<unit>
+(element: #HTMLElement, 
+ text: string, 
+ ?skipClick: bool, 
+ ?skipAutoClose: bool, 
+ ?initialSelectionStart: int, 
+ ?initialSelectionEnd: int) 
+    -> unit
+
+(element: #HTMLElement, 
+ text: string, 
+ delayMS: int, 
+ ?skipClick: bool, 
+ ?skipAutoClose: bool, 
+ ?initialSelectionStart: int, 
+ ?initialSelectionEnd: int) 
+    -> JS.Promise<unit>
 ```
 
 You can use this like so:
@@ -613,7 +601,7 @@ Unhovers an element.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement) -> unit
+(element: #HTMLElement) -> unit
 ```
 
 You can use this like so:
@@ -637,15 +625,17 @@ Uploads a file/files to an `<input>`.
 
 Signature: 
 ```fsharp 
-(element: HTMLElement, file: File) -> unit
-(element: HTMLElement, file: File, clickInit: EventInit) -> unit
-(element: HTMLElement, file: File, changeInit: Event) -> unit
-(element: HTMLElement, file: File, clickInit: EventInit, changeInit: Event) -> unit
+(element: #HTMLElement, 
+ file: File, 
+ ?clickEventProps: #IMouseEventProperty list, 
+ ?changeEventProps: #IEventProperty list)
+    -> unit
 
-(element: HTMLElement, files: seq<File>) -> unit
-(element: HTMLElement, file: seq<File>, clickInit: EventInit) -> unit
-(element: HTMLElement, file: seq<File>, changeInit: Event) -> unit
-(element: HTMLElement, file: seq<File>, clickInit: EventInit, changeInit: Event) -> unit
+(element: #HTMLElement, 
+ files: seq<File>, 
+ ?clickEventProps: #IMouseEventProperty list, 
+ ?changeEventProps: #IEventProperty list)
+    -> JS.Promise<unit>
 ```
 
 You can use this like so:
@@ -670,7 +660,7 @@ type waitForOption:
     /// The default container is the global document. 
     ///
     /// Make sure the elements you wait for are descendants of container.
-    container (element: HTMLElement)
+    container (element: #HTMLElement)
 
     /// The default interval is 50ms. 
     ///

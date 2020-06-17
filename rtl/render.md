@@ -12,9 +12,7 @@ When creating your render object you can pass in options to
 modify the behavior:
 
 ```fsharp
-RTL.render(myReactElement, [
-    renderOption.hydrate true
-])
+RTL.render(myReactElement, hydrate = true)
 ```
 
 ### container
@@ -24,22 +22,12 @@ div to the document.body and this is where your React component will
 be rendered. If you provide your own HTMLElement container via this 
 option, it will not be appended to the document.body automatically.
 
-Signature:
-```fsharp
-(value: HTMLElement)
-```
-
 ### baseElement
 
 By default, React Testing Library will create a div and append that 
 div to the document.body and this is where your React component will 
 be rendered. If you provide your own HTMLElement container via this 
 option, it will not be appended to the document.body automatically.
-
-Signature:
-```fsharp
-(value: HTMLElement)
-```
 
 ### hydrate
 
@@ -48,22 +36,12 @@ div to the document.body and this is where your React component will
 be rendered. If you provide your own HTMLElement container via this 
 option, it will not be appended to the document.body automatically.
 
-Signature:
-```fsharp
-(value: bool)
-```
-
 ### wrapper
 
 By default, React Testing Library will create a div and append that 
 div to the document.body and this is where your React component will 
 be rendered. If you provide your own HTMLElement container via this 
 option, it will not be appended to the document.body automatically.
-
-Signature:
-```fsharp
-(value: ReactElement)
-```
 
 ## baseElement
 
@@ -77,7 +55,7 @@ portal component which renders its HTML directly in the body.
 
 Signature:
 ```fsharp
-property: HTMLElement
+property: #HTMLElement
 ```
 
 Usage:
@@ -93,7 +71,7 @@ so you can call container.querySelector etc. to inspect the children.
 
 Signature:
 ```fsharp
-property: HTMLElement
+property: #HTMLElement
 ```
 
 Usage:
