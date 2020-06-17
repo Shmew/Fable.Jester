@@ -8,8 +8,6 @@ module Types =
     type IPrettyDOMOption = interface end
     type IPrettyDOMOptions = interface end
     type IPrettyDOMThemeOption = interface end
-    type IRenderOption = interface end
-    type IRenderOptions = interface end
     type IWaitOption = interface end
     type IWaitOptions = interface end
     

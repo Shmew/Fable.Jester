@@ -17,7 +17,7 @@ module Expect =
     [<NoComparison>]
     [<NoEquality>]
     type expect =
-        /// Add a module that formats application-specific data structures.
+        /// Add a module that formats application-specific data structures. 
         ///
         /// `expect.addSnapshotSerializer(import "serializer" "my-serializer-module")`
         [<Emit("expect.addSnapshotSerializer($0)")>]
@@ -31,7 +31,7 @@ module Expect =
         [<Emit("expect.anything()")>]
         static member anything () = jsNative
 
-        /// Matches a received collection which contains all of the elements 
+        /// Matches a received collection which contains all of the elements
         /// in the expected array. That is, the expected collection is a 
         /// subset of the received collection. Therefore, it matches a 
         /// received collection which contains elements that are not in the 

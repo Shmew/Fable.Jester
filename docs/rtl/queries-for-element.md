@@ -71,6 +71,14 @@ if no matches are found after the default timeout of 4500ms.
 
 ## Query Targets
 
+All targets can accept a type restriction to cast to the
+type of HTMLElement you're expecting.
+
+For example:
+```fsharp
+RTL.screen.getByTestId<HTMLOptionElement>("val1")).selected
+```
+
 ### AltText
 
 Signature:

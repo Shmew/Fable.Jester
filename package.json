@@ -1,6 +1,6 @@
 {
   "name": "fable.-jester",
-  "version": "0.21.1",
+  "version": "0.22.0",
   "description": "Fable bindings for jest and friends",
   "homepage": "https://github.com/Shmew/Fable.Jester",
   "bugs": {
@@ -14,15 +14,16 @@
   },
   "scripts": {
     "build": "webpack -p",
-    "pretestFC": "fable-splitter -c tests/Fable.FastCheck.Tests/splitter.config.js",
-    "pretestJest": "fable-splitter -c tests/Fable.Jester.Tests/splitter.config.js",
-    "pretestRTL": "fable-splitter -c tests/Fable.ReactTestingLibrary.Tests/splitter.config.js",
+    "pretest": "yarn pretest-fc && yarn pretest-jest && yarn pretest-rtl",
+    "pretest-fc": "fable-splitter -c tests/Fable.FastCheck.Tests/splitter.config.js",
+    "pretest-jest": "fable-splitter -c tests/Fable.Jester.Tests/splitter.config.js",
+    "pretest-rtl": "fable-splitter -c tests/Fable.ReactTestingLibrary.Tests/splitter.config.js",
     "publish-docs": "node publish.js",
     "start": "live-server --port=8080 docs/",
-    "test": "yarn pretestJest && yarn pretestRTL && yarn pretestFC && yarn jest",
-    "testFC": "yarn pretestFC && yarn jest",
-    "testJest": "yarn pretestJest && yarn jest",
-    "testRTL": "yarn pretestRTL && yarn jest"
+    "test": "jest",
+    "test-watch": "npx nodemon -e fs,fsproj,fsi --watch tests --watch src --exec yarn test",
+    "test-watch-html": "concurrently --kill-others \"yarn watch-html\" \"yarn test-watch\"",
+    "watch-html": "live-server --port=8081 bin/jest_html_reporters.html"
   },
   "dependencies": {
     "react": "^16",
@@ -35,18 +36,31 @@
     "@sinonjs/fake-timers": "^6",
     "@testing-library/jest-dom": "^5",
     "@testing-library/react": "^10",
-    "@testing-library/user-event": "^11",
+    "@testing-library/user-event": "^12",
+    "concurrently": "^5",
     "core-js": "^3",
     "fable-compiler": "^2",
     "fable-splitter": "^2",
     "fast-check": "^1",
     "gh-pages": "^2",
     "jest": "^26",
+    "jest-html-reporters": "^1.2.1",
     "live-server": "^1",
+    "nodemon": "^2",
+    "npx": "^10",
     "prettier": "^2"
   },
   "private": true,
   "jest": {
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./bin"
+        }
+      ]
+    ],
     "roots": [
       "./dist/tests"
     ]

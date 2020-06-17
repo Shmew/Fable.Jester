@@ -6,7 +6,6 @@ module Interop =
     let mkMutationObserverOption (key: string) (value: obj) : IMutationObserverOption = unbox (key, value)
     let mkPrettyDOMOption (key: string) (value: obj) : IPrettyDOMOption = unbox (key, value)
     let mkPrettyDOMOThemeption (key: string) (value: obj) : IPrettyDOMThemeOption = unbox (key, value)
-    let mkRenderOption (key: string) (value: obj) : IRenderOption = unbox (key, value)
     let mkWaitOption (key: string) (value: obj) : IWaitOption = unbox (key, value)
 
     // Events

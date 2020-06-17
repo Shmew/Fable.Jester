@@ -87,47 +87,47 @@ let hoverTestElement = React.functionComponent(fun () ->
     ])
 
 Jest.describe("UserEvent tests", fun () ->
-    Jest.test("dispatch input change", promise {
+    Jest.test("dispatch input change", fun () ->
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")
 
-        do! elem.userEvent.type'("Hello world")
+        elem.userEvent.type'("Hello world")
 
-        return Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
-    })
-    Jest.test("dispatch input change", promise {
+        Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
+    )
+    Jest.test("dispatch input change", fun () ->
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")
         
-        do! elem.userEvent.type'("Hello world")
+        elem.userEvent.type'("Hello world")
 
-        return Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
-    })
+        Jest.expect(RTL.screen.getByTestId("header")).not.toHaveTextContent("somethingElse")
+    )
 
-    Jest.test("dispatch textarea change", promise {
+    Jest.test("dispatch textarea change", fun () ->
         let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
 
-        do! elem.userEvent.type'("Hello{enter}world")
+        elem.userEvent.type'("Hello{enter}world")
 
-        return Jest.expect(RTL.screen.getByTestId("test-textarea")).toHaveValue("Hello\nworld")
-    })
-    Jest.test("dispatch textarea change", promise {
+        Jest.expect(RTL.screen.getByTestId("test-textarea")).toHaveValue("Hello\nworld")
+    )
+    Jest.test("dispatch textarea change", fun () ->
         let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
 
-        do! elem.userEvent.type'("Hello{enter}world")
+        elem.userEvent.type'("Hello{enter}world")
 
-        return Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
-    })
+        Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
+    )
 
-    Jest.test("clear input element", promise {
+    Jest.test("clear input element", fun () ->
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")
 
-        do! elem.userEvent.type'("Hello world")
+        elem.userEvent.type'("Hello world")
 
         Jest.expect(RTL.screen.getByTestId("header")).toHaveTextContent("Hello world")
         
         elem.userEvent.clear()
         
-        return! RTL.waitFor(fun () -> Jest.expect(RTL.screen.getByTestId("test-input")).toBeEmptyDOMElement())
-    })
+        Jest.expect(RTL.screen.getByTestId("test-input")).toBeEmptyDOMElement()
+    )
 
     Jest.test("dispatch button click", fun () ->
         let elem = RTL.render(buttonTestElement()).getByTestId("test-button")
@@ -164,19 +164,29 @@ Jest.describe("UserEvent tests", fun () ->
         
         elem.userEvent.selectOptions(["1";"3"])
 
-        Jest.expect((RTL.screen.getByTestId("val1") |> unbox<HTMLOptionElement>).selected).toEqual(true)
-        Jest.expect((RTL.screen.getByTestId("val2") |> unbox<HTMLOptionElement>).selected).toEqual(false)
-        Jest.expect((RTL.screen.getByTestId("val3") |> unbox<HTMLOptionElement>).selected).toEqual(true)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val1")).selected).toEqual(true)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val2")).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val3")).selected).toEqual(true)
     )
 
-    Jest.test("dispatch toggle selection of options", fun () ->
+    Jest.test("dispatch de-selection of options", fun () ->
         let elem = RTL.render(selectMultipleTestElement()).getByTestId("test-select-multiple")
         
-        elem.userEvent.toggleSelectOptions(["1";"3"])
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val1")).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val2")).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val3")).selected).toEqual(false)
 
-        Jest.expect((RTL.screen.getByTestId("val1") |> unbox<HTMLOptionElement>).selected).toEqual(true)
-        Jest.expect((RTL.screen.getByTestId("val2") |> unbox<HTMLOptionElement>).selected).toEqual(false)
-        Jest.expect((RTL.screen.getByTestId("val3") |> unbox<HTMLOptionElement>).selected).toEqual(true)
+        elem.userEvent.selectOptions(["1";"3"])
+
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val1")).selected).toEqual(true)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val2")).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val3")).selected).toEqual(true)
+
+        elem.userEvent.deselectOptions(["1"])
+
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val1")).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val2")).selected).toEqual(false)
+        Jest.expect((RTL.screen.getByTestId<HTMLOptionElement>("val3")).selected).toEqual(true)
     )
     
     Jest.test("can upload a file", fun () ->
@@ -226,17 +236,17 @@ Jest.describe("UserEvent tests", fun () ->
         Jest.expect(elem.files).toHaveLength(2)
     )
 
-    Jest.test("can hover an element", async {
+    Jest.test("can hover an element", fun () ->
         let elem = RTL.render(hoverTestElement()).getByTestId "test-hover"
 
         Jest.expect(elem).toHaveTextContent "false"
 
-        do! elem.userEvent.hover()
+        elem.userEvent.hover()
 
         Jest.expect(elem).toHaveTextContent "true"
 
-        do! elem.userEvent.unhover()
+        elem.userEvent.unhover()
 
         Jest.expect(elem).toHaveTextContent "false"
-    })
+    )
 )

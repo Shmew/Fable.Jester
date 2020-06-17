@@ -110,7 +110,7 @@ type Jest =
     /// mix them up, your tests will still work, but the error messages on 
     /// failing tests will look strange.
     [<Emit("expect($0.then(prom => Promise.resolve(Array.from(prom))))")>]
-    static member inline expect (value: JS.Promise<'a []>) : expectedPromise = jsNative
+    static member expect (value: JS.Promise<'a []>) : expectedPromise = jsNative
     /// The expect function is used every time you want to test a value.
     ///
     /// The argument to expect should be the value that your code produces, 

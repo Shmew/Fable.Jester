@@ -1,3 +1,7 @@
+### 0.22.0 - Wednesday, June 17th, 2020
+* Update for user-event 12.0.0
+* Improved HTMLElement handling
+
 ### 0.21.1 - Monday, June 15th, 2020
 * Fix expect not modifier ordering for promises
 
