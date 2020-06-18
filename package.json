@@ -44,7 +44,7 @@
     "fast-check": "^1",
     "gh-pages": "^3",
     "jest": "^26",
-    "jest-html-reporters": "^1.2.1",
+    "jest-html-reporters": "^2",
     "live-server": "^1",
     "nodemon": "^2",
     "npx": "^10",
