@@ -310,6 +310,7 @@ Signature:
  ?hydrate: bool, 
  ?wrapper: ReactElement) 
     -> render
+```
 
 You can use this like so:
 
