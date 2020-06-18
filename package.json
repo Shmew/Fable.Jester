@@ -42,7 +42,7 @@
     "fable-compiler": "^2",
     "fable-splitter": "^2",
     "fast-check": "^1",
-    "gh-pages": "^2",
+    "gh-pages": "^3",
     "jest": "^26",
     "jest-html-reporters": "^1.2.1",
     "live-server": "^1",
