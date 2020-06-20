@@ -363,7 +363,11 @@ Clicks element, depending on what element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
+(element: #HTMLElement, 
+ ?clickCount: int, 
+ ?skipHover: bool, 
+ ?eventProperties: #IMouseEventProperty list) 
+    -> unit
 ```
 
 You can use this like so:
@@ -385,7 +389,11 @@ element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
+(element: #HTMLElement, 
+ ?clickCount: int, 
+ ?skipHover: bool, 
+ ?eventProperties: #IMouseEventProperty list) 
+    -> unit
 ```
 
 You can use this like so:
@@ -419,7 +427,7 @@ myElement.userEvent.dblClick()
 
 ## userEvent.deselectOptions
 
-Toggle the specified option(s) of a <select multiple> element.
+Toggle the specified option(s) of a `<select multiple>` element.
 
 `HTMLElement` is extended to also support these methods.
 
@@ -486,7 +494,11 @@ element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
+(element: #HTMLElement, 
+ ?clickCount: int, 
+ ?skipHover: bool, 
+ ?eventProperties: #IMouseEventProperty list) 
+    -> unit
 ```
 
 You can use this like so:
@@ -508,7 +520,11 @@ element is it can have different side effects.
 
 Signature: 
 ```fsharp 
-(element: #HTMLElement, ?clickCount: int, ?skipHover: bool, ?eventProperties: #IMouseEventProperty list) -> unit
+(element: #HTMLElement, 
+ ?clickCount: int, 
+ ?skipHover: bool, 
+ ?eventProperties: #IMouseEventProperty list) 
+    -> unit
 ```
 
 You can use this like so:
