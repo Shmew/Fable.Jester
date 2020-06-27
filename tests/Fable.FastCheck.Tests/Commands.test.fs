@@ -145,4 +145,3 @@ Jest.describe("Async Commands tests", fun () ->
         FastCheck.asyncModelRun(Model(), Model(), cmds)
     )
 )
-

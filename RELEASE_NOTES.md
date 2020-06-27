@@ -1,3 +1,6 @@
+### 0.23.1 - Saturday, June 27th, 2020
+* Bug fix for scheduler model testing
+
 ### 0.23.0 - Saturday, June 27th, 2020
 * Update for Jest 26.1
 * Update for Jest-Dom 5.11
