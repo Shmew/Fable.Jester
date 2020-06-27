@@ -667,25 +667,25 @@ Signature:
 (scheduler: AsyncScheduler, 
  initialModel: 'Model, 
  real: 'Real, 
- commandIter: seq<ICommand<'Model,'Real>>) 
+ commandIter: seq<IAsyncCommand<'Model,'Real>>) 
     -> JS.Promise<unit>
 
 (scheduler: AsyncScheduler, 
  initialModel: 'Model, 
  real: 'Real, 
- commandIter: ICommandSeq<'Model,'Real>) 
+ commandIter: IAsyncCommandSeq<'Model,'Real>) 
     -> JS.Promise<unit>
 
 (scheduler: PromiseScheduler, 
  initialModel: 'Model, 
  real: 'Real, 
- commandIter: seq<ICommand<'Model,'Real>>) 
+ commandIter: seq<IPromiseCommand<'Model,'Real>>) 
     -> JS.Promise<unit>
 
 (scheduler: PromiseScheduler, 
  initialModel: 'Model, 
  real: 'Real, 
- commandIter: ICommandSeq<'Model,'Real>) 
+ commandIter: IPromiseCommandSeq<'Model,'Real>) 
     -> JS.Promise<unit>
 ```
 

@@ -69,6 +69,73 @@ of the query.
 This returns a `JS.Promise` for the matches which will reject
 if no matches are found after the default timeout of 4500ms.
 
+## Query Options
+
+There are a number of different options that you can set to customize
+query behavior:
+
+All queries support `exact`, `normalizer`, and `suggest`.
+
+This means any query that takes a option type other than `IMatcherOption`
+will still accept those options.
+
+In addition, any query that accepts a `ITextMatcherOption` will also
+accept `ILabelTextMatcherOption` properties.
+
+```fsharp
+type queryOption =
+    /// Requires an exact match.
+    /// 
+    /// Defaults to true.
+    static member exact (value: bool) : IMatcherOption
+    
+    /// Allows transforming the text before the match.
+    static member normalizer (fn: string -> string) : IMatcherOption
+    
+    /// Allows disabling query suggestions if the global setting is enabled.
+    ///
+    /// Defaults to true.
+    static member suggest (value: bool) : IMatcherOption
+    
+    /// Specify a selector to reduce matches.
+    ///
+    /// Such as if you had two elements with the same testId, if one is an input,
+    /// you could use queryOption.selector "input" to get that input element.
+    ///
+    /// Defaults to "*".
+    static member selector (value: string) : ILabelTextMatcherOption
+
+    /// Disables selector exclusions.
+    ///
+    /// Defaults to true.
+    static member ignore (value: bool) : ITextMatcherOption
+    /// Specify selectors to exclude from matches.
+    ///
+    /// Such as if you had two elements with the same testId, if one is an input,
+    /// you could use queryOption.selector "input" to exclude that input element.
+    ///
+    /// Defaults to "script".
+    static member ignore (value: string) : ITextMatcherOption
+    
+    /// If set to true, elements that are normally excluded from the
+    /// accessibility tree are considered for the query as well.
+    ///
+    /// Defaults to false.
+    static member hidden (value: bool) : IRoleMatcherOption
+
+    /// Adds a query condition based on a match of the accessible name.
+    ///
+    /// Such as a label element, label attribute, or aria-label.
+    static member name (value: string) : IRoleMatcherOption
+    static member name (value: Regex) : IRoleMatcherOption
+    static member name (fn: #HTMLElement -> bool) : IRoleMatcherOption
+
+    /// Adds a query condition based on if the element is selected.
+    ///
+    /// Such as a selected attribute or aria-selected.
+    static member selected (value: bool) : IRoleMatcherOption
+```
+
 ## Query Targets
 
 All targets can accept a type restriction to cast to the
@@ -83,10 +150,9 @@ RTL.screen.getByTestId<HTMLOptionElement>("val1")).selected
 
 Signature:
 ```fsharp
-(matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, 
-    ?normalizer: string -> string)
+(matcher: string, ?options: ITextMatcherOption list)
+(matcher: Regex, ?options: ITextMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list)
 ```
 
 Usage:
@@ -98,9 +164,9 @@ RTL.screen.getByAltText("howdy!")
 
 Signature:
 ```fsharp
-(matcher: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string)
+(matcher: string, ?options: IMatcherOption list)
+(matcher: Regex, ?options: IMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
 
 Usage:
@@ -112,10 +178,9 @@ RTL.screen.getAllByDisplayValue("howdy!")
 
 Signature:
 ```fsharp
-(matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, 
-    ?normalizer: string -> string)
+(matcher: string, ?options: ILabelTextMatcherOption list)
+(matcher: Regex, ?options: ILabelTextMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list)
 ```
 
 Usage:
@@ -127,9 +192,9 @@ RTL.screen.queryByLabelText("howdy!")
 
 Signature:
 ```fsharp
-(matcher: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string)
+(matcher: string, ?options: IMatcherOption list)
+(matcher: Regex, ?options: IMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
 
 Usage:
@@ -141,9 +206,9 @@ RTL.screen.queryAllByPlaceholderText("howdy!")
 
 Signature:
 ```fsharp
-(matcher: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string)
+(matcher: string, ?options: IRoleMatcherOption list)
+(matcher: Regex, ?options: IMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
 
 Usage:
@@ -155,10 +220,9 @@ RTL.screen.findByRole("howdy!")
 
 Signature:
 ```fsharp
-(matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, 
-    ?normalizer: string -> string)
+(matcher: string, ?options: ITextMatcherOption list)
+(matcher: Regex, ?options: ITextMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list)
 ```
 
 Usage:
@@ -170,9 +234,9 @@ RTL.screen.findAllByText("howdy!")
 
 Signature:
 ```fsharp
-(matcher: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string)
+(matcher: string, ?options: IMatcherOption list)
+(matcher: Regex, ?options: IMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
 
 Usage:
@@ -184,9 +248,9 @@ RTL.screen.getByTestId("howdy!")
 
 Signature:
 ```fsharp
-(matcher: string, ?exact: bool, ?normalizer: string -> string)
-(matcher: Regex, ?exact: bool, ?normalizer: string -> string)
-(matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string)
+(matcher: string, ?options: IMatcherOption list)
+(matcher: Regex, ?options: IMatcherOption list)
+(matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
 
 Usage:
