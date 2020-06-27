@@ -11,57 +11,6 @@ open System.Text.RegularExpressions
 module Bindings =
     type Matcher =
         U3<string, Regex, string * HTMLElement -> bool>
-
-    type MatcherOptions =
-        abstract exact: bool option with get, set
-        abstract normalizer: (string -> string) option with get, set
-
-    [<RequireQualifiedAccess>]
-    module MatcherOptions =
-        let create exact normalizer =
-            jsOptions<MatcherOptions> <| fun o ->
-                o.exact <- exact
-                o.normalizer <- normalizer
-
-    type LabelTextMatcher =
-        inherit MatcherOptions
-        abstract selector: string option with get, set
-
-    [<RequireQualifiedAccess>]
-    module LabelTextMatcher =
-        let create selector exact normalizer =
-            jsOptions<LabelTextMatcher> <| fun o ->
-                o.selector <- selector
-                o.exact <- exact
-                o.normalizer <- normalizer
-
-    type TextMatcher =
-        inherit MatcherOptions
-        abstract selector: string option with get, set
-        abstract ignore: U2<string, bool> option with get, set
-
-    [<RequireQualifiedAccess>]
-    module TextMatcher =
-        let create selector ignore exact normalizer =
-            jsOptions<TextMatcher> <| fun o ->
-                o.selector <- selector
-                o.ignore <- ignore
-                o.exact <- exact
-                o.normalizer <- normalizer
-
-    type RoleMatcher =
-        inherit MatcherOptions
-        abstract hidden: bool option with get, set
-        abstract name: Matcher option with get, set
-
-    [<RequireQualifiedAccess>]
-    module RoleMatcher =
-        let create hidden name exact normalizer =
-            jsOptions<RoleMatcher> <| fun o ->
-                o.hidden <- hidden
-                o.name <- name
-                o.exact <- exact
-                o.normalizer <- normalizer
     
     let act : (unit -> unit) -> unit  = import "act" "@testing-library/react"
 
@@ -261,61 +210,61 @@ module Bindings =
     let prettyDOMImport : PrettyDOM = import "prettyDOM" "@testing-library/react"
 
     type QueriesForElement =
-        abstract getByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: LabelTextMatcher -> 'Element
-        abstract getAllByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: LabelTextMatcher -> ResizeArray<'Element>
-        abstract queryByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: LabelTextMatcher -> 'Element option
-        abstract queryAllByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: LabelTextMatcher -> ResizeArray<'Element>
-        abstract findByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: LabelTextMatcher -> JS.Promise<'Element>
-        abstract findAllByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: LabelTextMatcher -> JS.Promise<ResizeArray<'Element>>
+        abstract getByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByLabelText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
     
-        abstract getByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element
-        abstract getAllByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract queryByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element option
-        abstract queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract findByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<'Element>
-        abstract findAllByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<ResizeArray<'Element>>
+        abstract getByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByPlaceholderText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
     
-        abstract getByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> 'Element
-        abstract getAllByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> ResizeArray<'Element>
-        abstract queryByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> 'Element option
-        abstract queryAllByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> ResizeArray<'Element>
-        abstract findByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> JS.Promise<'Element>
-        abstract findAllByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> JS.Promise<ResizeArray<'Element>>
+        abstract getByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
     
-        abstract getByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> 'Element
-        abstract getAllByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> ResizeArray<'Element>
-        abstract queryByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> 'Element option
-        abstract queryAllByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> ResizeArray<'Element>
-        abstract findByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> JS.Promise<'Element>
-        abstract findAllByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: TextMatcher -> JS.Promise<ResizeArray<'Element>>
+        abstract getByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByAltText<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
 
-        abstract getByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element
-        abstract getAllByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract queryByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element option
-        abstract queryAllByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract findByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<'Element>
-        abstract findAllByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<ResizeArray<'Element>>
+        abstract getByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByTitle<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
 
-        abstract getByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element
-        abstract getAllByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract queryByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element option
-        abstract queryAllByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract findByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<'Element>
-        abstract findAllByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<ResizeArray<'Element>>
+        abstract getByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByDisplayValue<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
 
-        abstract getByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element
-        abstract getAllByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract queryByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element option
-        abstract queryAllByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract findByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<'Element>
-        abstract findAllByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<ResizeArray<'Element>>
+        abstract getByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByRole<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
 
-        abstract getByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element
-        abstract getAllByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract queryByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> 'Element option
-        abstract queryAllByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> ResizeArray<'Element>
-        abstract findByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<'Element>
-        abstract findAllByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: MatcherOptions -> JS.Promise<ResizeArray<'Element>>
+        abstract getByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element
+        abstract getAllByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract queryByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> 'Element option
+        abstract queryAllByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> ResizeArray<'Element>
+        abstract findByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<'Element>
+        abstract findAllByTestId<'Element when 'Element :> HTMLElement> : matcher:Matcher * ?options: obj -> JS.Promise<ResizeArray<'Element>>
 
     let createRenderOptions (baseElement: #HTMLElement option) (container: #HTMLElement option) (hydrate: bool option) (wrapper: ReactElement option) =
         [ if baseElement.IsSome then "baseElement" ==> baseElement.Value
@@ -334,85 +283,85 @@ module Bindings =
         abstract debug: unit -> unit
         abstract rerender: ReactElement -> unit
         abstract unmount: unit -> unit
-
+        
     type queriesForElement (queryApi: QueriesForElement) =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByLabelTextAs")>]
-        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getByLabelText<'Element>(!^matcher, options)
+        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) =
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByLabelTextAs")>]
-        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getByLabelText<'Element>(!^matcher, options)
+        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByLabelTextAs")>]
-        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getByLabelText<'Element>(!^matcher, options)
+        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByLabelTextAs")>]
-        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getAllByLabelText<'Element>(!^matcher, options)
+        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByLabelTextAs")>]
-        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getAllByLabelText<'Element>(!^matcher, options)
+        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByLabelTextAs")>]
-        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getAllByLabelText<'Element>(!^matcher, options)
+        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByLabelTextAs")>]
-        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryByLabelText<'Element>(!^matcher, options)
+        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByLabelTextAs")>]
-        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryByLabelText<'Element>(!^matcher, options)
+        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByLabelTextAs")>]
-        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryByLabelText<'Element>(!^matcher, options)
+        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<'Element>(!^matcher, ?options = options)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByLabelTextAs")>]
-        member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryAllByLabelText<'Element>(!^matcher, options)
+        member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByLabelTextAs")>]
-        member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryAllByLabelText<'Element>(!^matcher, options)
+        member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByLabelTextAs")>]
-        member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryAllByLabelText<'Element>(!^matcher, options)
+        member _.queryAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -421,130 +370,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByLabelTextAs")>]
-        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findByLabelText<'Element>(!^matcher, options)
+        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByLabelTextAs")>]
-        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findByLabelText<'Element>(!^matcher, options)
+        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByLabelTextAs")>]
-        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findByLabelText<'Element>(!^matcher, options)
+        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<'Element>(!^matcher, ?options = options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByLabelTextAs")>]
-        member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findAllByLabelText<'Element>(!^matcher, options)
+        member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByLabelTextAs")>]
-        member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findAllByLabelText<'Element>(!^matcher, options)
+        member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByLabelTextAs")>]
-        member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findAllByLabelText<'Element>(!^matcher, options)
+        member _.findAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByPlaceholderTextAs")>]
-        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByPlaceholderText<'Element>(!^matcher, options)
+        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByPlaceholderTextAs")>]
-        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByPlaceholderText<'Element>(!^matcher, options)
+        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByPlaceholderTextAs")>]
-        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByPlaceholderText<'Element>(!^matcher, options)
+        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<'Element>(!^matcher, ?options = options)
             
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByPlaceholderTextAs")>]
-        member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByPlaceholderTextAs")>]
-        member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByPlaceholderTextAs")>]
-        member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.getAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
             
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByPlaceholderTextAs")>]
-        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByPlaceholderText<'Element>(!^matcher, options)
+        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByPlaceholderTextAs")>]
-        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByPlaceholderText<'Element>(!^matcher, options)
+        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByPlaceholderTextAs")>]
-        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByPlaceholderText<'Element>(!^matcher, options)
+        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<'Element>(!^matcher, ?options = options)
             
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByPlaceholderTextAs")>]
-        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByPlaceholderTextAs")>]
-        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByPlaceholderTextAs")>]
-        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -553,130 +502,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByPlaceholderTextAs")>]
-        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByPlaceholderText<'Element>(!^matcher, options)
+        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByPlaceholderTextAs")>]
-        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByPlaceholderText<'Element>(!^matcher, options)
+        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByPlaceholderTextAs")>]
-        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByPlaceholderText<'Element>(!^matcher, options)
+        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<'Element>(!^matcher, ?options = options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByPlaceholderTextAs")>]
-        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByPlaceholderTextAs")>]
-        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByPlaceholderTextAs")>]
-        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByPlaceholderText<'Element>(!^matcher, options)
+        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByAltTextAs")>]
-        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByAltText<'Element>(!^matcher, options)
+        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByAltTextAs")>]
-        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByAltText<'Element>(!^matcher, options)
+        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByAltTextAs")>]
-        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByAltText<'Element>(!^matcher, options)
+        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<'Element>(!^matcher, ?options = options)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByAltTextAs")>]
-        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByAltText<'Element>(!^matcher, options)
+        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByAltTextAs")>]
-        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByAltText<'Element>(!^matcher, options)
+        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByAltTextAs")>]
-        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByAltText<'Element>(!^matcher, options)
+        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByAltTextAs")>]
-        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByAltText<'Element>(!^matcher, options)
+        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByAltTextAs")>]
-        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByAltText<'Element>(!^matcher, options)
+        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByAltTextAs")>]
-        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByAltText<'Element>(!^matcher, options)
+        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<'Element>(!^matcher, ?options = options)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByAltTextAs")>]
-        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByAltText<'Element>(!^matcher, options)
+        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByAltTextAs")>]
-        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByAltText<'Element>(!^matcher, options)
+        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByAltTextAs")>]
-        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByAltText<'Element>(!^matcher, options)
+        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -685,130 +634,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByAltTextAs")>]
-        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByAltText<'Element>(!^matcher, options)
+        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByAltTextAs")>]
-        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByAltText<'Element>(!^matcher, options)
+        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByAltTextAs")>]
-        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByAltText<'Element>(!^matcher, options)
+        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<'Element>(!^matcher, ?options = options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByAltTextAs")>]
-        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByAltText<'Element>(!^matcher, options)
+        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByAltTextAs")>]
-        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByAltText<'Element>(!^matcher, options)
+        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByAltTextAs")>]
-        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByAltText<'Element>(!^matcher, options)
+        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
 
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTextAs")>]
-        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByText<'Element>(!^matcher, options)
+        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTextAs")>]
-        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByText<'Element>(!^matcher, options)
+        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTextAs")>]
-        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByText<'Element>(!^matcher, options)
+        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<'Element>(!^matcher, ?options = options)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTextAs")>]
-        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByText<'Element>(!^matcher, options)
+        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTextAs")>]
-        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByText<'Element>(!^matcher, options)
+        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTextAs")>]
-        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByText<'Element>(!^matcher, options)
+        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTextAs")>]
-        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByText<'Element>(!^matcher, options)
+        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTextAs")>]
-        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByText<'Element>(!^matcher, options)
+        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTextAs")>]
-        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByText<'Element>(!^matcher, options)
+        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<'Element>(!^matcher, ?options = options)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTextAs")>]
-        member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByText<'Element>(!^matcher, options)
+        member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTextAs")>]
-        member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByText<'Element>(!^matcher, options)
+        member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTextAs")>]
-        member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByText<'Element>(!^matcher, options)
+        member _.queryAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -817,130 +766,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTextAs")>]
-        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByText<'Element>(!^matcher, options)
+        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTextAs")>]
-        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByText<'Element>(!^matcher, options)
+        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTextAs")>]
-        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByText<'Element>(!^matcher, options)
+        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<'Element>(!^matcher, ?options = options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTextAs")>]
-        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByText<'Element>(!^matcher, options)
+        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTextAs")>]
-        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByText<'Element>(!^matcher, options)
+        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTextAs")>]
-        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByText<'Element>(!^matcher, options)
+        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTitleAs")>]
-        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTitle<'Element>(!^matcher, options)
+        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTitleAs")>]
-        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTitle<'Element>(!^matcher, options)
+        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTitleAs")>]
-        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTitle<'Element>(!^matcher, options)
+        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<'Element>(!^matcher, ?options = options)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTitleAs")>]
-        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTitle<'Element>(!^matcher, options)
+        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTitleAs")>]
-        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTitle<'Element>(!^matcher, options)
+        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTitleAs")>]
-        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTitle<'Element>(!^matcher, options)
+        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTitleAs")>]
-        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTitle<'Element>(!^matcher, options)
+        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTitleAs")>]
-        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTitle<'Element>(!^matcher, options)
+        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTitleAs")>]
-        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTitle<'Element>(!^matcher, options)
+        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<'Element>(!^matcher, ?options = options)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTitleAs")>]
-        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTitle<'Element>(!^matcher, options)
+        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTitleAs")>]
-        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTitle<'Element>(!^matcher, options)
+        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTitleAs")>]
-        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTitle<'Element>(!^matcher, options)
+        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -949,130 +898,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTitleAs")>]
-        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTitle<'Element>(!^matcher, options)
+        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTitleAs")>]
-        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTitle<'Element>(!^matcher, options)
+        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTitleAs")>]
-        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTitle<'Element>(!^matcher, options)
+        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<'Element>(!^matcher, ?options = options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTitleAs")>]
-        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTitle<'Element>(!^matcher, options)
+        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTitleAs")>]
-        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTitle<'Element>(!^matcher, options)
+        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTitleAs")>]
-        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTitle<'Element>(!^matcher, options)
+        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByDisplayValueAs")>]
-        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByDisplayValue<'Element>(!^matcher, options)
+        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByDisplayValueAs")>]
-        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByDisplayValue<'Element>(!^matcher, options)
+        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByDisplayValueAs")>]
-        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByDisplayValue<'Element>(!^matcher, options)
+        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<'Element>(!^matcher, ?options = options)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByDisplayValueAs")>]
-        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByDisplayValue<'Element>(!^matcher, options)
+        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByDisplayValueAs")>]
-        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByDisplayValue<'Element>(!^matcher, options)
+        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByDisplayValueAs")>]
-        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByDisplayValue<'Element>(!^matcher, options)
+        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByDisplayValueAs")>]
-        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByDisplayValue<'Element>(!^matcher, options)
+        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByDisplayValueAs")>]
-        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByDisplayValue<'Element>(!^matcher, options)
+        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByDisplayValueAs")>]
-        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByDisplayValue<'Element>(!^matcher, options)
+        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<'Element>(!^matcher, ?options = options)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByDisplayValueAs")>]
-        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByDisplayValue<'Element>(!^matcher, options)
+        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByDisplayValueAs")>]
-        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByDisplayValue<'Element>(!^matcher, options)
+        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByDisplayValueAs")>]
-        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByDisplayValue<'Element>(!^matcher, options)
+        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1081,158 +1030,154 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByDisplayValueAs")>]
-        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByDisplayValue<'Element>(!^matcher, options)
+        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByDisplayValueAs")>]
-        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByDisplayValue<'Element>(!^matcher, options)
+        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByDisplayValueAs")>]
-        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByDisplayValue<'Element>(!^matcher, options)
+        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<'Element>(!^matcher, ?options = options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByDisplayValueAs")>]
-        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByDisplayValue<'Element>(!^matcher, options)
+        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByDisplayValueAs")>]
-        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByDisplayValue<'Element>(!^matcher, options)
+        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByDisplayValueAs")>]
-        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByDisplayValue<'Element>(!^matcher, options)
+        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
-        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByRole<'Element>(!^matcher, options)
+        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
-        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByRole<'Element>(!^matcher, options)
+        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
-        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByRole<'Element>(!^matcher, options)
+        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
         member _.getByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.getByRole<'Element>(!^role, options)
+            queryApi.getByRole<'Element>(!^role)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
-        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByRole<'Element>(!^matcher, options)
+        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
-        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByRole<'Element>(!^matcher, options)
+        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
-        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByRole<'Element>(!^matcher, options)
+        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
         member _.getAllByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.getAllByRole<'Element>(!^role, options)
+            queryApi.getAllByRole<'Element>(!^role)
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
-        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByRole<'Element>(!^matcher, options)
+        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
-        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByRole<'Element>(!^matcher, options)
+        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
-        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByRole<'Element>(!^matcher, options)
+        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
         member _.queryByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.queryByRole<'Element>(!^role, options)
+            queryApi.queryByRole<'Element>(!^role)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
-        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByRole<'Element>(!^matcher, options)
+        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
-        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByRole<'Element>(!^matcher, options)
+        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
-        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByRole<'Element>(!^matcher, options)
+        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
         member _.queryAllByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.queryAllByRole<'Element>(!^role, options)
+            queryApi.queryAllByRole<'Element>(!^role)
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
@@ -1240,27 +1185,27 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByRoleAs")>]
-        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByRole<'Element>(!^matcher, options)
+        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByRoleAs")>]
-        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByRole<'Element>(!^matcher, options)
+        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByRoleAs")>]
-        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByRole<'Element>(!^matcher, options)
+        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -1269,32 +1214,31 @@ module Bindings =
         [<CompiledName("findByRoleAs")>]
         member _.findByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.findByRole<'Element>(!^role, options)
+            queryApi.findByRole<'Element>(!^role)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByRoleAs")>]
-        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByRole<'Element>(!^matcher, options)
+        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByRoleAs")>]
-        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByRole<'Element>(!^matcher, options)
+        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByRoleAs")>]
-        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByRole<'Element>(!^matcher, options)
+        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -1302,86 +1246,85 @@ module Bindings =
         [<CompiledName("findAllByRoleAs")>]
         member _.findAllByRole<'Element when 'Element :> HTMLElement> (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.findAllByRole<'Element>(!^role, options)
+            queryApi.findAllByRole<'Element>(!^role)
             
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTestIdAs")>]
-        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTestId<'Element>(!^matcher, options)
+        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTestIdAs")>]
-        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTestId<'Element>(!^matcher, options)
+        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTestIdAs")>]
-        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTestId<'Element>(!^matcher, options)
+        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<'Element>(!^matcher, ?options = options)
         
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTestIdAs")>]
-        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTestId<'Element>(!^matcher, options)
+        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTestIdAs")>]
-        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTestId<'Element>(!^matcher, options)
+        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTestIdAs")>]
-        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTestId<'Element>(!^matcher, options)
+        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTestIdAs")>]
-        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTestId<'Element>(!^matcher, options)
+        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTestIdAs")>]
-        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTestId<'Element>(!^matcher, options)
+        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTestIdAs")>]
-        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTestId<'Element>(!^matcher, options)
+        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<'Element>(!^matcher, ?options = options)
         
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTestIdAs")>]
-        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTestId<'Element>(!^matcher, options)
+        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTestIdAs")>]
-        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTestId<'Element>(!^matcher, options)
+        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTestIdAs")>]
-        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTestId<'Element>(!^matcher, options)
+        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
         
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1390,51 +1333,51 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTestIdAs")>]
-        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTestId<'Element>(!^matcher, options)
+        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTestIdAs")>]
-        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTestId<'Element>(!^matcher, options)
+        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTestIdAs")>]
-        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTestId<'Element>(!^matcher, options)
+        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<'Element>(!^matcher, ?options = options)
         
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTestIdAs")>]
-        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTestId<'Element>(!^matcher, options)
+        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTestIdAs")>]
-        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTestId<'Element>(!^matcher, options)
+        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTestIdAs")>]
-        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTestId<'Element>(!^matcher, options)
+        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
 
         // Generics
@@ -1443,80 +1386,80 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getByLabelText<HTMLElement>(!^matcher, options)
+        member _.getByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getByLabelText<HTMLElement>(!^matcher, options)
+        member _.getByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getByLabelText<HTMLElement>(!^matcher, options)
+        member _.getByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.getAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.getAllByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.getAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.getAllByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryByLabelText<HTMLElement>(!^matcher, options)
+        member _.queryByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryByLabelText<HTMLElement>(!^matcher, options)
+        member _.queryByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryByLabelText<HTMLElement>(!^matcher, options)
+        member _.queryByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.queryAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.queryAllByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.queryAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.queryAllByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1525,262 +1468,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findByLabelText<HTMLElement>(!^matcher, options)
+        member _.findByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findByLabelText<HTMLElement>(!^matcher, options)
+        member _.findByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findByLabelText<HTMLElement>(!^matcher, options)
+        member _.findByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByLabelText (matcher: string, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.findAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByLabelText (matcher: Regex, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findAllByLabelText<HTMLElement>(!^matcher, options)
+        member _.findAllByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByLabelText (matcher: string * HTMLElement -> bool, ?selector : string, ?exact: bool, ?normalizer: string -> string) = 
-            LabelTextMatcher.create selector exact normalizer
-            |> fun options -> queryApi.findAllByLabelText<HTMLElement>(!^matcher, options)
-            |> Promise.map List.ofSeq
-    
-        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
-        /// one match is found (use getAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByPlaceholderText<HTMLElement>(!^matcher, options)
-        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
-        /// one match is found (use getAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByPlaceholderText<HTMLElement>(!^matcher, options)
-        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
-        /// one match is found (use getAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByPlaceholderText<HTMLElement>(!^matcher, options)
-    
-        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-    
-        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
-        ///
-        /// This throws if more than one match is found (use queryAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, options)
-        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
-        ///
-        /// This throws if more than one match is found (use queryAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, options)
-        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
-        ///
-        /// This throws if more than one match is found (use queryAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, options)
-    
-        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-
-        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
-        ///
-        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
-        ///
-        /// If you need to find more than one element, then use findAllBy.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByPlaceholderText<HTMLElement>(!^matcher, options)
-        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
-        ///
-        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
-        ///
-        /// If you need to find more than one element, then use findAllBy.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByPlaceholderText<HTMLElement>(!^matcher, options)
-        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
-        ///
-        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
-        ///
-        /// If you need to find more than one element, then use findAllBy.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByPlaceholderText<HTMLElement>(!^matcher, options)
-
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
-        ///
-        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByPlaceholderText (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
-        ///
-        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByPlaceholderText (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, options)
-            |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
-        ///
-        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, options)
+        member _.findAllByLabelText (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByAltText<HTMLElement>(!^matcher, options)
+        member _.getByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByAltText<HTMLElement>(!^matcher, options)
+        member _.getByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByAltText<HTMLElement>(!^matcher, options)
-
+        member _.getByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+    
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByAltText<HTMLElement>(!^matcher, options)
+        member _.getAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByAltText<HTMLElement>(!^matcher, options)
+        member _.getAllByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByAltText<HTMLElement>(!^matcher, options)
+        member _.getAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
-
+    
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByAltText<HTMLElement>(!^matcher, options)
+        member _.queryByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByAltText<HTMLElement>(!^matcher, options)
+        member _.queryByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByAltText<HTMLElement>(!^matcher, options)
-
+        member _.queryByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+    
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByAltText<HTMLElement>(!^matcher, options)
+        member _.queryAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByAltText<HTMLElement>(!^matcher, options)
+        member _.queryAllByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByAltText<HTMLElement>(!^matcher, options)
+        member _.queryAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1789,262 +1600,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByAltText<HTMLElement>(!^matcher, options)
+        member _.findByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByAltText<HTMLElement>(!^matcher, options)
+        member _.findByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByAltText<HTMLElement>(!^matcher, options)
+        member _.findByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByAltText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByAltText<HTMLElement>(!^matcher, options)
+        member _.findAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByAltText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByAltText<HTMLElement>(!^matcher, options)
+        member _.findAllByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByAltText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByAltText<HTMLElement>(!^matcher, options)
-            |> Promise.map List.ofSeq
-
-        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
-        /// one match is found (use getAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByText<HTMLElement>(!^matcher, options)
-        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
-        /// one match is found (use getAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByText<HTMLElement>(!^matcher, options)
-        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
-        /// one match is found (use getAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getByText<HTMLElement>(!^matcher, options)
-
-        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.getAllByText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-
-        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
-        ///
-        /// This throws if more than one match is found (use queryAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByText<HTMLElement>(!^matcher, options)
-        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
-        ///
-        /// This throws if more than one match is found (use queryAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByText<HTMLElement>(!^matcher, options)
-        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
-        ///
-        /// This throws if more than one match is found (use queryAllBy instead).
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryByText<HTMLElement>(!^matcher, options)
-
-        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.queryAllByText<HTMLElement>(!^matcher, options)
-            |> List.ofSeq
-
-        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
-        ///
-        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
-        ///
-        /// If you need to find more than one element, then use findAllBy.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByText<HTMLElement>(!^matcher, options)
-        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
-        ///
-        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
-        ///
-        /// If you need to find more than one element, then use findAllBy.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByText<HTMLElement>(!^matcher, options)
-        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
-        ///
-        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
-        ///
-        /// If you need to find more than one element, then use findAllBy.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findByText<HTMLElement>(!^matcher, options)
-
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
-        ///
-        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByText (matcher: string, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByText<HTMLElement>(!^matcher, options)
-            |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
-        ///
-        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByText (matcher: Regex, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByText<HTMLElement>(!^matcher, options)
-            |> Promise.map List.ofSeq
-        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
-        ///
-        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
-        [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByText (matcher: string * HTMLElement -> bool, ?selector : string, ?ignore: string, ?exact: bool, ?normalizer: string -> string) = 
-            TextMatcher.create selector (ignore |> Option.map (!^)) exact normalizer
-            |> fun options -> queryApi.findAllByText<HTMLElement>(!^matcher, options)
+        member _.findAllByPlaceholderText (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTitle<HTMLElement>(!^matcher, options)
+        member _.getByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTitle<HTMLElement>(!^matcher, options)
+        member _.getByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTitle<HTMLElement>(!^matcher, options)
+        member _.getByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTitle<HTMLElement>(!^matcher, options)
+        member _.getAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTitle<HTMLElement>(!^matcher, options)
+        member _.getAllByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTitle<HTMLElement>(!^matcher, options)
+        member _.getAllByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTitle<HTMLElement>(!^matcher, options)
+        member _.queryByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTitle<HTMLElement>(!^matcher, options)
+        member _.queryByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTitle<HTMLElement>(!^matcher, options)
+        member _.queryByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTitle<HTMLElement>(!^matcher, options)
+        member _.queryAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTitle<HTMLElement>(!^matcher, options)
+        member _.queryAllByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTitle<HTMLElement>(!^matcher, options)
+        member _.queryAllByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2053,130 +1732,130 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTitle<HTMLElement>(!^matcher, options)
+        member _.findByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTitle<HTMLElement>(!^matcher, options)
+        member _.findByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTitle<HTMLElement>(!^matcher, options)
+        member _.findByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByTitle (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTitle<HTMLElement>(!^matcher, options)
+        member _.findAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByTitle (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTitle<HTMLElement>(!^matcher, options)
+        member _.findAllByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByTitle (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTitle<HTMLElement>(!^matcher, options)
+        member _.findAllByAltText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
 
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.getByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.getByText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.getByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.getAllByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.getAllByText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.getAllByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.queryByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.queryByText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.queryByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.queryAllByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.queryAllByText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.queryAllByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2185,158 +1864,418 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.findByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.findByText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.findByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByDisplayValue (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.findAllByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByDisplayValue (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.findAllByText (matcher: Regex, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByDisplayValue (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, options)
+        member _.findAllByText (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByRole<HTMLElement>(!^matcher, options)
+        member _.getByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByRole<HTMLElement>(!^matcher, options)
+        member _.getByTitle (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByRole<HTMLElement>(!^matcher, options)
+        member _.getByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
+
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByTitle (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
+
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByTitle (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
+
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByTitle (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByDisplayValue (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+    
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.getByRole<HTMLElement>(!^role, options)
+            queryApi.getByRole<HTMLElement>(!^role)
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByRole<HTMLElement>(!^matcher, options)
+        member _.getAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByRole<HTMLElement>(!^matcher, options)
+        member _.getAllByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByRole<HTMLElement>(!^matcher, options)
+        member _.getAllByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.getAllByRole<HTMLElement>(!^role, options)
+            queryApi.getAllByRole<HTMLElement>(!^role)
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByRole<HTMLElement>(!^matcher, options)
+        member _.queryByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByRole<HTMLElement>(!^matcher, options)
+        member _.queryByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByRole<HTMLElement>(!^matcher, options)
+        member _.queryByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.queryByRole<HTMLElement>(!^role, options)
+            queryApi.queryByRole<HTMLElement>(!^role)
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByRole<HTMLElement>(!^matcher, options)
+        member _.queryAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByRole<HTMLElement>(!^matcher, options)
+        member _.queryAllByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByRole<HTMLElement>(!^matcher, options)
+        member _.queryAllByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.queryAllByRole<HTMLElement>(!^role, options)
+            queryApi.queryAllByRole<HTMLElement>(!^role)
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
@@ -2344,27 +2283,27 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByRole<HTMLElement>(!^matcher, options)
+        member _.findByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByRole<HTMLElement>(!^matcher, options)
+        member _.findByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByRole<HTMLElement>(!^matcher, options)
+        member _.findByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
@@ -2373,32 +2312,31 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.findByRole<HTMLElement>(!^role, options)
+            queryApi.findByRole<HTMLElement>(!^role)
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByRole (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByRole<HTMLElement>(!^matcher, options)
+        member _.findAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByRole (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByRole<HTMLElement>(!^matcher, options)
+        member _.findAllByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByRole (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByRole<HTMLElement>(!^matcher, options)
+        member _.findAllByRole (matcher: string * HTMLElement -> bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
@@ -2406,86 +2344,85 @@ module Bindings =
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByRole (property: IReactProperty) =
             let _,role = unbox<string * string> property
-            MatcherOptions.create None None
-            |> fun options -> queryApi.findAllByRole<HTMLElement>(!^role, options)
+            queryApi.findAllByRole<HTMLElement>(!^role)
     
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTestId<HTMLElement>(!^matcher, options)
+        member _.getByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTestId<HTMLElement>(!^matcher, options)
+        member _.getByTestId (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getByTestId<HTMLElement>(!^matcher, options)
+        member _.getByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
 
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTestId<HTMLElement>(!^matcher, options)
+        member _.getAllByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTestId<HTMLElement>(!^matcher, options)
+        member _.getAllByTestId (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.getAllByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.getAllByTestId<HTMLElement>(!^matcher, options)
+        member _.getAllByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTestId<HTMLElement>(!^matcher, options)
+        member _.queryByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTestId<HTMLElement>(!^matcher, options)
+        member _.queryByTestId (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryByTestId<HTMLElement>(!^matcher, options)
+        member _.queryByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
 
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTestId<HTMLElement>(!^matcher, options)
+        member _.queryAllByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTestId<HTMLElement>(!^matcher, options)
+        member _.queryAllByTestId (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.queryAllByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.queryAllByTestId<HTMLElement>(!^matcher, options)
+        member _.queryAllByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
 
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2494,51 +2431,51 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTestId<HTMLElement>(!^matcher, options)
+        member _.findByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTestId<HTMLElement>(!^matcher, options)
+        member _.findByTestId (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
         ///
         /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findByTestId<HTMLElement>(!^matcher, options)
+        member _.findByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
 
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByTestId (matcher: string, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTestId<HTMLElement>(!^matcher, options)
+        member _.findAllByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByTestId (matcher: Regex, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTestId<HTMLElement>(!^matcher, options)
+        member _.findAllByTestId (matcher: Regex, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
         /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
-        member _.findAllByTestId (matcher: string * HTMLElement -> bool, ?exact: bool, ?normalizer: string -> string) = 
-            MatcherOptions.create exact normalizer
-            |> fun options -> queryApi.findAllByTestId<HTMLElement>(!^matcher, options)
+        member _.findAllByTestId (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
 
     type RenderImport =

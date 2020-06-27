@@ -284,6 +284,7 @@ Signature:
 ```fsharp
 // Defaults to 0
 unit -> unit
+(dateTime: DateTime) -> unit
 (ticks: int) -> unit
 (ticks: int64) -> unit
 ```

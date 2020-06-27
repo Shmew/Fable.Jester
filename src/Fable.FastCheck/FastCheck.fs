@@ -255,22 +255,22 @@ type FastCheck =
     /// Run asynchronous and scheduled commands over a Model and the Real system.
     ///
     /// Throw in case of inconsistency.
-    static member scheduledModelRun (scheduler: AsyncScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: seq<ICommand<'Model,'Real>>) = 
+    static member scheduledModelRun (scheduler: AsyncScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: seq<IAsyncCommand<'Model,'Real>>) = 
         Bindings.fc.scheduledModelRun(scheduler.scheduler, Bindings.Setup.create initialModel real, commandIter)
     /// Run asynchronous and scheduled commands over a Model and the Real system.
     ///
     /// Throw in case of inconsistency.
-    static member scheduledModelRun (scheduler: AsyncScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: ICommandSeq<'Model,'Real>) = 
+    static member scheduledModelRun (scheduler: AsyncScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: IAsyncCommandSeq<'Model,'Real>) = 
         Bindings.fc.scheduledModelRun(scheduler.scheduler, Bindings.Setup.create initialModel real, commandIter)
     /// Run asynchronous and scheduled commands over a Model and the Real system.
     ///
     /// Throw in case of inconsistency.
-    static member scheduledModelRun (scheduler: PromiseScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: seq<ICommand<'Model,'Real>>) = 
+    static member scheduledModelRun (scheduler: PromiseScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: seq<IPromiseCommand<'Model,'Real>>) = 
         Bindings.fc.scheduledModelRun(scheduler.scheduler, Bindings.Setup.create initialModel real, commandIter)
     /// Run asynchronous and scheduled commands over a Model and the Real system.
     ///
     /// Throw in case of inconsistency.
-    static member scheduledModelRun (scheduler: PromiseScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: ICommandSeq<'Model,'Real>) = 
+    static member scheduledModelRun (scheduler: PromiseScheduler<'Metadata>, initialModel: 'Model, real: 'Real, commandIter: IPromiseCommandSeq<'Model,'Real>) = 
         Bindings.fc.scheduledModelRun(scheduler.scheduler, Bindings.Setup.create initialModel real, commandIter)
 
     /// Gather useful statistics concerning generated values.

@@ -1,3 +1,9 @@
+### 0.23.0 - Saturday, June 27th, 2020
+* Update for Jest 26.1
+* Update for Jest-Dom 5.11
+* Refactor query options for RTL
+* Fix issue with scheduler marshaled model based testing
+
 ### 0.22.0 - Wednesday, June 17th, 2020
 * Update for user-event 12.0.0
 * Improved HTMLElement handling

@@ -291,9 +291,11 @@ module Bindings =
         abstract sample: generator: #IProperty<'T,'Return> -> ResizeArray<'T>
         abstract sample: generator: #IProperty<'T,'Return> * parameters: obj -> ResizeArray<'T>
         abstract sample: generator: #IProperty<'T,'Return> * parameters: int -> ResizeArray<'T>
-
-        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * seq<ICommand<'Model,'Real>> -> JS.Promise<unit>
-        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * ICommandSeq<'Model,'Real> -> JS.Promise<unit>
+        
+        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * seq<IPromiseCommand<'Model,'Real>> -> JS.Promise<unit>
+        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * IPromiseCommandSeq<'Model,'Real> -> JS.Promise<unit>
+        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * seq<IAsyncCommand<'Model,'Real>> -> JS.Promise<unit>
+        abstract scheduledModelRun: Scheduler<'T,'TArgs,'Metadata> * Setup<'InitialModel,'Real> * IAsyncCommandSeq<'Model,'Real> -> JS.Promise<unit>
 
         abstract scheduler: ?constraints: SchedulerAct -> Arbitrary<Scheduler<'T,'TArgs,'Metadata>>
         // Not exposed: see https://github.com/fable-compiler/Fable/issues/1973

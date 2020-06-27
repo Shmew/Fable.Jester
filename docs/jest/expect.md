@@ -90,7 +90,9 @@ Jest.expect(System.Math.PI).toBeCloseTo(3.14, 2)
 Check whether the given element is checked. 
 
 It accepts an input of type checkbox or radio and elements with 
-a role of checkbox, radio, or switch with a valid aria-checked 
+any compatible role. 
+ 
+Such as a role of checkbox, radio, or switch with a valid aria-checked 
 attribute of "true" or "false".
 
 Signature:

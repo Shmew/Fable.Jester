@@ -8,6 +8,12 @@ module Interop =
     let mkPrettyDOMOThemeption (key: string) (value: obj) : IPrettyDOMThemeOption = unbox (key, value)
     let mkWaitOption (key: string) (value: obj) : IWaitOption = unbox (key, value)
 
+    // Queries
+    let mkLabelTextMatcherOption (key: string) (value: obj) : ILabelTextMatcherOption = unbox (key, value)
+    let mkRoleMatcherOption (key: string) (value: obj) : IRoleMatcherOption = unbox (key, value)
+    let mkTextMatcherOption (key: string) (value: obj) : ITextMatcherOption = unbox (key, value)
+    let mkMatcherOption (key: string) (value: obj) : IMatcherOption = unbox (key, value)
+
     // Events
     let mkAnimationEventAttr (key: string) (value: obj) : IAnimationEventProperty = unbox (key, value)
     let mkClipboardEventAttr (key: string) (value: obj) : IClipboardEventProperty = unbox (key, value)

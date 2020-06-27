@@ -417,6 +417,14 @@ type Jest =
     /// timers to fire; they will fire exactly as they would have done 
     /// without the call to `setSystemTime`.
     [<Emit("jest.setSystemTime($0)")>]
+    static member setSystemTime (dateTime: System.DateTime) : unit = jsNative
+    /// Set the current system time used by fake timers. Simulates a user 
+    /// changing the system clock while your program is running. 
+    ///
+    /// It affects the current time but it does not in itself cause e.g. 
+    /// timers to fire; they will fire exactly as they would have done 
+    /// without the call to `setSystemTime`.
+    [<Emit("jest.setSystemTime($0)")>]
     static member setSystemTime (ticks: int) : unit = jsNative
     /// Set the current system time used by fake timers. Simulates a user 
     /// changing the system clock while your program is running. 

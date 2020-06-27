@@ -1,9 +1,10 @@
 ﻿namespace Fable.ReactTestingLibrary
 
+open Browser.Types
 open Fable.Core
 open Fable.Core.JsInterop
 open Feliz
-open Browser.Types
+open System.Text.RegularExpressions
 
 type RTL =
     /// This is a light wrapper around the react-dom/test-utils act function. 
@@ -144,10 +145,84 @@ type configureOption =
     static member getElementError (handler: string * #HTMLElement -> exn) = 
         Interop.mkConfigureOption "getElementError" handler
 
+    /// By default, waitFor will ensure that the stack trace for errors thrown 
+    /// by Testing Library is cleaned up and shortened so it's easier for you to 
+    /// identify the part of your code that resulted in the error (async stack 
+    /// traces are hard to debug). 
+    ///
+    /// You can also disable this for a specific call in the options you pass to waitFor.
+    static member showOriginalStackTrace (value: bool) = Interop.mkConfigureOption "showOriginalStackTrace" value
+
     /// The attribute used by getByTestId and related queries. 
     ///
     /// Defaults to data-testid.
     static member testIdAttribute (value: string) = Interop.mkConfigureOption "defaultHidden" value
+
+    /// When enabled, if better queries are available the test will fail and provide a suggested 
+    /// query to use instead. 
+    ///
+    /// Defaults to false.
+    ///
+    /// You can disable a suggestion for a single query in the options of that query.
+    static member throwSuggestions (value: bool) = Interop.mkConfigureOption "throwSuggestions" value
+    
+type queryOption =
+    /// Requires an exact match.
+    /// 
+    /// Defaults to true.
+    static member exact (value: bool) = Interop.mkMatcherOption "exact" value
+    
+    /// Allows transforming the text before the match.
+    static member normalizer (fn: string -> string) = Interop.mkMatcherOption "normalizer" fn
+    
+    /// Allows disabling query suggestions if the global setting is enabled.
+    ///
+    /// Defaults to true.
+    static member suggest (value: bool) = Interop.mkMatcherOption "suggest" value
+    
+    /// Specify a selector to reduce matches.
+    ///
+    /// Such as if you had two elements with the same testId, if one is an input,
+    /// you could use queryOption.selector "input" to get that input element.
+    ///
+    /// Defaults to "*".
+    static member selector (value: string) = Interop.mkLabelTextMatcherOption "selector" value
+
+    /// Disables selector exclusions.
+    ///
+    /// Defaults to true.
+    static member ignore (value: bool) = Interop.mkTextMatcherOption "ignore" value
+    /// Specify selectors to exclude from matches.
+    ///
+    /// Such as if you had two elements with the same testId, if one is an input,
+    /// you could use queryOption.selector "input" to exclude that input element.
+    ///
+    /// Defaults to "script".
+    static member ignore (value: string) = Interop.mkTextMatcherOption "ignore" value
+    
+    /// If set to true, elements that are normally excluded from the
+    /// accessibility tree are considered for the query as well.
+    ///
+    /// Defaults to false.
+    static member hidden (value: bool) = Interop.mkRoleMatcherOption "hidden" value
+
+    /// Adds a query condition based on a match of the accessible name.
+    ///
+    /// Such as a label element, label attribute, or aria-label.
+    static member name (value: string) = Interop.mkRoleMatcherOption "name" value
+    /// Adds a query condition based on a match of the accessible name.
+    ///
+    /// Such as a label element, label attribute, or aria-label.
+    static member name (value: Regex) = Interop.mkRoleMatcherOption "name" value
+    /// Adds a query condition based on a match of the accessible name.
+    ///
+    /// Such as a label element, label attribute, or aria-label.
+    static member name (fn: #HTMLElement -> bool) = Interop.mkRoleMatcherOption "name" fn
+
+    /// Adds a query condition based on if the element is selected.
+    ///
+    /// Such as a selected attribute or aria-selected.
+    static member selected (value: bool) = Interop.mkRoleMatcherOption "selected" value
 
 type prettyDOMOption =
     /// Call toJSON method (if it exists) on objects.
