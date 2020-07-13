@@ -65,6 +65,9 @@ type Obj<'T> =
 
     /// Also generate object with null prototype.
     withNullPrototype: (value: bool)
+    
+    /// Also generate BigInt.
+    withBigInt (value: bool)
 
 module Uuid =
     type VersionNumber =
