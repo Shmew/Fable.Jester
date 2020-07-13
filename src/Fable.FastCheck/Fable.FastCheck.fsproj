@@ -24,7 +24,7 @@
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
-      <NpmPackage Name="fast-check" Version="gte 1.25 lt 2" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="fast-check" Version="gte 1.26 lt 2" ResolutionStrategy="max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

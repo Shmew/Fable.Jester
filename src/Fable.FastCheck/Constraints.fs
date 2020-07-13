@@ -57,6 +57,9 @@ module Constraints =
         /// Also generate object with null prototype.
         static member withNullPrototype (value: bool) = Interop.mkObjConstraintAttr "withNullPrototype" value
 
+        /// Also generate BigInt.
+        static member withBigInt (value: bool) = Interop.mkObjConstraintAttr "withBigInt" value
+
     module Uuid =
         type VersionNumber =
             static member N1 = unbox<IUuidVersionConstraintProperty> 1

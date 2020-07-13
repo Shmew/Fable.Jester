@@ -1,3 +1,6 @@
+### 0.24.0 - Monday, July 13th, 2020
+* Update for fast-check 1.26.0
+
 ### 0.23.1 - Saturday, June 27th, 2020
 * Bug fix for scheduler model testing
 
