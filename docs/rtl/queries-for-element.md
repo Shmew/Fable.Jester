@@ -134,6 +134,10 @@ type queryOption =
     ///
     /// Such as a selected attribute or aria-selected.
     static member selected (value: bool) : IRoleMatcherOption
+
+    /// If true, only includes elements in the query set that are marked as
+    /// checked in the accessibility tree, i.e., `aria-checked="true"`
+    static member checked' (value: bool) : IRoleMatcherOption
 ```
 
 ## Query Targets

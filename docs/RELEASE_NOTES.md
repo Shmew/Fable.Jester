@@ -1,3 +1,6 @@
+### 0.25.0 - Monday, July 13th, 2020
+* Update for dom-testing-library 7.21.0
+
 ### 0.24.0 - Monday, July 13th, 2020
 * Update for fast-check 1.26.0
 

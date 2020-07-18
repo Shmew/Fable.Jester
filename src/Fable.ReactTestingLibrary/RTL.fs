@@ -224,6 +224,10 @@ type queryOption =
     /// Such as a selected attribute or aria-selected.
     static member selected (value: bool) = Interop.mkRoleMatcherOption "selected" value
 
+    /// If true, only includes elements in the query set that are marked as
+    /// checked in the accessibility tree, i.e., `aria-checked="true"`
+    static member checked' (value: bool) = Interop.mkRoleMatcherOption "checked" value
+
 type prettyDOMOption =
     /// Call toJSON method (if it exists) on objects.
     static member callToJSON (value: bool) = Interop.mkPrettyDOMOption "callToJSON" value
