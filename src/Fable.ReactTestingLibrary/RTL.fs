@@ -167,26 +167,20 @@ type configureOption =
     static member throwSuggestions (value: bool) = Interop.mkConfigureOption "throwSuggestions" value
     
 type queryOption =
+    /// If true, only includes elements in the query set that are marked as
+    /// checked in the accessibility tree, i.e., `aria-checked="true"`
+    static member checked' (value: bool) = Interop.mkRoleMatcherOption "checked" value
+
     /// Requires an exact match.
     /// 
     /// Defaults to true.
     static member exact (value: bool) = Interop.mkMatcherOption "exact" value
     
-    /// Allows transforming the text before the match.
-    static member normalizer (fn: string -> string) = Interop.mkMatcherOption "normalizer" fn
-    
-    /// Allows disabling query suggestions if the global setting is enabled.
+    /// If set to true, elements that are normally excluded from the
+    /// accessibility tree are considered for the query as well.
     ///
-    /// Defaults to true.
-    static member suggest (value: bool) = Interop.mkMatcherOption "suggest" value
-    
-    /// Specify a selector to reduce matches.
-    ///
-    /// Such as if you had two elements with the same testId, if one is an input,
-    /// you could use queryOption.selector "input" to get that input element.
-    ///
-    /// Defaults to "*".
-    static member selector (value: string) = Interop.mkLabelTextMatcherOption "selector" value
+    /// Defaults to false.
+    static member hidden (value: bool) = Interop.mkRoleMatcherOption "hidden" value
 
     /// Disables selector exclusions.
     ///
@@ -200,12 +194,6 @@ type queryOption =
     /// Defaults to "script".
     static member ignore (value: string) = Interop.mkTextMatcherOption "ignore" value
     
-    /// If set to true, elements that are normally excluded from the
-    /// accessibility tree are considered for the query as well.
-    ///
-    /// Defaults to false.
-    static member hidden (value: bool) = Interop.mkRoleMatcherOption "hidden" value
-
     /// Adds a query condition based on a match of the accessible name.
     ///
     /// Such as a label element, label attribute, or aria-label.
@@ -218,15 +206,31 @@ type queryOption =
     ///
     /// Such as a label element, label attribute, or aria-label.
     static member name (fn: #HTMLElement -> bool) = Interop.mkRoleMatcherOption "name" fn
+    
+    /// If true, only includes elements in the query set that are marked as
+    /// pressed in the accessibility tree, i.e., `aria-pressed="true"`
+    static member pressed (value: bool) = Interop.mkRoleMatcherOption "pressed" value
 
+    /// Allows transforming the text before the match.
+    static member normalizer (fn: string -> string) = Interop.mkMatcherOption "normalizer" fn
+    
     /// Adds a query condition based on if the element is selected.
     ///
     /// Such as a selected attribute or aria-selected.
     static member selected (value: bool) = Interop.mkRoleMatcherOption "selected" value
-
-    /// If true, only includes elements in the query set that are marked as
-    /// checked in the accessibility tree, i.e., `aria-checked="true"`
-    static member checked' (value: bool) = Interop.mkRoleMatcherOption "checked" value
+    
+    /// Specify a selector to reduce matches.
+    ///
+    /// Such as if you had two elements with the same testId, if one is an input,
+    /// you could use queryOption.selector "input" to get that input element.
+    ///
+    /// Defaults to "*".
+    static member selector (value: string) = Interop.mkLabelTextMatcherOption "selector" value
+    
+    /// Allows disabling query suggestions if the global setting is enabled.
+    ///
+    /// Defaults to true.
+    static member suggest (value: bool) = Interop.mkMatcherOption "suggest" value
 
 type prettyDOMOption =
     /// Call toJSON method (if it exists) on objects.
