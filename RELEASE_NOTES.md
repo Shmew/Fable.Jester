@@ -1,3 +1,6 @@
+### 0.27.0 - Thursday, August 28th, 2020
+* Update for dom-testing-library 7.23.0
+
 ### 0.26.0 - Sunday, August 23rd, 2020
 * Update for dom-testing-library 7.22.0
 

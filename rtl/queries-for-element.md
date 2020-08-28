@@ -84,26 +84,20 @@ accept `ILabelTextMatcherOption` properties.
 
 ```fsharp
 type queryOption =
+    /// If true, only includes elements in the query set that are marked as
+    /// checked in the accessibility tree, i.e., `aria-checked="true"`
+    static member checked' (value: bool) : IRoleMatcherOption
+
     /// Requires an exact match.
     /// 
     /// Defaults to true.
     static member exact (value: bool) : IMatcherOption
     
-    /// Allows transforming the text before the match.
-    static member normalizer (fn: string -> string) : IMatcherOption
-    
-    /// Allows disabling query suggestions if the global setting is enabled.
+    /// If set to true, elements that are normally excluded from the
+    /// accessibility tree are considered for the query as well.
     ///
-    /// Defaults to true.
-    static member suggest (value: bool) : IMatcherOption
-    
-    /// Specify a selector to reduce matches.
-    ///
-    /// Such as if you had two elements with the same testId, if one is an input,
-    /// you could use queryOption.selector "input" to get that input element.
-    ///
-    /// Defaults to "*".
-    static member selector (value: string) : ILabelTextMatcherOption
+    /// Defaults to false.
+    static member hidden (value: bool) : IRoleMatcherOption
 
     /// Disables selector exclusions.
     ///
@@ -117,11 +111,10 @@ type queryOption =
     /// Defaults to "script".
     static member ignore (value: string) : ITextMatcherOption
     
-    /// If set to true, elements that are normally excluded from the
-    /// accessibility tree are considered for the query as well.
+    /// Adds a query condition based on a match of the level.
     ///
-    /// Defaults to false.
-    static member hidden (value: bool) : IRoleMatcherOption
+    /// Such as a h1-h6 element, or aria-level.
+    static member level (value: int) : IRoleMatcherOption
 
     /// Adds a query condition based on a match of the accessible name.
     ///
@@ -129,15 +122,31 @@ type queryOption =
     static member name (value: string) : IRoleMatcherOption
     static member name (value: Regex) : IRoleMatcherOption
     static member name (fn: #HTMLElement -> bool) : IRoleMatcherOption
+    
+    /// If true, only includes elements in the query set that are marked as
+    /// pressed in the accessibility tree, i.e., `aria-pressed="true"`
+    static member pressed (value: bool) : IRoleMatcherOption
 
+    /// Allows transforming the text before the match.
+    static member normalizer (fn: string -> string) : IMatcherOption
+    
     /// Adds a query condition based on if the element is selected.
     ///
     /// Such as a selected attribute or aria-selected.
     static member selected (value: bool) : IRoleMatcherOption
-
-    /// If true, only includes elements in the query set that are marked as
-    /// checked in the accessibility tree, i.e., `aria-checked="true"`
-    static member checked' (value: bool) : IRoleMatcherOption
+    
+    /// Specify a selector to reduce matches.
+    ///
+    /// Such as if you had two elements with the same testId, if one is an input,
+    /// you could use queryOption.selector "input" to get that input element.
+    ///
+    /// Defaults to "*".
+    static member selector (value: string) : ILabelTextMatcherOption
+    
+    /// Allows disabling query suggestions if the global setting is enabled.
+    ///
+    /// Defaults to true.
+    static member suggest (value: bool) : IMatcherOption
 ```
 
 ## Query Targets
