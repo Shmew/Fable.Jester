@@ -24,7 +24,7 @@ group Jest
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Dom ~> 1
+    nuget Fable.Browser.Dom ~> 2
     nuget Fable.Core ~> 3
     nuget Fable.Node ~> 1
     nuget Fable.Promise ~> 2
@@ -35,7 +35,7 @@ group Jest.Tests
     source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Dom ~> 1
+    nuget Fable.Browser.Dom ~> 2
     nuget Fable.Core ~> 3
     nuget Fable.Promise ~> 2
     nuget Feliz ~> 1
@@ -55,7 +55,7 @@ group RTL.Tests
 	source https://nuget.org/api/v2
 	source https://api.nuget.org/v3/index.json
 
-    nuget Fable.Browser.Dom ~> 1
+    nuget Fable.Browser.Dom ~> 2
     nuget Fable.Browser.Event ~> 1
     nuget Fable.Core ~> 3
     nuget Fable.Promise ~> 2
@@ -87,3 +87,4 @@ group FakeBuild
 	nuget Fake.Tools.Git ~> 5
     nuget FSharp.Json ~> 0
 	nuget FSharpLint.Core ~> 0
+    nuget NuGet.Packaging 5.6

@@ -194,6 +194,11 @@ type queryOption =
     /// Defaults to "script".
     static member ignore (value: string) = Interop.mkTextMatcherOption "ignore" value
     
+    /// Adds a query condition based on a match of the level.
+    ///
+    /// Such as a h1-h6 element, or aria-level.
+    static member level (value: int) = Interop.mkRoleMatcherOption "level" value
+
     /// Adds a query condition based on a match of the accessible name.
     ///
     /// Such as a label element, label attribute, or aria-label.
