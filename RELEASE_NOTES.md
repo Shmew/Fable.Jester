@@ -1,3 +1,7 @@
+### 0.27.1 - Thursday, September 3rd, 2020
+* Update Femto metadata to allow react-testing-library 11.0.0
+* Update dependencies
+
 ### 0.27.0 - Thursday, August 28th, 2020
 * Update for dom-testing-library 7.23.0
 
