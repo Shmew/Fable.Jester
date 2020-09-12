@@ -18,6 +18,8 @@ ___
 yarn add fast-check --dev
 ```
 
+Please ensure you're running on the latest version of `fable-compiler'.
+
 ### Use Femto
 
 If you happen to use [Femto], then it can 
