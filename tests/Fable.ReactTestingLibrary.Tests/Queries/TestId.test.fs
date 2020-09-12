@@ -6,13 +6,13 @@ open Feliz
 
 let testIdElement = React.functionComponent (fun () ->
     Html.div [
-        prop.custom("data-testid", "custom-element")
+        prop.testId "custom-element"
         prop.text "username"
     ])
     
 let otherTestIdElement = React.functionComponent (fun () ->
     Html.div [
-        prop.custom("data-testid", "other-element")
+        prop.testId "other-element"
         prop.text "somethingElse"
     ])
 
@@ -21,6 +21,7 @@ Jest.describe("*ByTestId query tests", fun () ->
         let actual = RTL.render(testIdElement()).getByTestId("custom-element")
             
         Jest.expect(actual).toBeInTheDocument()
+        Jest.expect(actual).toHaveTextContent("username")
     )
     Jest.test("getByTestId throws when no element matches", fun () ->
         let actual () = RTL.render(otherTestIdElement()).getByTestId("custom-element")
@@ -32,6 +33,7 @@ Jest.describe("*ByTestId query tests", fun () ->
         let actual = RTL.render(testIdElement()).getAllByTestId("custom-element")
         
         Jest.expect(actual).toHaveLength(1)
+        Jest.expect(actual.Head).toHaveTextContent("username")
     )
     Jest.test("getAllByTestId throws when no element matches", fun () ->
         let actual () = RTL.render(otherTestIdElement()).getAllByTestId("custom-element")
@@ -43,6 +45,7 @@ Jest.describe("*ByTestId query tests", fun () ->
         let actual = RTL.render(testIdElement()).queryByTestId("custom-element")
         
         Jest.expect(actual).toBeInTheDocument()
+        Jest.expect(actual).toHaveTextContent("username")
     )
     Jest.test("queryByTestId no element matches", fun () ->
         let actual = RTL.render(otherTestIdElement()).queryByTestId("custom-element")
@@ -54,6 +57,7 @@ Jest.describe("*ByTestId query tests", fun () ->
         let actual = RTL.render(testIdElement()).queryAllByTestId("custom-element")
         
         Jest.expect(actual).toHaveLength(1)
+        Jest.expect(actual.Head).toHaveTextContent("username")
     )
     Jest.test("queryAllByTestId no element matches", fun () ->
         let actual = RTL.render(otherTestIdElement()).queryAllByTestId("custom-element")
@@ -65,6 +69,7 @@ Jest.describe("*ByTestId query tests", fun () ->
         let actual = RTL.render(testIdElement()).findByTestId("custom-element")
             
         do! Jest.expect(actual).resolves.toBeInTheDocument()
+        do! Jest.expect(actual).resolves.toHaveTextContent("username")
     })
     Jest.test("findByTestId throws when no element matches", promise {
         let actual = RTL.render(otherTestIdElement()).findByTestId("custom-element")
@@ -76,6 +81,10 @@ Jest.describe("*ByTestId query tests", fun () ->
         let actual = RTL.render(testIdElement()).findAllByTestId("custom-element")
             
         do! Jest.expect(actual).resolves.toHaveLength(1)
+
+        let! actual = actual
+
+        do Jest.expect(actual.Head).toHaveTextContent("username")
     })
     Jest.test("findAllByTestId no element matches", promise {
         let actual = RTL.render(otherTestIdElement()).findAllByTestId("custom-element")
