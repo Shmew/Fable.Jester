@@ -27,6 +27,8 @@ yarn add @sinonjs/fake-timers --dev // If you plan to use timer mocks
 yarn add prettier --dev // If you plan to use snapshot testing
 ```
 
+Please ensure you're running on the latest version of `fable-compiler'.
+
 ### Use Femto
 
 If you happen to use [Femto], then it can 

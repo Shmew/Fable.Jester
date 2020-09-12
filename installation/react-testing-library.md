@@ -23,6 +23,8 @@ yarn add @testing-library/user-event --dev
 yarn add @babel/plugin-transform-modules-commonjs --dev // Recommended, but not necessary
 ```
 
+Please ensure you're running on the latest version of `fable-compiler'.
+
 This library does not need the main package 
 to function, so it is possible to use with 
 [Fable.Mocha].
