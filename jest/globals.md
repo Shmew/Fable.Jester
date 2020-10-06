@@ -43,6 +43,8 @@ The default timeout is 5 seconds.
 Signature:
 ```fsharp
 (fn: unit -> unit, ?timeout: int) -> unit
+(prom: JS.Promise<unit>, ?timeout: int) -> unit
+(asnc: Async<unit>, ?timeout: int) -> unit
 ```
 
 Usage:
@@ -64,6 +66,8 @@ The default timeout is 5 seconds.
 Signature:
 ```fsharp
 (fn: unit -> unit, ?timeout: int) -> unit
+(prom: JS.Promise<unit>, ?timeout: int) -> unit
+(asnc: Async<unit>, ?timeout: int) -> unit
 ```
 
 Usage:
@@ -85,6 +89,8 @@ The default timeout is 5 seconds.
 Signature:
 ```fsharp
 (fn: unit -> unit, ?timeout: int) -> unit
+(prom: JS.Promise<unit>, ?timeout: int) -> unit
+(asnc: Async<unit>, ?timeout: int) -> unit
 ```
 
 Usage:
@@ -106,6 +112,8 @@ The default timeout is 5 seconds.
 Signature:
 ```fsharp
 (fn: unit -> unit, ?timeout: int) -> unit
+(prom: JS.Promise<unit>, ?timeout: int) -> unit
+(asnc: Async<unit>, ?timeout: int) -> unit
 ```
 
 Usage:
