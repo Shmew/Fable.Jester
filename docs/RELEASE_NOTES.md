@@ -1,3 +1,6 @@
+### 0.28.0 - Monday, October 5th, 2020
+* Add missing overloads for `afterAll`, `afterEach`, `beforeAll`, and `beforeEach`.
+
 ### 0.27.1 - Thursday, September 3rd, 2020
 * Update Femto metadata to allow react-testing-library 11.0.0
 * Update dependencies

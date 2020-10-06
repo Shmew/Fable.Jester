@@ -37,6 +37,26 @@ type Jest =
     /// The default timeout is 5 seconds.
     [<Global>]
     static member afterAll (fn: unit -> unit, ?timeout: int) : unit = jsNative
+    /// Runs a function after all the tests in this file have completed. 
+    /// If the function returns a promise or is a generator, Jest waits 
+    /// for that promise to resolve before continuing.
+    ///
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    [<Emit("afterAll(async () => { await $0 }, $1)")>]
+    static member afterAll (prom: JS.Promise<unit>, ?timeout: int) : unit = jsNative
+    /// Runs a function after all the tests in this file have completed. 
+    /// If the function returns a promise or is a generator, Jest waits 
+    /// for that promise to resolve before continuing.
+    ///
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    static member inline afterAll (asnc: Async<unit>, ?timeout: int) : unit =
+        Jest.afterAll(Async.StartAsPromise asnc, ?timeout = timeout)
 
     /// Runs a function after each one of the tests in this file completes. 
     /// If the function returns a promise or is a generator, Jest waits 
@@ -48,6 +68,26 @@ type Jest =
     /// The default timeout is 5 seconds.
     [<Global>]
     static member afterEach (fn: unit -> unit, ?timeout: int) : unit = jsNative
+    /// Runs a function after each one of the tests in this file completes. 
+    /// If the function returns a promise or is a generator, Jest waits 
+    /// for that promise to resolve before continuing.
+    ///
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    [<Emit("afterEach(async () => { await $0 }, $1)")>]
+    static member afterEach (prom: JS.Promise<unit>, ?timeout: int) : unit = jsNative
+    /// Runs a function after each one of the tests in this file completes. 
+    /// If the function returns a promise or is a generator, Jest waits 
+    /// for that promise to resolve before continuing.
+    ///
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    static member inline afterEach (asnc: Async<unit>, ?timeout: int) : unit =
+        Jest.afterEach(Async.StartAsPromise asnc, ?timeout = timeout)
     
     /// Runs a function before any of the tests in this file run. 
     /// If the function returns a promise or is a generator, 
@@ -59,6 +99,26 @@ type Jest =
     /// The default timeout is 5 seconds.
     [<Global>]
     static member beforeAll (fn: unit -> unit, ?timeout: int) : unit = jsNative
+    /// Runs a function before any of the tests in this file run. 
+    /// If the function returns a promise or is a generator, 
+    /// Jest waits for that promise to resolve before running tests.
+    ///
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    [<Emit("beforeAll(async () => { await $0 }, $1)")>]
+    static member beforeAll (prom: JS.Promise<unit>, ?timeout: int) : unit = jsNative
+    /// Runs a function before any of the tests in this file run. 
+    /// If the function returns a promise or is a generator, 
+    /// Jest waits for that promise to resolve before running tests.
+    ///
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    static member inline beforeAll (asnc: Async<unit>, ?timeout: int) : unit =
+        Jest.beforeAll(Async.StartAsPromise asnc, ?timeout = timeout)
 
     /// Runs a function before each of the tests in this file runs. 
     /// If the function returns a promise or is a generator, 
@@ -70,6 +130,26 @@ type Jest =
     /// The default timeout is 5 seconds.
     [<Global>]
     static member beforeEach (fn: unit -> unit, ?timeout: int) : unit = jsNative
+    /// Runs a function before each of the tests in this file runs. 
+    /// If the function returns a promise or is a generator, 
+    /// Jest waits for that promise to resolve before running the test.
+    /// 
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    [<Emit("beforeEach(async () => { await $0 }, $1)")>]
+    static member beforeEach (prom: JS.Promise<unit>, ?timeout: int) : unit = jsNative
+    /// Runs a function before each of the tests in this file runs. 
+    /// If the function returns a promise or is a generator, 
+    /// Jest waits for that promise to resolve before running the test.
+    /// 
+    /// Optionally, you can provide a timeout (in milliseconds) for 
+    /// specifying how long to wait before aborting. 
+    ///
+    /// The default timeout is 5 seconds.
+    static member inline beforeEach (asnc: Async<unit>, ?timeout: int): unit = 
+        Jest.beforeEach(Async.StartAsPromise asnc, ?timeout = timeout)
 
     /// Removes any pending timers from the timer system.
     [<Emit("jest.clearAllTimers()")>]
