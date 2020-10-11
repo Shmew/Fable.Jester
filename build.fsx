@@ -217,35 +217,38 @@ Target.create "Restore" <| fun _ ->
     TaskRunner.runWithRetries restoreSolution 5
 
 Target.create "YarnInstall" <| fun _ ->
-    let setParams (defaults:Yarn.YarnParams) =
-        { defaults with
-            Yarn.YarnParams.YarnFilePath = (__SOURCE_DIRECTORY__ @@ "packages/tooling/Yarnpkg.Yarn/content/bin/yarn.cmd")
-        }
-    Yarn.install setParams
+    // This doesn't work on macOS    
+    // let setParams (defaults:Yarn.YarnParams) =
+    //     { defaults with
+    //         Yarn.YarnParams.YarnFilePath = (__SOURCE_DIRECTORY__ @@ "packages/tooling/Yarnpkg.Yarn/content/bin/yarn.cmd")
+    //     }
+    Yarn.installFrozenLockFile id
 
 // --------------------------------------------------------------------------------------
 // Build tasks
 
 Target.create "Build" <| fun _ ->
-    let setParams (defaults:MSBuildParams) =
-        { defaults with
-            Verbosity = Some(Quiet)
-            Targets = ["Build"]
-            Properties =
-                [
-                    "Optimize", "True"
-                    "DebugSymbols", "True"
-                    "Configuration", configuration()
-                    "Version", release.AssemblyVersion
-                    "GenerateDocumentationFile", "true"
-                    "DependsOnNETStandard", "true"
-                ]
-         }
+    // I had to change MSBuild for macOS, not sure  how to convert the options
+
+    // let setParams (defaults: DotNet.BuildOptions) =
+    //     { defaults with
+    //         Verbosity = Some(Quiet)
+    //         Targets = ["Build"]
+    //         Properties =
+    //             [
+    //                 "Optimize", "True"
+    //                 "DebugSymbols", "True"
+    //                 "Configuration", configuration()
+    //                 "Version", release.AssemblyVersion
+    //                 "GenerateDocumentationFile", "true"
+    //                 "DependsOnNETStandard", "true"
+    //             ]
+    //      }
     restoreSolution()
 
     !! libGlob
     |> List.ofSeq
-    |> List.iter (MSBuild.build setParams)
+    |> List.iter (DotNet.build id)
 
 // --------------------------------------------------------------------------------------
 // Publish net core applications
