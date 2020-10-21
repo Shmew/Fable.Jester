@@ -284,6 +284,14 @@ module Bindings =
         abstract rerender: ReactElement -> unit
         abstract unmount: unit -> unit
         
+    type Screen =
+        inherit QueriesForElement
+        
+        abstract logTestingPlaygroundURL : unit -> unit
+        abstract logTestingPlaygroundURL : #HTMLElement -> unit
+
+    let screenImport : Screen = import "screen" "@testing-library/react"
+
     type queriesForElement (queryApi: QueriesForElement) =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
@@ -2478,6 +2486,12 @@ module Bindings =
             queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
 
+    type screenQueriesForElement (screen: Screen) =
+        inherit queriesForElement(screen :> QueriesForElement)
+
+        member _.logTestingPlaygroundURL () = screen.logTestingPlaygroundURL()
+        member _.logTestingPlaygroundURL (element: #HTMLElement) = screen.logTestingPlaygroundURL(element)
+
     type RenderImport =
         [<Emit("$0($1)")>]
         abstract invoke<'BaseElement, 'Container when 'BaseElement :> HTMLElement and 'Container :> HTMLElement> : reactElement:ReactElement * ?options:obj -> Render<'BaseElement,'Container>
@@ -2582,6 +2596,8 @@ module Bindings =
     type WaitFor =
         [<Emit("$0($1)")>]
         abstract invoke: callback: (unit -> unit) * ?options: IWaitOptions -> JS.Promise<unit>
+        [<Emit("$0($1)")>]
+        abstract invoke: callback: (unit -> JS.Promise<unit>) * ?options: IWaitOptions -> JS.Promise<unit>
 
     let waitForImport : WaitFor = import "waitFor" "@testing-library/react"
 

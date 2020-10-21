@@ -85,6 +85,7 @@ group FakeBuild
     nuget Fake.JavaScript.Yarn ~> 5
 	nuget Fake.JavaScript.Npm ~> 5
 	nuget Fake.Tools.Git ~> 5
+	nuget FSharp.Core ~> 4.7
     nuget FSharp.Json ~> 0
 	nuget FSharpLint.Core ~> 0
     nuget NuGet.Packaging 5.6

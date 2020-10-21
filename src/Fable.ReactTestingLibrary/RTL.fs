@@ -108,14 +108,23 @@ type RTL =
         |> Bindings.render<'BaseElement,'Container>
 
     /// Queries bound to the document.body
-    static member screen = RTL.within(unbox Browser.Dom.document.body)
+    static member screen = Bindings.screenQueriesForElement(Bindings.screenImport)
 
     /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
     static member waitFor (callback: unit -> unit) = Bindings.waitForImport.invoke callback
     /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
     static member waitFor (callback: unit -> unit, waitForOptions: IWaitOption list) = 
-        Bindings.waitForImport.invoke(callback, unbox<IWaitOptions> (createObj !!waitForOptions)) 
-
+        Bindings.waitForImport.invoke(callback, unbox<IWaitOptions> (createObj !!waitForOptions))
+    /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
+    static member waitFor (promise: JS.Promise<unit>) = Bindings.waitForImport.invoke (fun () -> promise)
+    /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
+    static member waitFor (promise: JS.Promise<unit>, waitForOptions: IWaitOption list) = 
+        Bindings.waitForImport.invoke((fun () -> promise), unbox<IWaitOptions> (createObj !!waitForOptions))
+    /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
+    static member waitFor (promise: Async<unit>) = RTL.waitFor(Async.StartAsPromise promise)
+    /// When in need to wait for any period of time you can use waitFor, to wait for your expectations to pass.
+    static member waitFor (promise: Async<unit>, waitForOptions: IWaitOption list) = RTL.waitFor(Async.StartAsPromise promise, waitForOptions)
+        
     /// Wait for the removal of an element from the DOM.
     static member waitForElementToBeRemoved (callback: unit -> #HTMLElement option) = 
         Bindings.waitForElementToBeRemovedImport.invoke(callback)

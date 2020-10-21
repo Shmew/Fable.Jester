@@ -45,6 +45,46 @@ Jest.describe("Wait tests", fun () ->
         Jest.expect(render.queryByTestId("wait-true").IsSome).toBe(true)
         Jest.expect(render.queryByTestId("wait-true2").IsSome).toBe(true)
     })
+    
+    Jest.test("waitFor correctly waits for condition to satisfy from a promise", async {
+        let render = RTL.render(waitElement())
+        
+        Jest.expect(render.queryByTestId("wait-false").IsSome).toBe(true)
+        Jest.expect(render.queryByTestId("wait-false2").IsSome).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true").IsNone).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true2").IsNone).toBe(true)
+
+        render.getByTestId("wait-button").click()
+
+        do! RTL.waitFor(promise {
+                return Jest.expect(render.queryByTestId("wait-false")).not.toBeInTheDocument()
+            })
+
+        Jest.expect(render.queryByTestId("wait-false").IsNone).toBe(true)
+        Jest.expect(render.queryByTestId("wait-false2").IsNone).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true").IsSome).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true2").IsSome).toBe(true)
+    })
+    
+    Jest.test("waitFor correctly waits for condition to satisfy from an async computation", async {
+        let render = RTL.render(waitElement())
+        
+        Jest.expect(render.queryByTestId("wait-false").IsSome).toBe(true)
+        Jest.expect(render.queryByTestId("wait-false2").IsSome).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true").IsNone).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true2").IsNone).toBe(true)
+
+        render.getByTestId("wait-button").click()
+
+        do! RTL.waitFor(async {
+                return Jest.expect(render.queryByTestId("wait-false")).not.toBeInTheDocument()
+            })
+
+        Jest.expect(render.queryByTestId("wait-false").IsNone).toBe(true)
+        Jest.expect(render.queryByTestId("wait-false2").IsNone).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true").IsSome).toBe(true)
+        Jest.expect(render.queryByTestId("wait-true2").IsSome).toBe(true)
+    })
 
     Jest.test("waitForElementToBeRemoved correctly waits for element callback to be removed", async {
         let render = RTL.render(waitElement())
