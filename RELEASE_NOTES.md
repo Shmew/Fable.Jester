@@ -1,3 +1,6 @@
+### 0.29.1 - Wednesday, November 18th, 2020
+* Allow FSharp.Core 5.0
+
 ### 0.29.0 - Tuesday, October 20th, 2020
 * Update for dom-testing-library 7.25.0 and 7.26.0
 
