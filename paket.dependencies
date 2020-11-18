@@ -1,4 +1,4 @@
-version 5.247.4
+version 5.251.0
 
 framework: auto-detect
 
@@ -9,7 +9,7 @@ group FastCheck
     nuget Fable.Core ~> 3
     nuget Fable.Elmish ~> 3
     nuget Fable.Promise ~> 2
-    nuget FSharp.Core ~> 4.7
+    nuget FSharp.Core >= 4.7.2 lowest_matching: true
 
 group FastCheck.Tests
     source https://nuget.org/api/v2
@@ -18,7 +18,7 @@ group FastCheck.Tests
     nuget Fable.Core ~> 3
     nuget Fable.Elmish ~> 3
     nuget Fable.Promise ~> 2
-    nuget FSharp.Core ~> 4.7
+    nuget FSharp.Core >= 4.7.2 lowest_matching: true
 
 group Jest
     source https://nuget.org/api/v2
@@ -29,7 +29,7 @@ group Jest
     nuget Fable.Node ~> 1
     nuget Fable.Promise ~> 2
     nuget Feliz ~> 1
-    nuget FSharp.Core ~> 4.7
+    nuget FSharp.Core >= 4.7.2 lowest_matching: true
 
 group Jest.Tests
     source https://nuget.org/api/v2
@@ -39,7 +39,7 @@ group Jest.Tests
     nuget Fable.Core ~> 3
     nuget Fable.Promise ~> 2
     nuget Feliz ~> 1
-    nuget FSharp.Core ~> 4.7
+    nuget FSharp.Core >= 4.7.2 lowest_matching: true
 
 group RTL
 	source https://nuget.org/api/v2
@@ -49,7 +49,7 @@ group RTL
     nuget Fable.Core ~> 3
     nuget Fable.Promise ~> 2
     nuget Feliz ~> 1
-    nuget FSharp.Core ~> 4.7
+    nuget FSharp.Core >= 4.7.2 lowest_matching: true
 
 group RTL.Tests
 	source https://nuget.org/api/v2
@@ -60,7 +60,7 @@ group RTL.Tests
     nuget Fable.Core ~> 3
     nuget Fable.Promise ~> 2
     nuget Feliz ~> 1
-    nuget FSharp.Core ~> 4.7
+    nuget FSharp.Core >= 4.7.2 lowest_matching: true
 
 group Tooling
 	source https://nuget.org/api/v2
