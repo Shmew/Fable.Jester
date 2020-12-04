@@ -1,3 +1,6 @@
+### 0.30.0 - Friday, December 4th, 2020
+* Update for user-event 12.5.0
+
 ### 0.29.1 - Wednesday, November 18th, 2020
 * Allow FSharp.Core 5.0
 

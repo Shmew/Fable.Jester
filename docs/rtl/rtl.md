@@ -568,18 +568,22 @@ Writes text inside an `<input>` or a `<textarea>`.
 
 The following special character strings are supported:
 
-| Text string   | Key       | Modifier   | Notes                                                                                                                                                          |
-| ------------- | --------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `{enter}`     | Enter     | N/A        | Will insert a newline character (`<textarea />` only).                                                                                                         |
-| `{space}`     | ' '       | N/A        |                                                                                                                                                                |
-| `{esc}`       | Escape    | N/A        |                                                                                                                                                                |
-| `{backspace}` | Backspace | N/A        | Will delete the previous character (or the characters within the `selectedRange`).                                                                             |
-| `{del}`       | Delete    | N/A        | Will delete the next character (or the characters within the `selectedRange`).                                                                                 |
-| `{selectall}` | N/A       | N/A        | Selects all the text of the element. Note that this will only work for elements that support selection ranges (so, not email, password, number, among others). |
-| `{shift}`     | Shift     | `shiftKey` | Does **not** capitalize following characters.                                                                                                                  |
-| `{ctrl}`      | Control   | `ctrlKey`  |                                                                                                                                                                |
-| `{alt}`       | Alt       | `altKey`   |                                                                                                                                                                |
-| `{meta}`      | OS        | `metaKey`  |                                                                                                                                                                |
+| Text string    | Key        | Modifier           | Notes                                                                                                                                                          |
+| -------------- | ---------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `{enter}`      | Enter      | N/A                | Will insert a newline character (`<textarea />` only).                                                                                                         |
+| `{space}`      | ' '        | N/A                |                                                                                                                                                                |
+| `{esc}`        | Escape     | N/A                |                                                                                                                                                                |
+| `{backspace}`  | Backspace  | N/A                | Will delete the previous character (or the characters within the `selectedRange`).                                                                             |
+| `{del}`        | Delete     | N/A                | Will delete the next character (or the characters within the `selectedRange`).                                                                                 |
+| `{selectall}`  | N/A        | N/A                | Selects all the text of the element. Note that this will only work for elements that support selection ranges (so, not email, password, number, among others). |
+| `{arrowleft}`  | ArrowLeft  | N/A                |                                                                                                                                                                     |
+| `{arrowright}` | ArrowRight | N/A                |                                                                                                                                                                     |
+| `{arrowup}`    | ArrowUp    | N/A                |                                                                                                                                                                     |
+| `{arrowdown}`  | ArrowDown  | N/A                |                                                                                                                                                                     || `{shift}`     | Shift     | `shiftKey`         | Does **not** capitalize following characters.                                                                                                                  |
+| `{ctrl}`       | Control    | `ctrlKey`          |                                                                                                                                                                |
+| `{alt}`        | Alt        | `altKey`           |                                                                                                                                                                |
+| `{meta}`       | OS         | `metaKey`          |                                                                                                                                                                |
+| `{capslock}`   | CapsLock   | `modifierCapsLock` | Fires both keydown and keyup when used (simulates a user clicking their "Caps Lock" button to enable caps lock).
 
 To un-press a key with a modifier give it an ending tag e.g.: {/shift}
 
