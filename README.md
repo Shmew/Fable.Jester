@@ -5,6 +5,7 @@ Fable bindings for [jest](https://github.com/facebook/jest) and friends for deli
  * [jest-dom](https://github.com/testing-library/jest-dom)
  * [react-testing-library](https://github.com/testing-library/react-testing-library)
  * [user-event](https://github.com/testing-library/user-event)
+ * [testing-playground](https://testing-playground.com/)
 
 A quick look:
 
