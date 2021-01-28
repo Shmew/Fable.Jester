@@ -86,54 +86,54 @@ accept `ILabelTextMatcherOption` properties.
 type queryOption =
     /// If true, only includes elements in the query set that are marked as
     /// checked in the accessibility tree, i.e., `aria-checked="true"`
-    static member checked' (value: bool) : IRoleMatcherOption
+    member checked' (value: bool) : IRoleMatcherOption
 
     /// Requires an exact match.
     /// 
     /// Defaults to true.
-    static member exact (value: bool) : IMatcherOption
+    member exact (value: bool) : IMatcherOption
     
     /// If set to true, elements that are normally excluded from the
     /// accessibility tree are considered for the query as well.
     ///
     /// Defaults to false.
-    static member hidden (value: bool) : IRoleMatcherOption
+    member hidden (value: bool) : IRoleMatcherOption
 
     /// Disables selector exclusions.
     ///
     /// Defaults to true.
-    static member ignore (value: bool) : ITextMatcherOption
+    member ignore (value: bool) : ITextMatcherOption
     /// Specify selectors to exclude from matches.
     ///
     /// Such as if you had two elements with the same testId, if one is an input,
     /// you could use queryOption.selector "input" to exclude that input element.
     ///
     /// Defaults to "script".
-    static member ignore (value: string) : ITextMatcherOption
+    member ignore (value: string) : ITextMatcherOption
     
     /// Adds a query condition based on a match of the level.
     ///
     /// Such as a h1-h6 element, or aria-level.
-    static member level (value: int) : IRoleMatcherOption
+    member level (value: int) : IRoleMatcherOption
 
     /// Adds a query condition based on a match of the accessible name.
     ///
     /// Such as a label element, label attribute, or aria-label.
-    static member name (value: string) : IRoleMatcherOption
-    static member name (value: Regex) : IRoleMatcherOption
-    static member name (fn: #HTMLElement -> bool) : IRoleMatcherOption
+    member name (value: string) : IRoleMatcherOption
+    member name (value: Regex) : IRoleMatcherOption
+    member name (fn: #HTMLElement -> bool) : IRoleMatcherOption
     
     /// If true, only includes elements in the query set that are marked as
     /// pressed in the accessibility tree, i.e., `aria-pressed="true"`
-    static member pressed (value: bool) : IRoleMatcherOption
+    member pressed (value: bool) : IRoleMatcherOption
 
     /// Allows transforming the text before the match.
-    static member normalizer (fn: string -> string) : IMatcherOption
+    member normalizer (fn: string -> string) : IMatcherOption
     
     /// Adds a query condition based on if the element is selected.
     ///
     /// Such as a selected attribute or aria-selected.
-    static member selected (value: bool) : IRoleMatcherOption
+    member selected (value: bool) : IRoleMatcherOption
     
     /// Specify a selector to reduce matches.
     ///
@@ -141,12 +141,12 @@ type queryOption =
     /// you could use queryOption.selector "input" to get that input element.
     ///
     /// Defaults to "*".
-    static member selector (value: string) : ILabelTextMatcherOption
+    member selector (value: string) : ILabelTextMatcherOption
     
     /// Allows disabling query suggestions if the global setting is enabled.
     ///
     /// Defaults to true.
-    static member suggest (value: bool) : IMatcherOption
+    member suggest (value: bool) : IMatcherOption
 ```
 
 ## Query Targets
@@ -164,6 +164,8 @@ RTL.screen.getByTestId<HTMLOptionElement>("val1")).selected
 Signature:
 ```fsharp
 (matcher: string, ?options: ITextMatcherOption list)
+(matcher: int, ?options: ITextMatcherOption list)
+(matcher: float, ?options: ITextMatcherOption list)
 (matcher: Regex, ?options: ITextMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list)
 ```
@@ -178,6 +180,8 @@ RTL.screen.getByAltText("howdy!")
 Signature:
 ```fsharp
 (matcher: string, ?options: IMatcherOption list)
+(matcher: int, ?options: IMatcherOption list)
+(matcher: float, ?options: IMatcherOption list)
 (matcher: Regex, ?options: IMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
@@ -192,6 +196,8 @@ RTL.screen.getAllByDisplayValue("howdy!")
 Signature:
 ```fsharp
 (matcher: string, ?options: ILabelTextMatcherOption list)
+(matcher: int, ?options: ILabelTextMatcherOption list)
+(matcher: float, ?options: ILabelTextMatcherOption list)
 (matcher: Regex, ?options: ILabelTextMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: ILabelTextMatcherOption list)
 ```
@@ -206,6 +212,8 @@ RTL.screen.queryByLabelText("howdy!")
 Signature:
 ```fsharp
 (matcher: string, ?options: IMatcherOption list)
+(matcher: int, ?options: IMatcherOption list)
+(matcher: float, ?options: IMatcherOption list)
 (matcher: Regex, ?options: IMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
@@ -220,6 +228,8 @@ RTL.screen.queryAllByPlaceholderText("howdy!")
 Signature:
 ```fsharp
 (matcher: string, ?options: IRoleMatcherOption list)
+(matcher: int, ?options: IRoleMatcherOption list)
+(matcher: float, ?options: IRoleMatcherOption list)
 (matcher: Regex, ?options: IMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
@@ -234,6 +244,8 @@ RTL.screen.findByRole("howdy!")
 Signature:
 ```fsharp
 (matcher: string, ?options: ITextMatcherOption list)
+(matcher: int, ?options: ITextMatcherOption list)
+(matcher: float, ?options: ITextMatcherOption list)
 (matcher: Regex, ?options: ITextMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: ITextMatcherOption list)
 ```
@@ -248,6 +260,8 @@ RTL.screen.findAllByText("howdy!")
 Signature:
 ```fsharp
 (matcher: string, ?options: IMatcherOption list)
+(matcher: int, ?options: IMatcherOption list)
+(matcher: float, ?options: IMatcherOption list)
 (matcher: Regex, ?options: IMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
@@ -262,6 +276,8 @@ RTL.screen.getByTestId("howdy!")
 Signature:
 ```fsharp
 (matcher: string, ?options: IMatcherOption list)
+(matcher: int, ?options: IMatcherOption list)
+(matcher: float, ?options: IMatcherOption list)
 (matcher: Regex, ?options: IMatcherOption list)
 (matcher: string * HTMLElement -> bool, ?options: IMatcherOption list)
 ```
