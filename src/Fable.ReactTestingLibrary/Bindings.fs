@@ -10,7 +10,7 @@ open System.Text.RegularExpressions
 [<RequireQualifiedAccess>]
 module Bindings =
     type Matcher =
-        U3<string, Regex, string * HTMLElement -> bool>
+        U5<string, Regex, int, float, string * HTMLElement -> bool>
     
     let act : (unit -> unit) -> unit  = import "act" "@testing-library/react"
 
@@ -302,6 +302,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByLabelTextAs")>]
+        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ILabelTextMatcherOption list) =
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByLabelTextAs")>]
+        member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ILabelTextMatcherOption list) =
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByLabelTextAs")>]
         member _.getByLabelText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByLabelText<'Element>(!^matcher, ?options = options)
@@ -315,6 +327,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByLabelTextAs")>]
         member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByLabelTextAs")>]
+        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByLabelTextAs")>]
+        member _.getAllByLabelText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByLabelText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -336,6 +360,20 @@ module Bindings =
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByLabelTextAs")>]
         member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByLabelTextAs")>]
+        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByLabelTextAs")>]
+        member _.queryByLabelText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByLabelText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -379,6 +417,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByLabelTextAs")>]
         member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByLabelTextAs")>]
+        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByLabelTextAs")>]
+        member _.findByLabelText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByLabelText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -434,6 +490,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByPlaceholderTextAs")>]
+        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByPlaceholderTextAs")>]
+        member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByPlaceholderTextAs")>]
         member _.getByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByPlaceholderText<'Element>(!^matcher, ?options = options)
@@ -474,6 +542,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByPlaceholderTextAs")>]
+        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByPlaceholderTextAs")>]
+        member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByPlaceholderTextAs")>]
         member _.queryByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByPlaceholderText<'Element>(!^matcher, ?options = options)
@@ -488,6 +570,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByPlaceholderTextAs")>]
         member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByPlaceholderTextAs")>]
+        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByPlaceholderTextAs")>]
+        member _.queryAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByPlaceholderText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -511,6 +605,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByPlaceholderTextAs")>]
         member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByPlaceholderTextAs")>]
+        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByPlaceholderTextAs")>]
+        member _.findByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByPlaceholderText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -544,6 +656,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByPlaceholderTextAs")>]
+        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByPlaceholderTextAs")>]
+        member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByPlaceholderTextAs")>]
         member _.findAllByPlaceholderText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByPlaceholderText<'Element>(!^matcher, ?options = options)
@@ -566,6 +694,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByAltTextAs")>]
+        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByAltTextAs")>]
+        member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByAltTextAs")>]
         member _.getByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByAltText<'Element>(!^matcher, ?options = options)
@@ -579,6 +719,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByAltTextAs")>]
         member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByAltTextAs")>]
+        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByAltTextAs")>]
+        member _.getAllByAltText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -606,6 +758,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByAltTextAs")>]
+        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByAltTextAs")>]
+        member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByAltTextAs")>]
         member _.queryByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByAltText<'Element>(!^matcher, ?options = options)
@@ -620,6 +786,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByAltTextAs")>]
         member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByAltTextAs")>]
+        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByAltTextAs")>]
+        member _.queryAllByAltText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByAltText<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -643,6 +821,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByAltTextAs")>]
         member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByAltTextAs")>]
+        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByAltTextAs")>]
+        member _.findByAltText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByAltText<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -676,6 +872,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByAltTextAs")>]
+        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByAltTextAs")>]
+        member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByAltTextAs")>]
         member _.findAllByAltText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByAltText<'Element>(!^matcher, ?options = options)
@@ -693,6 +905,18 @@ module Bindings =
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTextAs")>]
         member _.getByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByTextAs")>]
+        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByTextAs")>]
+        member _.getByText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByText<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -716,6 +940,18 @@ module Bindings =
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTextAs")>]
+        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByTextAs")>]
+        member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByTextAs")>]
         member _.getAllByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByText<'Element>(!^matcher, ?options = options)
@@ -732,6 +968,20 @@ module Bindings =
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTextAs")>]
         member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByTextAs")>]
+        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByTextAs")>]
+        member _.queryByText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByText<'Element>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -783,6 +1033,24 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTextAs")>]
+        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByTextAs")>]
+        member _.findByText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByTextAs")>]
         member _.findByText<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByText<'Element>(!^matcher, ?options = options)
@@ -801,6 +1069,22 @@ module Bindings =
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTextAs")>]
         member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByTextAs")>]
+        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByTextAs")>]
+        member _.findAllByText<'Element when 'Element :> HTMLElement> (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByText<'Element>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
@@ -830,6 +1114,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTitleAs")>]
+        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByTitleAs")>]
+        member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByTitleAs")>]
         member _.getByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByTitle<'Element>(!^matcher, ?options = options)
@@ -843,6 +1139,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTitleAs")>]
         member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByTitleAs")>]
+        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByTitleAs")>]
+        member _.getAllByTitle<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -870,6 +1178,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTitleAs")>]
+        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByTitleAs")>]
+        member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByTitleAs")>]
         member _.queryByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByTitle<'Element>(!^matcher, ?options = options)
@@ -884,6 +1206,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTitleAs")>]
         member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByTitleAs")>]
+        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByTitleAs")>]
+        member _.queryAllByTitle<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByTitle<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -907,6 +1241,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTitleAs")>]
         member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByTitleAs")>]
+        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByTitleAs")>]
+        member _.findByTitle<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByTitle<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -940,6 +1292,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTitleAs")>]
+        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByTitleAs")>]
+        member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByTitleAs")>]
         member _.findAllByTitle<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByTitle<'Element>(!^matcher, ?options = options)
@@ -962,6 +1330,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByDisplayValueAs")>]
+        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByDisplayValueAs")>]
+        member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByDisplayValueAs")>]
         member _.getByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByDisplayValue<'Element>(!^matcher, ?options = options)
@@ -975,6 +1355,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByDisplayValueAs")>]
         member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByDisplayValueAs")>]
+        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByDisplayValueAs")>]
+        member _.getAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1002,6 +1394,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByDisplayValueAs")>]
+        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByDisplayValueAs")>]
+        member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByDisplayValueAs")>]
         member _.queryByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByDisplayValue<'Element>(!^matcher, ?options = options)
@@ -1016,6 +1422,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByDisplayValueAs")>]
         member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByDisplayValueAs")>]
+        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByDisplayValueAs")>]
+        member _.queryAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByDisplayValue<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1039,6 +1457,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByDisplayValueAs")>]
         member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByDisplayValueAs")>]
+        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByDisplayValueAs")>]
+        member _.findByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByDisplayValue<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1072,6 +1508,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByDisplayValueAs")>]
+        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByDisplayValueAs")>]
+        member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByDisplayValueAs")>]
         member _.findAllByDisplayValue<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByDisplayValue<'Element>(!^matcher, ?options = options)
@@ -1089,6 +1541,18 @@ module Bindings =
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByRoleAs")>]
         member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByRoleAs")>]
+        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByRoleAs")>]
+        member _.getByRole<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByRole<'Element>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -1113,6 +1577,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByRoleAs")>]
         member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?exact: bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByRoleAs")>]
+        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: int, ?exact: bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByRoleAs")>]
+        member _.getAllByRole<'Element when 'Element :> HTMLElement> (matcher: float, ?exact: bool, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1145,6 +1621,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByRoleAs")>]
+        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: int, ?exact: bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByRoleAs")>]
+        member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: float, ?exact: bool, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByRoleAs")>]
         member _.queryByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByRole<'Element>(!^matcher, ?options = options)
@@ -1166,6 +1656,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByRoleAs")>]
         member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByRoleAs")>]
+        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByRoleAs")>]
+        member _.queryAllByRole<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByRole<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1194,6 +1696,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByRoleAs")>]
         member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByRoleAs")>]
+        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByRoleAs")>]
+        member _.findByRole<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByRole<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1236,6 +1756,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByRoleAs")>]
+        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByRoleAs")>]
+        member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByRoleAs")>]
         member _.findAllByRole<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByRole<'Element>(!^matcher, ?options = options)
@@ -1265,6 +1801,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<CompiledName("getByTestIdAs")>]
+        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByTestIdAs")>]
+        member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<'Element>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<CompiledName("getByTestIdAs")>]
         member _.getByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByTestId<'Element>(!^matcher, ?options = options)
@@ -1278,6 +1826,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<CompiledName("getAllByTestIdAs")>]
         member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByTestIdAs")>]
+        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<CompiledName("getAllByTestIdAs")>]
+        member _.getAllByTestId<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1305,6 +1865,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<CompiledName("queryByTestIdAs")>]
+        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByTestIdAs")>]
+        member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<'Element>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<CompiledName("queryByTestIdAs")>]
         member _.queryByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByTestId<'Element>(!^matcher, ?options = options)
@@ -1319,6 +1893,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<CompiledName("queryAllByTestIdAs")>]
         member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByTestIdAs")>]
+        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<'Element>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<CompiledName("queryAllByTestIdAs")>]
+        member _.queryAllByTestId<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByTestId<'Element>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1342,6 +1928,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<CompiledName("findByTestIdAs")>]
         member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByTestIdAs")>]
+        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<'Element>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<CompiledName("findByTestIdAs")>]
+        member _.findByTestId<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByTestId<'Element>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1375,6 +1979,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<CompiledName("findAllByTestIdAs")>]
+        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByTestIdAs")>]
+        member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<'Element>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<CompiledName("findAllByTestIdAs")>]
         member _.findAllByTestId<'Element when 'Element :> HTMLElement> (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByTestId<'Element>(!^matcher, ?options = options)
@@ -1400,6 +2020,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByLabelText (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByLabelText (matcher: float, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByLabelText<HTMLElement>(!^matcher, ?options = options)
@@ -1413,6 +2045,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByLabelText (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByLabelText (matcher: float, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1440,6 +2084,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByLabelText (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByLabelText (matcher: float, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByLabelText<HTMLElement>(!^matcher, ?options = options)
@@ -1454,6 +2112,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByLabelText (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByLabelText (matcher: float, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByLabelText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1477,6 +2147,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByLabelText (matcher: string, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByLabelText (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByLabelText (matcher: float, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByLabelText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1510,6 +2198,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByLabelText (matcher: int, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByLabelText (matcher: float, ?options: ILabelTextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByLabelText (matcher: Regex, ?options: ILabelTextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByLabelText<HTMLElement>(!^matcher, ?options = options)
@@ -1532,6 +2236,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByPlaceholderText (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByPlaceholderText (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
@@ -1545,6 +2261,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByPlaceholderText (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByPlaceholderText (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1572,6 +2300,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByPlaceholderText (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByPlaceholderText (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
@@ -1586,6 +2328,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByPlaceholderText (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByPlaceholderText (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1609,6 +2363,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByPlaceholderText (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByPlaceholderText (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByPlaceholderText (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1642,6 +2414,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByPlaceholderText (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByPlaceholderText (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByPlaceholderText (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByPlaceholderText<HTMLElement>(!^matcher, ?options = options)
@@ -1664,6 +2452,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByAltText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByAltText (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByAltText<HTMLElement>(!^matcher, ?options = options)
@@ -1677,6 +2477,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByAltText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByAltText (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1704,6 +2516,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByAltText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByAltText (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByAltText<HTMLElement>(!^matcher, ?options = options)
@@ -1718,6 +2544,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByAltText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByAltText (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByAltText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1741,6 +2579,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByAltText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByAltText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByAltText (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByAltText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1774,6 +2630,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByAltText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByAltText (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByAltText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByAltText<HTMLElement>(!^matcher, ?options = options)
@@ -1796,6 +2668,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByText (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByText<HTMLElement>(!^matcher, ?options = options)
@@ -1809,6 +2693,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByText (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1836,6 +2732,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByText (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByText<HTMLElement>(!^matcher, ?options = options)
@@ -1850,6 +2760,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByText (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByText<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -1873,6 +2795,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByText (matcher: string, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByText (matcher: float, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByText<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -1906,6 +2846,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByText (matcher: int, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByText (matcher: float, ?options: ITextMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByText (matcher: Regex, ?options: ITextMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByText<HTMLElement>(!^matcher, ?options = options)
@@ -1923,6 +2879,18 @@ module Bindings =
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByTitle (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByTitle (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByTitle<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -1946,6 +2914,17 @@ module Bindings =
             |> List.ofSeq
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByTitle (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByTitle (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByTitle<HTMLElement>(!^matcher, ?options = options)
@@ -1962,6 +2941,20 @@ module Bindings =
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByTitle (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByTitle (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByTitle<HTMLElement>(!^matcher, ?options = options)
         /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
@@ -1987,6 +2980,18 @@ module Bindings =
             |> List.ofSeq
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByTitle (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByTitle (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByTitle<HTMLElement>(!^matcher, ?options = options)
@@ -2005,6 +3010,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTitle (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByTitle (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByTitle (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByTitle<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2038,6 +3061,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByTitle (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByTitle (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTitle (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByTitle<HTMLElement>(!^matcher, ?options = options)
@@ -2060,6 +3099,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByDisplayValue (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByDisplayValue (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByDisplayValue<HTMLElement>(!^matcher, ?options = options)
@@ -2073,6 +3124,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByDisplayValue (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByDisplayValue (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -2100,6 +3163,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByDisplayValue (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByDisplayValue (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByDisplayValue<HTMLElement>(!^matcher, ?options = options)
@@ -2114,6 +3191,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByDisplayValue (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByDisplayValue (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -2137,6 +3226,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByDisplayValue (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByDisplayValue (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByDisplayValue (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByDisplayValue<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2170,6 +3277,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByDisplayValue (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByDisplayValue (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByDisplayValue (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByDisplayValue<HTMLElement>(!^matcher, ?options = options)
@@ -2187,6 +3310,18 @@ module Bindings =
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByRole (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByRole (matcher: float, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByRole<HTMLElement>(!^matcher, ?options = options)
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
@@ -2211,6 +3346,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByRole (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByRole (matcher: float, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -2243,6 +3390,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByRole (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByRole (matcher: float, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByRole<HTMLElement>(!^matcher, ?options = options)
@@ -2264,6 +3425,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByRole (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByRole (matcher: float, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByRole<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -2292,6 +3465,24 @@ module Bindings =
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByRole (matcher: string, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByRole (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByRole (matcher: float, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByRole<HTMLElement>(!^matcher, ?options = options)
         /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
@@ -2334,6 +3525,22 @@ module Bindings =
         ///
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByRole (matcher: int, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByRole (matcher: float, ?options: IRoleMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByRole (matcher: Regex, ?options: IRoleMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByRole<HTMLElement>(!^matcher, ?options = options)
@@ -2363,6 +3570,18 @@ module Bindings =
         /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
         /// one match is found (use getAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByTestId (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getByTestId (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
+        /// getBy* queries return the first matching node for a query, and throw an error if no elements match or if more than 
+        /// one match is found (use getAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getByTestId<HTMLElement>(!^matcher, ?options = options)
@@ -2376,6 +3595,18 @@ module Bindings =
         /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.getAllByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByTestId (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// getAllBy* queries return a list of all matching nodes for a query, and throw an error if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.getAllByTestId (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.getAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -2403,6 +3634,20 @@ module Bindings =
         ///
         /// This throws if more than one match is found (use queryAllBy instead).
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByTestId (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryByTestId (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
+        /// queryBy* queries return the first matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. 
+        ///
+        /// This throws if more than one match is found (use queryAllBy instead).
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryByTestId<HTMLElement>(!^matcher, ?options = options)
@@ -2417,6 +3662,18 @@ module Bindings =
         /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.queryAllByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByTestId (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
+            |> List.ofSeq
+        /// queryAllBy* queries return a list of all matching nodes for a query, and return an empty list if no elements match.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.queryAllByTestId (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.queryAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> List.ofSeq
@@ -2448,6 +3705,24 @@ module Bindings =
         ///
         /// If you need to find more than one element, then use findAllBy.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByTestId (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findByTestId (matcher: float, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
+        /// findBy* queries return a promise which resolves when an element is found which matches the given query. 
+        ///
+        /// The promise is rejected if no element is found or if more than one element is found after a default timeout of 4500ms. 
+        ///
+        /// If you need to find more than one element, then use findAllBy.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findByTestId (matcher: Regex, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findByTestId<HTMLElement>(!^matcher, ?options = options)
@@ -2466,6 +3741,22 @@ module Bindings =
         /// The promise is rejected if no elements are found after a default timeout of 4500ms.
         [<EditorBrowsable(EditorBrowsableState.Never)>]
         member _.findAllByTestId (matcher: string, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByTestId (matcher: int, ?options: IMatcherOption list) = 
+            let options = Option.map (fun o -> createObj !!o) options
+            queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
+            |> Promise.map List.ofSeq
+        /// findAllBy* queries return a promise which resolves to an array of elements when any elements are found which match the given query.
+        ///
+        /// The promise is rejected if no elements are found after a default timeout of 4500ms.
+        [<EditorBrowsable(EditorBrowsableState.Never)>]
+        member _.findAllByTestId (matcher: float, ?options: IMatcherOption list) = 
             let options = Option.map (fun o -> createObj !!o) options
             queryApi.findAllByTestId<HTMLElement>(!^matcher, ?options = options)
             |> Promise.map List.ofSeq
