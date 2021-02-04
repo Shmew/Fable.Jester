@@ -51,7 +51,7 @@ let asserter msg oldModel newModel =
 
 Jest.describe("Elmish Model tests", fun () ->
     Jest.test.elmish("Model assertions run via auto generation", init(), update, asserter)
-    Jest.test.elmish("Model assertions run via explicity arbitrary", init(), update, asserter, Arbitrary.constant [ Decrement; Increment ])
+    Jest.test.elmish("Model assertions run via explicit arbitrary", init(), update, asserter, Arbitrary.constant [ Decrement; Increment ])
 )
 ```
 
