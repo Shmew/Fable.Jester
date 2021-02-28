@@ -3879,8 +3879,8 @@ module Bindings =
         [<Emit("$0.type($1...)")>]
         abstract typeInternal: #HTMLElement * string * ?options: obj -> unit
         abstract unhover: #HTMLElement -> unit
-        abstract upload: #HTMLElement * Browser.Types.File * ?options: obj -> unit
-        abstract upload: #HTMLElement * ResizeArray<Browser.Types.File> * ?options: obj -> unit
+        abstract upload: #HTMLElement * Browser.Types.File * ?eventOptions: obj * ?options: obj -> unit
+        abstract upload: #HTMLElement * ResizeArray<Browser.Types.File> * ?eventOptions: obj * ?options: obj -> unit
 
     let userEvent : UserEventImport = importDefault "@testing-library/user-event"
 

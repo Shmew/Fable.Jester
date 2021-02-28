@@ -600,13 +600,23 @@ module RTL =
         /// Unhovers an element.
         static member unhover (element: #HTMLElement) = Bindings.userEvent.unhover(element)
         /// Uploads a file to an <input>. 
-        static member upload (element: #HTMLElement, file: File, ?clickEventProps: #IMouseEventProperty list, ?changeEventProps: #IEventProperty list) =
-            Bindings.userEvent.upload(element, file, ?options = Bindings.createUploadEventInit clickEventProps changeEventProps)
+        static member upload (element: #HTMLElement, file: File, ?clickEventProps: #IMouseEventProperty list, ?changeEventProps: #IEventProperty list, ?applyAccept: bool) =
+            Bindings.userEvent.upload (
+                element, 
+                file, 
+                ?eventOptions = Bindings.createUploadEventInit clickEventProps changeEventProps, 
+                ?options = Option.map (fun b -> createObj !![ "applyAccept" ==> b ]) applyAccept
+            )
         /// Uploads a file to an <input>. 
         ///
         /// For uploading multiple files use <input> with the multiple attribute.
-        static member upload (element: #HTMLElement, files: seq<File>, ?clickEventProps: #IMouseEventProperty list, ?changeEventProps: #IEventProperty list) =
-            Bindings.userEvent.upload(element, ResizeArray files, ?options = Bindings.createUploadEventInit clickEventProps changeEventProps)
+        static member upload (element: #HTMLElement, files: seq<File>, ?clickEventProps: #IMouseEventProperty list, ?changeEventProps: #IEventProperty list, ?applyAccept: bool) =
+            Bindings.userEvent.upload (
+                element, 
+                ResizeArray files, 
+                ?eventOptions = Bindings.createUploadEventInit clickEventProps changeEventProps, 
+                ?options = Option.map (fun b -> createObj !![ "applyAccept" ==> b ]) applyAccept
+            )
 
 [<AutoOpen>]
 module RTLExtensions =

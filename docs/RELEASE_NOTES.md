@@ -1,3 +1,6 @@
+### 0.32.0 - Thursday, January 28th, 2021
+* Update for user-event 12.8
+
 ### 0.31.0 - Thursday, January 28th, 2021
 * Update for user-event and dom-testing-library
 
