@@ -6,16 +6,12 @@ open Feliz
 
 let titleElement = React.functionComponent (fun () ->
     Html.div [
-        Html.title [
-            prop.title "Username"
-        ]
+        prop.title "Username"
     ])
     
 let otherTitleElement = React.functionComponent (fun () ->
     Html.div [
-        Html.title [
-            prop.title "somethingElse"
-        ]
+        prop.title "somethingElse"
     ])
 
 Jest.describe("*ByTitle query tests", fun () ->

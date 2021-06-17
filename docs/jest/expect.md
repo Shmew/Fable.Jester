@@ -544,6 +544,50 @@ Usage:
 Jest.expect(true).toEqual(true)
 ```
 
+## toHaveAccessibleDescription
+
+<Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
+
+Check whether the given element has the expected [accessible description](https://w3c.github.io/accname/).
+
+You can pass the exact string of the expected accessible description, or you can 
+make a partial match passing a regular expression, or by 
+using [expect.stringContaining] or [expect.stringMatching].
+
+Signature:
+```fsharp
+(value: Regex)
+(value: string)
+```
+
+Usage:
+```fsharp
+Jest.expect(myElement).toHaveAccessibleDescription("Hello!")
+```
+
+## toHaveAccessibleName
+
+<Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
+
+Check whether the given element has the expected [accessible name](https://w3c.github.io/accname/). 
+
+It is useful, for instance, to assert that form elements and buttons are properly labelled.
+
+You can pass the exact string of the expected accessible description, or you can 
+make a partial match passing a regular expression, or by 
+using [expect.stringContaining] or [expect.stringMatching].
+
+Signature:
+```fsharp
+(value: Regex)
+(value: string)
+```
+
+Usage:
+```fsharp
+Jest.expect(myElement).toHaveAccessibleName("Hello!")
+```
+
 ## toHaveAttribute
 
 <Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
@@ -634,6 +678,33 @@ Signature:
 Usage:
 ```fsharp
 Jest.expect(myElement).toHaveDisplayValue("Hello!")
+```
+
+## toHaveErrorMessage
+
+<Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
+
+Check whether the given element has an ARIA error message or not.
+
+Use the `aria-errormessage` attribute to reference another element that contains 
+custom error message text. Multiple ids is NOT allowed. For more information 
+see [here](https://www.w3.org/TR/wai-aria/#aria-errormessage).
+
+Authors MUST use aria-invalid in conjunction with aria-errormessage.
+
+Whitespace is normalized.
+
+When a string argument is passed through, it will perform a whole case-sensitive match to the error message text.
+
+Signature:
+```fsharp
+(value: Regex)
+(value: string)
+```
+
+Usage:
+```fsharp
+Jest.expect(myElement).toHaveErrorMessage("Hello!")
 ```
 
 ## toHaveFocus
@@ -745,10 +816,10 @@ Jest.expect(myElement).toHaveStyle(divStyle)
 
 <Note>This is only available when the assertion is an `HTMLElement` or `Node`</Note>
 
-Check whether the given element has a text content or not.
+Check whether the given node has a text content or not.
 
 When a string argument is passed through, it will perform a partial case-sensitive match to 
-the element content.
+the node content.
 
 To perform a case-insensitive match, you can use a RegExp with the /i modifier.
 

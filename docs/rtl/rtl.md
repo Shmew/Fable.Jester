@@ -460,6 +460,91 @@ RTL.userEvent.hover(myElement)
 myElement.userEvent.hover()
 ```
 
+## userEvent.keyboard
+
+Simulates the keyboard events described by text. 
+
+This is similar to [userEvent.type'](#usereventtype) but without any clicking or changing the selection range.
+
+You should use `userEvent.keyboard` if you want to just simulate pressing buttons on the keyboard. 
+You should use [userEvent.type'](#usereventtype) if you just want to conveniently insert some text into an 
+input field or textarea.
+
+### Keystrokes
+
+Explicit handling of keystrokes can defined by the use of specific formatting:
+
+- Per printable character
+  ```fsharp
+  RTL.userEvent.keyboard("foo") // translates to: f, o, o
+  ```
+  
+  The brackets `{` and `[` are used as special characters and can be referenced by doubling them.
+
+  ```fsharp
+  RTL.userEvent.keyboard("{{a[[") // translates to: {, a, [
+  ```
+
+- Per KeyboardEvent.key
+
+  Only supports alphanumeric values of [KeyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).
+
+  ```fsharp
+  RTL.userEvent.keyboard("{Shift}{f}{o}{o}") // translates to: Shift, f, o, o
+  ```
+
+  This does not keep any key pressed. So `Shift` will be lifted before pressing `f`.
+
+- Per KeyboardEvent.code
+
+  For more information see [here](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code).
+
+  ```fsharp
+  RTL.userEvent.keyboard("{ShiftLeft}{KeyF}{KeyO}{KeyO}") // translates to: Shift, f, o, o
+  ```
+
+- Per legacy userEvent.type' modifier/specialChar
+
+  The modifiers like `{shift}` (note the lowercase) will automatically be kept pressed, just like before. 
+  You can cancel this behavior by adding a `/` to the end of the descriptor.
+
+  ```fsharp
+  RTL.userEvent.keyboard("{shift}{ctrl/}a{/shift}") // translates to: Shift(down), Control(down+up), a, Shift(up)
+  ```
+
+Keys can be kept pressed by adding a `>` to the end of the descriptor - and lifted by adding a `/` to the beginning of the descriptor:
+
+```fsharp
+RTL.userEvent.keyboard("{Shift>}A{/Shift}") //  translates to: Shift(down), A, Shift(up)
+```
+
+`RTL.userEvent.keyboardWithState` returns a keyboard state that can be used to continue keyboard operations:
+
+```fsharp
+let ks = RTL.userEvent.keyboardWithState("[ControlLeft>]") // keydown [ControlLeft]
+
+RTL.userEvent.keyboard("a", keyboardState = ks)
+```
+
+The mapping of `key` to `code` is performed by a default key map portraying a "default" US-keyboard. 
+You can provide your own local keyboard mapping via the optional parameter.
+
+Signature: 
+```fsharp 
+(text: string, 
+ ?document: Document, 
+ ?keyboardMap: KeyboardKey list, 
+ ?keyboardState: KeyboardState) 
+    -> unit // or KeyboardState
+
+(text: string, 
+ delayMS: int,
+ ?document: Document, 
+ ?keyboardMap: KeyboardKey list, 
+ ?keyboardState: KeyboardState) 
+    -> JS.Promise<unit> // or JS.Promise<KeyboardState>
+```
+
 ## userEvent.selectOptions
 
 Convenience method for using [fireEvent](#fireevent).
@@ -576,18 +661,21 @@ The following special character strings are supported:
 | `{backspace}`  | Backspace  | N/A                | Will delete the previous character (or the characters within the `selectedRange`).                                                                             |
 | `{del}`        | Delete     | N/A                | Will delete the next character (or the characters within the `selectedRange`).                                                                                 |
 | `{selectall}`  | N/A        | N/A                | Selects all the text of the element. Note that this will only work for elements that support selection ranges (so, not email, password, number, among others). |
-| `{arrowleft}`  | ArrowLeft  | N/A                |                                                                                                                                                                     |
-| `{arrowright}` | ArrowRight | N/A                |                                                                                                                                                                     |
-| `{arrowup}`    | ArrowUp    | N/A                |                                                                                                                                                                     |
-| `{arrowdown}`  | ArrowDown  | N/A                |                                                                                                                                                                      |
-| `{home}`       | Home       | N/A                |                                                                                                                                                                     |
-| `{end}`        | End        | N/A                |                                                                                                                                                                  || `{shift}`     | Shift     | `shiftKey`         | Does **not** capitalize following characters.                                                                                                                  |
+| `{arrowleft}`  | ArrowLeft  | N/A                |                                                                                                                                                                |
+| `{arrowright}` | ArrowRight | N/A                |                                                                                                                                                                |
+| `{arrowup}`    | ArrowUp    | N/A                |                                                                                                                                                                |
+| `{arrowdown}`  | ArrowDown  | N/A                |                                                                                                                                                                |
+| `{home}`       | Home       | N/A                |                                                                                                                                                                |
+| `{end}`        | End        | N/A                |                                                                                                                                                                |
+| `{shift}`      | Shift      | `shiftKey`         | Does **not** capitalize following characters.                                                                                                                  |
 | `{ctrl}`       | Control    | `ctrlKey`          |                                                                                                                                                                |
 | `{alt}`        | Alt        | `altKey`           |                                                                                                                                                                |
 | `{meta}`       | OS         | `metaKey`          |                                                                                                                                                                |
 | `{capslock}`   | CapsLock   | `modifierCapsLock` | Fires both keydown and keyup when used (simulates a user clicking their "Caps Lock" button to enable caps lock).
 
 To un-press a key with a modifier give it an ending tag e.g.: {/shift}
+
+The brackets `{` and `[` are used as special characters and can be referenced by doubling them. E.g. `[[` would type the `[` character.
 
 Signature: 
 ```fsharp 

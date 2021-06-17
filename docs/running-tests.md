@@ -7,6 +7,15 @@ The steps are relatively simple:
 
 ## package.json
 
+With the release of jest 27.0 the default testing environment is `node` rather than `jsdom`.
+Unless you're writing for node you'll want to change this back in your `package.json`:
+
+```json
+"jest": {
+    "testEnvironment": "jsdom"
+}
+```
+
 In your `package.json` you will want to create some script
 tasks to compile your tests. Then you will want a task to 
 run your scripts. 
@@ -21,7 +30,7 @@ Here is an example:
     "test": "yarn pretestJest && yarn pretestRTL && yarn jest",
     "testJest": "yarn pretestJest && yarn jest",
     "testRTL": "yarn pretestRTL && yarn jest"
-  },
+  }
 ...
 ```
 
@@ -44,11 +53,10 @@ Here is an example:
 
 ```json
 ...
-  "jest": {
+"jest": {
     "roots": [
-      "./dist/tests"
+        "./dist/tests"
     ]
-  }
 }
 ```
 

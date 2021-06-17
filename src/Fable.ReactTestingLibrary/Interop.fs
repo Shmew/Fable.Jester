@@ -3,6 +3,7 @@
 [<RequireQualifiedAccess>]
 module Interop =
     let mkConfigureOption (key: string) (value: obj) : IConfigureOption = unbox (key, value)
+    let mkKeyboardKeyOption (key: string) (value: obj) : IKeyboardKeyOption = unbox (key, value)
     let mkMutationObserverOption (key: string) (value: obj) : IMutationObserverOption = unbox (key, value)
     let mkPrettyDOMOption (key: string) (value: obj) : IPrettyDOMOption = unbox (key, value)
     let mkPrettyDOMOThemeption (key: string) (value: obj) : IPrettyDOMThemeOption = unbox (key, value)

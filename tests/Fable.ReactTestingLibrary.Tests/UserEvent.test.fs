@@ -116,6 +116,90 @@ Jest.describe("UserEvent tests", fun () ->
 
         Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
     )
+    
+    Jest.test("dispatch textarea change via keyboard", fun () ->
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        RTL.userEvent.keyboard("Hello{enter}world")
+
+        Jest.expect(RTL.screen.getByTestId("test-textarea")).toHaveValue("Hello\nworld")
+    )
+    Jest.test("dispatch textarea change via keyboard", fun () ->
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        RTL.userEvent.keyboard("Hello{enter}world")
+
+        Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
+    )
+    
+    Jest.test("dispatch textarea change via keyboard async", promise {
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        do! RTL.userEvent.keyboard("Hello{enter}world", 100)
+
+        return Jest.expect(RTL.screen.getByTestId("test-textarea")).toHaveValue("Hello\nworld")
+    })
+    Jest.test("dispatch textarea change via keyboard async", promise {
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        do! RTL.userEvent.keyboard("Hello{enter}world", 100)
+
+        return Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
+    })
+
+    Jest.test("dispatch textarea change via keyboard with state", fun () ->
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        let ks = RTL.userEvent.keyboardWithState("hello")
+
+        RTL.userEvent.keyboard("{Enter}world", keyboardState = ks)
+
+        Jest.expect(RTL.screen.getByTestId("test-textarea")).toHaveValue("hello\nworld")
+    )
+    Jest.test("dispatch textarea change via keyboard with state", fun () ->
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        let ks = RTL.userEvent.keyboardWithState("hello")
+
+        RTL.userEvent.keyboard("{Enter}world", keyboardState = ks)
+
+        Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
+    )
+    
+    Jest.test("dispatch textarea change via keyboard with state async", promise {
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        let ks = RTL.userEvent.keyboardWithState("hello")
+
+        do! RTL.userEvent.keyboard("{Enter}world", 100, keyboardState = ks)
+
+        return Jest.expect(RTL.screen.getByTestId("test-textarea")).toHaveValue("hello\nworld")
+    })
+    Jest.test("dispatch textarea change via keyboard with state async", promise {
+        let elem = RTL.render(textAreaTestElement()).getByTestId("test-textarea")
+
+        elem.userEvent.click()
+
+        let! ks = RTL.userEvent.keyboardWithState("hello", 100)
+
+        do! RTL.userEvent.keyboard("{Enter}world", 100, keyboardState = ks)
+
+        return Jest.expect(RTL.screen.getByTestId("test-textarea")).not.toHaveValue("somethingElse")
+    })
 
     Jest.test("clear input element", fun () ->
         let elem = RTL.render(inputTestElement()).getByTestId("test-input")

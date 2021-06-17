@@ -13,8 +13,10 @@
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
-      <NpmPackage Name="jest" Version="gte 26.1 lt 27" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="@sinonjs/fake-timers" Version="gte 7 lt 8" ResolutionStrategy="max" DevDependency="true" />
       <NpmPackage Name="@testing-library/jest-dom" Version="gte 5.11 lt 6" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="jest" Version="gte 27 lt 28" ResolutionStrategy="max" DevDependency="true" />
+      <NpmPackage Name="prettier" Version="gte 2 lt 3" ResolutionStrategy="max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

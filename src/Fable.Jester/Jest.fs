@@ -474,11 +474,6 @@ type Jest =
     /// macro-tasks, those new tasks will not be executed by this call.
     [<Emit("jest.runOnlyPendingTimers($0)")>]
     static member runOnlyPendingTimers () : unit = jsNative
-    
-    /// Executes only the macro task queue (i.e. all tasks queued by 
-    /// setTimeout() or setInterval() and setImmediate()).
-    [<Emit("jest.runTimersToTime($0)")>]
-    static member runTimersToTime (msToRun: int) : unit = jsNative
 
     /// Set the current system time used by fake timers. Simulates a user 
     /// changing the system clock while your program is running. 

@@ -429,6 +429,36 @@ module Expect =
 
         /// Check whether a string representing a HTML element is contained in another element
         member _.toContainHTML (htmlText: string) : 'Return = jsNative
+        
+        /// Check whether the given element has the expected accessible description.
+        ///
+        /// You can pass the exact string of the expected accessible description, or you can make 
+        /// a partial match passing a regular expression, or by using 
+        /// expect.stringContaining/expect.stringMatching.
+        member _.toHaveAccessibleDescription (value: Regex) : 'Return = jsNative
+        /// Check whether the given element has the expected accessible description.
+        ///
+        /// You can pass the exact string of the expected accessible description, or you can make 
+        /// a partial match passing a regular expression, or by using 
+        /// expect.stringContaining/expect.stringMatching.
+        member _.toHaveAccessibleDescription (value: string) : 'Return = jsNative
+        
+        /// Check whether the given element has the expected accessible name. 
+        ///
+        /// It is useful, for instance, to assert that form elements and buttons are properly labelled.
+        ///
+        /// You can pass the exact string of the expected accessible description, or you can make 
+        /// a partial match passing a regular expression, or by using 
+        /// expect.stringContaining/expect.stringMatching.
+        member _.toHaveAccessibleName (value: Regex) : 'Return = jsNative
+        /// This allows you to assert that an element has the expected accessible name.
+        ///
+        /// It is useful, for instance, to assert that form elements and buttons are properly labelled.
+        ///
+        /// You can pass the exact string of the expected accessible description, or you can make 
+        /// a partial match passing a regular expression, or by using 
+        /// expect.stringContaining/expect.stringMatching.
+        member _.toHaveAccessibleName (value: string) : 'Return = jsNative
 
         /// Check whether the given element has an attribute or not. 
         ///
@@ -441,7 +471,7 @@ module Expect =
         /// You must provide at least one class, unless you are asserting that an element does 
         /// not have any classes.
         member _.toHaveClass ([<ParamArray>] classNames: string []) : 'Return = jsNative
-
+        
         /// Check whether the given element has a description or not.
         ///
         /// An element gets its description via the aria-describedby attribute. Set this to 
@@ -537,6 +567,21 @@ module Expect =
         /// matched only using toBeChecked or toHaveFormValues.
         [<Emit("$0.toHaveDisplayValue(Array.from($1))")>]
         member _.toHaveDisplayValue (values: string seq) : 'Return = jsNative
+        
+        /// Check whether the given element has an ARIA error message or not.
+        ///
+        /// Use the aria-errormessage attribute to reference another element that contains 
+        /// custom error message text. Multiple ids is NOT allowed. 
+        ///
+        /// Authors MUST use aria-invalid in conjunction with aria-errormessage.
+        member _.toHaveErrorMessage (value: Regex) : 'Return = jsNative
+        /// Check whether the given element has an ARIA error message or not.
+        ///
+        /// Use the aria-errormessage attribute to reference another element that contains 
+        /// custom error message text. Multiple ids is NOT allowed. 
+        ///
+        /// Authors MUST use aria-invalid in conjunction with aria-errormessage.
+        member _.toHaveErrorMessage (value: string) : 'Return = jsNative
 
         /// Check whether an element has focus or not.
         member _.toHaveFocus () : 'Return = jsNative
@@ -585,7 +630,7 @@ module Expect =
         [<Emit("$0.toHaveStyle(Object.fromEntries(Array.from($1)))")>]
         member _.toHaveStyle (css: IStyleAttribute list) : 'Return = jsNative
 
-        /// Check whether the given element has a text content or not.
+        /// Check whether the given node has a text content or not.
         /// 
         /// When a string argument is passed through, it will perform a partial case-sensitive match to 
         /// the element content.
@@ -594,7 +639,7 @@ module Expect =
         ///
         /// If you want to match the whole content, you can use a RegExp to do it.
         member _.toHaveTextContent (text: string) : 'Return = jsNative
-        /// Check whether the given element has a text content or not.
+        /// Check whether the given node has a text content or not.
         /// 
         /// When a string argument is passed through, it will perform a partial case-sensitive match to 
         /// the element content.
@@ -604,7 +649,7 @@ module Expect =
         /// If you want to match the whole content, you can use a RegExp to do it.
         [<Emit("$0.toHaveTextContent($1, { normalizeWhitespace: $2 })")>]
         member _.toHaveTextContent (text: string, ?normalizeWhitespace: bool) : 'Return = jsNative
-        /// Check whether the given element has a text content or not.
+        /// Check whether the given node has a text content or not.
         /// 
         /// When a string argument is passed through, it will perform a partial case-sensitive match to 
         /// the element content.
@@ -613,7 +658,7 @@ module Expect =
         ///
         /// If you want to match the whole content, you can use a RegExp to do it.
         member _.toHaveTextContent (text: Regex) : 'Return = jsNative
-        /// Check whether the given element has a text content or not.
+        /// Check whether the given node has a text content or not.
         /// 
         /// When a string argument is passed through, it will perform a partial case-sensitive match to 
         /// the element content.

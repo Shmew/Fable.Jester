@@ -4,6 +4,7 @@
 module Types =
     type IConfigureOption = interface end
     type IConfigureOptions = interface end
+    type IKeyboardKeyOption = interface end
     type IMutationObserverOption = interface end
     type IPrettyDOMOption = interface end
     type IPrettyDOMOptions = interface end
@@ -11,6 +12,8 @@ module Types =
     type IWaitOption = interface end
     type IWaitOptions = interface end
     
+    type KeyboardState = interface end
+
     [<AutoOpen>]
     module Queries =
         type IRoleMatcherOption = interface end

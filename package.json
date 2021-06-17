@@ -1,6 +1,6 @@
 {
   "name": "fable.-jester",
-  "version": "0.32.0",
+  "version": "0.33.0",
   "description": "Fable bindings for jest and friends",
   "homepage": "https://github.com/Shmew/Fable.Jester",
   "bugs": {
@@ -33,11 +33,11 @@
     "@babel/core": "^7",
     "@babel/plugin-transform-modules-commonjs": "^7",
     "@babel/preset-env": "^7",
-    "@sinonjs/fake-timers": "^6",
-    "@testing-library/dom": "7",
+    "@sinonjs/fake-timers": "^7",
+    "@testing-library/dom": "^7",
     "@testing-library/jest-dom": "^5",
     "@testing-library/react": "^11",
-    "@testing-library/user-event": "^12",
+    "@testing-library/user-event": "^13",
     "concurrently": "^5",
     "core-js": "^3",
     "fable-compiler": "^2",
@@ -64,6 +64,7 @@
     ],
     "roots": [
       "./dist/tests"
-    ]
+    ],
+    "testEnvironment": "jsdom"
   }
 }

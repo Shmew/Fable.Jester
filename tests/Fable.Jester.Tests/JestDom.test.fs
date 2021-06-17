@@ -18,6 +18,11 @@ let testElement = React.functionComponent(fun (input: {| isDisabled: bool; hasCo
                     prop.testId "header"
                     prop.text count
                 ]
+                Html.h1 [
+                    prop.testId "header-title"
+                    prop.title "header-title"
+                    prop.text count
+                ]
                 Html.div [
                     prop.id "description-button"
                     prop.text "Button description"
@@ -59,6 +64,20 @@ let testElement = React.functionComponent(fun (input: {| isDisabled: bool; hasCo
                     prop.testId "input-5"
                     prop.type'.checkbox
                     prop.ariaChecked false
+                ]
+                Html.input [
+                    prop.testId "inputError"
+                    prop.type'.text
+                    prop.ariaInvalid true
+                    prop.custom("aria-errormessage", "errorID")
+                ]
+                Html.span [
+                    prop.id "errorID"
+                    prop.ariaLive.assertive
+                    prop.style [
+                        style.visibility.visible
+                    ]
+                    prop.text "Invalid"
                 ]
                 Html.input [
                     prop.testId "checkbox"
@@ -222,6 +241,28 @@ Jest.describe("jest-dom tests", (fun () ->
 
         Jest.expect(render.container).not.toContainHTML("<h1>1</h1>")
     ))
+    
+    Jest.test("toHaveAccessibleDescription", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("header-title")).toHaveAccessibleDescription("header-title")
+    ))
+    Jest.test("not toHaveAccessibleDescription", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("header-title")).not.toHaveAccessibleDescription("something else")
+    ))
+    
+    Jest.test("toHaveAccessibleName", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("header-title")).toHaveAccessibleName("header-title")
+    ))
+    Jest.test("not toHaveAccessibleName", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("header-title")).not.toHaveAccessibleName("something else")
+    ))
 
     Jest.test("toHaveAttribute", (fun () ->
         let render = RTL.render(testElement(testElemDefaults))
@@ -267,6 +308,17 @@ Jest.describe("jest-dom tests", (fun () ->
 
         Jest.expect(render.getByTestId("username")).not.toHaveDisplayValue("somethingElse")
         Jest.expect(render.getByTestId("username")).not.toHaveDisplayValue(Regex("somethi.*?"))
+    ))
+    
+    Jest.test("toHaveErrorMessage", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("inputError")).toHaveErrorMessage("Invalid")
+    ))
+    Jest.test("not toHaveErrorMessage", (fun () ->
+        let render = RTL.render(testElement(testElemDefaults))
+
+        Jest.expect(render.getByTestId("inputError")).not.toHaveErrorMessage("something else")
     ))
 
     Jest.test("toHaveFocus", (fun () ->

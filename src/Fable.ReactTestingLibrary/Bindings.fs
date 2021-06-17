@@ -3830,12 +3830,54 @@ module Bindings =
         /// is removed from the page (like testing that you don't leave event handlers hanging around causing memory leaks).
         member _.unmount () = render.unmount()
         
+    type DOM_KEY_LOCATION =
+        | STANDARD = 0
+        | LEFT = 1
+        | RIGHT = 2
+        | NUMPAD = 3
+
+    type KeyboardKey =
+        abstract altGr: bool option
+        abstract code: string option
+        abstract key: string option
+        abstract keyCode: int option
+        abstract location: DOM_KEY_LOCATION option
+        abstract shift: bool option
+
+    //[<RequireQualifiedAccess>]
+    //module KeyboardState =
+    //    type Pressed =
+    //        abstract keyDef: KeyboardKey
+    //        abstract unpreventedDefault: bool
+
+    //    type Modifiers =
+    //        abstract alt: bool
+    //        abstract caps: bool
+    //        abstract ctrl: bool
+    //        abstract meta: bool
+    //        abstract shift: bool
+
+    //type KeyboardState =
+    //    abstract activeElement: HTMLElement option
+    //    abstract carryChar: string
+    //    abstract carryValue: string option
+    //    abstract modifiers: KeyboardState.Modifiers
+    //    abstract pressed: KeyboardState.Pressed []
+
     let createClickOptions (cc: int option) (sh: bool option) =
         match cc, sh with
         | Some cc, Some sh -> {| clickCount = cc; skipHover = sh |} |> toPlainJsObj |> Some
         | Some cc, None -> {| clickCount = cc |} |> toPlainJsObj |> Some
         | None, Some sh -> {| skipHover = sh |} |> toPlainJsObj |> Some
         | None, None -> None
+
+    let createKeyboardOptions (document: Document option) (delay: int option) (keyboardMap: KeyboardKey list option) (keyboardState: KeyboardState option) =
+        [ if document.IsSome then "document" ==> document.Value
+          if delay.IsSome then "delay" ==> delay.Value
+          if keyboardMap.IsSome then "keyboardMap" ==> (ResizeArray keyboardMap.Value)
+          if keyboardState.IsSome then "keyboardState" ==> keyboardState.Value ]
+        |> fun res -> createObj !!res
+        |> Some
 
     let createTabOptions (shift: bool option) (focusTrap: #HTMLElement option) =
         match shift, focusTrap with
@@ -3869,6 +3911,7 @@ module Bindings =
         abstract deselectOptions: element:#HTMLElement * values:'T list -> unit
         abstract deselectOptions: element:#HTMLElement * values:ResizeArray<'T> -> unit
         abstract hover: element:#HTMLElement -> unit
+        abstract keyboard: text:string * ?options: obj -> KeyboardState
         abstract paste: element:#HTMLElement * text:string * ?eventInit:obj * ?options:obj -> unit
         [<Emit("$0.selectOptions($1, Array.from($2))")>]
         abstract selectOptions: element:#HTMLElement * values:'T [] -> unit

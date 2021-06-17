@@ -346,6 +346,53 @@ module waitForOption =
         static member subtree (value: bool) = Interop.mkMutationObserverOption "subtree" value
 
 [<RequireQualifiedAccess>]
+module KeyboardKey =
+    /// The location of the key on the keyboard or other input device.
+    type Location =
+        /// The key has only one version, or can't be distinguished between the left and right versions of the key, 
+        /// and was not pressed on the numeric keypad or a key that is considered to be part of the keypad.
+        | STANDARD = 0
+        /// The key was the left-hand version of the key; for example, the left-hand Control key was pressed on a 
+        /// standard 101 key US keyboard. This value is only used for keys that have more than one possible 
+        /// location on the keyboard.
+        | LEFT = 1
+        /// The key was the right-hand version of the key; for example, the right-hand Control key is pressed on a 
+        /// standard 101 key US keyboard. This value is only used for keys that have more than one possible 
+        /// location on the keyboard.
+        | RIGHT = 2
+        /// The key was on the numeric keypad, or has a virtual key code that corresponds to the numeric keypad.
+        | NUMPAD = 3
+
+/// A keyboard key representation for creating a keyboard map. 
+///
+/// Used in userEvent.keyboard.
+type KeyboardKey =
+    { /// Does the character in `key` require/imply AltRight to be pressed?
+      altGr: bool option
+      /// Physical location on a keyboard.
+      code: string option
+      /// Character or functional key descriptor.
+      key: string option
+      /// keyCode for legacy support.
+      keyCode: int option
+      /// Location on the keyboard for keys with multiple representations.
+      location: KeyboardKey.Location option
+      /// Does the character in `key` require/imply a shiftKey to be pressed?
+      shift: bool option }
+
+    member internal this.Convert () =
+        this |> toPlainJsObj |> unbox<Bindings.KeyboardKey>
+
+    /// A KeyboardKey with every field set to None.
+    static member Empty =
+        { altGr = None
+          code = None
+          key = None
+          keyCode = None
+          location = None
+          shift = None }
+
+[<RequireQualifiedAccess>]
 module RTL =
     /// Convenience methods for creating DOM events that can then be fired by fireEvent, allowing you to have a 
     /// reference to the event created: this might be useful if you need to access event properties that cannot 
@@ -548,6 +595,61 @@ module RTL =
             Bindings.userEvent.dblClick(element, ?eventInit = (eventProperties |> Option.map (fun props -> createObj !!props)))
         /// Hovers over an element.
         static member hover (element: #HTMLElement) = Bindings.userEvent.hover(element)
+        /// Simulates the keyboard events described by text. 
+        ///
+        /// This is similar to userEvent.type', but without any clicking or changing the selection range.
+        ///
+        /// You should use userEvent.keyboard if you want to just simulate pressing buttons on the keyboard. 
+        ///
+        /// You should use userEvent.type if you just want to conveniently insert some text into an input field or textarea.
+        ///
+        /// The brackets { and [ are used as special characters and can be referenced by doubling them.
+        static member keyboardWithState (text: string, ?document: Document, ?keyboardMap: KeyboardKey list, ?keyboardState: KeyboardState) =
+            Bindings.userEvent.keyboard (
+                text, 
+                ?options = Bindings.createKeyboardOptions document None (keyboardMap |> Option.map (List.map (fun k -> k.Convert()))) keyboardState
+            )
+        /// Simulates the keyboard events described by text. 
+        ///
+        /// This is similar to userEvent.type', but without any clicking or changing the selection range.
+        ///
+        /// You should use userEvent.keyboard if you want to just simulate pressing buttons on the keyboard. 
+        ///
+        /// You should use userEvent.type if you just want to conveniently insert some text into an input field or textarea.
+        ///
+        /// The brackets { and [ are used as special characters and can be referenced by doubling them.
+        static member keyboardWithState (text: string, delayMS: int, ?document: Document, ?keyboardMap: KeyboardKey list, ?keyboardState: KeyboardState) =
+            Bindings.userEvent.keyboard (
+                text, 
+                ?options = Bindings.createKeyboardOptions document (Some delayMS) (keyboardMap |> Option.map (List.map (fun k -> k.Convert()))) keyboardState
+            )
+            |> unbox<JS.Promise<KeyboardState>>
+        /// Simulates the keyboard events described by text. 
+        ///
+        /// This is similar to userEvent.type', but without any clicking or changing the selection range.
+        ///
+        /// You should use userEvent.keyboard if you want to just simulate pressing buttons on the keyboard. 
+        ///
+        /// You should use userEvent.type if you just want to conveniently insert some text into an input field or textarea.
+        ///
+        /// The brackets { and [ are used as special characters and can be referenced by doubling them.
+        static member inline keyboard (text: string, ?document: Document, ?keyboardMap: KeyboardKey list, ?keyboardState: KeyboardState) = 
+            userEvent.keyboardWithState(text, ?document = document, ?keyboardMap = keyboardMap, ?keyboardState = keyboardState) |> ignore
+        /// Simulates the keyboard events described by text. 
+        ///
+        /// This is similar to userEvent.type', but without any clicking or changing the selection range.
+        ///
+        /// You should use userEvent.keyboard if you want to just simulate pressing buttons on the keyboard. 
+        ///
+        /// You should use userEvent.type if you just want to conveniently insert some text into an input field or textarea.
+        ///
+        /// The brackets { and [ are used as special characters and can be referenced by doubling them.
+        static member inline keyboard (text: string, delayMS: int, ?document: Document, ?keyboardMap: KeyboardKey list, ?keyboardState: KeyboardState) = 
+            promise {
+                let! res = userEvent.keyboardWithState(text, delayMS, ?document = document, ?keyboardMap = keyboardMap, ?keyboardState = keyboardState)
+
+                return ()
+            }
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
         static member selectOptions (element: #HTMLElement, values: 'T []) = Bindings.userEvent.selectOptions(element, values)
         /// Selects the specified option(s) of a <select> or a <select multiple> element.
