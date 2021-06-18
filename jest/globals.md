@@ -260,23 +260,6 @@ Usage:
 Jest.runOnlyPendingTimers()
 ```
 
-## runTimersToTime
-
-Executes only the macro task queue (i.e. all tasks queued by 
-setTimeout() or setInterval() and setImmediate()).
-
-<Note type="warning">Requires [fake-timers].</Note>
-
-Signature:
-```fsharp
-int -> unit
-```
-
-Usage:
-```fsharp
-Jest.runTimersToTime(10)
-```
-
 ## setSystemTime
 
 Set the current system time used by fake timers. Simulates a user 

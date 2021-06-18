@@ -1,3 +1,7 @@
+### 0.33.0 - Thursday, June 17th, 2021
+* Update for user-event 13
+* Update for jest 27.0
+
 ### 0.32.0 - Thursday, January 28th, 2021
 * Update for user-event 12.8
 
